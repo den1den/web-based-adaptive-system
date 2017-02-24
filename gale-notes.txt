@@ -1,0 +1,23 @@
+#[]: value
+not [], only #: function (computed/volatile)
+
+Syntax:
+#id:Type, Type \in {Boolean, Double,}
+
+$ is evulate
+
+Forall: and(new Object[] {$(=>(preq)#known)})
+
+Classes are used for pages
+
+${.?attr}  =? ${?attr}
+
+
+
+Quickstart:
+1. run local tomcat
+2. http://gale.win.tue.nl:10080/gale/concept/gale://gale.tue.nl/course/grapple/GRAPPLE
+2.1. first part is the Gale program running
+2.2. second part direct to the conecept to load (gale protocol loads in a gale file, http protocol a http file)
+
+// New domains need to be whitelisted in META-INF
