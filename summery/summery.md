@@ -41,10 +41,39 @@ Examples: encyclopedia, documentation, shopping sites, airline reservation
 - Adaptation helps the user understand and navigate
 
 # Educational
+- cheaper
 - more freedom for the learner
-- guidance instead of enforced sequence
+ - guidance instead of enforced sequence
 - solve comprehension problems via navigation
-- adaptation based on reading as well as tests
+- adaptation with tests
+
+- System adapts to: knowledge and learning styles
+
+#### course topics
+are linked by:
+- knowledge propagation
+- prerequisite types
+ - Top down: deductive, from abstract to concrete
+ - Bottom up: inductive, from concrete to abstract
+- prerequisite issues:
+  - How to create the order?
+  - How to verify studied (subtly)
+  - Before != directly Before
+  - Circular dependencies
+  - Transitivity can apply
+#### Learning styles
+- visual vs verbal
+- global (large jumps) vs sequential
+- active vs reflective (analyze before conclusion)
+#### Adaptation strategies
+- selection of media
+- sorting of information
+- navigation paths: breath-first vs depth-first
+- media format: text vs video
+- feedback: positive/negative. Predfined/adaptable/adaptive
+ - adapt to: attention/memory/cognative abilities/learning styles/hearing/vision/interaction
+ - by: feedback time/media format/frequency of feedback/feedback complexity
+
 
 
 # Terminology
@@ -56,3 +85,6 @@ Examples: encyclopedia, documentation, shopping sites, airline reservation
 - AEH(S): Adaptive educational hypermedia (systems)
 - AES: Adaptive educational systems
 - ALE: Adaptive learning environments
+- AHA!: Adaptive Hypermedia Architecture
+- GALE: Generic Adaptive Learning Environment
+- WiBAF: Within Browser Adaptation Framework
