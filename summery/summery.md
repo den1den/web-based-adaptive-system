@@ -20,20 +20,64 @@ Examples: encyclopedia, documentation, shopping sites, airline reservation
 - Its personal and may not help everyone
 - Information bubble / censorship
 
-## Architecture
+# Architecture
+Store information:
 - forward reasoning: register conclusions to a user-model, adapt based on user-model.
 - backward reasoning: store rules and draw conclusions when needed.
-#### The user
-- provides data
+- client side vs server side
+
+Adaptive approach:
+- adaptable: The user changes his model explicitly
+- adaptive: The system learns the model deductively
+
+## The user model
+- Stable characteristics
+ - Background; ask explicitly for stereo model
+ - Experience; hyperspace experience
+ - Individual traits; extravert/introvert, cognitive (learning) styles, cognitive performance
+ - Environment; platform, location(, emotional state)
+- Evolving traits:
+ - Knowledge; initialize with stereo model. scalar model (one scale) vs structural model.
+ Overlay modeling; knowledge propagates through structure.
+ Dimensions; Boolean, Qualitative, Probability, Estimate, Multi valuable
+ - Interests; track interest in concepts, follow synonyms and semantic links, clustering
+ - Goals; system assumes one goal, show and let the user modify the goal.
 - edits the user-model (optionally)
 - get adaptation effects
+
+#### User model as Bayesian network
+- P(A|given B)
+- Advantages
+ - application domain in single graph
+ - handling uncertainty
+- Disadvantages
+ - heavy to implement, complex
+
+#### Generic user modeling systems (GUMS)
+- Advantages:
+ - Portability/scalability
+ - Cheaper development
+- Disadvantages:
+ - Can contain redundant information
+ - Communication overhead
+ - Storage overhead
+- Issues:
+ - Translation to generic/shared ontologies.
+ - Values may not be standardized
+ - Security/privacy
+ - Scrutability (inspectable) forces by law; neural networks are not comprehensive.
+- Requirements:
+ - Expressive / well documented
+ - Quick adaptation / generic / extensible
+ - Resolve data conflicts
+ - Performance: load balancing, failover, transactional consistency
+ - Privacy
+
 
 
 ![question loop](question-loop-white.png)
 
 *Question loop*
-
-
 
 # Hypermedia
 - Hypermedia is to big, "Lost in hyperspace".
@@ -55,16 +99,24 @@ are linked by:
 - prerequisite types
  - Top down: deductive, from abstract to concrete
  - Bottom up: inductive, from concrete to abstract
+ - Opposite of prerequisite is inhibitor
 - prerequisite issues:
   - How to create the order?
   - How to verify studied (subtly)
   - Before != directly Before
   - Circular dependencies
   - Transitivity can apply
+
 #### Learning styles
 - visual vs verbal
 - global (large jumps) vs sequential
 - active vs reflective (analyze before conclusion)
+- Should be fit to a stereo model
+can be deduced by:
+- browsing behavior
+- questionnaire or form
+- hard to deduce
+
 #### Adaptation strategies
 - selection of media
 - sorting of information
@@ -88,3 +140,4 @@ are linked by:
 - AHA!: Adaptive Hypermedia Architecture
 - GALE: Generic Adaptive Learning Environment
 - WiBAF: Within Browser Adaptation Framework
+- GRAPPLE: Generic Responsive Adaptive Personalized Learning Environment
