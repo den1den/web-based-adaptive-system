@@ -31,6 +31,8 @@ Adaptive approach:
 - adaptive: The system learns the model deductively
 
 ## The user model
+![User model](user-model.png)
+
 - Stable characteristics
  - Background; ask explicitly for stereo model
  - Experience; hyperspace experience
@@ -73,15 +75,84 @@ Adaptive approach:
  - Performance: load balancing, failover, transactional consistency
  - Privacy
 
-
+# Adaptation techniques
+- What do we adapt?
+- How do we adapt?
 
 ![question loop](question-loop-white.png)
 
 *Question loop*
 
+#### Adaptation types
+- C: *Content* adaptation
+- P: *Presentation* adaptation
+- N: *Navigation* adaptation
+
+
+- C__: Inserting/removing fragments; statically
+ - prerequisite based
+ - additional explanations
+ - comparative explanations between two topics
+- C__: Altering fragments
+ - different writing style
+ - natural language processing
+- CP_: Dimming fragments
+- CP_: Sorting fragments; rank for relevance
+- CP_: Stretch text; dynamic inserting/removing fragments
+- CPN: Zoom/scale;
+ - Fisheye
+ - Summarization
+
+
+  Technique | Context visible | Structural information preserved | Priority conveyed
+ --- | --- | --- | ---
+ Stretch text | :heavy_multiplication_x: | :heavy_check_mark: | :heavy_multiplication_x:
+ Dimming | :heavy_check_mark: | :heavy_check_mark: | :heavy_multiplication_x:
+ Coloring | :heavy_check_mark: | :heavy_check_mark: | ~
+ Sorting | :heavy_check_mark: | :heavy_multiplication_x: | :heavy_check_mark:
+ Scaling | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+
+- \_P_: Layout
+ - Partitioning
+ - Rearrangement
+ - Template fitting; screen adaptation
+- \_PN: Link ordering; gives guidance and priorities
+- \_PN: Link annotation; annotation denotes relevance
+- \_PN: Combinatorial techniques;
+Direct guidance for novices & link annotation for advanced users.
+Generation can be used with sorting and/or annotation to further indicate relevance
+ - Contextual links; menu
+ - Non-contextual links <!-- What is a Map on slide 4.26? -->
+ - Index links
+ - Local and global maps
+
+
+  | Direct guidance | Sorting | Hiding | Annotation | Generation
+--- | --- | --- | --- | ---
+Contextual links | :heavy_check_mark: |  | hiding/disabling | :heavy_check_mark:  |
+Non-contextual links | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+Table of contents | :heavy_check_mark: |  |  | :heavy_check_mark:  |
+Index | :heavy_check_mark: |  |  | :heavy_check_mark:  |
+Hyperspace maps | :heavy_check_mark: |  | :heavy_check_mark: | :heavy_check_mark:  |
+
+- \__N: Link generation; discover links by similarity, generate list of links
+ - Anchor adaptation
+ - URL adaptation
+ - Destination adaptation
+- \__N: Guidance; only changes destination
+ - Local (direct) guidance; 'Next' button
+ - Global guidance
+- \__N: Link hiding; beware
+ - hiding; normal text
+ - disabling; not clickable
+ - removing
+
+
+
 # Hypermedia
-- Hypermedia is to big, "Lost in hyperspace".
-- Hard to grasp because many paths possible
+- "Lost in hyperspace" hard to grasp because many paths possible
+- Hypermedia is to big, information overload
+- Presentation problems on small devices
 - Adaptation helps the user understand and navigate
 
 # Educational
