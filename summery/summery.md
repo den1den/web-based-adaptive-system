@@ -126,13 +126,14 @@ Generation can be used with sorting and/or annotation to further indicate releva
   - Index links
   - Local and global maps
 
-| Direct guidance | Sorting | Hiding | Annotation | Generation
---- | --- | --- | --- | --- | ---
-Contextual links | :heavy_check_mark: |  | hiding/disabling | :heavy_check_mark:  |
-Non-contextual links | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
-Table of contents | :heavy_check_mark: |  |  | :heavy_check_mark:  |
-Index | :heavy_check_mark: |  |  | :heavy_check_mark:  |
-Hyperspace maps | :heavy_check_mark: |  | :heavy_check_mark: | :heavy_check_mark:  |
+
+| | Direct guidance | Sorting | Hiding | Annotation | Generation |
+| --- | --- | --- | --- | --- | --- |
+| Contextual links | :heavy_check_mark: |  | hiding/disabling | :heavy_check_mark:  | |
+| Non-contextual links | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Table of contents | :heavy_check_mark: |  |  | :heavy_check_mark:  | |
+| Index | :heavy_check_mark: |  |  | :heavy_check_mark:  | |
+| Hyperspace maps | :heavy_check_mark: |  | :heavy_check_mark: | :heavy_check_mark:  | |
 
 - \__N: Link generation; discover links by similarity, generate list of links
   - Anchor adaptation
