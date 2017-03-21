@@ -1,0 +1,24 @@
+{
+  "name": "stress",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/den1den/web-based-adaptive-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/den1den/web-based-adaptive-system/issues"
+  },
+  "homepage": "https://github.com/den1den/web-based-adaptive-system#readme",
+  "dependencies": {
+    "Respond.js": "git+https://github.com/scottjehl/Respond.git",
+    "bootstrap": "^3.3.7",
+    "html5shiv": "^3.7.3",
+    "jquery": "^3.1.1"
+  }
+}
