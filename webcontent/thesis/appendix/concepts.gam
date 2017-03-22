@@ -1,0 +1,40 @@
+$options {
+    default.properties "event;strict"
+    default.order "auto"
+    parent ".."
+}
+
+_concept {->(extends)../_concept 
+    ->(personal)../_personal
+}
+
+title {->(extends)_concept
+    ->(parent)../appendix
+    title 'Title page'
+    no-title 'true'
+}
+
+summary {->(extends)_concept
+    ->(parent)../appendix
+    title 'Summary'
+}
+
+samenvatting {->(extends)_concept
+    ->(parent)../appendix
+    title 'Samenvatting'
+}
+
+acknowledgements {->(extends)_concept
+    ->(parent)../appendix
+    title 'Acknowledgements'
+}
+
+cv {->(extends)_concept
+    ->(parent)../appendix
+    title 'Curriculum Vitae'
+}
+
+siks {->(extends)_concept
+    ->(parent)../appendix
+    title 'SIKS dissertations'
+}

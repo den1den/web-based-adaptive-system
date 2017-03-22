@@ -1,0 +1,355 @@
+$options {
+    default.properties "event;strict"
+    default.order "auto"
+    module "aha"
+    module "gale"
+    module "research"
+    module "appendix"
+}
+
+// root concept of the entire thesis
+_concept {
+    strict 'true'
+    // count user clicks of suitable concepts :)
+    #[visited]:Integer
+    event +'
+        boolean countclick = ${#suitability};
+    '
+    
+    // flag to indicate that new content is available
+    #[new-content]:Boolean 'false'
+    
+    // Resources are .xml files with the same name as the concept. Unsuitable resources go
+    // to unsuitable.xml first. "skip-unsuitable" is a request parameter that allows to
+    // skip unsuitable.xml.
+    #[new-session]:Boolean 
+    event +'
+        String externalUrl = gale.req().getParameter("external");
+        boolean external = (externalUrl != null && !"".equals(externalUrl.trim()));
+        ${#new-session} = !"true".equals(gale.req().getParameter("open-session")) && !"".equals(${_concept->(personal)#last-session}) && !${_concept->(personal)#last-session}.equals(gale.req().getSession().getId());
+        if (gale.req().getParameter("tags") != null)
+            countclick = false;
+        if ((external && ${#suitability}) || ${[[=_personal]]#first-time})
+            countclick = false;
+        if (${[[=_personal]]#review} && ${#new-session})
+            countclick = false;
+        if (${#unknown})
+            countclick = false;
+    '
+    #resource ='~
+        if (${[[=_personal]]#first-time})
+            return "[[=intro.xhtml]]";
+        if (${[[=_personal]]#review} && ${#new-session})
+            return "[[=review.xhtml]]";
+        return "[[=layout.xhtml]]";
+    '
+    
+    // knowledge definitions
+    #[own-knowledge]:Double
+    event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
+    #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
+    #known-all:Boolean ='${#knowledge} > 0.8'
+    #known:Boolean ='${#own-knowledge} > 0.8'
+    
+    // prerequisites
+    #available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
+    #suitability:Boolean ='and(new Object[] {${=>(prereq)#available}, ${=>(prereq-all)#known-all}}) && (!${_concept->(personal)#beginner} || ${#beginner})'
+
+    // tags shown based on whether you view the concept for the first time
+    #tags ='~
+        if (${#visited} > 3) return "default";
+        if ("true".equals(${?intro-first}))
+            return (${#visited} > 1?"default":"intro");
+        return "intro;default";
+    '
+    #tags.class '~
+        if (!gale.isObject() && "long".equals(element.attributeValue("tag")))
+            return "th-sidenote";
+        return null;
+    '
+
+    // layout related stuff
+    #layout.css ='~
+        StringBuilder sb = new StringBuilder("[[=thesis.css]]");
+        if (!${[[=_personal]]#first-time}) {
+            if (!${[[=_personal]]#menu})
+                sb.insert(0, "[[=nomenu.css]];");
+            else
+                sb.insert(0, "[[=menu.css]];");
+            if (${[[=_personal]]#use-comments})
+                sb.insert(0, "[[=comments.css]];");
+            if (${[[=_personal]]#review})
+                sb.insert(0, "[[=review.css]];");
+        }
+        sb.append(";http://fonts.googleapis.com/css?family=Carme");
+        return sb.toString();
+    '
+    #layout.title '"Thesis - "+${.}.getTitle()'
+    #link.hide '!${#hierarchy}'
+    #link.classexpr '~
+        if (${#unknown}) return "unknown";
+        if (!${#suitability}) return "bad";
+        if (${#visited}==0) return "good";
+        if (${#new-content}) return "new";
+        return "neutral";
+    '
+    #link.iconlist 'null'
+    #unknown:Boolean ="false"
+    #[beginner]:Boolean ='!"false".equals(${?beginner})'
+    #hierarchy:Boolean ='(${_concept->(personal)#menu} || (${#suitability} && !${#unknown})) && ${->(parent)#suitability}'
+    
+    // used to mark a concept that was too advanced but understood anyway
+    #[mark]:Integer {
+        event '
+            Concept[] list = ${->(prereq)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#own-knowledge");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, 1d));
+            }
+            list = ${->(prereq-all)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#mark-all");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, ((Integer)ev.getValue())+1));
+            }
+        '
+    }
+    #[mark-all]:Integer {
+        event '
+            ${#own-knowledge} = 1d;
+            Concept[] list = ${<-(parent)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#mark-all");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, ((Integer)ev.getValue())+1));
+            }
+        '
+    }
+    
+    event +'
+        if (countclick) {${#visited}++; ${#new-content} = false;}
+    '
+    ->(personal)_personal
+    
+    // enable a reviewer to return to the previous concept when he begins a new session
+    event +'
+        if (${_concept->(personal)#review} && (countclick || "true".equals(gale.req().getParameter("open-session")))) {
+            ${_concept->(personal)#last-concept} = ${.}.getUriString();
+            ${_concept->(personal)#last-session} = gale.req().getSession().getId();
+        }
+    '
+}
+
+// root concept defining variables that change depending on how often they are viewed
+_variable {
+    // count the number of views
+    #[count]:Integer
+    event +"${#count}++;"
+    // define the resource as based on the number of views and the #value string
+    #resource:String "content:#content"
+    #content:String ='pick(${#count}, ${#value})'
+    // a semicolon seperated list of strings that represents the values (overwritten in
+    // children)
+    #value:String ='"variable (" + ${.}.getUri() + ")"'
+}
+
+// personal settings for the thesis
+_personal {
+    // menu on the left or as drop down
+    #[menu]:Boolean 'true'
+    // first time to visit the thesis
+    #[first-time]:Boolean 'true'
+    // role
+    #[role] 'intermediate' {
+        event '
+            if ("beginner".equals(changed.newValue)) {
+                ${#beginner} = true;
+            }
+            if ("intermediate".equals(changed.newValue)) {
+                ${#beginner} = false;
+            }
+            if ("expert".equals(changed.newValue)) {
+                ${thesis#mark-all}++;
+                ${#analytic-count} = 512;
+                ${#beginner} = false;
+            }
+        '
+    }
+    #[review]:Boolean 'false'
+    #[beginner]:Boolean 'false'
+    #[beginner-level]:Integer '0'
+    #[use-comments]:Boolean 'false'
+    #[last-concept]
+    #[last-session]
+    #[analytic-count]:Integer '-2' {
+        event 'if ((Integer)changed.newValue == 0 && changed.diff != 0) ${#analytic-count} = changed.diff*2;'
+    }
+    #analytic:Boolean ='${#analytic-count} > 0'
+}
+
+settings {->(extends)_concept
+    #hierarchy:Boolean 'false'
+    title 'Thesis Settings'
+}
+
+thesis {->(extends)_concept
+    title 'Thesis'
+    no-title 'true'
+}
+
+introduction {->(extends)_concept
+    ->(parent)thesis
+    #available:Boolean ='${#known}'
+    title 'Introduction'
+}
+
+questions {->(extends)_concept
+    ->(parent)introduction
+    ->(prereq)introduction
+    title 'Research Questions'
+    #suitability:Boolean ='true'
+}
+
+howitworks {->(extends)_concept
+    ->(parent)introduction
+    title 'How It Works'
+    #[first-time]:Boolean 'true'
+    #[action]:Long {
+        event '
+            ${#new-content} = true;
+            ${#first-time} = false;
+        '
+    }
+}
+
+howitworks/fragments {
+    #[visited]:Integer
+    event '${#visited}++;'
+    #simple:Boolean ='true'
+    #all-simple:Boolean ='and(${<=(extends)#simple})'
+}
+
+howitworks/overview {->(extends)fragments
+    #resource ='~
+        if (${../thesis#knowledge} > 0.4 || ${../gale#knowledge} > 0.2)
+            return "[[=howitworks/overview-short.xml]]";
+        if (${../howitworks#first-time})
+            return "[[=howitworks/overview-simple.xml]]";
+        return "[[=howitworks/overview.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title ''
+}
+
+howitworks/links {->(extends)fragments
+    #simple:Boolean ='!(${../gale/domain-model#known} && ${../gale/gam/syntax#known-all})'
+    #resource ='~
+        if (${../howitworks#first-time})
+            return "[[=howitworks/empty.xml]]";
+        if (!${#simple})
+            return "[[=howitworks/links-advanced.xml]]";
+        return "[[=howitworks/links.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title 'Links and colors'
+}
+
+howitworks/prerequisites {->(extends)fragments
+    #simple:Boolean ='!(${../gale/domain-model#known} && ${../gale/gam/syntax#known-all} && ${../gale/gale-code#known-all})'
+    #resource ='~
+        if (${../howitworks#first-time})
+            return "[[=howitworks/empty.xml]]";
+        if (!${#simple})
+            return "[[=howitworks/prerequisites-advanced.xml]]";
+        return "[[=howitworks/prerequisites.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title 'Prerequisite topics'
+}
+
+howitworks/layout {->(extends)fragments
+    #simple:Boolean ='!(${../gale/presentation#knowledge} > 0.5 && ${../gale/gale-code#known-all})'
+    #resource ='~
+        if (${../howitworks#first-time})
+            return "[[=howitworks/empty.xml]]";
+        if (!${#simple})
+            return "[[=howitworks/layout-advanced.xml]]";
+        return "[[=howitworks/layout.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title 'Screen layout'
+}
+
+howitworks/gam-files {->(extends)fragments
+    #simple:Boolean ='!(${../gale/gam/syntax#known-all} && ${../gale/gam/bundled#known})'
+    #resource ='~
+        if (${../howitworks#first-time})
+            return "[[=howitworks/empty.xml]]";
+        if (!${#simple})
+            return "[[=howitworks/gam.xml]]";
+        return "[[=howitworks/empty.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title 'Using .gam files'
+}
+
+howitworks/advanced {->(extends)fragments
+    #simple:Boolean ='${../gale#knowledge} < 0.9'
+    #resource ='~
+        if (!${#simple})
+            return "[[=howitworks/advanced.xml]]";
+        return "[[=howitworks/empty.xml]]";
+    ' {event '${../howitworks#action}++;${#visited}=0;'}
+    title 'Some advanced thesis features'
+}
+
+literature {->(extends)_concept
+    ->(parent)introduction
+    title 'Literature'
+    no-title 'true'
+}
+
+research {->(extends)_concept
+    ->(parent)thesis
+    ->(prereq)introduction
+    title 'Adaptive Hypermedia'
+}
+
+aha {->(extends)_concept
+    ->(parent)thesis
+    ->(prereq)introduction
+    title 'AHA!'
+}
+
+gale {->(extends)_concept
+    ->(parent)thesis
+    ->(prereq)introduction
+    title 'GALE'
+}
+
+discussion {->(extends)_concept
+    ->(parent)thesis
+    ->(prereq)introduction
+    ->(prereq)questions
+    title 'Discussion'
+    no-title 'true'
+}
+
+performance {->(extends)_concept
+    ->(parent)discussion
+    ->(prereq)discussion
+    title 'Performance'
+}
+
+future-work {->(extends)_concept
+    ->(parent)discussion
+    ->(prereq)discussion
+    title 'Future Work'
+}
+
+references {->(extends)_concept
+    ->(parent)thesis
+    title 'References'
+    #link.class ='(${#visited} > 0?"reference-visited":"reference")'
+}
+
+appendix {->(extends)_concept
+    ->(parent)thesis
+    title 'Appendix'
+}

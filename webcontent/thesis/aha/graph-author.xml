@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a Java-based authoring tool that allows
+the creation of high level DM/AM models using a GUI to draw a graph of concepts and
+relations</gale:text>
+
+<gale:text tag="long" type="creole">The Graph Author was developed by Brendan
+Rousseau, a student at the TU/e. It is a high level DM/AM authoring tool that allows most
+authors to create their adaptive application without ever writing any AHA! rules, as seen
+in the [[concept-editor|concept editor]]. The tool generates these
+rules based on [[templates|template code]] associated with relations.</gale:text>
+
+<gale:text tag="default" type="creole">The Graph Author was developed by Brendan Rousseau,
+a student at the TU/e. It is a high level DM/AM authoring tool that allows most authors to
+create their adaptive application without ever writing any AHA! rules, as seen in the
+[[concept-editor|concept editor]]. The tool generates these rules based on
+[[templates|template code]] associated with relations. Relations are drawn on the main
+screen between concepts. Relations also exist in the form of a concept hierarchy displayed
+on the left.
+
+{{images/graphauthor.gif|The main screen of the graph author}}
+
+The templates for concepts may specify user model updates that depend on the hierarchy. In
+a museum site a visit to a lower-level concept may indicate interest in the parent
+concept, and in a course such a visit may 'generate' knowledge of the parent concept.
+Concepts are dragged to the graph pane where they can be connected in any arbitrary way by
+concept relationships. The figure above shows a number of prerequisite relationships that
+cause link adaptation by checking the 'suitability' attribute of concepts. There are also
+some 'visibility' relationships that influence the presentation style for different
+fragments of text. The existence of adaptation rules is mostly invisible to authors using
+the Graph Author. Only in the adaptive resource selection for the conditional inclusion of
+objects and the adaptive link destinations do expressions over user model attributes
+become visible.</gale:text>
+
+</gale:repo>

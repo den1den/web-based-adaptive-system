@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">researching the possibility of creating a
+usable generic adaptive hypermedia system that performs well</gale:text>
+
+<gale:if expr="${appendix/title#own-knowledge} == 0"><gale:object name="appendix/title" /></gale:if>
+
+<gale:text tag="default" type="creole">
+== Towards a Generic Distributed Adaptive Hypermedia Environment ==
+
+Hypertext has proven its value in many applications, including Technology-Enhanced
+Learning. Traditional paper textbooks present material in a single order, which is
+supposedly the best order for studying. In a hypertext, cross-references or links allow
+more freedom to navigate the material. An adaptive hypertext takes information about the
+reader into account when presenting the material including the cross-references. Actions
+taken by the reader (eg. following a link) can update the user model, hence change the
+adaptation.
+
+Over the years many different adaptive hypermedia systems have been developed. These
+systems vary in the way the user is modelled and how that can affect the actual
+presentation. They are, for the most part, able to perform particular types of adaptation
+well, but are not compatible with each other. Furthermore, when compared to a traditional
+web server, an adaptive web server has more work to do. This has often led to performance
+issues, making the adoption of adaptive hypertext less likely.</gale:text>
+
+<gale:text tag="default" type="creole">In this thesis we present the current state of
+[[gale|GALE]], a generic Adaptive Hypermedia System (AHS). GALE is the result of its
+predecessor [[aha|AHA!]] and [[research|adaptive hypermedia research]]. It is a fully
+functional and extensible AHS. The various research [[research/projects|projects]] that
+enabled the development of AHA! and GALE, provided valuable input for the use cases of a
+generic AHS. Though we believe GALE is a feature-rich system, there are still ideas that
+require [[future-work|future work]].</gale:text>
+
+<gale:text tag="default" type="creole" expr="${introduction#knowledge} &lt; 0.5">Before
+diving into the full breadth and depth of the material, we recommend reading through the
+[[introduction]]. <gale:if expr="!${introduction#known}">(We actually disable most of the
+content if you have not read the introduction, not just because we can.)</gale:if> It will
+give you a good idea of the [[questions]] that motivated the research and development
+described along the way. We provide a 'hyper'-adaptive page entitled '[[howitworks|How It
+Works]]'. This page will explain the inner workings of adaptivity as it is found in this
+thesis. The contents will change over time as your (presumed) knowledge on methods and
+techniques of adaptivity increase.</gale:text>
+
+</gale:repo>

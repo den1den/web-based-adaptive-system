@@ -1,0 +1,24 @@
+<span xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+<gale:if expr="!${_concept-&gt;(personal)#beginner}">
+<gale:if expr="(${_concept-&gt;(personal)#analytic} &amp;&amp; !&quot;false&quot;.equals(gale.req().getParameter(&quot;analytic&quot;))) || &quot;true&quot;.equals(gale.req().getParameter(&quot;analytic&quot;))">
+<gale:then>
+    <h2>
+        <gale:a id="why" style="font-size:medium" class="good" adapt="false" exec="if (${_concept-&gt;(personal)#analytic-count} &gt; -2) ${_concept-&gt;(personal)#analytic-count}--;">
+            <gale:attr-variable name="href" expr="${.}.getUriString()+&quot;?analytic=false#why&quot;"/>[-]
+        </gale:a>
+        Why <span style="font-size:large">(does it work this way)</span>?
+    </h2>
+    <gale:object><gale:attr-variable name="name" expr="${.}.getUriString()+&quot;?tags=analytic&quot;"/></gale:object>
+</gale:then>
+<gale:else>
+    <h2>
+        <gale:a id="why" style="font-size:medium" class="good" adapt="false" exec="if (${_concept-&gt;(personal)#analytic-count} &lt; 2) ${_concept-&gt;(personal)#analytic-count}++;">
+            <gale:attr-variable name="href" expr="${.}.getUriString()+&quot;?analytic=true#why&quot;"/>[+]
+        </gale:a>
+        Why <span style="font-size:large">(does it work this way)</span>?
+    </h2>
+</gale:else>
+</gale:if>
+</gale:if>
+</span>

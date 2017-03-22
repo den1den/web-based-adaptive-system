@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<span xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:if expr="${_concept->(personal)#beginner} &amp;&amp; !${#beginner}">
+<gale:then>
+    <p>
+    '<gale:variable expr="gale.concept().getTitle()"/>'
+    is considered an advanced topic for you. It's all about
+    <gale:object><gale:attr-variable expr="gale.conceptUri()+&quot;?tags=short&amp;skip-unsuitable=true&quot;" name="name"/></gale:object>.
+    However, I do not recommend the topic because I don't think you would be interested.
+    </p>
+    <p>
+    (If you think this is a mistake you can follow this link:
+    <a class="bad">
+    <gale:attr-variable name="href" expr="gale.req().getRequestURL().toString()+&quot;?skip-unsuitable=true&quot;" />
+    <gale:variable expr="gale.concept().getTitle()" /></a>)
+    </p>
+</gale:then>
+<gale:else>
+    <gale:if expr="!and(${=>(prereq)#available})">
+    <div class="th-sidenote">
+    <gale:for var="concept" expr="${->(prereq)}">
+    <gale:if expr="!${%concept#available}">
+    <h4><gale:a href="%concept"><gale:variable expr="${%concept}.getTitle()" /></gale:a></h4>
+    <gale:object name="%concept?tags=long&amp;skip-unsuitable=true" />
+    </gale:if>
+    </gale:for>
+    </div>
+    </gale:if>
+    
+    <p>
+    '<gale:variable expr="gale.concept().getTitle()"/>'
+    is considered an advanced topic for you. It's all about
+    <gale:object><gale:attr-variable expr="gale.conceptUri()+&quot;?tags=short&amp;skip-unsuitable=true&quot;" name="name"/></gale:object>.
+    However, there are some things you need to learn first.
+    <gale:if expr="!and(${=>(prereq-all)#known-all})">
+    <gale:then>
+    You should study the following concepts thoroughly (including the child concepts in the menu):
+    <ul>
+    <gale:for var="concept" expr="${->(prereq-all)}">
+    <gale:if expr="!${%concept#known-all}">
+    <li>
+    <gale:a href="%concept"><gale:variable expr="${%concept}.getTitle()"/></gale:a>,
+    <gale:object name="%concept?tags=short&amp;skip-unsuitable=true" />.
+    </li>
+    </gale:if>
+    </gale:for>
+    </ul>
+    <p/>
+    <gale:if expr="!and(${=>(prereq)#available})">
+    There are also some concepts on the right that contain necessary information.
+    </gale:if>
+    </gale:then>
+    <gale:else>
+    They can be found on the right.
+    </gale:else>
+    </gale:if>
+    You can always go to the start of this thesis:
+    <a class="good">
+    <gale:attr-variable name="href" expr="GaleUtil.getContextURL(gale.req())+&quot;/concept/&quot;+gale.url().toURI().resolve(&quot;thesis&quot;)"/>
+    Start here</a>.
+    </p>
+    <p>
+    (If you really think you are prepared you can follow this link:
+    <a class="bad">
+    <gale:attr-variable name="href" expr="gale.req().getRequestURL().toString()+&quot;?skip-unsuitable=true&quot;" />
+    <gale:variable expr="gale.concept().getTitle()" /></a>)
+    </p>
+</gale:else>
+</gale:if>
+
+</span>

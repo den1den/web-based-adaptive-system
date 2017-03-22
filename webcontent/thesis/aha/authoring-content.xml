@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">writing instructions in the content of a
+hypermedia resource to help adapt to the user's needs</gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">As seen in [[../research/early-aha|earlier
+versions]] of AHA!, an author may want to influence the adaptation of content directly
+using 'if' statements. The expression used in the 'if' statement should be able to refer
+to the user model. Since HTML, XML and XHTML are the content types AHA! supports by
+default, the 'if' statements are created using tags:
+
+{{{
+&lt;if expr="de_koninck.interest &gt; 70">&lt;block>
+    As you have seen in the topic about De Koninck,
+    there is really no better beer.
+&lt;/block>&lt;block>
+    To find out everything about the best beer around,
+    read the topic about De Koninck.
+&lt;/block>&lt;/if>
+}}}
+
+AHA! (actually one of the '[[engine|content handlers]]') will evaluate the expression
+using the current user's profile. Depending on the outcome, either the first or the second
+block will be chosen. Only that block of text will appear in the result that is send to
+the user.
+
+Link adaptation is another [[../research/taxonomy|technique]] that AHA! uses to adapt
+(X)HTML content. An author can indicate that a link should be adapted by the adaptation
+engine by making the 'class' attribute 'conditional':
+
+{{{
+&lt;a href="de_koninck" class="conditional">
+}}}
+
+This will make AHA! lookup the referenced concept and the CSS class of the link will be
+changed depending on the user model. By default AHA! uses the {{{suitability}}} and
+{{{visited}}} attributes to determine the class:
+* a link to a concept for which {{{suitability}}} is {{{false}}}, will be black
+* a link to a concept for which {{{suitability}}} is {{{true}}} and {{{visited}}}
+  {{{false}}}, will be blue
+* a link to a concept for which {{{suitability}}} is {{{true}}} and {{{visited}}}
+  {{{true}}}, will be purple
+
+A later addition to AHA! was conditional object inclusion. A concept definition can
+include a 'casegroup'. The casegroup defines several resources that are linked to one
+concept. Depending on the user model (using an expression), one of the resources is
+selected when the concept is requested. This can be used when creating so-called
+'fragment' concepts. The resources for these concepts typically contain some fragment
+(X)HTML. The fragment can be included inside another resource:
+
+{{{
+&lt;object name="beer_description" type="aha/text" />
+}}}
+
+When the concept is accessed, an adaptation rule is triggered that will update the user
+model. Depending on the user model, one of the resources defined in the casegroup of the
+'beer_description' concept will be included. This process can be used to show a
+comprehensive explanation on beer the first time the object is included. The second a
+compact explanation is used, etc.</gale:text>
+
+</gale:repo>

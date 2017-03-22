@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<span class="th-header" xmlns="http://www.w3.org/TR/xhtml1/strict" xmlns:gale="http://gale.tue.nl/adaptation">
+    
+<gale:if expr="!${_concept-&gt;(personal)#menu}">
+<gale:a id="menu-link" exec="${_concept->(personal)#menu} = true;" adapt="false">
+    <gale:attr-variable name="href" expr="${.}.getUriString()" />
+</gale:a>
+<div style="float:left">
+<gale:view name="single-list-view" />
+</div>
+</gale:if>
+
+<div style="float:right;text-align:right;">
+<ul>
+<li><gale:a href="#" adapt="false" onclick="return false;" style="text-decoration:none">
+            <gale:variable expr="${gale://gale.tue.nl/personal#name}" /></gale:a></li>
+    <ul>
+    <span class="separator" />
+    <gale:if expr="${_concept-&gt;(personal)gale/system/count-module#known}">
+    <li>(<gale:count method="done"/> done / <gale:count method="todo"/> todo)</li>
+    </gale:if>
+    <li><gale:a href="#" adapt="false" exec="${_concept->(personal)#use-comments} = !${_concept->(personal)#use-comments};"><gale:if expr="${_concept->(personal)#use-comments}"><gale:then><b>comments</b></gale:then><gale:else>comments</gale:else></gale:if></gale:a></li>
+    <li><gale:a adapt="false"><gale:attr-variable name="href" expr="${_concept-&gt;(personal)settings}.getUriString()+&quot;?redirect=&quot;+${.}.getUriString()" />settings</gale:a></li>
+    <!--<li><gale:a href="?plugin=status" adapt="false">status</gale:a></li>-->
+    <span class="separator" />
+    <li><gale:a adapt="false">
+        <gale:attr-variable name="href" expr="${_concept->(personal)thesis}.getUriString()+&quot;?plugin=reset-profile&quot;" />
+        reset profile</gale:a></li>
+    <li><gale:a href="?plugin=logout" adapt="false">logout</gale:a></li>
+    </ul>
+</ul>
+</div>
+
+</span>

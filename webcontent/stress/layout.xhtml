@@ -1,0 +1,69 @@
+<gale:if xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation" expr="gale.isObject()"><gale:then>
+<gale:object><gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;"/></gale:object>
+</gale:then><gale:else>
+<html>
+<head>
+<base><gale:attr-variable name="href" expr="${.}.getUriString()" /></base>
+<meta name="viewport" content="width=device-width" />
+</head>
+<body>
+<div id="header">
+    <gale:object data="header.xhtml" />
+</div>
+<gale:if expr="${_concept-&gt;(personal)#review}">
+<div id="footer">
+    <span class="th-footer">
+    <div style="float:right;text-align:right">
+    <gale:if expr="${.}.getAttribute(&quot;review-next&quot;) != null"><gale:then>
+    <gale:if expr="!&quot;&quot;.equals(${#review-next})">
+    <gale:then>
+    Next topic:
+    <gale:a adapt="false" class="good">
+        <gale:attr-variable name="href" expr="${.}.getUri().resolve(${#review-next}).toString()" />
+        <gale:variable expr="((Concept)gale.dm().get(${.}.getUri().resolve(${#review-next}))).getTitle()" />
+<!--
+        <gale:variable expr="~System.out.println(gale.dm().get(${.}.getUri().resolve(${#review-next}))); return &quot;hello&quot;;" />
+-->
+    </gale:a>
+    </gale:then><gale:else>
+    <gale:view label="Next topic: " done="end of tour" name="next-view" expr="${#suitability} &amp;&amp; ${#visited} == 0 &amp;&amp; !${#unknown}"/>
+    </gale:else></gale:if>
+    </gale:then><gale:else>
+    <gale:view label="Next topic: " done="end of tour" name="next-view" expr="${#suitability} &amp;&amp; ${#visited} == 0 &amp;&amp; !${#unknown}"/>
+    </gale:else></gale:if>
+    </div>
+    </span>
+</div>
+</gale:if>
+<gale:if expr="${_concept-&gt;(personal)#menu}">
+<div id="menu">
+    <gale:a id="menu-link" exec="${_concept->(personal)#menu} = false;" adapt="false">
+        <gale:attr-variable name="href" expr="${.}.getUriString()" />
+    </gale:a>
+    <gale:view name="static-tree-view" maxdepth="3" />
+</div>
+</gale:if>
+<div id="gale-content">
+    <gale:if expr="(gale.req().getParameter(&quot;external&quot;) != null &amp;&amp; !&quot;&quot;.equals(gale.req().getParameter(&quot;external&quot;).trim()))"><gale:then>
+        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;external.xml&quot;)" /></gale:object>
+    </gale:then><gale:else><gale:if expr="${#suitability} || &quot;true&quot;.equals(gale.req().getParameter(&quot;skip-unsuitable&quot;))"><gale:then>
+        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;prereq.xhtml&quot;)" /></gale:object>
+        <gale:if expr="!&quot;true&quot;.equals(${?no-title})"><h2><gale:variable expr="${.}.getTitle()" /><gale:if expr="${#unknown}"> (under construction)</gale:if></h2></gale:if>
+        <gale:object><gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;" /></gale:object>
+        <gale:if expr="&quot;true&quot;.equals(${?analytic}) &amp;&amp; ${#suitability}"><gale:object data="analytic.xhtml" /></gale:if>
+        <gale:if expr="!${#suitability}">
+            <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable-question.xhtml&quot;)" /></gale:object>
+        </gale:if>
+    </gale:then><gale:else>
+        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable.xhtml&quot;)" /></gale:object>
+    </gale:else></gale:if></gale:else></gale:if>
+</div>
+<gale:if expr="${_concept-&gt;(personal)#use-comments}">
+<div id="comments">
+    <gale:object><gale:attr-variable name="name" expr="&quot;?plugin=comments&amp;no-update=true&amp;redirect=&quot;+${.}.getUriString()" /></gale:object>
+</div>
+</gale:if>
+</body>
+</html>
+</gale:else></gale:if>

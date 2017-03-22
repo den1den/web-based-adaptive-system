@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<span xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:if expr="${_concept->(personal)#beginner} &amp;&amp; !${#beginner}">
+<gale:then>
+    <p>You have read this
+    page even though I expected it to be of no interest to you. If you think the content
+    on this page was something you really would like to see, please click <gale:a
+    adapt="false" class="good" href="#" exec="${#beginner} = true;
+    ${_concept->(personal)#beginner-level}++; ${#mark}++;">here</gale:a>. <gale:if
+    expr="${_concept->(personal)#beginner-level} > 0"><gale:then>Since that would not be
+    the first time, maybe I should no longer treat you like an 'interested non-expert'.
+    If you agree, click <gale:a adapt="false" class="good" href="#"
+    exec="${_concept->(personal)#beginner} = false;
+    ${#mark}++;">here</gale:a>.</gale:then><gale:else> This will allow me to improve your
+    personal adaptation.</gale:else></gale:if></p>
+</gale:then>
+<gale:else>
+    <p>You have read this page even though I expected the content to be too
+    advanced. If you are one of those advanced users that really understood what I
+    explained here, please click <gale:a adapt="false" class="good" href="#"
+    exec="${#mark}++;">here</gale:a>. This will allow me to improve your personal
+    adaptation.</p>
+</gale:else>
+</gale:if>
+
+</span>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text type="creole">The links that lead to topics that are part of this thesis, can
+change in color. You might remember the various colors used:
+* <span style="color:#22D">blue</span>, when the link is recommended
+* <span style="color:#828">purple</span>, when the link is recommended but you have
+  already read its content
+* <span style="color:#52A">blueish purple</span>, when the link is recommended, you have
+  already read its content, but in the meantime something has changed on the page
+* <span style="color:#000">black</span>, when the link is not recommended
+* <span style="color:#B50">orange</span>, when the link refers to external material
+
+Recommending links is based on properties found in the user model. I try to determine if a
+concept is suitable, based on your knowledge of prerequisite concepts (explained a bit
+further down). I keep track of how often you have visited concepts that were suitable.
+These user model properties are used as a basis for the link colors. Some expression
+determines what the CSS class of the link should be. The
+<a><gale:attr-variable name="href" expr="${../thesis}.getUri().resolve(&quot;thesis.css&quot;)" />
+thesis.css</a> file contains sections for the link classes 'good', 'neutral', 'bad', and
+others.</gale:text>
+
+</gale:repo>

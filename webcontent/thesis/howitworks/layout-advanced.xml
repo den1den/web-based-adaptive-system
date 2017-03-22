@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:object data="layout.xml" />
+
+<gale:text type="creole">To make the layout work, this thesis does not rely on the
+[[../gale/layout-tables|]] or the [[../gale/layout-css|]]. We use a template page called
+<a>
+<gale:attr-variable name="href" expr="${../thesis}.getUri().resolve(&quot;layout.xhtml&quot;)"/>
+layout.xhtml</a>. This page refers to the various [[../gale/system/view-module|views]]
+like the menu. If there are prequisite concepts you don't already know, it is this file
+that includes the box that shows them. (Actually a file called
+<a>
+<gale:attr-variable name="href" expr="${../thesis}.getUri().resolve(&quot;prereq.xml&quot;)"/>
+prereq.xml</a> is included; this file is referenced in layout.xhtml.) A title for the
+concept is automatically generated based on the {{{title}}} property in the domain model.
+If the concept is unsuitable (when you follow a black link), the file
+<a>
+<gale:attr-variable name="href" expr="${../thesis}.getUri().resolve(&quot;unsuitable.xml&quot;)"/>
+unsuitable.xml</a> is shown.
+
+The {{{#resource}}} attribute is defined in the root concept of the thesis and inherited
+by most concepts. It looks like this:
+
+{{{
+#resource ='~
+    if (${[[=_personal]]#first-time})
+        return "[[=intro.xhtml]]";
+    if (${#is-object})
+        return ${.}.getUriString()+".xml";
+    return "[[=layout.xhtml]]";
+'
+}}}
+</gale:text>
+
+<gale:text type="creole" expr="${../gale/system/galecontext#known}">As you know (since you
+have read [[../gale/system/galecontext|]]), the default code runs in the
+[[../gale/system/um-service|]]. The {{{GaleContext}}} is not available there. But in order
+to determine what resource to use for the concept, or more specifically whether we want
+the layout or just the content, we need to know if the request was for an object or not.
+The adaptation engine knows this, not the UM service. The (somewhat more advanced) trick
+is to create a non-persistent variable and set its value in the concept's event code where
+you can use the {{{GaleContext}}}. We do something like this to have it available in the
+UM service:
+
+{{{
+#is-object:Boolean
+event + '${#is-object} = gale.isObject();
+}}}
+</gale:text>
+
+<gale:text type="creole">Hiding topics in the menu is done like this:
+
+{{{
+#hierarchy:Boolean ='(${_concept->(personal)#menu} ||
+                     (${#suitability} &amp;&amp; !${#unknown}))
+                     &amp;&amp; ${->(parent)#suitability}'
+}}}
+
+Making topics that are not available in the menu also unavailable in the page is done
+using the [[../gale/system/link-module|#link.hide]] attribute:
+
+{{{
+#link.hide '!${#hierarchy}'
+}}}
+</gale:text>
+
+</gale:repo>

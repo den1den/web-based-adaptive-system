@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole"></gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole"><p style="text-align:center;font-family:serif">
+Towards a Generic Distributed Adaptive Hypermedia Environment<br/>
+<br/><br/>
+PROEFONTWERP<br/>
+<br/><br/>
+ter verkrijging van de graad van doctor aan de<br/>
+Technische Universiteit Eindhoven, op gezag van de<br/>
+rector magnificus, prof.dr.ir. C.J. van Duijn, voor een<br/>
+commissie aangewezen door het College voor<br/>
+Promoties in het openbaar te verdedigen<br/>
+op maandag 2 april 2012 om 16.00 uur<br/>
+<br/><br/><br/>
+door<br/>
+<br/><br/>
+David Smits<br/>
+<br/><br/>
+geboren te Brunssum<br/>
+<br/><hr/></p><p style="font-family:serif">
+De documentatie van het proefontwerp is goedgekeurd door de promotor:<br/>
+prof.dr. P.M.E. De Bra<br/>
+<br/>
+Copromotor:<br/>
+dr. M. Pechenizkiy<br/></p>
+</gale:text>
+
+</gale:repo>

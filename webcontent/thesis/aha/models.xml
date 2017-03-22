@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the Domain/Adaptation Model (DM/AM) as
+used in AHA! to describe an adaptive application</gale:text>
+
+<gale:text tag="long" type="creole">The Domain/Adaptation Model (DM/AM) used in AHA!
+consists of a //set of concepts//, some of which are linked to //pages//. A concept (or
+topic) can have various attributes, like 'knowledge' (of the user about the topic) or
+'suitability' (of the topic for a particular user), etc. The attributes can have rules
+associated with them that are executed by AHA! when the attribute's user model value is
+updated.</gale:text>
+
+<gale:text tag="default" type="creole">AHA! applications mainly consist of a set of
+//concepts//, some of which are linked to //pages// or //objects// (or //fragments//).
+Concepts can be used to represent //topics// of the application domain, e.g. subjects to
+be studied in a course, or artists, art styles, or art pieces (like paintings) in a
+museum. In AHA! the author of an application can associate any number of (named)
+attributes with a concept. Some attributes have a meaning for the system, like //access//
+(a Boolean attribute that temporarily becomes true when a page is accessed), some have
+meaning for the author and user, like //knowledge// or //interest//, and some have meaning
+for both, like //visited// (determining the blue versus purple link color). Since AHA!
+uses an //overlay user model//, all attributes of concepts in DM/AM can also appear in the
+UM.
+
+The adaptation rules define how the user model is updated. When the user accesses a page
+(or an object included in a page) the rules associated with the //access// attribute are
+triggered. Each rule consists of two parts: a //condition// and an //action//. The
+condition is expressed as a Boolean expression using attributes of concepts, and the
+action consists of one or more assignments of values or expressions to attributes of
+concepts. (The expressions can use constants, attribute values, or even the amount by
+which the triggering attribute was changed.) Optionally there can also be a second action,
+that is performed when the condition is false.
+
+The actions of a triggered rule update some attributes of some concepts. The author can
+indicate for every rule whether this action triggers the rules associated with the updated
+attribute. It is thus easy to define that a page access increases the //knowledge// of the
+concept associated with the page, and have that knowledge update cause a knowledge update
+of a larger topic, like a section of a textbook, and have that knowledge update in turn
+cause a knowledge update of an even larger topic like a chapter. Similarly, accessing a
+page that shows a painting in a museum can cause an //interest// update for the painter,
+and that may cause an interest update for the style of that painter, etc. The fact that
+these adaptation rules are completely arbitrary illustrates the power ofthe AHA! system,
+but at the same time also shows that it is difficult for an author to predict the outcome
+of the rule execution. It is even possible that the defined rules sometimes cause an
+infinite loop in the rule execution. (AHA! does limit the rule execution to avoid run-time
+errors in such a case.)
+
+An aspect worth mentioning is the way in which AHA! determines the //suitability// of a
+page. With each page (or concept) AHA! associates a //requirement expression//. This
+expression is evaluated when needed to determine the suitability of a page. However,
+rather than evaluating the suitability when needed one can also opt to use a //suitability
+attribute//, and just evaluate that attribute in the expression. One can thus determine
+the suitability of a page through adaptation rules.
+
+Another aspect is the //visited// status of pages or objects. AHA! uses a //visited
+attribute// to store this status. When a page or object is accessed an adaptation rule can
+set the //visited// attribute. This is done using a "standard" rule, normally created
+automatically by the authoring tools. However, since it is just a user model attribute of
+the concept one can create rules that manipulate this attribute in a different way (e.g.
+marking previously visited pages as unvisited for some purpose).
+
+The specific syntax of the XML format used by AHA! to describe the DM/AM can be found in
+an [[models-example|example]] with a step by step explanation of the
+semantics.</gale:text>
+
+</gale:repo>

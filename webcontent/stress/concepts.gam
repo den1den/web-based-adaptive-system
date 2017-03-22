@@ -1,3 +1,7 @@
+$options {
+    default.properties "event;strict"
+    default.order "auto"
+}
 
 // root concept of the entire thesis
 _concept {
@@ -133,9 +137,54 @@ _concept {
     '
 }
 
+// root concept defining variables that change depending on how often they are viewed
+_variable {
+    // count the number of views
+    #[count]:Integer
+    event +"${#count}++;"
+    // define the resource as based on the number of views and the #value string
+    #resource:String "content:#content"
+    #content:String ='pick(${#count}, ${#value})'
+    // a semicolon seperated list of strings that represents the values (overwritten in
+    // children)
+    #value:String ='"variable (" + ${.}.getUri() + ")"'
+}
 
+// personal settings for the thesis
+_personal {
+    // menu on the left or as drop down
+    #[menu]:Boolean 'true'
+    // first time to visit the thesis
+    #[first-time]:Boolean 'true'
+    // role
+    #[role] 'intermediate' {
+        event '
+            if ("beginner".equals(changed.newValue)) {
+                ${#beginner} = true;
+            }
+            if ("intermediate".equals(changed.newValue)) {
+                ${#beginner} = false;
+            }
+            if ("expert".equals(changed.newValue)) {
+                ${thesis#mark-all}++;
+                ${#analytic-count} = 512;
+                ${#beginner} = false;
+            }
+        '
+    }
+    #[review]:Boolean 'false'
+    #[beginner]:Boolean 'false'
+    #[beginner-level]:Integer '0'
+    #[use-comments]:Boolean 'false'
+    #[last-concept]
+    #[last-session]
+    #[analytic-count]:Integer '-2' {
+        event 'if ((Integer)changed.newValue == 0 && changed.diff != 0) ${#analytic-count} = changed.diff*2;'
+    }
+    #analytic:Boolean ='${#analytic-count} > 0'
+}
 
 thesis {->(extends)_concept
-    title 'Thesis'
-    no-title 'true'
+    title 'Introduction'
+    no-title 'True'
 }

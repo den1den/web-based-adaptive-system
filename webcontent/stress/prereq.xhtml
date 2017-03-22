@@ -1,0 +1,14 @@
+<span xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+<gale:if expr="!and(${=>(prereq)#known})">
+<div class="th-sidenote">
+<h4 style="text-align:right"><b>Prerequisites</b></h4>
+<gale:for var="concept" expr="${->(prereq)}">
+<gale:if expr="!${%concept#known}">
+<h4><gale:a href="%concept"><gale:variable expr="${%concept}.getTitle()" /></gale:a></h4>
+<gale:object name="%concept?tags=long&amp;skip-unsuitable=true" />
+</gale:if>
+</gale:for>
+</div>
+</gale:if>
+</span>

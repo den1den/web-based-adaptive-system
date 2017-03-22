@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text type="creole">When you click a link in your browser, it sends a request to
+another computer called a server. Some part of that request is visible, you can see it in
+your address bar. I (this thesis) am at the other end of the line, receiving the request.
+The address is often called a URL or Universal Resource Locator. The URL tells me what
+topic or page you want to read. Every topic has a different name.
+
+Before I tell you anything about the topic you want to read, I first make sure I know who
+you are (by making you log in). This allows me to keep track of you over time. Every time
+you request a topic, it tells me something about you. At the very least I am assuming you
+have read the information that I sent to you. The information I send contains many links
+to other topics. Because I know what they are about, and I know what you have seen before,
+I can recommend some of these links, hide other links because I think you can't understand
+it yet, show or hide blocks of text, show things in a different order, etc.
+
+(Tell me <gale:a href="../howitworks" class="good" adapt="false"
+exec="${../howitworks#action}++;">more</gale:a>.)</gale:text>
+
+</gale:repo>

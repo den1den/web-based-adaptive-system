@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+<body style="margin:0;padding:0;top:0;left:0;right:0;position:absolute;overflow:auto">
+    
+<gale:text tag="default" type="creole" class="th-sidenote">
+
+{{images/cover.jpg}}
+
+This thesis tries to adapt to
+your personal goals for reading it. **Are you here to learn how to use the
+state-of-the-art generic adaptive web-based server? Do you want a historical perspective
+on adaptive hypermedia research? Are you interested in technical details? Or are you here
+to review this thesis?** If I as an author would tell you more about any of these subjects
+in person, I would surely keep in mind what your goals are. This thesis tries to do the
+same.
+
+**What do you know (about the subjects discussed in this thesis)?** That might determine
+the order of learning. In a personal setting you could tell me if something does not make
+sense, and I would adapt by explaining topics that are prerequisite knowledge. This thesis
+tries to mimic that behaviour. Alternatively, if I'm explaining something you already
+know, you would tell me and I can skip that. This keeps the material more interesting, and
+thus the learner more engaged.</gale:text>
+
+<gale:text tag="default" type="creole">Welcome to the adaptive thesis on creating the
+first truly generic adaptive hypermedia system!
+
+**Please spend one minute on reading the following instructions carefully, as they will
+help you make the most out of this adaptive thesis.**
+
+To achieve the goals of an adaptive thesis, the system will monitor your every move (not
+literally). Your actions might change the content that will be presented thereafter. For
+example, since I show you this page, I am assuming that when you click the 'Continue' link
+to move on, you have read and understood what I am explaining here. I will not bother you
+with these instructions (ever) again.
+
+Different link colors are used to guide you through the material. These colors are:
+* <span style="color:#22D">blue</span>, when the link is recommended
+* <span style="color:#828">purple</span>, when the link is recommended but you have
+  already read its content
+* <span style="color:#52A">blueish purple</span>, when the link is recommended, you have
+  already read its content, but in the meantime something significant has changed on the
+  page
+* <span style="color:#000">black</span>, when the link is not recommended
+* <span style="color:#B50">orange</span>, when the link refers to external material
+
+The menu (that will be shown when you click 'Continue') allows more navigational freedom.
+It allows you to follow non-recommended links. When you click such a link, I will try and
+explain why the subject is not recommended and what you should study first. This material
+will always be presented in a grey box on the right of the screen (just like the box you
+see there now). If you still wish to study the non-recommended subject, you can do so.
+Hiding the menu will remove the possibility of following non-recommended links completely.
+The menu can be hidden or shown using the little triangles (<img src="images/left.gif"
+/>).
+
+Telling me something about yourself will help me setup some initial adaptation. Please
+select one of the following roles that fit you best. You can optionally turn on a guided
+tour, which I do not recommend as it may hamper your feel of navigational freedom.
+
+<form id="startform" method="POST">
+<gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
+<table>
+<tr valign="top"><td><input name="role" type="radio" value="beginner" /></td>
+<td>You are an interested non-expert. I will not go into too much detail on technicalities
+and the implementation of the software (about half of the material in this
+thesis).</td></tr>
+<tr valign="top"><td><input name="role" type="radio" value="intermediate" checked="true" /></td>
+<td>You are familiar with (adaptive) hypermedia but would appreciate guidance when I
+explain the details on AHA! and GALE.</td></tr>
+<tr valign="top"><td><input name="role" type="radio" value="expert" /></td>
+<td>You are an expert. I will not bother you with things like prerequisites and assume you
+know everything. When you activate this option all content adaptation and adaptive
+navigation support is turned off, resulting in a complete and completely static
+presentation as required by the Doctorate Board (College voor Promoties) of the Eindhoven
+University of Technology.</td></tr>
+<tr valign="top"><td><input name="review" type="checkbox" value="true" /></td>
+<td>You want an optional guided tour. I will display a suggested next concept to study.
+Other topics of course remain available. Note that if you keep following the guided tour
+all the time then reading this hypertext becomes a linear experience.</td></tr>
+</table>
+<p>
+<a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Continue...</a>
+(after you have read the above instructions)
+</p>
+<input name="exec" type="hidden" value="${_concept-&gt;(personal)#role} = gale.req().getParameter(&quot;role&quot;); ${_concept-&gt;(personal)#first-time} = false; ${_concept->(personal)#review} = &quot;true&quot;.equals(gale.req().getParameter(&quot;review&quot;));" />
+<input name="redirect" type="hidden"><gale:attr-variable name="value" expr="${.}.getUriString()" /></input>
+</form>
+
+Just to say it one more time: **There is no preferred reading order in this thesis**,
+except following <span style="color:#22D">blue</span> links in any order you like. Choose
+topics you are interested in!
+
+</gale:text>
+
+</body>
+</html>

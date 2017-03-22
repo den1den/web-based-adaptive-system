@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the Adaptive Learning Spaces (ALS)
+project and its impact on AHA!'s development</gale:text>
+
+<gale:text tag="default" type="creole">As described on the project site, the goal of the
+[[=http://www.als-project.org/|Adaptive Learning Spaces]] (ALS) project is: "To provide
+the technological means through which lack of (or limited amounts of) face-to-face contact
+between instructors and learners, as well as amongst learners can be partially compensated
+for. To achieve this, ALS will work towards: (a) widening the range of, as well as
+increasing the amount of, guidance and support that Open Distance Learning (ODL) systems
+can provide to learners and instructors, and (b) providing novel means to support the
+social cohesion of groups of learners, as well as the engagement of their members in
+collaborative/team tasks and processes.
+
+This will be achieved by developing, field-testing and making openly available a software
+infrastructure that builds upon the state-of-the-art in the fields of e-learning and
+adaptive hypermedia systems, to support the creation of active, personalised learning
+spaces, that will have a clear focus on learning activities, treating learners as active
+members of, and contributors to, their learning environments, rather than as passive
+recipients of their contents."
+
+The project required the integration of [[../aha|AHA!]], a Learning Management System
+([[=http://www.sakaiproject.org|Sakai]]) and several collaboration tools. The
+collaboration tools use information stored in AHA! to determine expert learners on a
+particular domain. This required that AHA! would be able to share user and domain model
+information. The [[grapple|GRAPPLE project]] has a similar requirement. The output of ALS
+includes an intermediate version of AHA! that has some of the features found in
+[[../gale|GALE]].
+
+<gale:if expr="!${../aha/system#known-all}">The <gale:a href="../aha/system">AHA!
+engine</gale:a> was changed considerably to support this integration. When you know more
+about the engine, I will explain the details of the required
+changes.</gale:if></gale:text>
+
+<gale:text tag="default" type="creole" expr="${../aha/system#known-all}">AHA! (version 4)
+was only released as an embedded tool within Sakai. Some of the improvements that can also
+be found in GALE are:
+* The domain and adaptation models were [[../gale/domain-model|extended]], including
+  concepts identified by a URI, [[../gale/adaptation-model|any Java code]] as adaptation
+  rules, and arbitrary relations as part of the domain model. This allowed concepts (and
+  the associated user model data) to be more uniquely identified across different AHA!
+  servers.
+* AHA! was [[../gale/system|split]] in several components that communicate over an
+  [[../gale/system/events|event bus]]. This allowed a more open architecture where user
+  model and domain model are accessible and update-able by other components within Sakai.
+* The functionality in the [[../aha/engine|content handlers]] of AHA! was modularized.
+  This allowed the easy creation of [[../gale/system/extending-module|new XML modules]],
+  [[../gale/system/extending-view|new views]], [[../gale/system/extending|etc.]]
+  
+</gale:text>
+
+</gale:repo>

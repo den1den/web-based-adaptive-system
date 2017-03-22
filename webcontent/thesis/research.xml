@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">hypermedia that is adapted to suit the
+needs of individual users based on a profile that can change over time</gale:text>
+
+<gale:text tag="default" type="creole">The fields of //intelligent tutoring systems// and
+//hypermedia// came together when the Web evolved to the point where it became feasible to
+add enough functionality to the Web server back-end. The award-winning ELM-ART adaptive
+Lisp course [[references?tags=Brus96|[Brus96~]]] not only paved the way for later
+developments but also set a standard for //adaptive link annotations// by employing a
+"traffic light metaphor" of using green and red balls (and some intermediate colors like
+white and yellow) to indicate the "status" of links to course topics or pages. This
+metaphor was inherited by many later systems and can still be seen in some GALE
+applications as well.
+
+When Brusilovsky created Interbook [[references?tags=Brus98|[Brus98~]]] he aimed at
+creating a platform that could be used for many courses (instead of the single Lisp course
+offered by ELM-ART). He used Microsoft Word as the authoring platform. An author would
+essentially write a textbook in Word. Fragments (paragraphs or sections) of text would be
+associated with some //outcome concepts// by means of a structured comment, and concepts
+would be indicated as being a //prerequisite for// other concepts, also by means of a
+comment. Converting a textbook (written in Word) into an adaptive on-line course was
+reduced to little more than a press of a button.
+
+Adaptation is always based on information the system has about its user. Therefore //user
+modeling// is a key component in every adaptive system. Typically user modeling is based
+on rules that "translate" user actions into user information. Reading a course page means
+that you learn about a concept. That knowledge can be confirmed through a test. That
+knowledge is also used to check whether you satisfy //prerequisites// for studying other
+concepts. Knowledge levels of small concepts also "add up" to knowledge about chapters and
+whole courses. This description may give the false impression that an adaptive system
+really "knows" what goes on in the user's mind, with absolute certainty. There is however
+an alternative approach to user modeling, using Bayesian networks. This approach is taken
+by KBS-Hyperbook [[references?tags=Henze00|[Henze00~]]] for instance. User actions change
+the "belief" of the system that the user has certain knowledge. It is easier to deal with
+positive and negative "evidence" of the user's knowledge (or interest or any other type of
+information) in Bayesian networks than in systems that just use (event-condition-action)
+rules to update knowledge levels.
+
+[[research/early-aha|Early versions of AHA!]] (the Adaptive Hypermedia Architecture)
+associated pages with concepts and for each concept the system could track the user's
+knowledge. A concept could require prior knowledge and could, when accessed, generate
+knowledge. [[aha|Recent versions]] [[references?tags=DeBra03;DeBra06|[DeBra03, DeBra06~]]]
+allow an author to define arbitrary //adaptation rules// (in fact //user model update
+rules//) and can thus support any model or interpretation of the information stored about
+users. Also, unlike Interbook's use of Microsoft Word for authoring, applications in all
+versions of AHA! are authored in HTML, and of course also delivered as HTML. This means
+that authors familiar with creating HTML can give an AHA! application any look and feel
+they desire. AHA! can for instance completely mimic the behavior and presentation of
+Interbook [[references?tags=DeBra03-2|[DeBra03-2~]]].
+
+In order to be able to manage the complexity of having //arbitrary adaptation rules// and
+//arbitrary presentation// AHA! had to separate the authoring of the adaptation from the
+authoring of the content and presentation. Defining complex adaptation rules requires very
+different skills from writing the content of a course. We <gale:if
+expr="${gale/models-languages#known-all}"> <gale:then>have seen</gale:then><gale:else>will
+see</gale:else></gale:if> this in [[gale|GALE]] as well. Not every type of web-based
+system that includes adaptivity will be easy to create in GALE, as the
+[[research/related-work|related work]] shows. But research on
+[[research/taxonomy|adaptation techniques]] has given a good insight into what most
+systems have in common.</gale:text>
+
+</gale:repo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a generic adaptive hypermedia system
+developed between 1996 and 2007 at the [[=http://www.tue.nl|TU/e]]</gale:text>
+
+<gale:text tag="long" type="creole">The [[=http://aha.win.tue.nl|Adaptive Hypermedia
+Architecture!]] was one of the first adaptive hypermedia systems that aimed at being
+generic. Development started in 1996 by [[=http://wwwis.win.tue.nl/~~debra|Paul de Bra]]
+at the [[=http://www.tue.nl|TU/e]]. The last official version of AHA! was 3.0, and was
+released in 2007. Development on the next version continued and resulted in a new system
+which was named [[gale|GALE]] in 2009.</gale:text>
+
+<gale:text tag="default" type="creole" expr="!${research/early-aha#known}">AHA! is an Open
+Source adaptive hypermedia platform, capable of performing content and link adaptation in
+(X)HTML and XML documents. Its development started in 1996. During 10 years of research
+and development different new presentation, adaptation and user modeling methods and
+techniques have been added, turning AHA! into a general-purpose adaptive hypermedia
+platform. This section describes version 2 and 3 and is not a [[research/early-aha|history
+on AHA!]].
+
+Unlike other adaptive hypermedia systems, AHA! is not aimed at a single application area
+and does not prescribe a single fixed presentation style. Creating applications, defining
+the user models and the adaptive behavior are all done using graphical authoring tools.
+End-users are presented with what looks like a normal website, and need not be aware of
+the adaptation that goes on behind the scenes. Their browsing results in updates to a user
+model that is stored either in an xml file or a mySQL database, and that is thus also (in
+principle) available to other applications.</gale:text>
+
+<gale:text tag="default" type="creole">An AHA! "installation" consists of a Java-based
+webserver (like Tomcat), the AHA! software (servlets), and applications that consist of
+(x)html pages, possibly other media objects, and conceptual information that defines how
+AHA! needs to perform adaptation to the pages. The first figure below shows the global
+architecture, and the second figure shows the different files or databases used by the
+AHA! engine.
+
+{{aha/images/global.gif|Image of global AHA! architecture}}
+
+In the figure below we see that the AHA! engine uses three types of local information, and
+potentially also pages that reside on other servers on the Web. The combined
+[[aha/models|domain and adaptation model]] (DM/AM) represents a model of the conceptual
+structure of the application, and the adaptation rules. This information is retrieved when
+the end-user logs in. As the user is interacting with the application a user model (UM) is
+used and constantly updated. The interaction involves (mostly) the retrieval of pages and
+other application files (like images). DM/AM and UM are used to decide which application
+file or "page" to retrieve upon a request from the user (and which objects to
+conditionally include in that page). The request may also result in files being retrieved
+from other webservers.
+
+{{aha/images/engine.gif|Image of AHA! engine}}
+
+What the global architecture shows is that the way in which AHA! can perform adaptation is
+limited mostly by the HTTP request-response paradigm. Each request invokes a fixed
+procedure or sequence of steps the engine performs in order to return an adapted
+page.</gale:text>
+
+</gale:repo>
