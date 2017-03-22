@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> CountModule (&lt;count&gt; tag)</h1>
+
+<p>
+The <code>&lt;count&gt;</code> is a special-purpose tag used mainly in a header
+to show how many pages (concept with a property "type" with value "page") the learner
+has read or still has to read in the current course.
+The two ways to use the tag are:
+<pre>
+  &lt;gale:count     uri="gale://gale.tue.nl/cam/GRAPPLE"    method="done"/&gt;
+</pre>
+and
+<pre>
+&lt;gale:count   uri="gale://gale.tue.nl/cam/GRAPPLE"  method="todo"/&gt;
+</pre>
+GALE does not really work with the notion of a "course" but counts the number of
+page concepts of which the URI starts with the given URI.<br />
+The resulting numbers for you as learner of this tutorial are
+<gale:count   uri="gale://gale.tue.nl/cam/GRAPPLE"  method="done"/>
+and
+<gale:count   uri="gale://gale.tue.nl/cam/GRAPPLE"  method="todo"/>. These numbers should match what the header shows.
+</p>
+
+</body>
+</html>

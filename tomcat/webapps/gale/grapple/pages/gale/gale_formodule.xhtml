@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> ForModule (&lt;for&gt; tag)</h1>
+
+<p>
+The <code>&lt;for&gt;</code> tag takes three attributes: "var" which is a placeholder for an
+Iterable object (like a temporary variable), "expr" is an expression in
+<gale:a href="gale_code">GALE code</gale:a> that results in the Iterable object,
+and the optional "sort" attribute is an expression that results in a number
+to be used for sorting the list.
+</p>
+<p>
+The <code>&lt;for&gt;</code> tag replaces the "for" element in the DOM tree by a repetition of
+the content of that element, creating one instance for each element in the Iterable object that
+is the result of the expression.
+Here is an example:
+<pre>
+&lt;gale:for var="concept" expr="${-&gt;(parent)&lt;-(parent)}"
+      sort="Integer.parseInt(${?order})"&gt;
+  &lt;gale:variable 
+      expr="${%concept?title}"/&gt;
+  &lt;br/&gt;
+&lt;/gale:for&gt;
+</pre>
+The expression looks slightly complicated but what it does is it first goes to the parent
+concept of the current concept and then of that parent it produces a list of all the child concepts.
+The result is a list of a concept and all its siblings.
+For each of these concepts the "title" property is printed. These titles are put on separate lines
+because of the <code>&lt;br /&gt;</code> tag.
+For this page the result is:
+<br />
+<gale:for var="concept" 
+          expr="${-&gt;(parent)&lt;-(parent)}"
+          sort="Integer.parseInt(${?order})">
+  <gale:variable 
+      expr="${%concept?title}"/>
+  <br/>
+</gale:for>
+Note that without the "sort" attribute the list might show the concepts in a
+different order (most likely the order in which the concepts were created).
+In the accordion menu on the left the concepts are always sorted according to
+the "order" property of the concepts.
+In the for loop they can be sorted using any arbitrary expression.
+The expression <code>Integer.parseInt(${?order})</code> converts the
+concept's property "order" into an integer. Concept properties are always
+strings (unlike attributes which can be Boolean, integer, float...).
+</p>
+<p>
+Below we show the same list but now we used <code>sort="${?title}"</code>
+to sort the list alphabetically according to the title property:<br />
+<gale:for var="concept" 
+          expr="${-&gt;(parent)&lt;-(parent)}"
+          sort="${?title}">
+  <gale:variable 
+      expr="${%concept?title}"/>
+  <br/>
+</gale:for>
+</p>
+</body>
+</html>

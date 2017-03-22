@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Locating Resources in a <gale:object name="glossary_gale" /> Course</h1>
+
+<p>
+In GALE we keep the authoring simple through the <gale:a href="GAT">authoring tools</gale:a>,
+while at the same time creating a more generic implementation.
+To this end the GALE engine uses the following approach for locating and loading resources:
+<ul>
+<li>Requests for information that need to result in user <gale:object name="glossary_um" />
+updates must be done through concepts. (It is possible to request resources directly,
+as done for instance to include fixed presentation elements like images, headers and footers,
+but these requests do not trigger any UM updates.)
+Resources that are requested (and included) directly can still have
+<gale:a href="gale_adaptingresources">adaptive content</gale:a>, as shown in the header
+of this tutorial for instance.</li>
+<li>
+Each concept has a "resource" attribute that holds the URI of the resource currently associated
+with the concept (for the current user).  When there is a one-to-one relationship between a
+concept and resource this is all that is needed. The compiler from
+<gale:object name="glossary_gat" /> (<gale:object name="glossary_cam" />) to GALE
+translates a single "resource" defined in the
+<gale:a href="gat_dm"><gale:object name="glossary_dm" /> tool</gale:a> is translated to
+the "resource" attribute in the GALE UM.
+</li>
+<li>
+The value of the "resource" attribute can also be computed by GALE.
+If "resource" is initialized with the following value (expression):
+<pre>        (${#visited}==1?"gale:/tutorial/readme.xhtml":"gale:/tutorial/welcome.xhtml")
+</pre>
+then upon the first access to the concept the file "readme.xhtml" will be presented
+and subsequent accesses will show the file "welcome.xhtml".Any Java expression can be used here, including expressions using code to refer to UM
+information as this example demonstrates. The only restriction is that the expression
+must return a string that can be interpreted as a URI.
+</li>
+</ul>After the URI of the resource has been determined the GALE engine can start its real work of
+retrieving the resource, adapting the page and returning the result to the user's browser.
+The browser only knows and shows the URI of the concept. So in the example above there is
+no way the user can find out that the content that is shown was either a file "readme.xhtml"
+or a file "welcome.xhtml".
+</p>
+<p>
+Because the "resource" must be defined or computed as a URI it is possible that the
+result is not the URL of an actual resource but a URL that refers again to a concept.
+This results in recursive resource location. (More details can be found in
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 1.3c</a>.)
+</p>
+<p>
+Locating and accessing resources is mostly done through links,
+using the <code>&lt;gale:a&gt;</code> tag.
+But within a page one can also (conditionally) include content using the
+<code>&lt;gale:object&gt;</code> tag.The process for deciding which content to show for an object (that refers to a concept) is
+identical to the process for deciding on link destinations. Conditionally included objects
+cause the browser to generate new HTTP requests and thus generate events that may cause UM
+updates.Because GALE allows the use of arbitrary Java expressions (including method calls) it is possible to implement the most complex decision processes for linking concepts to resources. However, in practice, when using GAT the selection will typically consist of simple expressions that are easy for authors to understand and create. We the process when using GAT below,
+</p>
+
+<h2>Resource Selection based on a Label</h2>
+<p>
+The GRAPPLE DM editor allows multiple “resources” to be associated with a concept.
+Adding a resource to a concept is done through the following interface:
+<br /><br />
+<img src="../../images/gale-addingresource.jpg" />
+<br /><br />
+Each resource has a URI, which can be an absolute or relative reference to a file or a concept.
+With each resource you can associate an arbitrary number of properties. In the figure
+the resource “planet_beginner.xhtml” is associated with the label “beginner”.
+The property <em>label</em> has a predefined meaning to the GAT to GALE compiler.
+Suppose there are three resources, each with a different label:
+<ol>
+<li>Url: <code>gale:/Milkyway/Planet_beginner.xhtml</code><br />Property (name): label<br />Value: “beginner”
+</li>
+<li>Url: <code>gale:/Milkyway/Planet_intermediate.xhtml</code><br />Property (name): label<br />Value: “intermediate”
+</li>
+<li>Url: <code>gale:/Milkyway/Planet_advanced.xhtml</code><br />Property (name): label<br />Value: “advanced”
+</li>
+</ol>The above example is compiled into the following properties and values in GALE:
+<ul>
+<li>resource.beginner = <code>gale:/Milkyway/Planet_beginner.xhtml</code></li>
+<li>
+resource.intermediate = <code>gale:/Milkyway/Planet_intermediate.xhtml</code></li>
+<li>
+resource.advanced = <code>gale:/Milkyway/Planet_advanced.xhtml</code></li>
+</ul>
+These properties of the attribute "resource" can be used in the
+<gale:a href="gale_code">GALE code</gale:a> of a 
+<gale:object name="glossary_prt" /> to perform resource selection.
+Suppose that the learner has an overall proficiency level which is represented as
+<pre>
+        gale://gale.tue.nl/personal#level
+</pre>
+then the following code in a unary "resource-selection" PRT would select a resource
+that matches the level of the learner:<pre>    %self% {      #resource      !`${%self%}.getAttribute("resource").getProperty((${gale://gale.tue.nl/personal#level})`    }
+</pre>For a user of "advanced" level the expression
+<code>${gale://gale.tue.nl/personal#level}</code> results in the string "advanced".
+The method getProperty thus gets as argument "resource.advanced" and it thus retrieves
+the value <code>"gale:/Milkyway/Planet_advanced.xhtml"</code>. This value is assigned to
+the resource attribute used by GALE to decide which resource to load.
+</p>
+<h2>Resource Selection through an Expression in the DM</h2>
+
+<p>GALE checks whether the resources associated with a concept have an "expr" property.
+If this is the case the value of the "expr" properties are combined to form a large expression
+for the concept's "resource" attribute in the GALE DM.As an example we again consider a concept "welcome" of an application "tutorial".
+For this concept we have a page "readme.xhtml" that is shown on the first visit, and "welcome.xhtml" shown on subsequent visits. To achieve this we create a concept "welcome"
+with two resources:
+<ol>
+<li>Url: <code>gale:/tutorial/readme.xhtml</code><br />Property (name): expr<br />Value: ${visited}==1</li>
+<li>
+Url: <code>gale:/tutorial/welcome.xhtml</code><br />Property (name): expr<br />Value: true
+</li>
+</ol>The GAT to GALE compiler will combine both expressions into one expression that is equivalent
+to (but not literally the same as):
+<pre>        (${#visited)==1?"gale:/tutorial/readme.xhtml":"gale:/tutorial/welcome.xhtml")
+</pre>It is up to you (as author) to choose between the different possible ways to achieve
+this (same) resource selection.
+The resource selection based on a "label" is the cleanest solution as it requires no
+GALE code inside the DM (created with the DM tool). In theory a DM should describe only
+the conceptual structure of a course and nothing related to the adaptation performed by the course.
+</p>
+</body>
+</html>

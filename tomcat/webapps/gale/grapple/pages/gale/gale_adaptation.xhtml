@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Adaptation in <gale:object name="glossary_gale" /></h1>
+
+<p>
+The figure below shows the process of GALE handling the request for a concept:
+<br /><br />
+<img src="../../images/gale-adaptation.jpg" />
+<br /><br />
+<ol>
+<li>
+If this is the first request the user sends since starting the browser no session will be
+associated with that request, so a session is initiated. 
+</li>
+<li>The user needs to be identified. GaleServlet calls the login manager to obtain information
+about the user. For stand-alone GALE use (not using the
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a> single sign-on facility)
+this is the following multi-step sub-process:
+<ol>
+<li>For a first request (without session information as there is no session yet) the user is still unknown.
+The stand-alone GALE login manager (DefaultLoginManager) redirects to a servlet/page that prompts
+the user for a user id and password. (Users can also register or log in anonymously.)
+</li>
+<li>The user id is passed on to the <gale:object name="glossary_um" /> cache,
+to request the application-independent part of the user model for this user.
+Internally GALE refers to this as the <em>user entity</em>.
+</li>
+<li>Since the UM cache will not have cached the user model, it will communicate with the UM service
+through the local event bus.
+</li>
+<li>UM is needed by the login manager to verify that the user has provided the correct password.
+If so the login manager (servlet) returns a redirect to the original URL.
+As a result the user’s browser will request the same concept again, this time with session information.
+</li>
+</ol>
+</li>
+<li>GaleServlet now calls the concept manager in order to find out how to handle the request.
+If the request is for a concept, the concept manager will determine the identity of the requested concept.
+For instance, when running this tutorial on a local machine the URL for the current concept (page)
+is <code>http://localhost:8080/gale/concept/gale://gale.tue.nl/cam/GRAPPLE/gale_adaptation</code>.
+In <gale:object name="glossary_gat" /> the <gale:object name="glossary_dm" /> was created as "GRAPPLE"
+and the current concept defined in the <gale:object name="glossary_dm" /> editor as
+"gale_adaptation". The course was created and deployed using the <gale:object name="glossary_cam" />
+editor. The compiler from CAM to GALE adds the word "cam" to the URL to indicate this.
+</li>
+<li>
+From the DM/<gale:object name="glossary_am" /> and UM GALE will deduce which <em>resource</em> (or file)
+to load.
+We have a detailed separate explanation of the process of <gale:a href="gale_locatingresources">locating resources</gale:a>.Handling the resource is a multi-step sub-process that uses <em>processors</em>.
+The processors are controlled using a <em>level</em>.
+Processors only become active when the concept has been processed up to a certain level
+(a range of acceptable levels) and when a processor is finished it updates the level.
+GALE can be easily extended with new processors, that are used anywhere in the processing pipeline.
+The Spring configuration file galeconfig.xml indicates which processors should be used and the levels
+guide a processor in the decision when to run.
+We now describe how a resource is handled using the default chain of processors.
+A detailed description of the processors is given in our description of the
+<gale:a href="gale_adaptingresources">adaptation to the content of resources</gale:a>
+and the <gale:a href="gale_adaptingpresentation">adaptation of the presentation</gale:a>.
+<ol>
+<li>The first processor that is called is the UpdateProcessor.
+It signals an EventManager that the ‘access concept’ event has occurred.
+The EventManager has handlers defined in galeconfig.xml.
+The default EventAccessHandler executes the event code of the concept as defined in DM/AM.
+The resulting changes to the user model are posted on the event bus,
+and subsequent changes made by any registered UM service are integrated in the UM cache.
+<br />
+(If some of the UM updates affect attributes that were declared as "public" by the author
+in one of the <gale:object name="glossary_prt" />s the updates are also sent to
+<gale:object name="glossary_gumf" /> through <gale:object name="glossary_geb" />.)
+</li>
+<li>The first processor touching the resource is the LoadProcessor.
+It is responsible for retrieving the actual resource associated with the concept
+(which can be a local file or can be a resource that has to be retrieved from some other server
+through HTTP).
+The name of the resource is found in the resource (UM) attribute of the concept.
+Note that this UM attribute value may be “computed” and may have been updated by the UpdateProcessor
+that runs first. (The compiler from <gale:object name="glossary_cam" /> to GALE converts resources
+defined in the DM editor into the UM resource attribute as we describe in the part on
+<gale:a href="gale_locatingresources">locating resources</gale:a>.)An InputStream is opened so that a subsequent processor can load and process the data.
+A possible file name extension (like .html, .xml, .jpg, etc.) is used to determine
+the (mime) type of the resource.
+</li>
+<li>Optionally the LogProcessor then adds an entry to a global log file (<code>access.log</code> by default).
+The id of the user, date, request, referrer (that may be present in the HTTP request), the name of the
+requested concept and the resulting resource are logged, for possible later analysis.
+</li>
+<li>The next processor checking out the data is the HTMLProcessor. If the resource's type is some form of
+HTML (but not XHTML)
+the (open source) <a href="http://jtidy.sourceforge.net/">JTidy</a> converter is used to convert the
+file to XHTML. The HTMLProcessor replaces the InputStream so that it now contains valid XHTML.
+</li>
+<li>The next processor looking at the data is the ParseProcessor.
+If the file is some form of XML it converts the file into an in-memory
+DOM tree,
+using the open source <a href="www.dom4j.org/">dom4j</a> parser.
+</li>
+<li>If the file is XML the XMLProcessor walks through the DOM tree in order to perform adaptation where needed.
+The modules that may be used to perform adaptation to certain tags are loaded by the XMLProcessor.
+The Spring configuration file indicates which XML tag is handled by which module.
+By default there are modules for handling "if" tags, "object" tags, links, variables, and some other tags in XHTML files.
+We describe the details in the section on
+<gale:a href="gale_adaptingresources">adapting the content of these resources</gale:a>.
+It is possible to add new modules and use them simply by adding (a configuration for) them to
+the Spring configuration file. (Device adaptation described in
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable D4.4</a>
+uses this GALE extensibility.)
+</li>
+<li>Optionally, the LayoutProcessor generates a frame-like structure using tables,
+by creating an (in-memory) XML document that contains the views (any class that implements the
+LayoutView interface) embedded in a table that defines the layout.
+This XML document has a placeholder element where the actual content should be.
+The LayoutProcessor then decreases the level and sets a “redo” flag on the resource.
+This will cause the container (GaleServlet) to start processing again from a specific level
+(in this case the XMLProcessor’s level).
+Now only the views are processed and when the resource arrives at the LayoutProcessor a second time,
+this is recognized and the actual adapted content is added to the table structure.
+Various other layout processors emulate the default behavior.
+A CSSLayoutProcessor uses css and div sections to layout the browser screen.
+A FrameLayoutProcessor uses an iframe element to display the actual content.
+The actual layout can be preconfigured but can also be adaptive as explained in the
+section on <gale:a href="gale_adaptingpresentation">adapting the presentation</gale:a>.
+</li>
+<li>When the DOM tree is adapted the SerializeProcessor generates the textual XML representation
+and presents that to GaleServlet as an InputStream.
+For resource types that do not have specific processors associated with them GaleServlet
+will create this InputStream itself in order to then send the content back to the browser.
+This for instance happens with images embedded in HTML pages.
+(For some special resource types GaleServlet calls a special PlugIn that may generate its own output.
+These plug-ins set the level to 100, which for GaleServlet means that the output was already
+generated by the plugin itself. Examples of such plug-ins are the Password and the Logout PlugIn.)
+</li>
+</ol>
+</li>
+</ol>
+</p>
+</body>
+</html>

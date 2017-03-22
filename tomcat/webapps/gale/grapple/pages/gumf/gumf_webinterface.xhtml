@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gumf" /> Web (Administration) Interface</h1>
+
+<h2>Client registration and details</h2>
+<p>
+Before client applications (like instances of an <gale:object name="glossary_lms" /> or
+<gale:object name="glossary_gale" />) can access GUMF the administrator of the client application
+has to register the application in the GUMF Web application, which is shown below:
+<br /><br />
+<img src="../../images/gumf-clientregistration.jpg" />
+<br /><br />Having registered the client application, it appears in the list of client applications of the administrator and the administrator can supply further details about the application as shown below:
+<br /><br />
+<img src="../../images/gumf-clientdetails.jpg" />
+<br /><br />For each client application that is registered, GUMF generates a default data space.
+To access the data space from the client application the administrator of the client application
+has to provide the id (here: 10) and a secret (here: 14433793371801540) that are listed in the Client
+Application Details table.
+</p>
+<p>To add data to the default data space the client can simply post RDF/XML-serialized
+<gale:a href="gumf_grapplestatement">GrappleStatements</gale:a> to the data space
+(in the example above, one would have to use
+http://localhost:8080/umf/ds/13?ds=10&amp;token=14433793371801540 as endpoint).
+For querying, clients can either use the RESTful API or the SeRQL/SPARQL endpoint.</p>
+
+<h2>Data space subscriptions</h2>
+<p>
+In addition to its own data space a client application can also subscribe to other data spaces.
+When a client application has subscribed to a data space then it can access the data that
+is made available via the data space. However, it cannot store data in the data space
+it has subscribed to. To subscribe a client application to another data space the administrator of the
+client has to go to the client details page as shown in the figure above. In the "Add subscription"
+form the administrator can select a data space and write a short message to the data space
+administrator that explains why she wants her client application to subscribe to the data space.
+Having clicked the send button the administrator of the data space will get a notification,
+where she can accept or deny the subscription request as shown in the figure below:<br /><br />
+<img src="../../images/gumf-subscription.jpg" />
+<br /><br />If the administrator of the data space has accepted the request then the data space is listed among the
+"current subscriptions" (see figure below) and can now be queried by the client application just like the
+client's default data space.
+<br /><br />
+<img src="../../images/gumf-clientsubscriptions.jpg" />
+</p>
+<h2>Configuration of data spaces</h2>
+<p>
+Administrators can add new data spaces to GUMF and can then configure their data spaces.
+For example, you can add plug-ins to a data space via the "add plug-in" button shown in the figure below:
+<br /><br />
+<img src="../../images/gumf-dataspacedetails.jpg" />
+<br /><br />These plug-ins enrich a data space, e.g., by gathering data from other data sources,
+reasoning on the data available in the data space or by mapping different schemas and vocabularies
+so that the client application receives data according to its preferred schema.
+</p>
+</body>
+</html>

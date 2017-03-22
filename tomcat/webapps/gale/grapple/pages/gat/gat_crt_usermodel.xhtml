@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The User Model Tab of the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The User Model Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-usermodel.jpg" />
+</p>
+<p>
+This tab consists of the following parts:
+<dl>
+<dt><b><gale:object name="glossary_um" /> Variables</b></dt>
+<dd>
+This part shows the UM variables that have been defined.
+You can click on "New" to create a new UM variable and on "Remove" to delete the
+currently selected one (highlighted in blue).
+</dd>
+<dt><b>General user model variable info</b></dt>
+<dd>
+Each user model variable must have a name and is assigned to one of the sockets of the PRT.
+There are two properties regarding the "Storage Type":
+the "public" and "persistence" state.
+A variable being public means that it will be shared with
+<gale:a href="GUMF"><gale:object name="glossary_gumf" />GUMF</gale:a>,
+so that it can be used by other GRAPPLE components.
+If a variable is not public it can only be used for the adaptive behavior within
+<gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+A variable being persistent means that it will be stored in GALE for further usage.
+For a public persistent variable GALE will send updates to GUMF.
+If a variable is not persistent, the adaptation engine has to retrieve the value from GUMF
+if it is public or use the "Default" if it is not public.
+</dd>
+<dt><b>Value information</b></dt>
+<dd>
+Each UM variable must have a data type. The type can be "integer", "float", "string" or
+"boolean". (GALE supports arbitrary data types but the PRT tool lets you choose only
+between these four.) The "range" is optional. The "default" value has a double meaning.
+For persistent variables this is their initial value (assigned when the variable is
+created in a user's UM). For non-persistent variables this can be a value but also an
+expression that determines the value to be used. Each time the value is needed the
+expression is evaluated.
+</dd>
+<dt><b>Location</b></dt>
+<dd>The location fields of user model variables are not used at the moment.
+The <gale:a href="gat_um">User Model Mapping</gale:a> tool has taken over this functionality.
+</dd>
+</dl>
+</p>
+</body>
+</html>

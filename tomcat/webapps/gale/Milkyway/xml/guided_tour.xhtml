@@ -1,0 +1,63 @@
+<span xmlns:gale="http://gale.tue.nl/adaptation">
+<hr/>
+
+<gale:if expr="${GuidedTour#active}">
+<gale:block>
+	<gale:if expr="${GuidedTour#i} &lt; ${GuidedTour#last_concept}+1">
+	<gale:block>
+		<gale:if expr="${#GT}">
+		<gale:block>
+			<gale:a exec="#{GuidedTour#i, (${GuidedTour#i}+1)};">
+			<gale:attr-variable name="href" expr="${GuidedTour#next}"/>
+			<u><h4>Next >>	</h4></u>
+			</gale:a>
+		</gale:block>
+		<gale:block>
+		<gale:a>
+			<gale:attr-variable name="href" expr="${GuidedTour#current}"/>
+			<h4><u> Back to Tour >>		</u></h4>
+		</gale:a>
+		</gale:block>
+		</gale:if>
+	</gale:block>
+	<gale:block>
+		<gale:a exec="#{GuidedTour#i, 0};">
+			<gale:attr-variable name="href" expr="${GuidedTour#next}"/>
+			<h4><u> Restart Guided Tour >> </u></h4>
+		</gale:a>
+	</gale:block>
+	</gale:if>
+	
+	<gale:a exec="#{GuidedTour#active, false};#{GuidedTour#paused, true};">
+		<gale:attr-variable name="href" expr="${GuidedTour#current}"/>
+		<h4><u> Pause Tour >>	</u></h4>
+	</gale:a>
+	
+	<gale:a exec="#{GuidedTour#active, false};#{GuidedTour#paused, false};#{GuidedTour#i, 1};">
+		<gale:attr-variable name="href" expr="${GuidedTour#current}"/>
+		<h4><u> Exit Guided Tour >>		</u></h4>
+	</gale:a>
+	
+</gale:block>
+
+<gale:block>
+	<gale:a exec="#{GuidedTour#active, true};">
+		<gale:attr-variable name="href" expr="${GuidedTour#current}"/>
+			<gale:if expr="${GuidedTour#paused}">
+			<gale:block>
+			<h4><u> Resume Tour >> </u></h4>
+			</gale:block>
+			<gale:block>
+			<h4><u> Start Guided Tour >> </u></h4>
+			</gale:block>
+			</gale:if>
+	</gale:a>
+	<gale:if expr="!${GuidedTour#paused}">
+	<gale:block>
+	The Guided Tour will first teach you about stars, planets and moons and then shows you the members of our solar sytem. It will be an exciting travel starting from the Sun all the way to Neptune and his moon Triton. <br/>
+	</gale:block>
+	</gale:if>
+</gale:block>
+</gale:if>
+
+</span>

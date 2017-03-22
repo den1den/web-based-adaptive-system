@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<gale:if expr="${#done}"><gale:then>
+<h1>Pre-Test Result</h1>
+<p>
+Your test score was <gale:variable expr="${#knowledge}.intValue()" />.
+</p>
+</gale:then>
+</gale:if>
+<gale:test title="Pre-Test for the GRAPPLE Tutorial" total="5" action="#{#knowledge, value};#{#done, true};" expr="!${#done}" ask="5" alt="[You are not allowed to repeat this test.]" verbose="true">
+<p>
+This is a short test to verify your knowledge about adaptive <gale:object name="glossary_tel" />.
+Your score for this test may influence some of the adaptation in the tutorial but is otherwise
+not important. (Failing the test has no consequences for your ability to study this tutorial.)
+</p>
+<p>
+<b>Note: </b> You have to take this test <b>now</b>. You cannot take the test later because once
+you navigate away from this page further access to this test will be blocked!
+</p>
+<gale:question answers="2" right="1">
+True or False: Adaptivity (i.e. automatic personalization) is a common feature in most modern
+<gale:object name="glossary_lms" />.
+<gale:answer correct="true">False
+<gale:explain>
+Indeed: some <gale:object name="glossary_lms" /> may offer personalization in the form of customization,
+but that is not automatic and thus may qualify as "adaptability", not as "adaptivity".
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Alas, some <gale:object name="glossary_lms" /> may offer personalization in the form of customization,
+but that is not automatic and thus may qualify as "adaptability", not as "adaptivity".
+In order to qualify as "adaptivity" the system must automatically adapt itself to the user,
+based on observing the user's behavior.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or False: <em>prerequisite</em> relationships between concepts are used to create
+learning sequences (or "paths").
+<gale:answer correct="true">False
+<gale:explain>
+Indeed: prerequisites merely indicate that some concepts should be studied before some other concepts
+but this may not lead to strings/sequences of concepts that should be learned one after another. 
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Sequencing or creating a series of concepts that should be learned one after the other is a much
+more constraining form of "guidance" than the typical use of prerequisites. In GRAPPLE we aim at giving
+learners a lot of freedom, not forcing them to follow a given sequence. Prerequisites are used to
+indicate that some concepts need to be studied before some other, but this does not generate a sequence.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+Authoring for an <gale:object name="glossary_ale" /> is bound to be difficult because the author
+needs to write (complex) adaptation rules. It is a task for people with some technical knowledge.
+<gale:answer correct="true">False
+<gale:explain>
+You are right: it does not have to be difficult. In this tutorial we describe how adaptation
+can be authored in a completely graphical way. No technical knowledge is required, and the complex
+adaptation rules are generated automatically. 
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Adaptation is based on complex adaptation rules. However, this does not mean that the author needs
+to be able to write such rules. In GRAPPLE the authoring of the adaptation is done entirely through
+simple graphical user-interfaces. No technical knowledge is required.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or False: when using an <gale:object name="glossary_lms" /> and an <gale:object name="glossary_ale" />
+the students' grades for a course are determined completely automatically by the system.
+<gale:answer correct="true">False
+<gale:explain>
+This is indeed a false assumption: an LMS offers manual grading and re-grading options to teachers.
+It is possible to have grades determined completely when all tests are automated but this is by no
+means the common approach.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+This is a false assumption and in fact "worry" by people unfamiliar with the technology:
+an LMS offers manual grading and re-grading options to teachers.
+It is possible to have grades determined completely when all tests are automated but this is by no
+means the common approach.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+An <gale:object name="glossary_ale" /> alleviates the need for face-to-face teaching.
+<gale:answer correct="true">False
+<gale:explain>
+We won't claim that this is a positive or negative statement, but it is false in any case:
+An <gale:object name="glossary_ale" /> offers an interesting alternative to textbooks,
+but can certainly be used together with face-to-face teaching.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Some teachers feel threatened because they believe this statement to be true.
+There is absolutely no need for this: an <gale:object name="glossary_ale" /> offers an interesting alternative to textbooks,
+but can certainly be used together with face-to-face teaching.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:result>
+Your score was <gale:variable expr="${#knowledge}.intValue()" />. 
+</gale:result>
+</gale:test>
+</body>
+</html>

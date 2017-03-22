@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> VariableModule (&lt;variable&gt; tag)</h1>
+
+<p>
+Through the <code>&lt;gale:variable&gt;</code> tag you can include <gale:object name="glossary_dm" /> and
+<gale:object name="glossary_um" /> in a page.
+The tag accepts two different parameters:
+<ul>
+<li>
+When the tag is used with the attribute <code>name</code> the parameter refers to UM information.
+For instance:
+<pre>
+    &lt;gale:variable name="#visited" /&gt;
+</pre>
+prints the number of visits to the current concept. (Actually, it only counts visits that happened
+when the concept was suitable.)
+For the current concept this is <gale:variable name="#visited" />. If you do "reload" you will see that
+the number gets incremented.
+</li>
+<li>
+When the tag is used with the attribute <code>expr</code> the result of an expression in
+<gale:a href="gale_code">GALE code</gale:a>.
+For instance, the following code:
+<pre>    &lt;gale:variable expr="${-&gt;(parent)?type}" /&gt;
+</pre>
+when included in this page, prints "<gale:variable expr="${-&gt;(parent)?type}" />" (without the quotes).
+So the "type" property of the parent of the current concept is "<gale:variable expr="${-&gt;(parent)?type}" />".
+<br />
+The following code:
+<pre>&lt;gale:variable expr="gale.req().getRequestURL()" /&gt;
+</pre>
+results in: 
+<gale:variable expr="gale.req().getRequestURL()" />
+and illustrates the use of method calls in GALE code.
+It shows the URL that was used in the current request. It should match what the location field of the browser
+displays.
+<br />
+The following code:
+<pre>
+&lt;gale:variable expr="${-&gt;(parent)[0]?event}"/&gt;
+</pre>
+results in:
+<gale:variable expr="${-&gt;(parent)[0]?event}"/>, which is the adaptation code of the parent concept.</li>
+</ul>
+</p>
+
+</body>
+</html>

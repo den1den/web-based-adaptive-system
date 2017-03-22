@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>GrappleStatements in <gale:object name="glossary_gumf" /></h1>
+
+<p>
+A GrappleStatement expresses some information about a user, possibly augmented with meta information.
+Examples in pure textual form (not how GUMF stores them):
+<ul>
+<li>S1 := Mary likes chemistry</li>
+<li>S2 := Peter is a good Java programmer (learned with moodle, last year)</li>
+</ul>
+A user model (UM) is a set of GrappleStatements about a user. The UM of a specific user may be
+distributed over several repositories, each storing a <em>partial user model</em>.
+</p>
+<p>
+In &gt; we model the statements above, which people usually formulate in natural language,
+through the notion of GrappleStatements, defined below. 
+</p>
+<h2>The GRAPPLE Core User Modeling Ontology</h2>
+<p>
+The GRAPPLE Core User Modeling Ontology (or GRAPPLE Core for short) specifies the lingua franca for
+exchanging user profile information and user observations in the GRAPPLE user modeling infrastructure.
+It is built upon the notion of reified <em>subject-predicate-object</em> statements.
+The <em>subject</em> models the entity (usually the user) the statement is about;
+the <em>predicate</em> refers to a property (of a domain ontology) that either characterizes the subject
+(e.g. "foaf:interest" or "k:hasKnowledge") or describes some action the subject has performed
+(e.g. "nop:hasBookmarked" or "nop:hasClicked") and the <em>object</em> contains the corresponding value
+(e.g. "Sport" or "dbpedia:semantic_web"). Each statement has a globally unique ID and is enriched
+with metadata such as the creation date or details about the provenance of the statement.
+</p>
+<p>The GRAPPLE Core ontology is defined in analogy to the <a href="http://dublincore.org/">Dublin Core</a>
+and consists of a set of terms that are semantically and syntactically defined.
+The GRAPPLE Core formally defines the notion of GrappleStatements (see above) including the (metadata)
+terms that can be attached to these statements. Overall, GRAPPLE Core is a collection of classes and
+properties specified by the GRAPPLE project that allow describe (meta) information about users and
+learners in a technology enhanced learning environments. It is, however, not restricted to elearning
+domains, but can be applied in arbitrary domains to model users.The GRAPPLE Core terms are identified via URIs with the intended namespace:
+<pre>    gc = http://www.grapple-project.org/grapple-core/
+</pre>The most important concept that is defined in GRAPPLE Core is the class <code>gc:Statement</code>.
+It is deduced from the idea of rdf:Statement, which is a reified statement in RDF.
+Each GrappleStatement has a <em>globally unique ID</em>, which makes it possible to refer to statements,
+as is for example required to specify a user profile (set of statements) of a particular user.
+A <code>gc:Statement</code> basically consists of a subject, predicate, and an object and the
+reification approach allows for further characterization of a GrappleStatement.
+Therefor, GRAPPLE Core defines a set of terms, which can logically be separated into terms,
+which form the main part – the main content – of the statement and terms,
+which describe the statement on a meta-level.</p>
+<h3>Main part terms</h3>
+<p>The main part terms (main <em>properties</em> of the class gc:Statement) are designed to catch the
+<em>original piece of information</em> in a uniform way. For the entity that the statement is about there are
+two terms: either <code>gc:user</code> if the statement can be seen as part of the user model or
+<code>gc:subject</code> if the statement is more general a context model.
+The terms that are part of the main part of a GrappleStatement are listed below:
+<ul>
+<li><code>gc:subject</code> The entity (usually the user) the statement is about.
+The value of <code>gc:subject</code> can be any resource, preferably defined through a URI.
+Example values of <code>gc:subject</code> are: http://www.grapple-project.org/user/john,
+http://john.myopenid.com, http://john-doe.com/foaf.rdf#me, http://example.org/people.rdf#ProjectTeamXY,
+"johndoe", or "1826342".
+</li>
+<li><code>gc:user</code> The property <code>gc:user</code> is a subproperty of <code>gc:subject</code>
+and therefore inherits the characteristics of <code>gc:subject</code> (including the recommendation
+to use URIs, although we also allow for literal values). While <code>gc:subject</code> might refer to
+entities, which are not users (e.g. groups, organizations, or entities, which form some kind of context
+of a user profile), <code>gc:user</code> explicitly refers to a user entity.
+</li>
+<li><code>gc:predicate</code> Refers to a property the user/subject has. In general,
+the <code>gc:predicate</code> refers to a property that is defined in another (domain) ontology.
+The value of <code>gc:predicate</code> can, for example, be foaf:interest
+(http://xmlns.com/foaf/0.1/interest) which is a property specified in the FOAF ontology that can be
+used to specify the interests of an entity. In the current version of GRAPPLE Core,
+the range of <code>gc:predicate</code> is not restricted to URIs, but permits any types of resource.
+However, we strongly recommend the usage of URIs pointing to properties that are formally defined
+in an ontology, so that the semantics are explicitly specified.
+</li>
+<li><code>gc:object</code> The attribute <code>gc:object</code> contains the actual value of the entire
+statement. For the example above, where <code>gc:predicate</code> is given with foaf:interest,
+the value of <code>gc:object</code> could be "http://en.wikipedia.org/wiki/Semantic_Web" which would
+then mean that the user/subject is interested in the Wikipedia page about Semantic Web.
+The range of <code>gc:object</code> is not restricted. It can be any string value, number, URI, etc.
+Other examples are "peter@web.de", "happy", "17252", etc.
+</li>
+<li><code>gc:level</code> This property can be used to further qualify the value of the object.
+It can, for example, be a double value between 0.0 and 1.0 that describes the level of the user's
+competences, interests, etc. or it can be a textual description that further describes the object,
+e.g. "expert", "beginner", "rather", "extremely", etc. As there are different approaches to qualify
+the value of the object, the range of <code>gc:level</code> is not further restricted.
+We therefore recommend the usage of typed literals. In RDF/XML syntax this could, for example, look as
+follows:
+<br />
+(a) <code>&lt;gc:level rdf:datatype="http://www.w3.org/2001/XMLSchema#double"&gt;0.7&lt;/gc:level&gt;</code>
+<br />
+(b) <code>&lt;gc:level rdf:datatype="http://example.org/Schema#doubleBetweenZeroAndOne"&gt;0.7&lt;/gc:level&gt;</code><br />
+(c) <code>&lt;gc:level rdf:datatype="http://www.w3.org/2001/XMLSchema#string"&gt;good&lt;/gc:level&gt;</code>
+<br />Example (b) refers to an own data type (possibly defined in XML Schema), which adds further restrictions
+to the built-in data type "double" that is used in (a).  It is also possible to extend the GRAPPLE
+Core ontology with specializations (subproperties) of <code>gc:level</code> that explicitlyprescribe a certain range (semantically as well as syntactically).
+</li>
+<li><code>gc:origin</code> The value of <code>gc:origin</code> contains the statement in its original form
+as it is modeled and formatted in the application that produced the main part of the GrappleStatement.
+The range of origin is therefor deliberately unspecified. However, we again recommend the usage of
+typed literals. For example, the values of <code>gc:origin</code> could look as follows:
+"[user: john, key: interest, value: 'Semantic Web', firstTimeUpdated: false]" or
+"&lt;profile user='john'&gt;&lt;record&gt;&lt;key&gt;interest&lt;/key&gt;&lt;value&gt;Semantic
+Web&lt;/value&gt;&lt;firstTimeUpdated&gt; false &lt;/firstTimeUpdated&gt;&lt;/record&gt;&lt;/profile&gt;".
+</li>
+</ul>The terms <code>gc:subject</code> (or alternatively <code>gc:user</code>), <code>gc:predicate</code>,
+and <code>gc:object</code> are mandatory while <code>gc:level</code> and <code>gc:origin</code> are optional.
+</p>
+<h3>Meta part Terms</h3>
+<p>The meta part terms provide means to specify metadata that further describes a GrappleStatement.
+Thus, these terms do not constitute the core content of a statement, but rather describe things,
+which are important for the general handling of GrappleStatements
+(e.g. it is important for tasks such as validation, access control, reasoning, etc.).
+We indicate which metadata can exist without providing all details about the data types.
+<ul>
+<li><code>gc:ID</code> The globally unique ID of a GrappleStatement. GUMF automatically generates
+an ID for every GrappleStatement.
+</li>
+<li><code>gc:creator</code> Refers to the entity that created the statement.
+The value is typically a URI. Examples are "http://grapple-project.org/people/#john",
+"http://grapple-project.org/applicatios/glearn", or "John Doe".
+<br />In GRAPPLE the creator of a GrappleStatement is determined by GUMF and the value of <code>gc:creator</code>
+is always the ID of the client <em>application</em> that submitted the statement.
+</li>
+<li>
+<code>gc:created</code> Specifies when the statement was created.
+Example: 2008-12-18T19:23:50+01:00 denotes December 18th 2008, 07:23:50 pm (Central European Time
+unless stated otherwise).
+</li>
+<li><code>gc:access</code> This property allows for access control. Values can be "public" or "private"
+or defined through any other schema.
+</li>
+<li><code>gc:temporal</code> This attribute allows to define temporal constraints on the validity of the
+statement.
+</li>
+<li><code>gc:spatial</code> This attribute allows to define spatial constraints on the validity of the statement.
+</li>
+<li><code>gc:evidence</code> If a statement was produced by a reasoning process then <code>gc:evidence</code>
+can be used to show how the statement was deduced.
+It can either refer to or directly embody the formal evidence for the statement.
+</li>
+<li><code>gc:rating</code> The rating of a statement indicates the level of trust in the statement.
+</li>
+</ul>
+</p>
+
+
+</body>
+</html>

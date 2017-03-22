@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Code Tab of the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The Code Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-code.jpg" />
+</p>
+<p>
+The central part of each PRT is the code that describes the adaptive behavior of the PRT.
+This is the formal expression of the pedagogical meaning. This code fragment has to be written
+in a language that can be interpreted by the used <gale:object name="glossary_ale" />.
+In GRAPPLE we use only one ALE: <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+The syntax of the <gale:a href="gale_code">GALE code</gale:a> is described 
+on a <gale:a href="gale_code">separate page</gale:a>.
+In principle other programming languages could be used if they can be processed by the ALE that
+is used. The PRT tool does not interpret this code in any way (and can thus also not verify
+whether the code is syntactically correct). When using a different language the type has to be set
+accordingly in the "Type" field. However, at the moment only the type "GALE" can be used.
+</p>
+<p>We point out three constructs: sockets, user model variables and the (optional) parameter of the PRT.
+User model variables of concepts in the sockets of the PRT are defined in the
+<gale:a href="gat_crt_usermodel">User Model</gale:a> tab.
+In the code they can be referred to using the socket name, typically meaning that they are applied
+to all concepts which will be inserted when the PRT is instantiated in the
+<gale:object name="glossary_cam" />.The example in the screenshot defines a prerequisite relation with the following code:
+<pre>%target% {  #suitability &amp; !`(${%source%#knowledge}&gt;%level%)`}
+</pre>The meaning of this piece of code is, that the concepts in the target socket become suitable if the knowledge level of all the concepts in the source socket is higher than the value specified
+in the level parameter. The sockets are addressed by their names (see above) using the expression
+"%socket-name%. The "suitability" variable is in the context of the target socket by including it
+in the brackets and the "knowledge" variable is applied on the concepts in the "source" socket by appending it to %source%. In this way user model variables can be connected with sockets. 
+(The use of &amp; indicates that we take the logical "and" of the outcome of all comparisons
+of knowledge with the level, hence the property that the knowledge level of <em>all</em> the
+concepts in the source socket must be higher than the level.)
+</p>
+</body>
+</html>

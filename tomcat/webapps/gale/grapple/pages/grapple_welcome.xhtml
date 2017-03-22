@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>GRAPPLE Tutorial</h1>
+
+<p>The GRAPPLE project aims at delivering to learners a Technology-Enhanced Learning (TEL)
+environment that guides them through a life-long learning
+experience, automatically adapting to personal preferences, prior knowledge,
+skills and competences, learning goals and the personal or social context in
+which the learning takes place. The same TEL environment can be used/accessed
+at home, school, work or on the move (using mobile/handheld devices). GRAPPLE
+includes authoring tools that enable educators to provide adaptive learning
+material to the learners. Authoring includes creating the conceptual structure
+of a subject domain, linking the concepts to resources (learning material),
+defining pedagogical rules to guide learning processes, and creating the
+pedagogical structure of a course. To ensure the wide adoption of adaptation in
+TEL GRAPPLE works with Open Source and commercial Learning Management Systems (LMSs).
+A distributed User Modeling Service architecture (GUMF) helps end-users
+to stay in control of their user profile while at the same time allowing them
+to use the profile to get personalized access to learning applications offered
+through different LMSs by different organizations. </p>
+
+<p>The main target group of this tutorial are <em>authors of adaptive courses</em>,
+working in an academic or corporate setting, where learning is supported or facilitated through an LMS.
+In this tutorial we describe the authoring of adaptive courses,
+and focus on five parts of the GRAPPLE environment that are used for the authoring and delivery process:</p>
+<ul>
+  <li>The <gale:a href="LMS">LMS</gale:a> needs to be set up in such a way that courses are linked to their adaptive learning material, and that results of some of the tests and assignments are communicated to <gale:a href="GUMF">GUMF</gale:a>.</li>
+  <li>The <gale:a href="GAT">GRAPPLE Authoring Tool</gale:a> (GAT) is used by teachers to create the conceptual and educational structure of courses and to link concepts to resources.</li>
+  <li>The <gale:a href="GALE">GRAPPLE Adaptive Learning Environment</gale:a> (GALE) delivers adaptive learning material to the learner. It is a very generic and extensible adaptation engine that can also be used stand-alone (without other GRAPPLE components).</li>
+  <li><gale:a href="GUMF">GRAPPLE User Model Framework</gale:a> (GUMF) is a common (distributed) storage space for user-related information. It can store information that is used by just one component but it is mostly used as a common store that enables an <gale:a href="LMS">LMS</gale:a> to exchange User Model (UM) information with <gale:a href="GALE">GALE</gale:a>.</li>
+  <li>The <gale:a href="GEB">GRAPPLE Event Bus</gale:a> (GEB) makes all GRAPPLE components communicate with each other. GEB needs to be installed and configured and all components need to be told (configured) where to find GEB.</li>
+</ul>
+<gale:if expr="${grapple_infrastructure#knowledge}==0"><gale:then>
+<p>
+We advise you to first study the <gale:a href="grapple_infrastructure">overall architecture/infrastructure</gale:a>
+of GRAPPLE before studying the role of the individual components.
+</p>
+</gale:then></gale:if>
+<gale:if expr="${#visited}&lt;=1"><gale:then>
+<p>
+<b>Note:</b> Throughout this tutorial we use a large number of acronyms (such as LMS, GAT,
+GUMF, GALE, GEB...). If you are unsure about their meaning you can mouse over the first
+occurrence of the term on a page and the full name will appear as a tooltip.
+We do assume that you are familiar with some Web Technology terms such as
+HTML, HTTP, XML, XHTML, CSS, DOM, SOAP, URL, URI, SPARQL, SeRQL,
+etc. and do not offer explanations or tooltips for these terms.
+</p>
+</gale:then></gale:if>
+<gale:if expr="${pre-test#visited}==0"><gale:then>
+<p>
+Before you are starting to really study this tutorial you are invited to take a
+<gale:a href="pre-test">pre-test</gale:a> to see what you know about adaptive learning.
+The result of this test may influence adaptation further on.
+You can take this test only once, and you cannot take the test any more after you studied any part of the tutorial.
+</p>
+</gale:then></gale:if>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The role of an <gale:object name="glossary_lms" /> in GRAPPLE</h1>
+
+<p>
+A Learning Management System (LMS) is used (by an institute or company) to organize
+the learning process. Learners can <em>enroll</em> in courses (or be enrolled by
+management). The LMS and GRAPPLE are connected for two types of functionality:
+<ul>
+<li>
+The learner can directly access the <em>adaptive learning material</em> that is served
+through an instance of <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+Because both the LMS and GALE are connected to the same
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a> service the learner is already
+identified (and authorized) when clicking through from the LMS to GALE.
+</li>
+<li>
+The learner can perform tasks and assignments of which the results are communicated
+to <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>. The results can be transferred to GALE and
+influence the adaptation of the learning material.
+</li>
+</ul>
+</p>
+<p>
+The following user events have been identified. LMSs can send data (parameters) from these events
+to <gale:a href="GUMF">GUMF</gale:a> through <gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>.
+The data is mapped to the <a href="http://www.imsglobal.org/profiles/">IMS LIP</a> standard
+and encapsulated into <gale:a href="gumf_grapplestatement">Grapple Statements</gale:a>.
+For types of events listed below we link to a list of parameters an LMS can associate with the event.
+(More detailed information can be found in <a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a>).
+<ol>
+<li>
+<gale:a href="lms_courseaccess">Access to a course</gale:a>: it identifies the moment when the user accesses a course</li>
+<li>
+<gale:a href="lms_quiz">Tests/quizzes</gale:a>: the user has completed a test
+</li>
+<li>
+<gale:a href="lms_registration">Registration</gale:a>: the user logs on the first time to the LMS integrated with GRAPPLE
+</li>
+<li>
+<gale:a href="lms_enrollment">Student enrollment</gale:a>: the student is enrolled in a new course
+</li>
+<li>
+<gale:a href="lms_login">User login</gale:a>: the user logs on to the LMS integrated with GRAPPLE
+</li>
+<li>
+<gale:a href="lms_rolechange">Role change</gale:a>: the user has changed his role (e.g. from author to teacher or from teacher to learner)
+</li>
+<li>
+<gale:a href="lms_activitychange">Learning activity change</gale:a>: a particular learning activity has been changed
+</li>
+<li>
+<gale:a href="lms_activityaddition">Learning activity addition</gale:a>: a particular learning activity has been added
+</li>
+<li>
+<gale:a href="lms_activityremoval">Learning activity removal</gale:a>: a particular learning activity has been removed
+</li>
+<li>
+<gale:a href="lms_activityaccess">Access to a learning activity</gale:a>: it identifies the moment when the user access a learning activity.
+</li>
+</ol>
+</p>
+<p>
+Connecting the LMS to GRAPPLE is slightly different for each LMS, but consists of similar steps.
+The GRAPPLE software repository contains "LMSconnectors" for each of the supported LMSs.
+Whether an LMS sends events (see above) to GEB/GUMF or not and which data about these events is
+communicated can be configured in the LMS, again in different ways depending on the LMS.
+We have an explanation for five different LMSs. You need to study only the connection
+and communication for the LMS you will be using. (Detailed technical information can be found
+in <a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a> and
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 7.5</a>.)
+The supported LMSs are:
+<ul>
+<li>
+<gale:a href="lms_moodle">Moodle</gale:a>
+</li>
+<li>
+<gale:a href="lms_sakai">Sakai</gale:a>
+</li>
+<li>
+<gale:a href="lms_claroline">Claroline</gale:a>
+</li>
+<li>
+<gale:a href="lms_learneXact">Learn eXact</gale:a>
+</li>
+<li>
+<gale:a href="lms_clix">Clix</gale:a>
+</li>
+</ul>
+</p>
+</body>
+</html>

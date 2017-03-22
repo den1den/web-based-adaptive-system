@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Example Scenarios for <gale:object name="glossary_gumf" /> Usage</h1>
+
+<p>
+We present two scenarios, which, we think, are typical in an Adaptive Learning Environment.
+Each scenario describes the interaction between an application (typically an
+<gale:object name="glossary_lms" /> or <gale:object name="glossary_gale" />) and GUMF
+on the "content level", i.e. we describe which information is passed from the LMS or GALE
+to GUMF and vice versa. In particular, we focus on (i) events the LMS or GALE stores in the
+<gale:object name="glossary_um" />, (ii) queries the LMS or GALE sends
+to GUMF to get user profile statements, and (iii) the use of GrappleStatements.
+</p>
+
+<h2>Scenario A – GALE stores and queries for information about a user</h2>
+
+<p>
+GALE provides a course about "Java Programming", which consists of a large hierarchy of concepts.
+GALE interacts with the GUMF in two ways:
+<ol>
+<li>GALE stores events about the user, in particular events that allow to deduce the knowledge level of a user, e.g. which pages did the user access, etc. (Generally we would not store the
+access of individual pages, but only knowledge about larger concepts like chapters
+so as to not overload GUMF with huge numbers of GrappleStatements.)</li>
+<li>
+GALE queries GUMF for GrappleStatements about the user in order to adapt the course to the user’s knowledge level, preferences, etc.</li>
+</ol>
+</p>
+<p>
+Let's assume that Alice utilizes GALE for the first time but has already attended a course about
+"Web Programming", which is known by GUMF.
+<ol>
+<li>
+Alice calls up (browses to) the concept "Introduction".
+GALE tells GUMF that Alice requests the "Introduction", and GUMF stores this. Key elements that
+are stored are:
+<ul>
+<li>ID: GUMF generates a unique ID for this statement</li>
+<li>type: says that this statement is about a "concept access"</li>
+<li>user: identifies Alice, for instance as http://grapple-project.org/user/alice</li>
+<li>accessed document: for instance gale://gale.tue/cam/Java/introduction</li>
+</ul>
+</li>
+<li>
+To take previous knowledge of Alice into account GALE asks GUMF about Alice's knowledge level
+of Java concepts. (It asks for knowledge values declared as non-authorative.)
+The request (using the REST interface of GUMF) may ask for
+"http://grapple-project.org/user/alice/knowledge/java".
+GUMF receives the query and prepares to answer it.
+As the communication between GALE and GUMF goes over the asynchronous
+<gale:object name="glossary_geb" /> event bus GALE does not wait for an answer but first
+presents an initial version of the "Introduction".
+</li>
+<li>
+GUMF returns an answer consisting of GrappleStatements to GALE.
+GALE receives this answer.
+</li>
+<li>
+If the course makes use of the Ajax module GALE will adapt the page immediately; otherwise
+adaptation will only happen on the next request.
+</li>
+</ol>
+</p>
+
+<h2>Scenario B - a user takes a test offered by an LMS</h2>
+<p>
+After studying the Java course served by GALE for a while Alice decides to take a test
+to confirm her knowledge about some of the concepts.
+The score for the test may then be used by GALE to further adapt the remainder of the course.
+<ol>
+<li>
+The LMS may ask GUMF about Alice's knowledge of the concepts of the test, as stated by GALE.
+GUMF receives this request and retrieves the value(s).
+</li>
+<li>
+GUMF returns the value(s) (as GrappleStatements) to the LMS.
+The LMS receives these value(s) and based on that may decide to allow Alice to take the test.
+</li>
+<li>
+Alice takes the test. The LMS determines her score and sends it to GUMF in a GrappleStatement.
+GUMF receives this score.
+</li>
+<li>
+A <gale:a href="gat_um">UM mapping rule</gale:a> in GUMF converts the value stored by the LMS
+into a value expected by GALE, so that GALE can interpret the score correctly.
+</li>
+<li>
+GUMF informs GALE of the newly obtained score.
+GALE receives the update and depending on the use of Ajax will update the presentation
+immediately or upon the next request.
+</li>
+</ol>
+</p>
+</body>
+</html>

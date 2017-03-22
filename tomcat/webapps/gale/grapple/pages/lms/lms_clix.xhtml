@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Using CLIX in GRAPPLE</h1>
+
+<p>
+GRAPPLE (and specifically the GRAPPLE Conversion Component module) can be installed only
+on CLIX version 9.0 (and possibly later versions to come).
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a> contains
+detailed installation instructions that go beyond the scope of this tutorial.
+</p>
+<p>
+The process of creating a course and (multiple-choice) tests in CLIX is not influenced
+by the use of GRAPPLE. However, the way a course is linked to the adaptive learning material
+and the communication of test results to <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>
+both are GRAPPLE-specific. To use GRAPPLE you need
+to link CLIX to <gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>.
+CLIX comes with a configuration file, "clix.conf" which should contain the following section:
+<pre>
+[GRAPPLE]createFiles=truesendEvents=truesendName=setUMDatagebEndpoint=http://www.grapple-project.org/GrappleEventBus/gebListenerServiceeventEndpoint=http://www.grapple-project.org/GrappleEventBus/eventGEBListenerServicelistenerName=http://www.learning-demo.eu/grapplix/eventEventListenerService?wsdlmethodList=setUMData,getCoursesResponse,method_test,method_test2
+</pre>
+Note that the URLs given here are just examples and need to correspond to where GEB really is.<br />
+The meaning of these parameters is:
+<dl>
+<dt>createFiles</dt>
+<dd>The parameter "createFiles" denotes, whether for each event a respective XML IMS LIP file shall be created or not
+</dd>
+<dt>sendEvents</dt>
+<dd>The parameter "sendEvents" denotes, whether each event shall be sent to GEB or not (this allows debugging of the events)
+</dd>
+<dt>sendName</dt>
+<dd>The parameter "sendName" contains the name of the event as which the user event shall be sent to GEB.
+</dd>
+<dt>gebEndpoint</dt><dd>
+This parameter specifies the URL at which GEB is reachable. This is necessary for the LMS Event Listener to be registered</dd>
+<dt>eventEndpoint</dt>
+<dd>This parameter specifies the URL at which the GEB event listener is reachable and hence specifies what URL CLIX shall route the user events to</dd>
+<dt>listenerName</dt>
+<dd>This parameter specifies the name of the CLIX event listener which needs to be a URL that can be reached from the running GEB instance CLIX wants to register at</dd>
+<dt>methodList</dt>
+<dd>Finally, the parameter "methodList" allows the administrator to define several event names the CLIX event listener shall listen to.
+</dd>
+</dl>
+Authors, teachers and learners all log in by means of
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a>.
+<br /><br />
+CLIX offers a "Grapple Settings" menu, shown below:<br /><br />
+<img src="../../images/clix-grapplesettings.jpg" />
+<br /><br />
+In CLIX an author can define a new course based on existing adaptive learning material.
+The <em>Adaptive Courses</em> menu item shows a list of available adaptive courses,
+obtained though a "getCourses" event sent to GEB.
+<br /><br />
+<img src="../../images/clix-courselist.jpg" />
+<br /><br />
+CLIX offers a menu item for direct access to
+<gale:a href="GAT"><gale:object name="glossary_gat" /></gale:a> through which the conceptual and
+pedagogical structure of a course can be defined. Note that GAT requires a separate login as
+it is not connected to Shibboleth.
+</p>
+<p>
+The menu item <em>Grapple Event Sharing</em> allows the author to determine what user
+events shall be sent to GEB:
+<br /><br />
+<img src="../../images/clix-eventsharing.jpg" />
+<br /><br />
+This selection then defines the content for the menu item <em>Grapple Variable Sharing</em>
+that enables the author to select which variables are sent to GEB per event:
+<br /><br />
+<img src="../../images/clix-variablesharing.jpg" />
+<br /><br />
+Each menu item corresponds to a dialog through which the author can select which variables
+are sent to GEB for this specific event. The figure below shows what information is sent to
+GEB when a learner accesses a course:
+<br /><br />
+<img src="../../images/clix-accessrights.jpg" />
+<br /><br />
+</p>
+<p>
+Now we consider the creation of a course and a multiple-choice test.
+In CLIX courses are created using a "Course Manager".
+When selecting content to be used in the course the "getCourses" method is used to
+find out which adaptive learning material is available (through <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>
+servers).
+<br /><br />
+<img src="../../images/clix-selectcontent.jpg" />
+<br /><br />
+After also adding some quizzes to the course (using CLIX' own multiple-choice test editor)
+the content selection of the course looks like the following figure:
+<br /><br />
+<img src="../../images/clix-coursecontent.jpg" />
+<br /><br />
+In CLIX it is possible to specify a learning path, called “Learning logic” for the course
+stating that the student has to take the “SolarSystemInterest”  test before the quiz
+about the sun (“sun.quizscore”) and that the student has to complete the quiz about
+the sun before he is able to access the adaptive course material regarding the
+"Milkyway" course. These settings can be done on the “Learning logic”-tab of the course manager.
+<br /><br />
+<img src="../../images/clix-learninglogic.jpg" />
+<br /><br />
+This results in the activities becoming accessible (through the LMS) in this sequence only.
+(GALE is not involved in this form of adaptation.)
+</p>
+<p>
+When a learner an adaptive course text , for instance the GALE Milkyway adaptive course
+a new window is opened. As a result the presentation generated by GALE does not share the
+browser window with CLIX, as shown below:
+<br /><br />
+<img src="../../images/clix-learnerview.jpg" />
+</p>
+</body>
+</html>

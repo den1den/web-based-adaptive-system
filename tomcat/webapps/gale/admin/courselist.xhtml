@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:gale="http://gale.tue.nl/adaptation">
+	<body style="font-family: Tahoma, Arial">
+		<h1 style="text-align: center; color: #108010; margin-top: 20px">List of installed courses</h1>
+		<p style="text-align: center">
+			Please note that this list contains
+			concepts that have their 'start'
+			property set to 'true'.
+			<br />
+			Whether that means that the concept represents an application depends
+			on the author of the concept.
+		</p>
+		<table>
+			<gale:for var="concept"
+				expr="((nl.tue.gale.ae.grapple.CourseListService)gale.ac().getBean(&quot;courseListService&quot;)).getStartConcepts()">
+				<tr>
+					<td>
+						<gale:a href="%concept">
+							<gale:variable expr="${%concept?title}" />
+						</gale:a>
+					</td>
+				</tr>
+			</gale:for>
+		</table>
+	</body>
+</html>

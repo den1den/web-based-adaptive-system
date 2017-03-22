@@ -1,0 +1,2004 @@
+
+<gdom xmlns="http://gale.tue.nl/gdom">
+  <concept name="gale://gale.tue.nl/course/milkyway/Triton">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Neptune#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/triton_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="15"/>
+    <property name="image" value="../../Milkyway/img/img_triton.jpg"/>
+    <property name="next" value="Milkyway"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Triton"/>
+    <property name="cam.concept.guid" value="F0E5031C-FCB0-9C2C-2019-4F1CAAF09132"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Ganymede">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Jupiter#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/ganymede_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="6"/>
+    <property name="image" value="../../Milkyway/img/img_ganymede.jpg"/>
+    <property name="next" value="Callisto"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Ganymede"/>
+    <property name="cam.concept.guid" value="45EDAA28-E6D2-9105-6CE1-005EAEB989C6"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Europa">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Jupiter#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/europa_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="4"/>
+    <property name="image" value="../../Milkyway/img/img_europa.jpg"/>
+    <property name="next" value="Ganymede"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Europa"/>
+    <property name="cam.concept.guid" value="C76A9F2C-B81C-3138-2493-005D317A4ABA"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Uranus">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/uranus_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="7"/>
+    <property name="image" value="../../Milkyway/img/img_uranus.jpg"/>
+    <property name="next" value="Miranda"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Uranus"/>
+    <property name="cam.concept.guid" value="CF4C0F8B-3A3E-28D2-1EE6-002D803559D4"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Solar_System">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>"&lt;struct cols=\"150px;*\"&gt;&lt;view name=\"static-tree-view\"/&gt;&lt;content/&gt;&lt;/struct&gt;"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="#{#knowledge, ${#knowledge}+changed.diff/
+     (${&lt;-(parent)}.length + 1)};"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="event" value="if (${#suitability}) {
+      #{#own_knowledge,100};
+      #{#visited,${#visited}+1};
+    } else if (${#own_knowledge} &lt; 35)
+      #{#own_knowledge,35};"/>
+    <property name="cam.concept.guid" value="F9595557-A627-D534-8D36-0A5FA6076107"/>
+    <property name="title" value="Solar System"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Venus">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/venus_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="2"/>
+    <property name="image" value="../../Milkyway/img/img_venus.jpg"/>
+    <property name="next" value="Earth"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Venus"/>
+    <property name="cam.concept.guid" value="DB542A44-5209-A701-7358-002A374003EB"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Jupiter">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/jupiter_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="5"/>
+    <property name="image" value="../../Milkyway/img/img_jupiter.jpg"/>
+    <property name="next" value="Io"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Jupiter"/>
+    <property name="cam.concept.guid" value="6E536B9A-F321-242E-BFD2-002B67B27F54"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Moon">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/celestial_object_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/moon_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="4"/>
+    <property name="image" value="../../Milkyway/img/img_moon.jpg"/>
+    <property name="next" value="Sun"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Moon"/>
+    <property name="cam.concept.guid" value="7951738D-B52B-930A-4077-0033FF24CCB0"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Eta_Carinae">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/star_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Star#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="type" value="page"/>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="cam.concept.guid" value="B40A0425-4165-07E8-9F81-0025A44F0215"/>
+    <property name="info" value="../../Milkyway/xml/etacarinae_text.xhtml"/>
+    <property name="image" value="../../Milkyway/img/img_etacarinae.jpg"/>
+    <property name="title" value="Eta Carinae"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Sun">
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/star_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Star#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="type" value="page"/>
+    <property name="next" value="Mercury"/>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="cam.concept.guid" value="26B57AFA-3B7E-9330-B6AB-0026005FE386"/>
+    <property name="info" value="../../Milkyway/xml/sun_text.xhtml"/>
+    <property name="image" value="../../Milkyway/img/img_sun.jpg"/>
+    <property name="title" value="Sun"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Titan">
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Saturn#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/titan_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="9"/>
+    <property name="image" value="../../Milkyway/img/img_titan.jpg"/>
+    <property name="next" value="Uranus"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Titan"/>
+    <property name="cam.concept.guid" value="D266064B-38BD-E5B0-2BE0-2B5D8B43AEAA"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Umbriel">
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Uranus#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/umbriel_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="12"/>
+    <property name="image" value="../../Milkyway/img/img_umbriel.jpg"/>
+    <property name="next" value="Titania"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Umbriel"/>
+    <property name="cam.concept.guid" value="0435CFF8-FA91-2F3A-9C19-4F1B56A0628E"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Mars">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/mars_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="4"/>
+    <property name="image" value="../../Milkyway/img/img_mars.jpg"/>
+    <property name="next" value="Phobos"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Mars"/>
+    <property name="cam.concept.guid" value="B1B94861-CABE-F676-DDEA-002B035E6071"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Io">
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Jupiter#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/io_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="5"/>
+    <property name="image" value="../../Milkyway/img/img_io.jpg"/>
+    <property name="next" value="Europa"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Io"/>
+    <property name="cam.concept.guid" value="48231F86-DB12-2262-18B1-005E642FF6E2"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Ariel">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Uranus#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/ariel_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="11"/>
+    <property name="image" value="../../Milkyway/img/img_ariel.jpg"/>
+    <property name="next" value="Umbriel"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Ariel"/>
+    <property name="cam.concept.guid" value="C0C0A59D-1F3B-FBDA-4F8A-4F1AF4F2F81C"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Phobos">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Mars#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/phobos_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="2"/>
+    <property name="image" value="../../Milkyway/img/img_phobos.jpg"/>
+    <property name="next" value="Deimos"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Phobos"/>
+    <property name="cam.concept.guid" value="7BDB5746-8E98-06E9-BD22-005B61E578A1"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Titania">
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Uranus#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/titania_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="13"/>
+    <property name="image" value="../../Milkyway/img/img_titania.jpg"/>
+    <property name="next" value="Oberon"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Titania"/>
+    <property name="cam.concept.guid" value="B5963802-BA96-BFBA-1AC2-4F1BAFE087DF"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Earth">
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/earth_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="3"/>
+    <property name="image" value="../../Milkyway/img/img_earth.jpg"/>
+    <property name="next" value="Moon_Earth"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Earth"/>
+    <property name="cam.concept.guid" value="BDA46E7B-C872-8C46-5B35-002A91C9B915"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Miranda">
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Uranus#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/miranda_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="10"/>
+    <property name="image" value="../../Milkyway/img/img_miranda.jpg"/>
+    <property name="next" value="Ariel"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Miranda"/>
+    <property name="cam.concept.guid" value="F143340D-9F4F-91F3-5306-4F1AAD66A3C2"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Mercury">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/mercury_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="1"/>
+    <property name="image" value="../../Milkyway/img/img_mercury.jpg"/>
+    <property name="next" value="Venus"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Mercury"/>
+    <property name="cam.concept.guid" value="C96D5561-F2C6-1093-6C01-0029F687CE72"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Saturn">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="order" value="6"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="type" value="page"/>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="cam.concept.guid" value="BF3E03CE-C389-2BEF-1310-002D0BD62B6E"/>
+    <property name="info" value="../../Milkyway/xml/saturn_text.xhtml"/>
+    <property name="image" value="../../Milkyway/img/img_saturn.jpg"/>
+    <property name="title" value="Saturn"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Moon_Earth">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Earth#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/moon(earth)_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="1"/>
+    <property name="image" value="../../Milkyway/img/img_moon(earth).jpg"/>
+    <property name="next" value="Mars"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Moon_Earth"/>
+    <property name="cam.concept.guid" value="B6A7CC1A-1E0B-48FF-1D96-003539D7C8BE"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Star">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/celestial_object_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/star_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="2"/>
+    <property name="image" value="../../Milkyway/img/img_star.jpg"/>
+    <property name="next" value="Planet"/>
+    <property name="info1" value="../../Milkyway/xml/star_text_advanced.jpg"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Star"/>
+    <property name="cam.concept.guid" value="1B3EF646-F051-EB59-47D1-0024B97CAC18"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Milkyway">
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/milkyway_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="start" value="true"/>
+    <property name="info" value="../../Milkyway/xml/milkyway_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="image" value="../../Milkyway/img/img_milkyway.jpg"/>
+    <property name="next" value="Star"/>
+    <property name="image1" value="../../Milkyway/img/img_solar_system.jpg"/>
+    <property name="info1" value="../../Milkyway/xml/welcome_text.xhtml"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Milkyway"/>
+    <property name="text" value="gale:/Milkyway/xml/milkyway_text.xhtml"/>
+    <property name="cam.concept.guid" value="4FDFB0ED-3F11-960E-AC5F-002413333ABE"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Neptune">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Sun#knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Planet#own_knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/planet_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/neptune_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="8"/>
+    <property name="image" value="../../Milkyway/img/img_neptune.jpg"/>
+    <property name="next" value="Triton"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Neptune"/>
+    <property name="cam.concept.guid" value="F074BC44-341E-00C8-29E3-002DC7D3B1C9"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Nebula">
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/celestial_object_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="order" value="1"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="type" value="page"/>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="cam.concept.guid" value="1C2C9337-4E9A-DD77-FD26-002506895E4A"/>
+    <property name="info" value="../../Milkyway/xml/nebula_text.xhtml"/>
+    <property name="image" value="../../Milkyway/img/img_nebula.jpg"/>
+    <property name="title" value="Nebula"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Callisto">
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Jupiter#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/callisto_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="7"/>
+    <property name="image" value="../../Milkyway/img/img_callisto.jpg"/>
+    <property name="next" value="Neptune"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Callisto"/>
+    <property name="cam.concept.guid" value="4F6D92F6-7AB2-44AA-337D-005EF6D5FD7B"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Deimos">
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Mars#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/deimos_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="3"/>
+    <property name="image" value="../../Milkyway/img/img_deimos.jpg"/>
+    <property name="next" value="Jupiter"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Deimos"/>
+    <property name="cam.concept.guid" value="D6281D9B-44CD-25E6-19F8-005BBAF7E148"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Planet">
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/celestial_object_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/planet_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="3"/>
+    <property name="image" value="../../Milkyway/img/img_planet.jpg"/>
+    <property name="next" value="Moon"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Planet"/>
+    <property name="cam.concept.guid" value="C403B750-83E1-E327-6E97-0028C5CF29CC"/>
+  </concept>
+  <concept name="gale://gale.tue.nl/course/milkyway/Oberon">
+    <attribute name="suitability" type="java.lang.Boolean">
+      <default>true &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Moon#own_knowledge}&gt;80)) &amp;&amp; ((${gale://gale.tue.nl/course/milkyway/Uranus#knowledge}&gt;80))</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="visited" type="java.lang.Integer">
+      <default>new java.lang.Integer(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="gumf.range" value="null-null"/>
+    </attribute>
+    <attribute name="own_knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+#{#knowledge, ${#knowledge}+changed.diff/(${&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="layout" type="java.lang.String">
+      <default>new java.lang.String("\n&lt;struct cols=\"250px;*\"&gt;\n  &lt;view name=\"static-tree-view\" /&gt;\n  &lt;struct rows=\"60px;*;40px\"&gt;\n    &lt;view name=\"file-view\" file=\"gale:/header.xhtml\" /&gt;\n    &lt;content /&gt;\n   &lt;p&gt;&lt;hr /&gt;Next suggested concept to study: &lt;view name=\"next-view\" /&gt;&lt;/p&gt;\n  &lt;/struct&gt;\n&lt;/struct&gt;\n")</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <attribute name="knowledge" type="java.lang.Float">
+      <default>new java.lang.Float(0)</default>
+      <event></event>
+      <property name="persistent" value="true"/>
+      <property name="event" value="
+if (${-&gt;(parent)}.length &gt; 0)
+  #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};
+"/>
+      <property name="gumf.range" value="0-100"/>
+    </attribute>
+    <attribute name="resource" type="java.lang.String">
+      <default>"gale:/Milkyway/xml/moon_instance_template.xhtml"</default>
+      <event></event>
+      <property name="persistent" value="false"/>
+    </attribute>
+    <event></event>
+    <property name="event" value="
+if (${#suitability}) {
+  #{#visited, ${#visited}+1};
+  #{#own_knowledge, 100};
+}
+if (!${#suitability} &amp;&amp; ${#own_knowledge} &lt; 35)
+  #{#own_knowledge, 35};
+"/>
+    <property name="info" value="../../Milkyway/xml/oberon_text.xhtml"/>
+    <property name="cam.model.guid" value="4372DD54-043E-CDE4-9015-F598EBF584AE"/>
+    <property name="order" value="14"/>
+    <property name="image" value="../../Milkyway/img/img_oberon.jpg"/>
+    <property name="next" value="Neptune"/>
+    <property name="type" value="page"/>
+    <property name="title" value="Oberon"/>
+    <property name="cam.concept.guid" value="47B43C50-166E-8D29-1B73-4F1C321153C3"/>
+  </concept>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Neptune</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Planet</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Nebula</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Star</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="belongsTo">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Star</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="rotatesAround">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Planet</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Star</outconcept>
+  </relation>
+  <relation name="Produces">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Nebula</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Star</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Saturn</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Phobos</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Moon_Earth</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Oberon</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Umbriel</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Titania</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Ariel</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Jupiter</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Jupiter</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Callisto</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Jupiter</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Io</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Jupiter</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Venus</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Venus</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Triton</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Triton</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Neptune</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Ganymede</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Ganymede</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Jupiter</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Europa</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Europa</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Jupiter</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Umbriel</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Uranus</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Titania</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Uranus</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Miranda</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Uranus</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Ariel</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Uranus</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Oberon</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Uranus</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Uranus</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Uranus</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Deimos</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Io</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Callisto</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Titan</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Miranda</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Moon</outconcept>
+  </relation>
+  <relation name="rotatesAround">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Moon</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Moon</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Eta_Carinae</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Star</outconcept>
+  </relation>
+  <relation name="belongsTo">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Eta_Carinae</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Mercury</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Mars</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Earth</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Saturn</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="isPlanetOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Neptune</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Sun</outconcept>
+  </relation>
+  <relation name="typeOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Sun</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Star</outconcept>
+  </relation>
+  <relation name="belongsTo">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Sun</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Milkyway</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Sun</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Star</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Titan</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Saturn</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Phobos</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Mars</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Deimos</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Mars</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Mars</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="isMoonOf">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Moon_Earth</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Earth</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Earth</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+  <relation name="parent">
+    <inconcept>gale://gale.tue.nl/course/milkyway/Mercury</inconcept>
+    <outconcept>gale://gale.tue.nl/course/milkyway/Planet</outconcept>
+  </relation>
+</gdom>

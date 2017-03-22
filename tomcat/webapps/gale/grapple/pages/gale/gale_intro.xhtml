@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Introduction to Adaptive Learning and <gale:object name="glossary_gale" /></h1>
+
+<p>
+GALE is the successor of the <a href="http://aha.win.tue.nl/">Adaptive Hypermedia Architecture AHA!</a>
+that was developed at the <a href="http://www.tue.nl/">Eindhoven University of Technology</a>.
+GALE takes objectives of AHA! to a higher level: it is designed to be as <em>flexible</em> and
+<em>extensible</em> as possible so as to give authors the freedom to choose between a large number of
+adaptive methods and techniques. Some basic characteristic of GALE are:
+<ul>
+<li>
+Courses consist of <em>concepts</em> and <em>relationships</em>, together forming a Domain Model (DM).
+This corresponds to the structure of a DM as produced using the DM editor of <gale:object name="glossary_gat" />.
+If you wish a course to have an accordion menu "on the left" as in this tutorial you should use
+"parent" relationships between concepts to create a concept hierarchy.
+</li>
+<li>
+For each concept GALE keeps track of the user's (learner's) interaction with that concept.
+This is done by keeping information in User Model (UM) attributes. Typical attributes would be
+<em>knowledge</em> (how much does the learner know about the concept), <em>visited</em> (how often
+did the learner access the concept) and <em>suitability</em> (does the learner have the required
+foreknowledge to understand the concept).
+</li>
+<li>
+With each concept GALE associates <em>behavior</em> or <em>adaptation rules</em>. A rule may for
+instance say that when the concept is accessed the <em>visited</em> counter should be incremented,
+the <em>knowledge</em> value should be increased, the <em>knowledge</em> value of a parent concept may
+also be increased, the <em>suitability</em> of some other concepts may become "true", etc.
+In literature the term Adaptation Model (AM) is often used for this model of concepts with adaptation rules,
+but within GALE we consider this as part of the DM. (We do realize that this is a misnomer as a DM is
+typically a structure independent of the pedagogy of the course, whereas in GALE DM and adaptation
+are mixed. So we sometimes write DM/AM to indicate we need the adaptation that is part of the GALE DM.)
+</li>
+<li>
+Writing individual adaptation rules mentioned above is too cumbersome for authors.
+The <gale:object name="glossary_cam" /> editor that is part of GAT
+lets you "draw" pedagogical relationships between concepts from which a compiler automatically
+generates the adaptation rules for GALE. The implementation of the rules uses <em>template</em>
+adaptation rules. The GRAPPLE distribution comes with a sufficiently rich set of predefined templates
+so you do not need to study the <gale:object name="glossary_prt" /> tool to create your own templates. 
+</li>
+<li>
+For each concept of DM you typically write one page of learning material. (You can write more pages
+and have GALE select one to display based on UM values.)
+XHTML is used for the pages,
+with some GALE-dependent extensions represented as "gale tags". The &lt;gale:if&gt; tag is used
+to conditionally include a bit of text, for instance a short additional explanation the learner
+may need. Frequently occurring pieces of information may be conditionally included using the
+&lt;gale:object&gt; tag so you need to write the text fragment only once.
+</li>
+<li>
+Links in a GALE course always refer to concepts (never to pages directly). The &lt;gale:a&gt; tag
+is used to define an adaptive link. By default links are presented in one of three possible ways:
+"good" (blue) which means the link is recommended, "neutral" (purple) which means the link is recommended
+but the target was already visited, and "bad" (black) which means the link is not recommended (the target
+is not suitable). By not underlining bad links with black text they become effectively hidden within the
+text. In the menu on the left you see another way of adapting links: A green ball
+<img src="../../../images/GreenBall.gif" /> indicates the link is recommended, a white ball
+<img src="../../../images/WhiteBall.gif" /> indicates a visited recommended link and a red ball
+<img src="../../../images/RedBall.gif" /> indicates a non-recommended link.
+</li>
+<li>
+Apart from "access" to concepts other forms of interaction can also be associated with adaptation.
+GALE can serve XHTML forms to let users set and change certain UM variables, and it can serve and
+evaluate multiple-choice tests.
+</li>
+<li>
+In GRAPPLE it is important to give application/course developers maximum freedom in deciding not only
+how the adaptation works but also in the design of the look and feel of their application.
+Although (to keep authoring simple) GALE comes with predefined presentation and adaptation templates,
+it is also reasonably easy for authors to create their own look and feel, either by changing the
+configuration (for a static different look and feel) or through a "layout PRT" (for a possibly
+adaptively changing look and feel).
+</li>
+</ul>
+The remainder of the GALE part of this tutorial part is aimed at authors who wish to know how the
+adaptation behavior described above really works and at authors who wish to change one or more aspects
+of this behavior. If you don't like the tags use for adaptation or you want to add more tags with
+different behavior, you can. If you want to add a new type of assessment (in addition to the multiple-choice
+tests), you can. If you want to change the layout, you can. If you want to process other data types
+(besides XHTML or even XML) you can. Almost every aspect of GALE's behavior can be changed either
+through a configuration or through the addition of new code for which GALE already contains the necessary
+hooks.
+</p>
+</body>
+</html>

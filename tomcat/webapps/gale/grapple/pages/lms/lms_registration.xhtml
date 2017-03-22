@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Registering with the <gale:object name="glossary_lms" /></h1>
+
+<p>
+Below are the data associated with the event when a user logs in for the first time in an LMS
+integrated with GRAPPLE: all the personal details are passed to
+<gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>
+(<gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a> is the final receiver of this data).
+The user variables are mapped to
+<a href="http://www.imsglobal.org/profiles/">IMS LIP</a> 1.0.1 (the numbers below indicate the single table and row in the IMS LIP specification): <ul>
+<li>
+LMS type (CLIX, Claroline, Moodle, ELEX, Sakai): contentype – 13.3 – sourcedid (13.3.1.1)</li>
+<li>
+url: contentype – 13.3 – id (13.3.1.2)</li>
+<li>
+User id: security key - 11.4 - keyfields (11.4.1 - fieldlabel, 11.4.2 - fielddata)</li>
+<li>
+Last Name: identification - 2.4 -name (2.4.4 - partname, 2.4.4.2 text)</li>
+<li>
+First Name: identification - 2.4 -name (2.4.4 - partname, 2.4.4.2 text)</li>
+<li>
+Organisation: identification - 2.4 -name (2.4.4 - partname, 2.4.4.2 text)</li>
+<li>
+Email: identification - 2.6 contactinfo (2.6.8 - email)</li>
+<li>
+Language: accessibility - 3.3 - language</li>
+<li>
+Gender: identification - 2.7 - demographics (2.7.5 - gender)</li>
+<li>
+Date of birth: identification - 2.7 - demographics (2.7.6 - date)</li>
+<li>
+Street: identification -2.5 - address (....)</li>
+<li>
+Town: identification -2.5 - address (....)</li>
+<li>
+Postal code: identification -2.5 - address (....)</li>
+<li>
+Region: identification -2.5 - address (....)</li>
+<li>
+Country: identification -2.5 - address (....)</li>
+<li>
+IP address: identification - 2.9 extension (14.13 ext_identification)</li>
+<li>
+Role: identification - 2.9 extension (14.13 ext_identification).
+</li>
+</ul>
+</p>
+<p>
+Role describes a group of interest to the Learning Management environment. There are many types of groups that may be shared between systems:<ul>
+<li>
+Teacher
+</li>
+<li>Tutor</li>
+<li>Learner</li>
+<li>System Administrator.</li>
+</ul>Note: since many Registration attributes are can be made public and available by the LMS administrator, they are not mandatory. In any case the structure of the event does not change.
+</p>
+<p>
+All the fields have been implemented in all LMSs. For <gale:a href="lms_moodle">Moodle</gale:a> this
+event is propagated only when a new user is created, and not when (s)he logs in the first time.
+</p>
+<p>
+For an example of the XML code of this event type we refer to
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a>.
+<br />(You do not need to know this to use GRAPPLE.)
+</p>
+</body>
+</html>

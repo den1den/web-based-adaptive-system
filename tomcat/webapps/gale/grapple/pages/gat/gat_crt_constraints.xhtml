@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Constraints Tab of the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The Constraints Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-constraints.jpg" />
+</p>
+<p>
+The constraints tab is intended to define three types of constraints on how the PRT can
+be used in the <gale:a href="gat_cam"><gale:object name="glossary_cam" /></gale:a> tool:
+You can specify whether it is allowed to have a cycle of PRT instances (of the same PRT)
+or not. For instance, a cycle of prerequisites is undesirable as none of the concepts would
+ever become suitable, and a cycle of "knowledge propagation" would generate an infinite loop.
+You can specify that only concepts with a certain (default) value for some attribute may
+be inserted into one of the sockets. You may also disallow that two concepts must not also
+appear in a socket of a different PRT that makes use of a common
+<gale:object name="glossary_um" /> variable.
+Currently the CAM tool ignores all constraint specifications so they have no effect
+and are only included to allow the creator of the PRT to express desired constraints.
+</p>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+
+<h2>Example</h2>
+<p>This section of the tutorial helps you understand AHA! by
+creating your own example. We provide a step by step procedure that
+results in a fully functional example in the end.</p>
+<p>The example will be a very simple HTML tutorial. (It was prepared
+by Hitesh Gupta as part of an internship.)</p>
+<p>The creation of an AHA! application is a 4 step process</p>
+<ul>
+	<li><gale:a href="createconcept">Create
+	Conceptual Structure</gale:a></li>
+	<li><gale:a href="generaterules">Generate the
+	Event Condition Access Rules or the Adaptation Rules</gale:a></li>
+	<li><gale:a href="writepages">Writing Pages</gale:a> for the
+	application</li>
+	<li><gale:a href="definelook">Define the look
+	and feel</gale:a> of the application</li>
+</ul>
+
+<gale:if expr="${installation#knowledge}==0">
+	<gale:block>
+		<p>It is advisable to see the <gale:a href="installation">installation</gale:a>
+		instructions first, if you have not installed the AHA! system before.</p>
+	</gale:block>
+</gale:if>
+<gale:object data="../footer.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> Adaptation Model</h1>
+
+<p>
+GALE aims to be as unrestrictive about adaptation as possible.
+It achieves this through a two-pronged approach:
+<ul>
+<li>
+Events (e.g. user actions, external events, timed events, user model updates, etc.) can trigger updates
+to <gale:object name="glossary_um" />. If we define the user model as just "data" then the most unrestrictive
+way to update "data" is through program code. GALE allows (almost) any code to be executed,
+triggered by an event. This code has full control over the user model.
+We have a <gale:a href="gale_code">section on the GALE code language</gale:a> explaining the details.The adaptation model should provide a means to locate the code that should be executed when a particular
+event happens. The event system is extensible, but includes some default event handlers.
+They handle events like "user requested a concept", "user viewed concept for x seconds" or
+"user model changed". These events are all related to the <gale:object name="glossary_dm" />
+(the concept requested or viewed, the attribute whose value was changed).
+Thus <gale:object name="glossary_am" /> information is stored in and retrieved from GALE's DM.A concept can have <em>event code</em> attached. This code is executed when the concept is accessed.
+An attribute can have <em>event code</em> attached that is executed when the attribute's UM value changes.
+</li>
+<li>
+The actual adaptation to the <em>content</em>, the <em>navigation</em> and the <em>presentation</em>
+is performed by <gale:a href="gale_adaptation">processors and modules</gale:a>. They can only perform
+adaptation based on what's in the DM and UM, so the UM updates are the key to the adaptation.
+In GALE you can define new modules for handling specific XML tags and to some extent you can also configure
+the behavior of the existing modules (for instance you can configure how links are adaptively presented,
+using which colors and where to also use colored balls shown in the menu on the left).
+The only (pre-defined) adaptation that does not stem from configuration and DM is the content adaptation
+based on the <code>&lt;gale:if&gt;</code> tags that can be used in a page.
+The behavior of GALE when encountering this tag depends on an expression (in GALE code language)
+that is included in the tag. So this adaptation is defined within the content and not stored in
+and adaptation "model" that is separate from the content. Conceptually speaking it is bad practice
+to mix content and adaptation, but it can be convenient.
+For instance, we can present a text fragment depending on how often the learner visited a concept.
+When you visit this page often enough a small surprise may pop up.
+<gale:if expr="${#visited}&gt;3"><gale:then>
+<br /><br />
+HURRAY! You have visited this concept often enough (actually <gale:variable expr="${#visited}" /> times) to see this statement!
+<br /><br />
+</gale:then>
+</gale:if>
+</li>
+</ul>
+</p>
+<p>
+In adaptive applications there are two ways to perform reasoning over the UM: <em>forward</em> and
+<em>backward</em> reasoning. GALE actually supports both approaches:
+<ul>
+<li>
+<em>Forward</em> reasoning means that the effects (UM updates and resulting adaptation) of an event
+are calculated when the event occurs. The <em>event code</em> used in GALE defines forward reasoning.
+</li>
+<li>
+<em>Backward</em> reasoning means that when doing the adaptation the adaptation engine needs to check
+whether the conditions for that adaptation have been reached. This reasoning may go back all the way to
+finding out whether certain events have happened. In GALE UM attributes can be initialized using
+a GALE expression instead of a (static) default value. This expression is then evaluated when the
+value is needed. For instance, the <em>suitability</em> of a concept is expressed in terms of the
+<em>knowledge</em> of some prerequisite concepts. This <em>suitability</em> is thus obtained through
+backward reasoning. (The actual implementation in GALE is slightly different but without any difference
+in the observed behavior.)
+</li>
+</ul>
+</p>
+<p>
+In GALE the adaptation can be turned on or off on a per concept basis, using the
+<em>stability property</em> (of the concept). If stability is used to keep a concept stable,
+its presentation and content is kept stable.The stability property can be set to different values:
+<ul>
+<li>false, don't use stability (the same as not including the property)
+</li>
+<li>true, use stability</li>
+<li>
+session, use stability during this session, but adapt the next session</li>
+<li>
+an expression that evaluates to 'false', 'true' or 'session'
+</li>
+</ul>
+Stability is useful to prevent learners from becoming confused from seeing too much adaptation.
+When the contents of a page changes upon subsequent visits the learner may wonder how often pages
+need to be accessed before all available learning material has actually been seen.
+Also, when links start disappearing upon revisiting a concept learners may fear that some learning
+material is hidden from them. (They may start opening new browser windows upon following links just
+to avoid losing access to the links in previous pages.)
+</p>
+<p>
+Stability is achieved by storing serialized output (the XHTML page) in the UM. Each subsequent request
+for a concept causes UM updates for the concept and the retrieval of the stored output. When a page
+contains (conditionally) included objects that are referred to by concepts no UM updates are generated
+for these included objects (concepts). Because of the storage overhead involved (keeping serialized output
+for every stable concept and for every user) the use of stability should be restricted to cases where
+you deem it really necessary. 
+</p>
+</body>
+</html>

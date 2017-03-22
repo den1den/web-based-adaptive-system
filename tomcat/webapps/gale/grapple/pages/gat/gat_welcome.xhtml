@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Authoring Courses for GRAPPLE</h1>
+
+<p>
+GRAPPLE is intended to support learning based on the concept of <em>courses</em>.
+This corresponds to the most common way in which education is organized in schools,
+universities and in company training. Creating (authoring) a course generally consists
+of three steps:
+<ul>
+<li>
+The <em>topics</em> (in GRAPPLE terminology these are <em>concepts</em>) of the course
+are determined. This may start with an unordered list, but is typically (later) organized
+into a <em>hierarchy</em>. The structure of the <em>topic domain</em> of the course is
+called the Domain Model (DM) and is defined using the <gale:a href="gat_dm">Domain Model Tool</gale:a>.
+</li>
+<li>
+A reading or study order is determined for the topics of the course. In a traditional course
+one single sequence of topics is chosen which is used during lectures and/or is the order
+in which the topics appear in a course text (and its table of contents).
+GRAPPLE aims at using (web-based) <em>hypertext</em> or <em>hypermedia</em> for a course text.
+A rich link structure connects many topics in a seemingly random way, based on semantic
+relationships between topics. However, not every possible sequence of following links to navigate
+through the course text is suitable for learning: some topics need to be studied before some other
+topics can be learned and understood. To offer guidance to the learner a structure of
+<em>pedagogical relationships</em> is created, typically consisting of so called <em>prerequisites</em>,
+and these are used to <em>adapt</em> the link structure on the fly.
+The <gale:a href="gat_cam">Course Adaptation Tool</gale:a> is used to define the pedagogical
+structure of a course (which is sometimes called <em>Conceptual Adaptation Model</em> or CAM for historical reasons).
+</li>
+<li>
+For each course topic (or concept) some learning material needs to be written.
+In GRAPPLE the most commonly used content type for learning material is
+XHTML, an XML-compliant version of HTML. (HTML can be used as well,
+and is internally converted to XHTML before being used further.)
+<!-- ZZZ: Maybe we can add a link to the specific part of GALE later. -->
+However, any XML-based format
+can be used with <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+GRAPPLE does not include an editor for the content. Any editor capable of creating XML documents
+can be used for this.
+</li>
+</ul>
+After logging in on the GRAPPLE Authoring Tool (GAT) the following welcome screen is presented:
+<br /><br />
+<img src="../../images/gat-welcome.jpg" />
+<br /><br />
+Actions can be initiated through the menus, buttons in the toolbar or by clicking on any of
+the large colored sections of the welcome screen.
+</p>
+<p>
+When creating courses you might occasionally find that you need a pedagogical relationship
+that is not provided by GRAPPLE. There is a <gale:a href="gat_crttool">Pedagogical Relationship Types Editor</gale:a>
+that lets you create new pedagogical relationship types or PRTs.
+Most authors/teachers will not need to use this tool and therefore it is hidden in the welcome screen
+and the menus. When you select Tools-&gt;Advanced Mode the welcome screen and menus change and you
+get access to the Pedagogical Relationship Types editor.
+</p>
+<p>
+When you have studied the different GAT-related topics you should take
+this <gale:a href="gat_test">Quiz about GAT</gale:a>.
+Please note that you can take this test only once.
+</p>
+</body>
+</html>

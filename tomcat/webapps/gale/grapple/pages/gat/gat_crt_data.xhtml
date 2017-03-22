@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Data Structure of a <gale:object name="glossary_prt" /></h1>
+
+<p>
+The following XML code outlines the common structure of GRAPPLE authoring tool models.
+Each model has a header part, where meta-data of the model is located.
+Meta-data include title, common description, creation and update time, author,
+authorisation, and the UUID of the model.<pre>&lt;model&gt;  &lt;header&gt;    // meta-data of the CRT model  &lt;/header&gt;  &lt;body&gt;    &lt;crt&gt;      // the CRT definition    &lt;/crt&gt;  &lt;/body&gt;&lt;/model&gt;</pre>The PRT definition is partitioned into seven areas, where each area is specified as a more or less
+complex element in the XML specification. The following piece of XML code depicts this structure with
+the seven elements. The numbers (as comment) before each element refer to the sub-sections below.
+<br />
+(Note that a PRT is referred to as a CRT in the data structures for historical reasons.)
+<pre>&lt;crt&gt;  &lt;!-- (1) --&gt;  &lt;crtdialect&gt;...&lt;/crtdialect&gt;    &lt;!-- (2) --&gt;  &lt;comment&gt;...&lt;/comment&gt;    &lt;!-- (3) --&gt;  &lt;parameter&gt;...&lt;/parameter&gt;  &lt;!-- (4) --&gt;  &lt;visualrepresentation&gt;...&lt;/visualrepresentation&gt;  &lt;!-- (5) --&gt;  &lt;crtsockets&gt;...&lt;/crtsockets&gt;  &lt;!-- (6) --&gt;  &lt;adaptationbehaviour&gt;...&lt;/adaptationbehaviour&gt;  &lt;!-- (7) --&gt;  &lt;constraints&gt;...&lt;/constraints&gt;  &lt;!-- (8) --&gt;  &lt;associateddmrelations&gt;...&lt;/associateddmrelations&gt;&lt;/crt&gt;</pre>
+We explain each of these 8 parts below, using examples.
+More details can be found in
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 3.2c</a>.
+</p>
+<p>
+<ol>
+<li><b>CRT dialect</b><br />The CRT dialect indicates if this is a "normal" CRT of a virtual reality CRT (VR-CRT) or a service relationship type (SRT). A description of VR-CRTs and SRTs is outside the scope of this tutorial.
+<pre>&lt;crtdialect&gt;crt&lt;/crtdialect&gt;
+</pre></li><li><b>Comment</b><br />The comment field contains some free-text information about the pedagogical meaning of this CRT.
+This is not processed by any GRAPPLE component, but only used by authors to express and understand
+the pedagogical meaning of the respective CRT.
+<pre>&lt;comment&gt;in prerequisite CRTs source concepts are presented before target concepts&lt;/comment&gt;</pre>
+</li>
+<li><b>Parameter</b><br />The parameter field to assign fixed values to parameter either in the CRT Tool or later in the
+<gale:object name="glossary_cam" /> Tool, which can be used by<gale:object name="glossary_gale" />,
+when the course is actually running.
+The value field can be left blank or filled up a certain value. In both cases the field can be filled or changed in the CAM Tool. An example looks like this:
+<pre>&lt;parameter name="level" type="integer"&gt;80&lt;/parameter&gt;</pre></li>
+<li><b>Visual representation</b><br />The visual representation defines how a CRT should be visually represented in the CAM.
+It has two elements which are shape and color. The shape element defines the shape which is drawn
+on the connection line between two collections of concepts (sockets). The color element defines
+the color of the connection line and the color of the shape surrounding the concepts.
+This information is only interpreted by the CAM Tool.In the following example a CRT is represented in green color shaped as a diamond.
+<pre>&lt;visualrepresentation&gt;  &lt;shape&gt;diamond&lt;/shape&gt;  &lt;colour&gt;0x00ff00&lt;/colour&gt;&lt;/visualrepresentation&gt;</pre>
+</li>
+<li><b>CRT Sockets</b><br />The CRT sockets define the structure of a CRT. Basically a socket is a collection containing concepts.
+For each socket some properties can be defined, which are color, minimum and maximum cardinality,
+and name of the socket. The UUID is automatically given by the CRT Tool. The name defines the name of
+the socket, the UUID is the identifier which allows for referencing this socket, and the optional
+color can override the color of the CRT for this socket. Furthermore it can be defined how many
+concepts have to be in this socket at least and how many concepts can be in the socket at maximum.In the following example, a socket is defined with the name 'beginner' where at least 1 concept has to be included.
+<pre>&lt;socket type="source"&gt;  &lt;uuid&gt;cf5de7f5-12b5-4720-92e5-zzzzzzzzzzzz&lt;/uuid&gt;  &lt;colour&gt;0x0000ff&lt;/colour&gt;  &lt;mincardinality&gt;1&lt;/mincardinality&gt;  &lt;maxcardinality&gt;*&lt;/maxcardinality&gt;  &lt;name&gt;beginner&lt;/name&gt;&lt;/socket&gt;</pre>There are two ways of structuring CRTs, which are directed and undirected.
+In the case of a directed structure, there are two sockets whereby one must have the type source
+and the other one the type target. Obviously, the direction goes from source to target.
+In the case of undirected structure, an arbitrary number of sockets with any type can occur.
+The following example depicts the case of a directed structure.
+<pre>&lt;crtsockets&gt;  &lt;socket type="source"&gt;    &lt;name&gt;beginner&lt;/name&gt;    &lt;uuid&gt;cf5de7f5-12b5-4720-92e5-zzzzzzzzzzzz&lt;/uuid&gt;    &lt;mincardinality&gt;1&lt;/mincardinality&gt;    &lt;maxcardinality&gt;*&lt;/maxcardinality&gt;    &lt;colour&gt;0x00FFCC&lt;/colour&gt;  &lt;/socket&gt;  &lt;socket type="target"&gt;    &lt;name&gt;advanced&lt;/name&gt;    &lt;uuid&gt;cf5de7f5-12b5-4720-92e5-pppppppppppp&lt;/uuid&gt;    &lt;mincardinality&gt;3&lt;/mincardinality&gt;    &lt;maxcardinality&gt;3&lt;/maxcardinality&gt;    &lt;colour&gt;0x00FFCC&lt;/colour&gt;  &lt;/socket&gt;&lt;/crtsockets&gt;</pre>
+</li>
+<li><b>Adaptation behavior</b><br />The definition of the adaptation behavior is the central part of the CRT definition.
+It defines in a machine-readable way the pedagogical meaning of the CRT.
+The definition of the adaptation behavior is done through a piece of code written in
+<gale:a href="gale_code">GALE code</gale:a>. The GALE code is inserted into the XML code
+as is (using CDATA). The following example shows how the GALE code is inserted.
+For future purposes also other type of codes can be inserted in this field.
+<pre>&lt;code type="gale&gt;&gt;	  &lt;![CDATA[    // gale code here  ]]&gt;&lt;/code&gt;</pre>An important aspect of the GALE code is the influence on the user model variables.
+In the GALE code it is specified how exactly user model variables are influenced.
+In the CRT specification all user model variables are listed which are used by the GAL code.
+The following example shows the structure how the user model variables are included in the XML
+specification.
+<pre>&lt;adaptationbehaviour&gt;  &lt;usermodel&gt;    &lt;umvariable&gt;      // specification of the first user model variable    &lt;/umvariable&gt;    &lt;umvariable&gt;      // specification of the second user model variable    &lt;/umvariable&gt;  &lt;usermodel&gt;  &lt;code type="gale"&gt;	    &lt;![CDATA[      // gale code here    ]]&gt;  &lt;/code&gt;&lt;adaptationbehaviour&gt;</pre>The user model (UM) variables are specified in detail in the CRT code and some information is
+provided on each variable. The name element is used to specify the name of the UM variable.
+Two boolean elements define how the variable is treated by GALE. The public element defines whether
+GALE needs to submit updates to <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>
+or not. The persistent element defines whether the value is stored or computed or retrieved.
+In order to define the values used for this UM variable there is a type field specifying the value
+type, a default field, and a range element. The range element is used to specify the value range
+which, however, depends on the selected type. The default value also has to fit to the type.
+The following example shows the UM variable knowledge.
+<pre>&lt;umvariable&gt;  &lt;umvarname&gt;knowledge&lt;/umvarname&gt;   &lt;public&gt;true&lt;/public&gt;  &lt;persistent&gt;true&lt;/persistent&gt;   &lt;type&gt;float&lt;/type&gt;   &lt;range&gt;      &lt;from&gt;0&lt;/from&gt;     &lt;to&gt;1&lt;/to&gt;  &lt;/range&gt;  &lt;default&gt;0&lt;/default&gt;&lt;/umvariable&gt;</pre>
+</li>
+<li><b>Constraints</b><br />In this section three types of restrictions can be defined regarding CRTs.
+First, it can be specified if loops in the CAM are allowed with this CRT.
+For example, it would not make sense to allow loops with a prerequisite CRT.
+Second, it can be restricted which concepts can be put into a socket.
+Therefore, a triple of socket UUID, attribute name, and attribute value is used to define that only
+concepts can be put into the socket with the given UUID which have set a specific attribute value for
+the attribute name. Third, it can be restricted which CRTs are not allowed in the "neighbourhood"
+when CRTs are used in the CAM. Concepts respectively sockets containing concepts are connected by
+CRT instances in the CAM, however, with this restriction it can be excluded that certain CRT
+instances are connected to the same socket. This is done by naming user model variables which
+appear in CRTs not allowed to be in the "neighbourhood". The following example shows how these
+restrictions can be done.
+<pre>&lt;constraints&gt;  &lt;allowedinloop&gt;false&lt;/allowedinloop&gt;  &lt;attributeconstraints&gt;    &lt;attrconstraint&gt;      &lt;socketid&gt;cf5de7f5-12b5-4720-92e5-zzzzzzzzzzzz&lt;/socketid&gt;      &lt;attributename&gt;language&lt;/attributename&gt;      &lt;requiredvalue&gt;en&lt;/requiredvalue&gt;    &lt;/attrconstraint&gt;  &lt;/attributeconstraints&gt;  &lt;umvariableconstraints&gt;    &lt;umvariablename&gt;visited&lt;/umvariablename&gt;    &lt;umvariablename&gt;knowledge&lt;/umvariablename&gt;  &lt;/umvariableconstraints&gt;&lt;/constraints&gt;</pre>
+</li>
+<li><b>Associated domain model relations</b><br />Associations to relations between concepts used in the domain model can be exploited.
+For inserting CRTs existing structures of the domain model can be used along which CRTs can be laid.
+The following example shows how relations between concepts in a domain model are used for this CRT.
+<pre>&lt;associateddmrelations&gt;  &lt;relationshiptype&gt;is_a&lt;/relationshiptype&gt;  &lt;relationshiptype&gt;part_of&lt;/relationshiptype&gt;&lt;/associateddmrelations&gt;
+</pre>
+</li>
+</ol></p>
+</body>
+</html>

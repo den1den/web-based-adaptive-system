@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<gale:if expr="${#done}"><gale:then>
+<h1>GALE Test Result</h1>
+<p>
+Your test score was <gale:variable expr="${#knowledge}.intValue()" />.
+</p>
+</gale:then>
+</gale:if>
+<gale:test title="Quiz about the GRAPPLE Adaptive Learning Environment" total="5" action="#{#knowledge, value};#{#done, true};" expr="!${#done}" ask="5" alt="[You are not allowed to repeat this test.]" verbose="true">
+
+<gale:question answers="2" right="1">
+True or False: You can create pages that do not contain any "GALE code" (i.e. expressions over
+<gale:object name="glossary_dm" /> or <gale:object name="glossary_um" />) but that do have content adaptation
+(i.e. the content of the page may be different depending on the user model).
+<gale:answer correct="true">True
+<gale:explain>
+Indeed: pages that contain <code>&lt;gale:object&gt;</code> tags will include objects for which the selection
+which resource (fragment in a file) will be included in the presentation is done based on expressions
+defined with the object. The page itself, as written by the author, contains no gale code, yet their
+is content adaptation.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">False
+<gale:explain>
+Pages that contain <code>&lt;gale:object&gt;</code> tags will include objects for which the selection
+which resource (fragment in a file) will be included in the presentation is done based on expressions
+defined with the object. The page itself, as written by the author, contains no gale code, yet their
+is content adaptation.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="4" right="1">
+True or False: Using only the default processors and modules, how many colors can be used
+for link annotation?.
+<gale:answer correct="true">any number
+<gale:explain>
+Indeed: either through the Spring configuration file (galeconfig.xml) or
+through the link.classexpr attribute of a concept you define an expression that selects a class for a link
+anchor. The expression can select between any arbitrary number of classes. A stylesheet is then used to
+associate a color with each class. All of this is done without any change or addition to the processors
+or modules.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">1
+<gale:explain>
+Clearly this cannot be true as by now you must at least have seen blue and purple links
+used in this tutorial.
+<br />
+The correct answer is "any number": either through the Spring configuration file (galeconfig.xml) or
+through the link.classexpr attribute of a concept you define an expression that selects a class for a link
+anchor. The expression can select between any arbitrary number of classes. A stylesheet is then used to
+associate a color with each class. All of this is done without any change or addition to the processors
+or modules.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">2
+<gale:explain>
+If you looked carefully you might have seen 3 colors used in the tutorial already: blue, purple and black.
+However, the correct answer is not 3, but is "any number": either through the Spring configuration file (galeconfig.xml) or
+through the link.classexpr attribute of a concept you define an expression that selects a class for a link
+anchor. The expression can select between any arbitrary number of classes. A stylesheet is then used to
+associate a color with each class. All of this is done without any change or addition to the processors
+or modules.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">3
+<gale:explain>
+You may have observed 3 link colors used in this tutorial: blue, purple and black.
+However, the correct answer is not 3, but is "any number": either through the Spring configuration file (galeconfig.xml) or
+through the link.classexpr attribute of a concept you define an expression that selects a class for a link
+anchor. The expression can select between any arbitrary number of classes. A stylesheet is then used to
+associate a color with each class. All of this is done without any change or addition to the processors
+or modules.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or false: In <gale:object name="glossary_gale" /> (using its default configuration)
+when a concept is requested (e.g. by clicking on
+a link anchor) <gale:object name="glossary_um" /> updates are done before generating the (adapted) page
+that corresponds to the request.
+<gale:answer correct="true">True
+<gale:explain>
+Indeed: the "UpdateProcessor" is the first processor that is called. As a result the generated page
+is adapted to the "new" UM state, not the "old" state.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">False
+<gale:explain>
+The "UpdateProcessor" is the first processor that is called. As a result the generated page
+is adapted to the "new" UM state, not the "old" state. It is important to take this into account
+when defining the adaptation: a page is adapted to a user model state that "assumes" the page was
+already studied.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="4" right="1">
+What is the value of the expression <code>${-&gt;(parent)&lt;-(parent)}.length</code> ?
+<gale:answer correct="true">The number of children of the parent concept(s) (of the current concept). 
+<gale:explain>
+This is indeed correct: starting from the current concept <code>-&gt;(parent)</code> gives you the
+parent concept(s), then <code>-&lt;(parent)</code> goes to the children of these concepts
+and <code>.length</code> returns the length of that list.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">The number of parents of the children (of the current concept).
+<gale:explain>
+The correct reasoning: starting from the current concept <code>-&gt;(parent)</code> gives you the
+parent concept(s), then <code>-&lt;(parent)</code> goes to the children of these concepts
+and <code>.length</code> returns the length of that list.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">The number of grandparents (of the current concept).
+<gale:explain>
+The correct reasoning: starting from the current concept <code>-&gt;(parent)</code> gives you the
+parent concept(s), then <code>-&lt;(parent)</code> goes to the children of these concepts
+and <code>.length</code> returns the length of that list.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">The number of grandchildren (of the current concept).
+<gale:explain>
+The correct reasoning: starting from the current concept <code>-&gt;(parent)</code> gives you the
+parent concept(s), then <code>-&lt;(parent)</code> goes to the children of these concepts
+and <code>.length</code> returns the length of that list.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or false: in <gale:object name="glossary_gale" /> you can perform adaptation not only to tags in
+the "gale" namespace but also to non-gale tags, like <code>&lt;img&gt;</code> or <code>&lt;p&gt;</code>.
+<gale:answer correct="true">True
+<gale:explain>
+Indeed: using the <code>&lt;gale:attr-variable&gt;</code> tag you can perform adaptation to an attribute
+of the surrounding (parent) XML element, whether that is a "gale" element or not.
+A typical example would be to adaptively decide which "src" attribute value to use with an <code>&lt;img&gt;</code> tag.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">False
+<gale:explain>
+You are mistaken: it can be done! Using the <code>&lt;gale:attr-variable&gt;</code> tag you can perform adaptation to an attribute
+of the surrounding (parent) XML element, whether that is a "gale" element or not.
+A typical example would be to adaptively decide which "src" attribute value to use with an <code>&lt;img&gt;</code> tag.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:result>
+Your score was <gale:variable expr="${#knowledge}.intValue()" />. 
+</gale:result>
+</gale:test>
+</body>
+</html>

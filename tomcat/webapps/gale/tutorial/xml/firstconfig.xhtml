@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+
+<h2>Configuring AHA!</h2>
+
+<p>We assume that you have <a href="compile" class="conditional">built</a>
+the AHA! binaries, and that the TomCat server <gale:if
+	expr="${ahacontext#knowledge}==0">
+	<gale:block> (for
+instance Sun's version JWDSP from <a
+			href="http://java.sun.com/webservices/downloads/webservicespack.html"
+			target="_blank">http://java.sun.com/webservices/downloads/webservicespack.html</a>)
+</gale:block>
+</gale:if> is installed and running, and that you have <gale:a href="ahacontext">created
+a "context"</gale:a> for AHA!, with "/aha" as pathname.</p>
+
+<p>Configuring AHA! consists of the following steps:</p>
+<ol>
+	<li>In the browser you go to the address <a href="/aha/Config"
+		target="_blank">/aha/Config</a>. The first time you do this a page
+	appears that says "Installing Configuration file". This step actually
+	executes a servlet that creates the AHA! configuration files containing
+	the information you entered when <gale:a href="ahacontext">creating the AHA! context</gale:a>
+	for TomCat.</li>
+	<li>Because the first step overwrites the initial configuration
+	file, the next step only works if you configured the AHA! context to be
+	reloadable. If you click on the <a href="/aha/Config" target="_blank">Configuration</a>
+	link you go to "AhaConfig" page. If the context is not reloadable you
+	have to restart the TomCat server first. <gale:if
+		expr="${ahacontext#knowledge}==0">
+		<gale:block>
+	(Execute shutdown.sh and startup.sh on Linux or shutdown.bat and
+	startup.bat on Windows.) </gale:block>
+	</gale:if> <br />
+	You can always go to the "AhaConfig" page later, using the link <a
+		href="/aha/Config" target="_blank">/aha/Config</a>. You will never
+	see the "Installing Configuration file" page again.</li>
+	<li>When you try to go to AhaConfig page you are prompted for a
+	login and password. Initially you should use "aha" as login and no
+	password.</li>
+	<li>The first thing to do when shown the <a
+		href="../images/ahaconfig.gif" target="_blank">AhaConfig page</a>
+	is to select "Manager Configuration" and then select "Change an
+	existing user" from the <a href="../images/adminmenu.gif"
+		target="_blank">Manager administration menu</a>, in order to
+	change the "aha" <em>login</em> to a name you prefer, and to add a
+	password. This is important for security reasons, because everyone who
+	knows AHA! also knows that it comes with "aha" as the default manager
+	without a password.</li>
+	<li>Through the <a href="../images/authormenu.gif" target="_blank">Author
+	menu</a> you can <a href="../images/addauthormenu.gif" target="_blank">create
+	authors</a> and assign applications to authors.</li>
+	<li>AHA! is now ready to be used. It contains this <a
+		href="/aha/tutorial/" target="_blank">tutorial</a> as an example
+	adaptive hyperdocument. It uses a set of XML files to store the concept
+	information and the user profiles. To change the AHA! configuration so
+	that it uses the <a href="http://www.mysql.org/" target="_blank">mySQL</a>
+	you can click on the "Configure Database" link to create the database.
+	Note that your mySQL database must have been configured to accept the
+	mySQL login and password that you choose, <em>before</em> attempting to
+	have AHA! create the database.</li>
+</ol>
+
+<gale:object data="../footer.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>

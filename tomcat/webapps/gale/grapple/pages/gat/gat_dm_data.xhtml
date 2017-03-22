@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Data Structure of a Domain Model</h1>
+
+<p>
+The <gale:object name="glossary_dm" /> is specified in an XML based format and it is wrapped in a common part (a "header"),
+shared between different models (DM, <gale:a href="gat_cam"><gale:object name="glossary_cam" /></gale:a> and
+<gale:a href="gat_crt"><gale:object name="glossary_prt" /></gale:a>). The specific DM section is based on
+<a href="http://www.imsglobal.org/vdex/">IMS VDEX</a>. IMS VDEX is a standard for vocabulary definition.
+In a DM, each concept is mapped to a term in the IMS VDEX. Relations between concepts are mapped to
+relationships in the IMS VDEX between terms.
+</p>
+<p>
+The following XML code outlines the common structure of GRAPPLE authoring tool models,
+illustrated with a DM.
+Each model has a header part, where metadata of the model is located.
+Metadata include title, description, creation and update time, author, authorisation,
+and unique UUID of the model:
+<pre>
+&lt;model&gt;  &lt;header&gt;    &lt;modeluuid&gt;660e8400-e29b-41d4-a716-446655440000&lt;/modeluuid&gt;       //the modelUuid is a unique identifier for the model.    &lt;modeltype&gt;DM&lt;/modeltype&gt;       //Types can be DM, CRT, CAM or their VR and Simulation equivalent    &lt;authoruuid&gt;660e8400-e29b- a716-41d4-446655440000&lt;/authoruuid&gt;       // the author UUID is the unique identifier of the author, who created the model    &lt;authorisation&gt;readwrite&lt;/authorisation&gt;       // authorisation for all other author; the original author always has all permissions.       //permissions can be none (no access by other authors) read (read-only access) and       //readwrite (read and write access)    &lt;creationtime&gt;1242904243000&lt;/creationtime&gt; //the timestamp of creation of the model    &lt;updatetime&gt;1242904243000&lt;/updatetime&gt; //the timestamp the model was last updated    &lt;title&gt;sun-example-dm&lt;/title&gt; //the title of the model    &lt;description&gt;DM for the Solar System example&lt;/description&gt; //the description of the model  &lt;/header&gt;  &lt;body&gt; //the body contains the actual content of the model    &lt;dm&gt;//depending on the model there will be a DM, CAM or CRT tag to indicate the model type
+          //content of the model (in this case cam) see below for more details
+      &lt;vdex&gt;      // the DM definition
+      &lt;/vdex&gt;    &lt;/dm&gt;  &lt;/body&gt;&lt;/model&gt;
+</pre>
+The DM definition has two main parts. One is term related; the other is the relationships part.
+<ol>
+<li>
+<b>Term</b><br />
+A term has a first section that describes the term itself. (It has coordinates representing
+where on the graphical pane the DM editor will present the concept.)<pre>
+        &lt;term x="227" y="233"&gt;          &lt;termIdentifier&gt;4FDFB0ED-3F11-960E-AC5F-002413333ABE&lt;/termIdentifier&gt;          &lt;caption&gt;            &lt;langstring language="en"&gt;Milkyway&lt;/langstring&gt;          &lt;/caption&gt;          &lt;description&gt;            &lt;langstring language="en"&gt;Top level concept.&lt;/langstring&gt;          &lt;/description&gt;
+        &lt;term&gt;
+</pre>The termIdentifier is used to uniquely identify the concept, this GUID (Globally Unique Identifier)
+is generated every time a new concept is created.
+The caption tag identifies the concept name, the description, the concept meaning in a few words.
+<br />With each concept a number of resources can be associated.
+For each resource a mediaDescriptor section should be defined:<pre>          &lt;mediaDescriptor&gt;            &lt;mediaLocator&gt;http://en.wikipedia.org/wiki/Milkyway&lt;/mediaLocator&gt;            &lt;interpretationNote&gt;              &lt;langstring language="x-none"&gt;BD49CBED-9D55-4545-299C-7AF210B5E4BE&lt;/langstring&gt;            &lt;/interpretationNote&gt;          &lt;/mediaDescriptor&gt;
+</pre>
+The mediaLocator tag contains the reference to the resource. The interpretationNote contains a unique ID that refers to the metadata section. Properties of the concept also belong to that section.
+It is defined using the <a href="http://www.imsglobal.org/metadata/">IMS Metadata LOM</a> standard.
+An example of a concept with metadata:
+<pre>
+       &lt;term x="450" y="623"&gt;         &lt;termIdentifier&gt;D266064B-38BD-E5B0-2BE0-2B5D8B43AEAA&lt;/termIdentifier&gt;          &lt;caption&gt;            &lt;langstring language="it"&gt;Titan&lt;/langstring&gt;          &lt;/caption&gt;          &lt;description&gt;            &lt;langstring language="en"&gt;The only large moon of Saturn&lt;/langstring&gt;          &lt;/description&gt;          &lt;metadata&gt;            &lt;concept&gt;              &lt;lom&gt;                &lt;general&gt;                  &lt;description&gt;                    &lt;langstring&gt;The available information about Titan.&lt;/langstring&gt;                  &lt;/description&gt;                  &lt;catalogentry&gt;                    &lt;catalog&gt;text&lt;/catalog&gt;                    &lt;entry&gt;                      &lt;langstring&gt;titan_text.xhtml&lt;/langstring&gt;                    &lt;/entry&gt;                  &lt;/catalogentry&gt;                &lt;/general&gt;              &lt;/lom&gt;            &lt;/concept&gt;          &lt;/metadata&gt;        &lt;/term&gt;
+</pre>
+And an example of a resource with metadata that says the "Level" of the resource is "Beginner":
+<pre>
+           &lt;metadata&gt;              &lt;resource id="B61F38F8-EF25-E7E2-C548-253CF63547B2"&gt;              &lt;lom&gt;                &lt;general&gt;                  &lt;title&gt;                    &lt;langstring&gt;                      Level                    &lt;/langstring&gt;                  &lt;/title&gt;                  &lt;description&gt;                    &lt;langstring&gt;                      Beginner                    &lt;/langstring&gt;                  &lt;/description&gt;                &lt;/general&gt;              &lt;/lom&gt;            &lt;/resource&gt;          &lt;/metadata&gt;
+</pre>
+</li>
+<li>
+<b>Relationship</b><br />
+The relationship tag is used to define relationships between two concepts.
+<pre>        &lt;relationship&gt;          &lt;sourceTerm&gt;1B3EF646-F051-EB59-47D1-0024B97CAC18&lt;/sourceTerm&gt;          &lt;targetTerm&gt;4FDFB0ED-3F11-960E-AC5F-002413333ABE&lt;/targetTerm&gt;          &lt;relationshipType source="http://www.grapple.org/relations.xml"&gt;belongsTo&lt;/relationshipType&gt;          &lt;metadata/&gt;        &lt;/relationship&gt;</pre>The "sourceTerm" contains the concept ID, source of the relationship.<br />The "targetTerm" contains the concept ID, target of the relationship.<br />The "relationship type" describes the relation itself.<br />Metadata are allowed by the data format but are currently not used. (They cannot be generated
+using the DM editor.)
+</li>
+</ol>
+</p>
+<p>
+More technical details can be found in <a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 3.1c</a>.
+</p>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> User Model</h1>
+
+<p>
+In GALE the UM consists of domain dependent and domain independent variables.
+All variables are addressed using a URI that is very similar to the one used for addressing concepts and
+attributes in the <gale:object name="glossary_dm" />.
+The only difference is the user info part of the URI as it now contains the user's id.
+The following is an example of a URI addressing the actual UM variable "knowledge" for the "Planet"
+concept as seen in <em>david</em>'s user model (where <em>david</em> is a learner):
+<pre><code>        gale://david@grapple-project.org/Milkyway/Planet#knowledge
+</code></pre>The UM part of GALE uses the <em>default</em> code and <em>event</em> code of an attribute to update the
+user model when a change occurs. The event code is executed when the value of an attribute changes
+in the user model (forward reasoning). The default code is executed to calculate the value,
+when there is no value in the user model database (backward reasoning).
+<gale:if expr="${gale_adaptationmodel#knowledge}==0">
+<gale:then>
+(See <gale:a href="gale_adaptationmodel">the GALE adaptation model</gale:a> for an explanation
+of forward and backward reasoning.)
+</gale:then>
+</gale:if>
+If an attribute is set to be not persistent, the UM-server will never store its value in the database.
+Instead it will recalculate it, whenever necessary.Addressing domain independent variables can be done by inventing URIs that do not exist in the DM.
+For example:
+<pre><code>        gale://david@gale.tue.nl/personal#email
+</code></pre>can be invented to address the email address of the user david.
+We typically use the word "personal" to refer to the domain independent information about the use
+but that is just a convention. You can use any term you like as long as it does not collide with
+the name of an existing course.
+</p>
+<p>Any (serializable) Java class can be stored in the UM.
+Serialization is used to store the actual content in a database.
+Numerical values and a textual representation (using toString) are stored redundantly
+for use in queries over the UM.
+</p>
+<p>GALE can communicate part of its UM to and from external services, in particular
+<gale:object name="glossary_gumf" />.
+Attribute properties are used to specify the required information for this communication.
+The details are described in the <gale:a href="gale_advanced">advanced section</gale:a>
+of the GALE part of this tutorial.
+</p>
+</body>
+</html>

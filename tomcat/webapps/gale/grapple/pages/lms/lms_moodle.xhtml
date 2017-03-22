@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Using Moodle in GRAPPLE</h1>
+
+<p>
+GRAPPLE (and specifically the GRAPPLE Conversion Component module) can be installed on
+Moodle version 1.9. (The development was done with version 1.9.5. At the time of writing
+this tutorial the current version is 1.9.7.)
+The software can be found in the LMSconnectors directory of the GRAPPLE software repository.
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a> contains
+detailed installation instructions that go beyond the scope of this tutorial.
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 7.5</a> also
+describes part of the installation.
+</p>
+<p>
+The installation/configuration mainly consists of the following steps:
+<ul>
+<li>
+Configuring the Shibboleth based authentication service (which is already integrated
+in Moodle by default) to use the IdP (identity provider) of the federation of collaborating
+institutes and/or companies.
+</li>
+<li>
+Copying code from the GRAPPLE repository to the "moodle/blocks" directory, logging in
+and clicking the "Notification" link to setup all the database tables. Code is needed for the
+communication to <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a> (gexporter) and for retrieving adaptive
+courses from <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+The figure below shows how to configure the address of
+<gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a> and to choose which types of data
+are exported to GUMF through GEB.:
+<br /><br />
+<img src="../../images/moodle-configuration.jpg" />
+<br /><br />
+</li>
+</ul>
+</p>
+<p>
+The process of creating a course and (multiple-choice) tests in Moodle is not influenced
+by the use of GRAPPLE. However, the way a GRAPPLE resource is selected is specific. The figure
+below shows that a menu item "GRAPPLE resource" was added to the dialog for adding resources:
+<br /><br />
+<img src="../../images/moodle-grappleresource.jpg" />
+<br /><br />
+The next step is to select the course from the available ones (retrieved via "getCourses"):
+<br /><br />
+<img src="../../images/moodle-adaptiveresource.jpg" />
+<br /><br />
+This will add a new resource to the course, which is a link to an adaptive course,
+provided via the GALE (getCourses) facility.
+</p>
+<p>
+Activating the exporting for individual resources (like a quiz) is done by configuring
+the corresponding GExporter block:
+<br /><br />
+<img src="../../images/moodle-resourceexporting.jpg" />
+<br /><br />
+With Moodle, when a learner accesses the adaptive learning material it is shown within the
+browser window of Moodle, and might look like:
+<br /><br />
+<img src="../../images/moodle-learnerview.jpg" />
+</p>
+</body>
+</html>

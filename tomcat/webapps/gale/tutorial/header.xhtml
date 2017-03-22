@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xhtml:div xmlns="http://gale.tue.nl/adaptation"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml" id="header">
+	<variable name="gale://gale.tue.nl/personal#name" />
+(<variable name="gale://gale.tue.nl/personal#email" />)
+has read
+<count method="done" uri="gale://gale.tue.nl/aha3/tutorial" />
+ and still has 
+<count method="todo" uri="gale://gale.tue.nl/aha3/tutorial" />
+to read -
+<a
+		href="gale://gale.tue.nl/admin/done?root=gale://gale.tue.nl/aha3/tutorial">list
+	of read pages</a>
+-
+<a
+		href="gale://gale.tue.nl/admin/todo?root=gale://gale.tue.nl/aha3/tutorial">pages
+	still to be read</a>
+	<xhtml:br />Changeable settings:
+<handler> <name>ColorConfig</name> <linkdescription>link
+	colors <variable expr="gale.concept().getApplication()" /></linkdescription> </handler>
+-
+<handler> <name>KnowledgeConfig</name> <linkdescription>knowledge
+	of <variable expr="gale.concept().getApplication()" /> </linkdescription> </handler>
+	<if expr="!gale.userId().startsWith(&quot;AHA_&quot;)"> <block>
+	- <xhtml:a>password<attr-variable name="href"
+			expr="&quot;gale://gale.tue.nl/admin/password?redirect=&quot;+java.net.URLEncoder.encode(gale.req().getRequestURL().toString(),&quot;UTF-8&quot;)" />
+		<adapt-link />
+	</xhtml:a></block> </if>
+	<if
+		expr="&quot;true&quot;.equals( ((UserEntity)gale.uec().get(gale.userUri())).getProperty(&quot;author&quot;))">
+	<block> - <handler> <name>CAF</name> <linkdescription>import
+	CAF</linkdescription> </handler> - <handler> <name>aha3</name> <linkdescription>import
+	AHA! 3</linkdescription> </handler> </block> </if>
+	<if
+		expr="GaleUtil.digest(gale.req().getSession().getAttribute(&quot;galeadmin&quot;)+&quot;&quot;).equals(GaleUtil.adminpw)">
+	<block> - <handler> <name>Admin</name> <linkdescription>administration</linkdescription>
+	</handler> </block> </if>
+-
+<plugin> <name>logout</name> <linkdescription>logout</linkdescription>
+	</plugin>
+	<xhtml:hr />
+	<if
+		expr="!&quot;disable&quot;.equals(${gale://gale.tue.nl/aha3/tutorial/tutorial#layout.cssValue})"><then>
+	<xhtml:form style="position:fixed;float:right;right:5px;top:5px;"
+		name="cssform" method="post">
+		<attr-variable name="action"
+			expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
+		<if
+			expr="${gale://gale.tue.nl/aha3/tutorial/tutorial#layout.cssValue}.endsWith(&quot;gale.css&quot;)"><then>
+		<xhtml:select name="css" onChange="cssform.submit();">
+			<xhtml:option value="${home}/gale.css" selected="true">gale.css</xhtml:option>
+			<xhtml:option value="${home}/tutorial/tutorial.css">tutorial.css</xhtml:option>
+		</xhtml:select> </then><else> <xhtml:select name="css" onChange="cssform.submit();">
+			<xhtml:option value="${home}/gale.css">gale.css</xhtml:option>
+			<xhtml:option value="${home}/tutorial/tutorial.css" selected="true">tutorial.css</xhtml:option>
+		</xhtml:select> </else> </if>
+		<xhtml:input type="hidden" name="exec"
+			value="#{gale://gale.tue.nl/aha3/tutorial/tutorial#layout.cssValue, gale.req().getParameter(&quot;css&quot;)};" />
+		<xhtml:input type="hidden" name="redirect">
+			<attr-variable name="value" expr="gale.concept().getUriString()" />
+		</xhtml:input>
+	</xhtml:form> </then></if>
+</xhtml:div>

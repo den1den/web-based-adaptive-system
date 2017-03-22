@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+
+<h2>Creating a Login or Registration Page</h2>
+
+<p>By looking at the source of the <a href="/aha/tutorial">tutorial
+login page</a> and the <a href="/aha/tutorial/Registration.html">registration
+page</a> you can get a good idea what these pages must contain. We briefly
+summarize the attributes and fields that can be present in the login and
+registration forms:</p>
+<ul>
+	<li><b>action</b>: Every HTML form must have an action attribute.
+	It is the name of the servlet to call. It must be "/aha/Register" on
+	the registration page and "/aha/Login" on the login page. For anonymous
+	login and registration the action is "/aha/Anonymous".</li>
+	<li><b>name</b>: This is the user's name. It can be shown anywhere
+	in pages but is typically shown in <gale:a href="headerfooter">headers or footers</gale:a>,
+	and it can be used in <gale:object name="adaptationrule" /> <gale:a
+		href="rules">rules</gale:a>. So can all other fields that appear on
+	the login and registration forms. The name field has no special
+	function.</li>
+	<li><b>email</b>: This is the user's email address.</li>
+	<li><b>login</b>: This is the user's login id. It must be unique
+	in the system. It is used when logging in again.</li>
+	<li><b>password</b>: This is the user's password. It should be
+	kept secret and be different from passwords used with other systems.
+	AHA! currently does not store passwords in a very secure way.</li>
+	<li><b>start</b>: This is the name of the first concept to be
+	shown after registering or logging in. This is typically a hidden
+	field. It is mandatory: AHA! does not know which page to show without
+	this field.</li>
+	<li><b>course</b>: This is the name of the AHA! application. (The
+	name "course" was chosen for historical reasons.) The application name
+	is used in conjunction with the concept structure. This is typically a
+	hidden field. It is mandatory. AHA! will not work when this field is
+	missing.</li>
+	<li><b>directory</b>: This is the name of the directory on the
+	server containing the application. In principle this can be different
+	from the application's name, but not all tools are guaranteed to
+	recognize applications where the name is different from the directory.
+	</li>
+	<li><b>title</b>: The title that can be used to refer to the
+	application. The title can have several words whereas "course" can be
+	only one word.</li>
+	<li><b>background</b>: This is the name of an optional background
+	image to be used on the application's pages (in XHTML+AHA format).</li>
+	<li>Other fields may be used as well. They result in attributes of
+	the "personal" concept in the <gale:a href="usermodel">user
+	model</gale:a> which can be used in the <gale:a href="rules">
+		<gale:object name="adaptationrule" /> rules</gale:a>.</li>
+	<li>The <b>submit</b> button must have the correct name to be
+	recognized by AHA!. It is "enter_button" on the registration form and</li>
+	<li>For an anonymous login there is a separate form with
+	"/aha/Anonymous" as its action. In the form the submit button must have
+	a "name" field with value "session_button" on the registration page and
+	"resume_button" on the login page. Other than that the form may contain
+	the same fields as for non-anonymous logins, although there are
+	typically no fields to be filled out. The only fields that cannot be
+	present (or will be ignored) are "login" and "password".</li>
+</ul>
+
+<gale:object data="../footer.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> Domain Model</h1>
+
+<p>
+The domain model for GALE is a set of related concepts. It includes not only the
+<gale:object name="glossary_dm" /> defined using the DM editor; the <gale:object name="glossary_cam" />
+defined using the Course editor is compiled into adaptation rules that are also associated with the
+DM concepts. It even holds <gale:object name="glossary_um" /> schema information, which is instantiated in the UM
+for each individual user.
+Each course has its own set of concepts and relations. A concept has a unique name
+(a URI containing the name of the course so it can be distinguished from concepts in other courses),
+a set of <em>properties</em>, DM <em>relations</em> to other concepts, <em>event code</em>, and a set of (UM)<em>attributes</em>.
+Properties that are frequently used in GALE courses are for example a <em>title</em> (this is displayed
+in the accordion menu you see on the left in the tutorial), a <em>description</em> (which serves as a
+reminder for the author and is not used shown in the course) and the <em>type</em> of concept (for instance,
+concepts of type "page" are used to count the number of visited pages, displayed in the header in this tutorial).
+Each concept has a set of named relations to other concepts and each relation can have properties of its own.
+The "parent" relations are used to define a concept hierarchy on which the menu of this tutorial is based,
+and they are also used to "propagate" knowledge from child concepts to parents.
+</p>
+<p>
+The figure below shows a small fragment of a DM in a graphical way:
+<br /><br />
+<img src="../../images/gale-dm-example1.jpg" />
+</p>
+<p>Attributes are used for information that should be calculated on the fly or stored in the user model.
+Examples of attributes are "knowledge", "suitability", "visited", etc.
+The list of attributes (and their names) is not predefined.
+The attributes have no implicit meaning to GALE, but only have meaning because of the adaptation behavior associated
+with them. The CAM (and its translation to adaptation rules) defines which attributes exist.
+The type of attributes specified in the domain model can be of any data type (actually, any Java class).
+The first example applications only use a few types like Integer, Boolean, String and Concept
+(for creating a concept hierarchy) but allowing any data type makes GALE extensible.An example of a URI for a concept is:<pre>
+        gale://grapple-project.org/Milkyway/Planet
+</pre>Note that the URI is used only for identification. It does not refer to a real “gale” protocol and the
+hostname also need not exist. Attributes are referred to using the fragment part of the URI.
+To refer to the “knowledge” attribute of the concept we can use:
+<pre>        gale://grapple-project.org/Milkyway/Planet#knowledge</pre>
+Properties (of the concept as a whole or of an attribute) are referred to using the query part of a URI:
+<pre>        gale://grapple-project.org/Milkyway/Planet#image?title
+</pre>refers to the “title” property of the “image” attribute of the Planet concept.</p>
+<p>
+The figure below shows a small fragment of a DM with attributes:
+<br /><br />
+<img src="../../images/gale-dm-example2.jpg" />
+</p>
+<p>Properties of a concept define DM information that can be used for adaptation or for presenting information
+(like a “title”, or the URL of an image).
+Attributes also have properties, mainly used for specifying whether the attribute is read-only, persistent,
+public, should be kept stable, etc.. But attributes can also be used for “printable” information
+such as a label or title that are determined at runtime.
+Attributes and properties define the variables the author can refer to in code.
+(The the notation exemplified above is explained fully in the
+<gale:a href="gale_code">section on the adaptation code language</gale:a>.A concept can inherit attributes and properties from other concepts.
+Defining a relation between two concepts with the name "extends" will effectively make properties and attributes
+of the target concept available to the source concept as if they were defined in the source concept.
+The following figure illustrates this:
+<br /><br />
+<img src="../../images/gale-dm-example3.jpg" />
+<br /><br />In this example the "extends" relation makes copies of the attributes in the Layout concept available in the
+Sun concept. Properties are not automatically made available, but can be included by defining an
+"~extends" property on the relationship itself for each property that should be included.
+In our example only the image property will be available in the Sun concept (and of course title and type,
+which are defined in the concept itself). The attributes knowledge and layout in the Layout concept are available
+in Sun, but the resource attribute in the Layout concept is overwritten by the resource attribute in Sun.
+</p>
+<p>
+Note that although the use of "extends" makes it easy to ensure that concepts have the same structure
+(of properties and attributes) creating the instances of the "extends" relation in the DM editor is a
+time consuming task that clutters the graphical display in that tool as well.
+Therefore, instead of using "extends" we have used the "Clone Concept" and "Template" features of the DM editor
+instead, and we have used the "G-Layout" <gale:object name="glossary_prt" /> in the Course editor
+to define and initialize the layout attribute of concepts.
+</p>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gumf" /> User Modeling Service</h1>
+
+<h2>GUMF Architecture</h2>
+<p>
+The figure below shows the main architecture of GUMF:
+<br /><br />
+<img src="../../images/gumf.jpg" />
+<br /><br />
+Client applications can access GUMF either via a RESTful or SOAP-based API.
+This has been done, to allow any client to choose the method that it can support best.
+Further, there is a <em>Java Client API</em> that facilitates development of GUMF client applications.
+Client applications mainly approach GUMF to store user information (handled by the Store Module)
+or to query for information (handled by Query Engine).
+User profile information is modeled by means of
+<gale:a href="gumf_grapplestatement">GrappleStatements</gale:a>
+which are basically reified RDF statements about a user, enriched with
+<a href="http://dublincore.org/">Dublin Core</a>
+metadata for provenance. The current GUMF implementation supports SPARQL and SeRQL queries as well as a pattern-based query language that exploits the Grapple statement structure to specify what kind of
+statements should be returned by GUMF. GUMF’s Data space Logic answers authorized client requests.
+Data spaces are equipped with data storage repositories that either reside at the GUMF server or are
+distributed across the Web (possibly maintained by the client application itself),
+and with reasoning and contextualization plug-ins that further enrich the data that is available
+in the repositories. 
+</p>
+<p>The Administrator of a GUMF client application can configure data spaces and plug-ins via the GUMF
+Admin Interface. Activating or deactivating plug-ins directly influences the behavior of data spaces.
+Further, administrators can adjust the plug-ins and reasoning rules to their needs.
+For example, there is a plug-in that gathers user profile information from Facebook and maps the profile
+into a format preferred by the client application administrator (e.g., FOAF  or OpenSocial ).
+Inspired by Web 2.0 practices, a key principle of GUMF is that data spaces can be shared across different
+client applications. Therefore, clients can subscribe to other data spaces, as long as the administrator
+of the data space approves them. When subscribed to a data space, the client is allowed to query it.
+However, it might still not be allowed to access all statements that are made available via the data space,
+as fine-grained access control functionality can be embedded in the data spaces as well.
+</p>
+
+<h2>Distributed Dataspaces</h2>
+<p>
+GUMF data spaces have a distributed nature: they provide a logical view on data,
+which is distributed across the Web. From the perspective of a GUMF client application,
+a data space constitutes a central query endpoint, which allows the clients to query data that
+is distributed across different servers and possibly also encapsulated by other services.
+Each data space enables client applications also to store data within a data repository that is
+associated to the data space.
+The figure below illustrates the part of the architecture dealing with data spaces.
+<br /><br />
+<img src="../../images/gumf-dataspaces.jpg" />
+<br /><br />Each GUMF data space has a URI, which is basically the query and storage endpoint data space.
+For example, the URI http://grapple-project.org/gumf/ds/1 might identify data space D1 shown in the figure.
+This means that the clients C1 and C2 that access D1 will send a request to the GUMF Web application,
+which is located at http://grapple-project.org/gumf/ . The data space D1 will then process the request
+on the data that is formed by the plug-ins D1 has (P1, P2, and P3) and the repository associated to D1.
+Data spaces are administrated via the
+<gale:a href="gumf_webinterface">GUMF Web interface</gale:a>. The administrator A1, for example,
+can activate/deactivate the plug-ins that will be triggered for each incoming request and A1
+can adjust the repository that should be used to store data.
+This repository can be located anywhere in the Web.
+A1 might decide to use a Sesame repository that is located at http://www.example.com/sesame/.
+The decoupling of the data space and its underlying data store also enables client applications
+to use their own repository: C1 can use some repository which is located on the same server as C1
+and which might moreover be a repository that is in some cases directly queried by C1.
+Other client applications, e.g. C2, thus have to take into account that they in the end
+have to trust the administrator of the data space.
+</p>
+<p>The GUMF plug-in functionality allows for high flexibility.
+Via plug-ins a data space can aggregate data from other services, from files published on the Web
+or even from other data spaces. In the figure, P1 is querying service S1 for additional data.
+S1 might be a service such as Delicious, which can deliver valuable profile information about the user.
+For example, there are plug-ins that aggregate tag-based user profiles from different services such as
+Flickr, GroupMe!, and TagMe!. Plug-in P2 in the figure harvests data from files stored on the Web
+such as FOAF profiles of users. 
+</p>
+<p>GUMF data spaces thus bundle distributed data from the Web and provide a uniform interface for storing and querying user data.
+</p>
+<p>
+Within the GRAPPLE project GUMF was set up with four servers, one in Eindhoven, one in Saarbr&uuml;cken,
+one in Delft and one in Hannover. As all references to dataspaces use a URI there is no confusion as
+to which server needs to be addressed to access which dataspace on which server.
+</p>
+</body>
+</html>

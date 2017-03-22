@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+
+<h1><gale:variable expr="${?title}"/></h1>
+
+<h2>Image of <u><gale:variable expr="${?title}"/></u></h2>
+<img><gale:attr-variable name="src" expr="${?image}"/><gale:attr-variable name="width" expr="300"/></img>
+
+<h2>Information</h2>
+<gale:object><gale:attr-variable name="data" expr="${?info}" /></gale:object>
+
+<gale:if expr="${#visited} &lt;= 1">
+<gale:block>
+<br /><br />Please click <a><gale:attr-variable name ="href" expr="${?next}"/><b>Next >></b><gale:adapt-link/></a> to continue and view the content of this toy example.
+<br /><br />
+</gale:block>
+</gale:if>
+
+<gale:if expr="${#visited} &gt; 1">
+<gale:block>
+<gale:a>
+<gale:attr-variable name="href" expr="${?next}"/>
+<u><h4>Next >>	</h4></u>
+</gale:a>
+</gale:block>
+</gale:if>
+
+<b>Visited:</b> <gale:variable expr="${#visited}"/>
+</html>

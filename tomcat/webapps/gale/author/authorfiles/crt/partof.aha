@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE aha_relation_type SYSTEM 'aha_relation_type.dtd'>
+<aha_relation_type>
+	<name> partof </name>
+	<listitems>
+		<setdefault location ="___source.suitability" combination="AND">___destination.knowledge &gt;= var:0 </setdefault>
+	</listitems>
+</aha_relation_type>

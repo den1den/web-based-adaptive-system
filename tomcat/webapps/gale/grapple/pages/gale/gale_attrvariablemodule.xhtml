@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> AttrVariableModule  (&lt;attr-variable&gt; tag)</h1>
+
+<p>
+The <code>&lt;gale:variable&gt;</code> tag lets you insert computed information (extracted from
+<gale:object name="glossary_dm" /> or <gale:object name="glossary_um" />) into the page.
+Unfortunately, because this is an XML tag it cannot be included inside an XML tag.
+So if you would like to write something like:
+<pre>
+  &lt;img src="&lt;gale:variable expr="${#image}" /&gt;" /&gt;
+</pre>
+you are not allowed to because you cannot use an XML tag inside another XML tag.
+What is intended here is that an image is shown of which the (possibly relative) URL is contained
+in a UM attribute "image".
+To realize this we use the <code>gale:attr-variable</code> tag
+which adds an attribute and value to its parent tag (to the surrounding element in the DOM tree):
+<pre>
+&lt;img&gt;&lt;gale:attr-variable name="src" expr="${#image}"/&gt;&lt;/img&gt;
+</pre>
+The name of the attribute to be added to the <code>&lt;img&gt;</code> tag is "src"
+and the value is the result of evaluating the expression "${#image}".
+<br />
+This tag can be used also to use the <code>&lt;gale:object&gt;</code> tag with a computed
+value for the "data" attribute:
+<pre>
+&lt;gale:object&gt;&lt;gale:attr-variable name="data" expr="${#info}" /&gt;&lt;/gale:object&gt;
+</pre>
+This conditionally inserts an object (see <gale:a href="gale_objectmodule" />the page on the
+<code>&lt;object&gt;</code> tag) of which the URL (the "data" attribute) is contained in the
+"info" attribute of the current concept.
+</p>
+<p>
+A slightly more complex example of the use of <code>&lt;gale:attr-variable&gt;</code> is:
+<pre>
+  &lt;img&gt;&lt;gale:attr-variable name="src"    expr="${gale://gale.tue.nl/personal#isVerbalizer}?${?smallimage}:${?largeimage}"&gt;&lt;/img&gt;  &lt;object&gt;&lt;gale:attr-variable name="data"
+    expr="${gale://gale.tue.nl/personal#isVerbalizer}?${?longinfo}:${?shortinfo}"&gt;&lt;/object&gt;
+</pre>
+Depending on a learning style (verbalizer versus visualizer) a small image and long text fragment or a
+large image and short text fragment is presented.
+</p>
+</body>
+</html>

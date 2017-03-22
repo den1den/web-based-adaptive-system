@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<gale:if expr="${#done}"><gale:then>
+<h1>GUMF Test Result</h1>
+<p>
+Your test score was <gale:variable expr="${#knowledge}.intValue()" />.
+</p>
+</gale:then>
+</gale:if>
+<gale:test title="Quiz about the GRAPPLE User Modeling Framework" total="4" action="#{#knowledge, value};#{#done, true};" expr="!${#done}" ask="4" alt="[You are not allowed to repeat this test.]" verbose="true">
+
+<gale:question answers="2" right="1">
+True or False: End-Users log into <gale:object name="glossary_gumf" /> using their Shibboleth account.
+<gale:answer correct="false">True
+<gale:explain>
+This statement is indeed false, and in fact end-users do not log in on GUMF at all as only
+client applications connect to GUMF, not users.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="true">False
+<gale:explain>
+GUMF is a back-end service used only by client applications to store and retrieve data on behalf
+of users. End-users do not log in on GUMF at all (hence also not using Shibboleth).
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+<gale:object name="glossary_gumf" /> is a distributed <gale:object name="glossary_um" /> store.
+But what about the UM data for a single user: Is this data stored on a single server or can it
+also be distributed?
+<gale:answer correct="false">Data of a user resides on a single server.
+<gale:explain>
+No, data about a user can not only be stored on a single server (dataspace) within GUMF but
+GUMF can also use external data from social networks or other sources.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="true">Data of a single user can be distributed.
+<gale:explain>
+Indeed, data about a user can not only be stored on a single server (dataspace) within GUMF and
+furthermore GUMF can also use external data from social networks or other sources.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or false: When you name a test "xyz" on an <gale:object name="glossary_lms" /> and you name
+a concept "xyz" in a course on <gale:object name="glossary_gale" /> and declare in both systems
+that the knowledge value should be stored in <gale:object name="glossary_gumf" /> the LMS and GALE
+will "share" (see) the same value.
+<gale:answer correct="true">False
+<gale:explain>
+This is (some would say unfortunately) not true because data in GUMF is addressed in a much
+more elaborate way. Data from an LMS and from GALE will be in separate data spaces, but you can
+map data from one to the other so that the LMS and GALE can see each other's values (after some conversion).
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Indeed, this is (some would say unfortunately) not true because data in GUMF is addressed in a much
+more elaborate way. Data from an LMS and from GALE will be in separate data spaces, but you can
+map data from one to the other so that the LMS and GALE can see each other's values (after some conversion).
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+What is a GrappleStatement?
+<gale:answer correct="true">An assertion about a user, like "John has interest in English" (but formulated
+not in natural language but in a formalism). 
+<gale:explain>
+Correct: a GrappleStatement is only a "statement", an "assertion". It can be sent to GUMF but it
+can also be returned by GUMF as an answer to a query.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">An assignment of a value for a property of a user, like an instruction
+to <gale:object name="glossary_gumf" /> to store that triple (user, property, value) on the server.
+<gale:explain>
+This is not true: a GrappleStatement is only a "statement", an "assertion". It can be sent to GUMF but it
+can also be returned by GUMF as an answer to a query. It is not an instruction for GUMF to do something.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:result>
+Your score was <gale:variable expr="${#knowledge}.intValue()" />. 
+</gale:result>
+</gale:test>
+</body>
+</html>

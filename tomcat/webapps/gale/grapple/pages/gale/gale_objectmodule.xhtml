@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> ObjectModule (&lt;object&gt; tag)</h1>
+
+<p>
+The <code>&lt;gale:object&gt;</code> tag is used to (conditionally) include a separate file.
+The tag accepts different parameters resulting in different behavior:
+<ol>
+<li>
+<code>&lt;gale:object data="filename" /&gt;</code><br />
+The ObjectModule replaces the object element by the contents of the file with the given filename.
+The file must contain a valid XML tree because its contents is entered into the DOM tree.
+When you want to include a file just to include a text fragment you can make the file
+start with <code>&lt;span&gt;</code> and end with <code>&lt;/span&gt;</code>
+to turn it into a valid XML document.<br />A typical example of the use of a "data" object is to include a fixed header in all pages.
+Atter replacing the object element with the contents of the file the XMLProcessor continues to
+process the DOM tree, thus going through the included file and adapting its content as well.
+<br />
+The filename need not be a constant. By using the
+<gale:a href="gale_attrvariablemodule">AttrVariableModule</gale:a> you can assign a
+computed value to any attribute of any XML element.
+</li>
+<li>
+<code>&lt;gale:object name="conceptname" /&gt;</code><br />Inclusion of an object by using <code>&lt;gale:object name="conceptname" /&gt;</code> causes GALE to
+look up the concept (matching the “name” attribute of the tag) and perform
+<gale:a href="gale_locatingresources">resource selection</gale:a> on that concept.
+As a result the file that will be included is determined in exactly the same way as in the case of
+resource selection for concepts that should present a (whole) page.When an object is included using <code>&lt;gale:object name="conceptname" /&gt;</code> this is a concept
+access and thus causes <gale:object name="glossary_um" /> updates. 
+Because GALE traverses the DOM tree (of the page) in depth first manner,
+the part that comes after processing this tag (and request) will be adapted according to the updated UM
+state whereas the part before the tag was already updated using the “old” UM state and stays that way.
+It is thus possible to include the same concept as an object on the same page multiple times and have it
+result in different files being included for each occurrence.
+</li>
+</ol>
+</p>
+</body>
+</html>

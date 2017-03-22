@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+
+<h2>Graph Author Templates</h2>
+
+<p>In the <gale:a href="graphauthor">graph author</gale:a> tool you
+can create concepts and concept relationships of different types. The
+list of available types is based on templates. All files for authoring
+tools can be found in "/author/authorfiles" (set by the
+"graphauthorfiles" parameter in the <gale:a href="ahaconfig">AHA! configuration file</gale:a>).
+The file "templatelist.txt" lists the concept templates that exist in
+the "templates" directory and the file "crtlist.txt" lists the concept
+relationship templates that exist in the "crt" directory. The graph
+author checks these lists and downloads the templates. A <gale:a
+	href="concepttemplate">concept template</gale:a> defines a structure
+of attributes, a concept type and unary concept relationships. A
+template consists of two parts (files):</p>
+<ul>
+	<li>The <gale:a href="authorfile">file with
+	suffix ".author"</gale:a> contains definitions used by the graph author to
+	determine how to display the concept relationships of the given type.
+	The graph author only needs the information from this file (and the
+	structure created by the author) to produce its graph output file.</li>
+	<li>The <gale:a href="ahafile">file with suffix
+	".aha"</gale:a> contains definitions for the translation of the concept
+	relationships of the given type to AHA! <gale:a href="rules">event-condition-action rules</gale:a>.
+	The graph author only needs the information from this file (and the
+	structure created by the author) to produce the file with concepts and
+	rules that you can also create using the <gale:a href="concepteditor">concept
+	editor</gale:a>.</li>
+</ul>
+<p>Because of the strict separation of concerns in these two files,
+and the output the graph author creates from them, the ".author" files
+can also be used without the ".aha" files to create concept relationship
+graphs without translation to AHA!, and the ".aha" files can be used by
+different authoring tools to translate concept relationship graphs to
+AHA! rules without the graph author.</p>
+<p>When creating new concepts in the <gale:a href="concepteditor">Concept Editor</gale:a>
+a "defaultConcept.xml" file is used to create an initial set of
+attributes and rules. The attributes and rules can of course be changed
+in the concept editor.</p>
+
+<gale:object data="../footer.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>
