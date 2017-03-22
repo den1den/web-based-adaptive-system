@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Removing a learning activity</h1>
+
+<p>
+Below are the data associated with the event when a user removes a learning activity.
+A learning activity is part of a course. The user variables are mapped to
+<a href="http://www.imsglobal.org/profiles/">IMS LIP</a> 1.0.1 (the numbers below indicate the single table and row in the IMS LIP specification): <ul>
+<li>
+<gale:object name="glossary_lms" /> type (CLIX, Claroline, Moodle, ELEX, Sakai): contentype – 13.3 – sourcedid (13.3.1.1)</li>
+<li>
+url: contentype – 13.3 – id (13.3.1.2)</li>
+<li>
+User id: security key - 11.4 - keyfields (11.4.1 - fieldlabel, 11.4.2 - fielddata)</li>
+<li>
+Course id: activity - contentype – 13.3 – sourceid (13.3.1.1)</li>
+<li>
+Activity id: activity - activity -6.13 - contentype – 13.3 – sourceid (13.3.1.1)</li>
+<li>
+Status: activity - activity - 6.13 – status – 13.8 - typename (13.4) ). The Status identifies this event as <b>removal</b>.</li>
+</ul>
+</p>
+<p>
+For an example of the XML code of this event type we refer to
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a>.
+<br />(You do not need to know this to use GRAPPLE.)
+</p>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Creating a Domain Model</h1>
+
+<p>
+The subject domain of a course is defined using <em>concepts</em> and <em>typed relationships</em>
+between these concepts. We would typically use a <em>parent</em> relationship type to create
+a concept hierarchy, but any other type of relationship that might be found in an ontology can be
+used as well. Below we cover the different steps involved in creating a <gale:object name="glossary_dm" />.
+<ol>
+<li>
+When creating a DM the following dialog appears first:
+<br /><br />
+<img src="../../images/dm-createdm.jpg" />
+<br /><br />
+You must give the DM a name, optionally add a description, and then indicate whether you wish
+to keep the DM private, publicly readable or publicly writable (so you can collaborate with others
+on a shared DM).
+</li>
+<li>
+To add a <em>concept</em> to the DM you click on the "Add Concept" button in the DM tool.
+You then enter a name and description for the concept and click on "Save", as shown in the screenshot below:
+<br /><br />
+<img src="../../images/dm-addconcept.jpg" />
+<br /><br />
+</li>
+<li>
+After saving the name and description of the concept you can add "resources", "properties" and
+"relationships" to the concept.
+The screenshot below shows the creation of a "resource":
+<br /><br />
+<img src="../../images/dm-addresource.jpg" />
+<br /><br />
+A resource can be a file (an XHTML page for instance) to be presented when the learner accesses the
+concept, but there can be several such files which are adaptively selected (by
+<gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>) based on a property associated with the resource.
+Resources can also be files that are included somewhere in the page.<br />
+Note that after adding a property to the resource you need to click on the local "Save" button
+and when you are done with the resource as a whole you must click on "Save" at the bottom of the pop-up
+dialog.
+<br />
+When you select a resource from the list of resources associated with the concept you can preview
+the resource by clicking on "View":
+<br /><br />
+<img src="../../images/dm-viewresource.jpg" />
+<br /><br />
+Viewing a resource only works for resources that use the HTTP protocol.
+You can also use resources with a "gale" pseudo-protocol. These resources will be served through
+GALE and cannot be previewed as they need to be adapted to the learner (who is unknown at the time of
+authoring).
+</li>
+<li>
+A concept can have properties assigned to it. Some properties that have been used for concepts
+of this GRAPPLE tutorial are:
+<ul>
+<li>
+<b>type</b>: the value "page" for the "type" property tells GALE that this concept is a "page" that
+must be studied. The tutorial presents a header showing the number of pages read and the number still
+to do. Only concepts with the "page" value for the property "type" are counted.
+</li>
+<li>
+<b>title</b>: the value of the property "title" is used in the accordion menu you see on the left
+in the tutorial. If a concept has no property "title" the name of the concept is shown in the menu.
+</li>
+<li>
+<b>order</b>: in the menu on the left items at the same level (depth) are presented in ascending order
+of the value for the "order" property. If concepts have no "order" property they are presented in the
+order they were created. Note that the numbers used need not be consecutive integers. The "order" property only has this effect in the menu because the "view" generating the menu uses it. GALE lets you create lists in a page using a &lt;for&gt; tag, but as "order" is not used there those lists will not be sorted.
+</li>
+</ul>
+</li>
+<li>
+You can create a (domain specific) relationship between concepts by clicking on a concept, selecting
+the "Relationship" tab and clicking "Add" (or "Edit" for editing an existing relation).
+Alternatively you can click on the "Add Relationship" button shown in the left pane, or select
+"Relate Concept" from the context menu of the concept (right click when mouse pointer is over the concept).
+This pops up the dialog shown below:
+<br /><br />
+<img src="../../images/dm-addrelationship.jpg" />
+<br /><br />
+A relationship has a <em>source</em> (the current concept is chosen by default), <em>destination</em>
+and <em>type</em>. Both the source and destination can be selected from all concepts of the DM.
+The type can be selected from a list of predefined or previously created types, or a new type can
+be specified.
+</li>
+</ol>
+The graphical pane of the DM editor is a graph editor in which you can freely move concepts
+(the arrows indicating the relationships automatically follow). You can drag the whole graph over
+the pane, scroll horizontally and vertically and zoom in and out.
+</p>
+<p>
+When the DM is ready it can be saved using the "Save" button in the toolbar or the File->Save menu item.
+It can later be opened again through the "Open" button in the toolbar or the File->Open menu item.
+This results in the dialog box below, showing the list of available DMs:
+<br /><br />
+<img src="../../images/dm-open.jpg" />
+</p>
+<p>
+The creation of a DM seems to involve a lot of work, especially when most concepts have a similar
+structure (like the same properties). To reduce this effort the DM editor lets you convert a concept
+into a <em>template</em> through the "Save as Template" context menu item. You can then use the
+"Template" button to add a concept using that template. Alternatively you can use the "Clone Concept"
+context menu item to create a clone of a concept (having the same properties, and the name with "_1"
+added to it to keep the name unique). Authoring becomes much more efficient through the use of
+templates or cloning.
+</p>
+<p>
+For the interested reader we have an explanation of the
+<gale:a href="gat_dm_data">DM data structures</gale:a>
+which you can access through the "Debug" tab.
+To create courses you do not need to know these technical details.
+</p>
+</body>
+</html>

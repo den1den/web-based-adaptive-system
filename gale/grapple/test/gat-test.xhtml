@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<gale:if expr="${#done}"><gale:then>
+<h1>GAT Quiz Result</h1>
+<p>
+Your test score was <gale:variable expr="${#knowledge}.intValue()" />.
+</p>
+</gale:then>
+</gale:if>
+<gale:test title="Quiz about the GRAPPLE Authoring Tool" total="5" action="#{#knowledge, value};#{#done, true};" expr="!${#done}" ask="5" alt="[You are not allowed to repeat this test.]" verbose="true">
+<p>
+This is a short test to verify your knowledge about authoring in GRAPPLE.
+</p>
+<gale:question answers="2" right="1">
+True or false: When concepts in the <gale:object name="glossary_dm" /> have an "order" attribute
+they will always be sorted according to this attribute when GALE presents them in a list.
+<gale:answer correct="true">False
+<gale:explain>
+GALE has "views" like the accordion menu presented on the left in this tutorial.
+These views may or may not consider the "order" attribute to sort the lists in the menu.
+Lists appearing in pages are not sorted by GALE.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+This is not <em>always</em> true.
+GALE has "views" like the accordion menu presented on the left in this tutorial.
+These views may or may not consider the "order" attribute to sort the lists in the menu.
+Lists appearing in pages are not sorted by GALE.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="4" right="3">
+What are differences between <gale:object name="glossary_dm" /> and <gale:object name="glossary_cam" />? Check all that apply!
+<gale:answer correct="true">
+Relationships in DM are between single concepts and in the CAM between sets of concepts.
+<gale:explain>
+Indeed: the CAM uses sockets to connect sets of concepts but in DM the relationships are between
+single concepts, which is more like in an ontology.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">
+Relationships in the DM can be of any arbitrary type, but relationships in the CAM can only
+be of a set of predefined types (presented in the left pane of the CAM tool).
+<gale:explain>
+In the CAM you can create relationships of arbitrary types just like in the DM tool.
+But in the DM tool the relationships have no properties besides their name so adding them has been
+made easy whereas to add a new type of relationship to a CAM you must first define that using
+the <gale:object name="glossary_prt" /> tool, after which it will appear in the left pane of the
+CAM tool and can be selected.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="true">
+Relationships in the CAM may have pedagogical meaning but relationships in the DM should not
+have pedagogical meaning.
+<gale:explain>
+This is true, but mark the use of "should" here: you can create a DM with relationships that have
+pedagogical meaning but you should not as the DM should only describe the subject domain.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="true">
+Relationships in a CAM can have more endpoints than in a DM.
+<gale:explain>
+Indeed: <gale:object name="glossary_prt" />s in a CAM can have one, two but also more and in fact
+any (fixed) number of sockets. In a DM relations are all binary.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or false: In order for an <gale:object name="glossary_lms" /> and
+<gale:object name="glossary_gale" /> to communicate knowledge values (through
+<gale:object name="glossary_gumf" /> they must use the same <em>scale</em> for knowledge values.
+<gale:answer correct="true">False
+<gale:explain>
+Using the UM mapping tool you can convert values between different rating schemes (scales).
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Indeed, this is what the UM mapping tool is for.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or False: When using only the default <gale:object name="glossary_prt" />s you must use
+the "G-Knowledge-Propagation" PRT to "propagate" knowledge from child to parent concepts.
+<gale:answer correct="true">False
+<gale:explain>
+Indeed: for convenience the "G-Knowledge-Propagation-Parent" PRT has been created for this purpose,
+enabling you to create all these propagations in a single PRT instance.
+Therefore you should not use "G-Knowledge-Propagation" for this (which would require a PRT instance
+for each instance of a parent relation in the DM). You can still use
+"G-Knowledge-Propagation" for propagating knowledge between concepts that are not related through
+a "parent" relationship.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+This may seem like a logical answer, but for convenience the "G-Knowledge-Propagate-Parent" PRT
+does this propagation for all parent relations through a single PRT instance.
+Therefore you should not use "G-Knowledge-Propagation" for this (which would require a PRT instance
+for each instance of a parent relation in the DM). You can still use
+"G-Knowledge-Propagation" for propagating knowledge between concepts that are not related through
+a "parent" relationship.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:question answers="2" right="1">
+True or false: a binary <gale:object name="glossary_prt" /> (i.e. one with two sockets) is
+always a "directed" PRT.
+<gale:answer correct="true">False
+<gale:explain>
+The PRT and CAM tools are implemented in such a way that only binary PRTs where the sockets
+are named "source" and "target" are considered "directed". PRTs with different socket names
+(and PRTs with only 1 or with more than 2 sockets) are automatically undirected.
+Note that the only implication of being "directed" or "undirected" is how the CAM tool draws the PRT.
+</gale:explain>
+</gale:answer>
+<gale:answer correct="false">True
+<gale:explain>
+Indeed, The PRT and CAM tools are implemented in such a way that only binary PRTs where the sockets
+are named "source" and "target" are considered "directed". PRTs with different socket names
+(and PRTs with only 1 or with more than 2 sockets) are automatically undirected.
+Note that the only implication of being "directed" or "undirected" is how the CAM tool draws the PRT.
+</gale:explain>
+</gale:answer>
+</gale:question>
+<gale:result>
+Your score was <gale:variable expr="${#knowledge}.intValue()" />. 
+</gale:result>
+</gale:test>
+</body>
+</html>

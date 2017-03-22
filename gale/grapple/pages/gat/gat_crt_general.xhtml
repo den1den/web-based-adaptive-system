@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The General Tab of the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The General Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-general.jpg" />
+</p>
+<p>
+This tab consists of the following parts:
+<dl>
+<dt><b>Information on title and description</b></dt><dd>The title and description of the PRT have been defined in the property dialogue when creating
+the PRT. It cannot be changed within the PRT Tool. However, in the "Manage Models" section of the
+<gale:object name="glossary_gat" /> shell, there is a button to modify properties.
+In order to modify the properties, the PRT tool has to be closed, then the properties can be changed,
+and then the PRT can be opened again.
+</dd>
+<dt><b>Defining the visual representation</b></dt>
+<dd>In the second part the visual representation can be specified. In the
+<gale:a href="gat_cam"><gale:object name="glossary_cam" /> Tool</gale:a>, PRTs are graphically depicted
+and represented in a specific color and with a symbol. This color and symbol can be changed here by
+selecting the symbol in the pull down list and the color in the color chooser.
+</dd><dt><b>Defining the structure of the PRT</b></dt>
+<dd>At the bottom of this tab the structure of the PRT can be specified. This is one of the most important
+parts of the PRT definition. The basic element of a PRT is the socket, which is a container where domain
+concepts (of the domain model) can be inserted as soon as the PRT is inserted in a CAM. In the CRT the
+properties of the socket are defined. First the name has to be specified, which is used to address
+the socket in the adaptation code. Second the minimum and maximum number of concepts to be inserted
+in the respective socket is determined. Third the structure of the PRT is defined: Either a directed
+structure can be chosen, which includes exactly two sockets, where one is the sources and the other
+is the target socket. The meaning of source and target structure, however, is defined in the code part.
+If an undirected structure is chosen, then the PRT can be made up of an arbitrary number of sockets.
+In this case type and name has to be specified for each socket.
+<br />
+Note that the names "source" and "target" determine that the PRT is directed. When using other names
+the PRT becomes undirected.
+</dd>
+</dl>
+</p>
+</body>
+</html>

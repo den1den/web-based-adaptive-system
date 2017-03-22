@@ -1,0 +1,17 @@
+span.info{
+    position:relative; /*this is the key*/
+    z-index:24;
+    text-decoration:none}
+
+span.info:hover{z-index:25; background-color:#ff0}
+
+span.info span{display: none}
+
+span.info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:1.5em; left:1.5em; /* width:10em; */ /* could give it fixed width */
+    border:2px solid #0cf;
+    background-color:#cff; color:#000;
+    text-align: left}
+

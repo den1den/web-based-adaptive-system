@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE aha_relation_type SYSTEM 'aha_relation_type.dtd'>
+<aha_relation_type>
+	<name> test </name>
+	<listitems>
+		<generateListItem location="___source.testresult.actions"  isPropagating="false">
+			<requirement> ___source.knowledge &gt; var:90 </requirement>
+			<trueActions>
+				<action>
+					<conceptName> ___destination </conceptName>
+					<attributeName> knowledge </attributeName>
+					<expression> var:200 </expression>
+				</action>
+			</trueActions>
+		</generateListItem>
+	</listitems>
+</aha_relation_type>

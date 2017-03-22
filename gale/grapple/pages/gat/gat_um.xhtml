@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1><gale:object name="glossary_um" /> Mapping</h1>
+
+<p>
+When learners are studying a course they are interacting with an <gale:a href="LMS"><gale:object name="glossary_lms" /></gale:a>
+(for instance for multiple-choice tests or handing in assignments) and with
+<gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a> (for reading adaptive learning material).
+The interaction with the LMS may result in <gale:object name="glossary_um" /> data stored in
+<gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>.
+This data can be retrieved by GALE and used for adaptation.
+However, the LMS does not store the data under the same identifiers as those used by GALE, and the values may be incompatible,
+like on a different scale. Every LMS may use different value ranges as well.
+So the identifiers and values need to be mapped onto each other in order for interaction with an LMS to really influence
+the adaptation in GALE.
+</p>
+<p>
+The "Tools" menu of <gale:object name="glossary_gat" /> offers a "User Model" item that activates the
+<gale:object name="glossary_um" /> Mapping tool that looks like the screenshot below:
+<br /><br />
+<img src="../../images/um-mapping.jpg" />
+<br /><br />
+The learner (User: ?learner) performs a test on the LMS. The result has an internal identifier on the LMS, which is
+118316 in the example, and it has an identifier in GUMF, which is
+"http://www.grapple-project.org/ims-lip/completedTest" (only partially visible in the screenshot).
+The test result (Level: ?level) is not on the same scale as the typical knowledge values
+on a scale of 0-100 used by GALE.
+<br />
+The mapping rule transforms this LMS result into another entry for GUMF: the new entry is identified in GUMF as
+"http://gale.tue.nl/predicate/knowledge" and is known by GALE as
+"gale://gale.tue.nl/cam/SelfmanagementTest_Course/testresult" (again only partially visible).
+The value from ?level is multiplied by 20. So if the LMS gives a score between 0 and 5 the value that will be
+retrieved by GALE is a score between 0 and 100.
+</p>
+</body>
+</html>

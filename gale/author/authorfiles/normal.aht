@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE AHG SYSTEM '../AHAstandard/AHG.dtd'>
+
+<AHG>
+  <concepttree>
+    <concept>
+      <name>root</name>
+    </concept>
+  </concepttree>
+  <crts>
+    <map>
+      <entry>
+        <string>depends on</string>
+        <crt>
+          <name>depends on</name>
+          <description>Source concept depends on destination concept.</description>
+          <color>-16776961</color>
+          <code/>
+        </crt>
+      </entry>
+      <entry>
+        <string>child</string>
+        <crt>
+          <name>child</name>
+          <description>Source concept is a child of destination concept.</description>
+          <color>3847834</color>
+          <code/>
+        </crt>
+      </entry>
+      <entry>
+        <string>references</string>
+        <crt>
+          <name>references</name>
+          <description>Source concept references destination concept.</description>
+          <color>8549580</color>
+          <code/>
+        </crt>
+      </entry>
+    </map>
+  </crts>
+  <models>
+    <map>
+      <entry>
+        <string>Main model</string>
+        <model />
+      </entry>
+    </map>
+  </models>
+</AHG>

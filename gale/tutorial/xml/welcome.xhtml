@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+<h1>AHA! Tutorial</h1>
+
+<p>Welcome <gale:if expr="${installation#knowledge}&gt;0">
+	<gale:block>back</gale:block>
+</gale:if> to the AHA! Tutorial. This adaptive document describes how to use
+version 3.0 of AHA!, the Adaptive Hypermedia Architecture. This tutorial
+consists of the following main parts:</p>
+<ul>
+	<li><gale:a href="installation">Installation
+	instructions</gale:a>. This section describes how to install AHA! on a Windows
+	or Linux system, and how to configure it for use with or without the
+	mySQL database. <gale:if expr="${installation#knowledge}==0">
+		<gale:block>
+You are advised to study this part first in order to set up your
+own local server on which you can experiment with AHA!.
+After this step you can opt to either first study AHA! in detail,
+or to jump right into the <gale:a href="example">example</gale:a>
+that gives you hand-on experience with the creation of an AHA! application.
+</gale:block>
+	</gale:if></li>
+	<li>Information for and about <gale:a href="enduser">end-users</gale:a>.
+	This section describes how the AHA! system uses the user's browsing
+	behavior to build and maintain a user model, and how it decides how to
+	adapt the presentation to each individual user.</li>
+	<li>Information <gale:a href="authoring">for
+	authors</gale:a>, including how to create the conceptual structure of an
+	adaptive application, and how to create <gale:object
+		name="adaptationrule" /> rules using the different authoring
+	tools that come with AHA!.</li>
+	<li>Information for <gale:a href="advanced">system
+	designers</gale:a> who need to support authors of an AHA! installation and who
+	may wish to extend AHA!'s built-in functionality.</li>
+	<li>Information on how <gale:a href="contribute">you
+	can contribute</gale:a> to the AHA! project by sending us your additions, fixes
+	and suggestions.</li>
+	<li>A hands-on <gale:a href="example">example</gale:a> to aid you
+	in creation of your first AHA! application</li>
+</ul>
+<gale:object data="../footer.xhtml">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>

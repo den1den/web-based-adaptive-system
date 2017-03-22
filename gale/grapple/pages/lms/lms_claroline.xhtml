@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Using Claroline in GRAPPLE</h1>
+
+<p>
+GRAPPLE (and specifically the GRAPPLE Conversion Component module) can be installed on
+Claroline version 1.10.
+The integration requires two additional modules for Claroline:
+<ol>
+<li>The first one is named "GRPPLAD" and allows the Claroline kernel to send data over
+<gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>.
+</li>
+<li>The second one named "GRAPPLE" is a fork from the Claroline Learning Path tool with additional features needed to send data to GRAPPLE.</li>
+</ol>
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a> contains
+detailed installation instructions that go beyond the scope of this tutorial.
+Once the installation is complete Claroline needs to be told how to connect to GEB
+and which data types will be sent to <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a> over GEB:
+<br /><br />
+<img src="../../images/claroline-settings.jpg" />
+<br /><br />
+For tests/quizzes served by Claroline you need to configure which data elements are
+communicated to (GUMF via) GEB:<br /><br />
+<img src="../../images/claroline-privacysettings.jpg" />
+<br /><br />
+Note that these are global settings (for the entire Claroline server).
+</p>
+<p>
+Next the teacher can add a GRAPPLE course by creating a learning path in a Claroline course space.
+The Learning Path tool in Claroline allows the teacher to link resources
+(Claroline documents and exercises, GRAPPLE course, etc.) and define the path to navigate
+between them by branching conditions or prerequesites.To add a GRAPPLE course as a resource in a learning path, the teacher has to click on
+"Import a GRAPPLE course" to  get a list of available GRAPPLE courses (the result of a
+"getCourses" request),
+choose the course he wants to add in this list and click on the import button:
+<br /><br />
+<img src="../../images/claroline-importcourse.jpg" /><br /><br />
+Each resource in the course can be made available depending on the completion of other activities.
+Such sequencing is adaptation independent of the adaptation performed by <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.<br /><br />
+<img src="../../images/claroline-learningpath.jpg" /><br /><br />With Claroline, when a learner accesses the adaptive learning material it is shown within the
+browser window of Claroline, and might look like:
+<br /><br />
+<img src="../../images/claroline-learnerview.jpg" />
+</p>
+</body>
+</html>

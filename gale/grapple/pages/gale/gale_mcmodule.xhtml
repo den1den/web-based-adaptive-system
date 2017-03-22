@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> MCModule (&lt;test&gt; tag)</h1>
+
+<p>
+The <code>&lt;test&gt;</code> is a special-purpose tag used to include a multiple-choice test in a page.
+The ability to include a multiple-choice test in a course served by GALE is most useful when GALE is used
+in a stand-alone mode. When your institute is using an <gale:object name="glossary_lms" /> you probably
+want to serve multiple-choice tests from the LMS so as to do the tests in the environment the learners
+are familiar with, and so as to include the grades in the LMS' gradebook.
+</p>
+<p>
+Using the <code>&lt;test&gt;</code> tag you can include multiple choice tests that can update the 
+GALE <gale:object name="glossary_um" /> based on the (correctness of the) learner's answers to the
+questions. Not only can the test questions and answers be adaptive, the textual description can include
+adaptive features as well, like conditionally included objects or fragments.
+Here we explain the format in which these tests can be included in the page by using an example.
+In the example you will see that besides the <code>&lt;test&gt;</code> tag itself there are additional
+tags that are used as part of the test, like <code>&lt;question&gt;</code> and <code>&lt;answer&gt;</code>.Our example is taken from an on-line course on the subject of "hypertext", offered at the
+<a href="www.tue.nl/">Eindhoven University of Technology</a>
+(using <gale:a href="lms_sakai">Sakai</gale:a> as LMS but with GALE serving the adaptive learning material
+and the multiple choice tests). We have not reproduced the full text of the explanations as they are
+irrelevant here.
+<pre>
+&lt;gale:test     title="Test for the Introduction"    action="#{testintro#knowledge,value}; #{testintro#done,true};"    expr="!${testintro#done}"     ask="2"    alt="[You are not allowed to repeat this test.]"     verbose="true">  &lt;gale:question       answers="2"       right="1"&gt;    True or False:     According to the definition given in this course, this course text is a hypertext.     &lt;gale:answer correct="true"&gt;      False      &lt;gale:explain&gt;        The course text is indeed not a hypertext but a hyperdocument, because         a hypertext is the document plus the software, not the document alone.      &lt;/gale:explain&gt;    &lt;/gale:answer&gt;    &lt;gale:answer correct="false"&gt;      True      &lt;gale:explain&gt;        The course text is a hyperdocument, not a hypertext, because a         hypertext is the document plus the software, not the document alone.      &lt;/gale:explain&gt;    &lt;/gale:answer&gt;  &lt;/gale:question&gt;  &lt;gale:question       answers="4"       right="1"&gt;     What makes it difficult to offer a search facility for this course text?     &lt;gale:answer correct="true"&gt;       The course text is adaptive.       &lt;gale:explain&gt;        Indeed, because the course text is adaptive ...       &lt;/gale:explain&gt;    &lt;/gale:answer&gt;    &lt;gale:answer correct="false"&gt;       The course is only available after a login procedure.       &lt;gale:explain&gt;         The login procedure may prevent a search engine ...
+        So the adaptive aspect of the course text was the correct answer.       &lt;/gale:explain&gt;    &lt;/gale:answer&gt;    &lt;gale:answer correct="false"&gt;       Some information is hidden in images.       &lt;gale:explain&gt;         In general it is a problem that information may only be available in images. However, …       &lt;/gale:explain&gt;    &lt;/gale:answer&gt;    &lt;gale:answer correct="false"&gt;      The pages are not available as a whole, but only accessible through links.       &lt;gale:explain&gt;         By following links to retrieve all the pages one by one ...       &lt;/gale:explain&gt;    &lt;/gale:answer&gt;  &lt;/gale:question&gt;  &lt;gale:result&gt;     Your score was &lt;gale:variable expr="${testintro#knowledge}.intValue()" /&gt;.     &lt;br /&gt;    &lt;gale:if expr="${testintro#knowledge}&lt;100"&gt;      &lt;gale:then&gt;        &lt;br /&gt;        &lt;br /&gt;        You are not allowed to repeat this test, but you can continue with another topic from the menu.        &lt;/gale:then&gt;      &lt;gale:else&gt;         You can now continue with another topic from the menu.       &lt;/gale:else&gt;    &lt;/gale:if&gt;  &lt;/gale:result&gt;&lt;/gale:test&gt;
+</pre>
+We now look at the elements of the test one by one:
+<ul>
+<li>
+The <code>&lt;test&gt;</code> tag has 6 arguments:
+<ul>
+<li>
+The "title" results in an automatically generated (h1) title for the test.
+</li>
+<li>
+The "action" describes the actions GALE should perform when the learner completes the test.
+The test itself results in a "value" that can be used in the action. In the example the action is
+<pre>
+        #{testintro#knowledge,value}; #{testintro#done,true};
+</pre>
+which means that the "value" of the test is assigned to the attribute "knowledge" of the concept "testintro"
+and the "done" attribute of "testintro" is set to "true".
+Because the <gale:a href="gale_code">GALE code</gale:a> makes use of attributes "knowledge" and "done"
+you need to make sure (through a <gale:object name="glossary_prt" /> used in the
+<gale:object name="glossary_cam" /> that these attributes exist). The standard "G-Quiz" PRT creates
+these attributes, so you should make sure you create an instance of "G-Quiz in the CAM, and insert all
+test concepts into its socket.
+</li>
+<li>
+The "expr" is a Boolean expression in GALE code that must be true in order for the learner to be
+allowed to take the test. In the example the expression is:
+<pre>
+	!${testintro#done}
+</pre>
+which means the test is only allowed if it is not yet "done". As a result the test can be taken only once
+by every learner.
+</li>
+<li>
+The value of "ask" indicates how many questions will be asked. The test may contain more questions from
+which only the "ask" number of questions will be presented (chosen randomly and presented in random order).
+</li>
+<li>
+The value of "alt" is a message shown to the learner who is not allowed to take the test. (In the example this
+would be because the learner tries to repeat the test.)
+</li>
+<li>
+The Boolean "verbose" flag indicates whether explanations will be given after the test or not.
+When "verbose" is false the learner only gets an overall score. When it is true the learner will see
+which questions were answered correctly and for each given answer an explanation will be shown.
+</li>
+</ul>
+</li>
+<li>
+The <code>&lt;question&gt;</code> tag has 2 arguments: the number of "answers" to show and the
+number of "right" answers to show. The question may contain more answers and more correct answers.
+The answers are selected randomly and presented in random order. Radio buttons will be shown when
+there is only one correct answer and checkboxes when there are multiple correct answers.
+The content of the <code>&lt;question&gt;</code> element is the text of the question,
+the answers and optional explanations.
+</li>
+<li>
+The <code>&lt;answer&gt;</code> tag has a single argument "correct" indicating whether this is a
+correct or wrong answer. Its contents consists of the answer and optional explanations.
+</li>
+<li>
+The <code>&lt;explain&gt;</code> element inside an answer contains an explanation of why the
+answer is right or wrong.
+</li>
+<li>
+The <code>&lt;result&gt;</code> element presents the outcome of the test. (When the test is presented
+this part is hidden and when the test has been performed only this part is shown and the test is hidden.)
+In our example we see that the contents of elements, in this case the result, can contain arbitrary
+XHTML and GALE tags and can even contain adaptive content.
+</li>
+</ul>
+The example test is shown below. The action has been removed though.
+<br />
+Please note that as this test cannot be repeated you will only see the test upon your first visit to this page.
+</p>
+<p>
+<gale:test 
+    title="Test for the Introduction"
+    action=""
+    expr="${#visited}&lt;2" 
+    ask="2"
+    alt="[You are not allowed to repeat this test.]" 
+    verbose="true">
+  <gale:question 
+      answers="2" 
+      right="1">
+    True or False: 
+    According to the definition given in this course, this course text is a hypertext. 
+    <gale:answer correct="true">
+      False
+      <gale:explain>
+        The course text is indeed not a hypertext but a hyperdocument, because 
+        a hypertext is the document plus the software, not the document alone.
+      </gale:explain>
+    </gale:answer>
+    <gale:answer correct="false">
+      True
+      <gale:explain>
+        The course text is a hyperdocument, not a hypertext, because a 
+        hypertext is the document plus the software, not the document alone.
+      </gale:explain>
+    </gale:answer>
+  </gale:question>
+  <gale:question 
+      answers="4" 
+      right="1"> 
+    What makes it difficult to offer a search facility for this course text? 
+    <gale:answer correct="true"> 
+      The course text is adaptive. 
+      <gale:explain>
+        Indeed, because the course text is adaptive ... 
+      </gale:explain>
+    </gale:answer>
+    <gale:answer correct="false"> 
+      The course is only available after a login procedure. 
+      <gale:explain> 
+        The login procedure may prevent a search engine ...
+        So the adaptive aspect of the course text was the correct answer. 
+      </gale:explain>
+    </gale:answer>
+    <gale:answer correct="false"> 
+      Some information is hidden in images. 
+      <gale:explain> 
+        In general it is a problem that information may only be available in images. However, … 
+      </gale:explain>
+    </gale:answer>
+    <gale:answer correct="false">
+      The pages are not available as a whole, but only accessible through links. 
+      <gale:explain> 
+        By following links to retrieve all the pages one by one ... 
+      </gale:explain>
+    </gale:answer>
+  </gale:question>
+  <gale:result> 
+    Your score was <gale:variable expr="${#knowledge}.intValue()" />. 
+    <br />
+    <gale:if expr="${#knowledge}&lt;100">
+      <gale:then>
+        <br />
+        <br />
+        You are not allowed to repeat this test, but you can continue with another topic from the menu. 
+      </gale:then>
+      <gale:else> 
+        You can now continue with another topic from the menu. 
+      </gale:else>
+    </gale:if>
+  </gale:result>
+</gale:test>
+</p>
+</body>
+</html>

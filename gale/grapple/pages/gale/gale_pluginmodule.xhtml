@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h2>The <gale:object name="glossary_gale" /> PluginModule (&lt;plugin&gt; tag)</h2>
+
+<p>
+The <code>&lt;test&gt;</code> is a special-purpose tag used to include a link to a special
+function in a page. The header of each page of the tutorial contains:
+<pre>
+  &lt;gale:plugin&gt;    &lt;gale:name&gt;logout&lt;/gale:name&gt;    &lt;gale:linkdescription&gt;Logout    &lt;/gale:linkdescription&gt;  &lt;/gale:plugin&gt;
+</pre>
+This generates a link that looks like:
+<gale:plugin>  <gale:name>logout</gale:name>  <gale:linkdescription>Logout  </gale:linkdescription></gale:plugin>
+and that logs you out when you click on the link.
+(We do not suggest that you try this now.)
+</p>
+<p>
+When a plugin needs additional parameters they can be specified using the "param" subelement.
+An example:
+<pre>
+&lt;gale:plugin&gt;  &lt;gale:name&gt;export&lt;/gale:name&gt;  &lt;gale:linkdescription&gt;Export concept (hierarchy)  &lt;/gale:linkdescription&gt;  &lt;gale:param name="root"    value="gale://gale.tue.nl/cam/GRAPPLE"/&gt;&lt;/gale:plugin&gt;
+</pre>
+This results in the following link:
+<gale:plugin>  <gale:name>export</gale:name>  <gale:linkdescription>Export concept (hierarchy)  </gale:linkdescription>  <gale:param name="root"    value="gale://gale.tue.nl/cam/GRAPPLE"/></gale:plugin>.
+When you click on this link GALE produces a textual representation of the GALE
+<gale:object name="glossary_dm" /> for the named concept and all other concepts starting with this name.
+In practice this would export the DM for this entire GRAPPLE tutorial. The format is named "GDOM" for
+GALE Domain Model.
+</p>
+<p>
+In the <gale:a href="gale_advanced">advanced GALE topics</gale:a> we explain how to create new plugins.
+Here we describe the standard plugins that are included in the GRAPPLE (GALE) distribution:
+<dl>
+<dt>LogoutPlugin (logout)</dt>
+<dd>
+This plugin logs you out. It generates an HTML page that displays a message indicating that you
+have been logged out. Note that this only works in stand-alone mode. If you are logged in using
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a> (the IdPLoginManager) the logout plugin
+will log you out of GALE
+but you remain logged in on Shibboleth because Shibboleth has no logout mechanism. (You are logged out
+of Shibboleth when you exit the browser.)
+</dd>
+<dt>FormPlugin (form)</dt>
+<dd>
+This plugin allows for <gale:a href="gale_code">GALE code</gale:a> execution based on information
+entered in an HTML form.
+The plugin expects the code that should be executed in an HTTP parameter.
+The code can use the form parameters in the regular way (i.e.
+by calling <code>gale.req().getParameter(...)</code>).
+</dd>
+<dt>ExportPlugin (export)</dt>
+<dd>
+As shown above, this exports part of the DM as a GDOM file that is sent as content to the browser.
+This plugin uses an additional parameter called 'root' to select part of the domain model.
+All concepts that start with the value of this parameter are included.
+</dd>
+<dt>PasswordPlugin (password)</dt>
+<dd>
+This plugin displays a password change form that allows the user to change his/her password.
+When using Shibboleth this plugin has no effect.
+</dd>
+<dt>UpdatePlugin (update)</dt>
+<dd>
+Allows the direct import of a .cam file. The parameter 'cam' is used as a URL to locate the .cam file.
+A .cam file is a <gale:object name="glossary_cam" /> saved using the "export" functionality of
+<gale:object name="glossary_gat" />.
+</dd>
+<dt>MCPlugin</dt>
+<dd>
+This plugin is used by multiple choice tests to produce an evaluation report (score).
+There is no name to call this plugin directly from within a page using the <code>&lt;plugin&gt;</code> tag.
+</dd>
+<dt>ExecPlugin (exec)</dt>
+<dd>
+This plugin is used by GALE adaptive links to execute code upon following a link.
+There is no name to call this plugin directly from within a page using the <code>&lt;plugin&gt;</code> tag.
+</dd>
+<dt>AjaxPlugin (ajax)</dt>
+<dd>
+This plugin is used by the ajax processor to indicate subsequent document retrieval.
+It returns a new document only if something has changed.
+</dd></dl>
+</p>
+</body>
+</html>

@@ -1,0 +1,62 @@
+[1mdiff --git a/webcontent/thesis/introduction.xml b/webcontent/thesis/introduction.xml[m
+[1mindex 58087c7..a4429b3 100644[m
+[1m--- a/webcontent/thesis/introduction.xml[m
+[1m+++ b/webcontent/thesis/introduction.xml[m
+[36m@@ -2,7 +2,7 @@[m
+ <gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"[m
+ xmlns:gale="http://gale.tue.nl/adaptation">[m
+ [m
+[31m-<gale:text tag="short" flat="true" type="creole">giving a sljlsdhil introduction to the[m
+[32m+[m[32m<gale:text tag="short" flat="true" type="creole">giving a gentle introduction to the[m
+ material in the thesis and its context</gale:text>[m
+ [m
+ <gale:text tag="long" type="creole">The technology described in this thesis will allow an[m
+[36m@@ -18,18 +18,18 @@[m [mthe design of the developed languages, models and systems:[m
+ <gale:text tag="default" type="creole">Authors have used written text for centuries to[m
+ convey ideas. They were constrained by the linear nature of books, papers, and the like.[m
+ Hypertext has empowered authors, in that it allows interlinking fragments and pages of[m
+[31m-text and thus creating a document that is radically different from a linear text. Going[m
+[31m-from linear text to hypertext requires a change in mindset for both authors and readers.[m
+[32m+[m[32mtext and thus creating a document that is radically different from a linear text. Going[m[41m [m
+[32m+[m[32mfrom linear text to hypertext requires a change in mindset for both authors and readers.[m[41m [m
+ Only when authors come to convey ideas using this newfound power and when readers learn to[m
+ cope with this new navigational freedom, will hypertext reach its full potential.[m
+ [m
+[31m-THIS TEXT IS CHANGED!!! Though the idea of hzypertext dates back to the 1940's[m
+[31m-[[references?tags=Bush45|[Bush45~]]], it was not until the technological context was[m
+[31m-available that authors started to use it en masse. However, the same technological context[m
+[31m-can be used to empower authors even further. Conveying ideas is still the driving force[m
+[31m-behind any authoring, linear text and hypertext. Taking your readers into account while[m
+[31m-writing, is something every author should do. The technology described in this thesis will[m
+[31m-allow an author to create //adaptive hypermedia//, a text that will depend on the reader's[m
+[32m+[m[32mThough the idea of hypertext dates back to the 1940's[m[41m [m
+[32m+[m[32m[[references?tags=Bush45|[Bush45~]]], it was not until the technological context was[m[41m [m
+[32m+[m[32mavailable that authors started to use it en masse. However, the same technological context[m[41m [m
+[32m+[m[32mcan be used to empower authors even further. Conveying ideas is still the driving force[m[41m [m
+[32m+[m[32mbehind any authoring, linear text and hypertext. Taking your readers into account while[m[41m [m
+[32m+[m[32mwriting, is something every author should do. The technology described in this thesis will[m[41m [m
+[32m+[m[32mallow an author to create //adaptive hypermedia//, a text that will depend on the reader's[m[41m [m
+ knowledge, interest, goals, etc.[m
+ [m
+ When World Wide Web was first introduced it was intended as a means for sharing[m
+[36m@@ -47,10 +47,10 @@[m [mthemselves to their individual users or user groups, through the interaction of[m
+ with the applications.[m
+ [m
+ The main focus of the work described here was to create the technological context[m
+[31m-necessary to support authors in creating these //adaptive hypermedia// applications. As[m
+[31m-such, we call the development author-driven. Several considerations have played an[m
+[32m+[m[32mnecessary to support authors in creating these //adaptive hypermedia// applications. As[m[41m [m
+[32m+[m[32msuch, we call the development author-driven. Several considerations have played an[m[41m [m
+ important role in the design of the developed languages, models and systems:[m
+[31m-* reading (accessing) an adaptive hypertext should not be slower than reading a[m
+[32m+[m[32m* reading (accessing) an adaptive hypertext should not be slower than reading a[m[41m [m
+   traditional hypertext,[m
+ * authors should be able to express any adaptivity based on the user,[m
+ * the full complexity of adaptive behavior should be hidden from authors who don't need[m
+[36m@@ -60,4 +60,4 @@[m [mimportant role in the design of the developed languages, models and systems:[m
+ Designing a system that takes these considerations into account has led to several[m
+ [[questions]].</gale:text>[m
+ [m
+[31m-</gale:repo>[m
+[32m+[m[32m</gale:repo>[m
+\ No newline at end of file[m

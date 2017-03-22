@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:gale="http://gale.tue.nl/adaptation">
+	<body style="font-family: Tahoma, Arial">
+		<h1 style="text-align: center; color: #108010; margin-top: 20px">Pages
+			still to be read</h1>
+		<p style="text-align: center">
+			Please note that this list contains
+			pages for which the visited attribute is zero.
+			<br />
+			Whether that means that you did not visit these pages depends on the
+			application.
+		</p>
+		<gale:if expr="gale.req().getParameter(&quot;root&quot;)==null">
+			<gale:block>
+				<p style="text-align: center; color: #D02020">
+					<br />
+					<br />
+					Please specify a root uri as parameter to this page.
+				</p>
+			</gale:block>
+			<gale:block>
+				<table>
+					<gale:for var="concept"
+						expr="CountModule.getNonVisitedUriCache(gale.req().getParameter(&quot;root&quot;),gale)">
+						<tr>
+							<td>
+								<gale:a href="%concept">
+									<gale:variable expr="${%concept?title}" />
+								</gale:a>
+							</td>
+						</tr>
+					</gale:for>
+				</table>
+			</gale:block>
+		</gale:if>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Adapting Content and Links in <gale:object name="glossary_gale" /></h1>
+
+<p>
+The XMLProcessor in GALE traverses the DOM tree of the resource (page) to be presented.
+Each time it encounters an element (tag) for which a "Module" has been defined it lets
+that Module perform adaptation to the element.
+Typically the Module replaces the element with some different content, which must be valid XML.
+</p>
+
+<p>
+We describe each Module with associated tag separately.
+The Modules/tags are:
+<dl>
+<dt>The <gale:a href="gale_ifmodule">IfModule</gale:a> (&lt;if&gt; tag)</dt>
+<dd>Used for the conditional presentation of some (in-line) content.</dd>
+<dt>The <gale:a href ="gale_objectmodule">ObjectModule</gale:a> (&lt;object&gt; tag)</dt>
+<dd>Used for the conditional inclusion of a separate resource (file).</dd>
+<dt>The <gale:a href ="gale_adaptlinkmodule">AdaptLinkModule</gale:a> (&lt;a&gt; tag)</dt>
+<dd>Used for adaptive link annotation or hiding.</dd>
+<dt>The <gale:a href ="gale_variablemodule">VariableModule</gale:a> (&lt;variable&gt; tag)</dt>
+<dd>Used for inserting the value of a <gale:object name="glossary_um" /> attribute or the
+value of an expression over the UM.</dd>
+<dt>The <gale:a href ="gale_attrvariablemodule">AttrVariableModule</gale:a> (&lt;attr-variable&gt; tag)</dt>
+<dd>Like the VariableModule, but used to insert the value into an attribute of an XML tag.</dd>
+<dt>The <gale:a href ="gale_formodule">ForModule</gale:a> (&lt;for&gt; tag)</dt>
+<dd>Used for iterating over a list of objects.</dd>
+<dt>The <gale:a href ="gale_countmodule">CountModule</gale:a> (&lt;count&gt; tag)</dt>
+<dd>Generates the length of a list of objects.</dd>
+<dt>The <gale:a href ="gale_mcmodule">MCModule</gale:a> (&lt;test&gt; tag)</dt>
+<dd>Used for generating a multiple-choice test.</dd>
+<dt>The <gale:a href ="gale_pluginmodule">PluginModule</gale:a> (&lt;plugin&gt; tag)</dt>
+<dd>Used for generating a link to a plugin for special functions (like e.g. logging out).</dd>
+<dt>The <gale:a href ="gale_viewmodule">ViewModule</gale:a> (&lt;view&gt; tag)</dt>
+<dd>Used for generating a presentation over the <gale:object name="glossary_dm" />, for instance the
+accordion menu you see on the left in this tutorial.</dd>
+<dt>The <gale:a href ="gale_htmlmodule">HTMLModule</gale:a> (&lt;html&gt; tag)</dt>
+<dd>Used for replacing the top HTML tag by a structured layout.</dd>
+</dl>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The GALE IfModule (&lt;if&gt; tag)</h1>
+
+<p>
+A fragment can be included in the source (XML or XHTML) text of a resource (page),
+and only conditionally presented to the user. This can be done using the <code>&lt;gale:if&gt;</code>,
+<code>&lt;gale:then&gt;</code> and <code>&lt;gale:else&gt;</code> tags with a
+<gale:a href="gale_code">GALE expression</gale:a>
+(added to the <code>&lt;gale:if&gt;</code> tag) to make the decision on the inclusion.
+This construct is simple and most useful for conditional inclusions that occur in a single instance.
+An example:
+<pre>
+&lt;gale:if expr="${#suitability}"&gt;  &lt;gale:then&gt;    This concept is suitable :)   &lt;/gale:then&gt;  &lt;gale:else&gt;    This concept is unsuitable!  &lt;/gale:else&gt;&lt;/gale:if&gt;
+</pre>
+The example expression evaluates the "suitability" of the current concept and then replaces the entire
+if-then-else DOM subtree by the contents of the "then" or the "else" part.
+(Here that is just a text fragment but it can also be a large part of the document with many tags inside.
+In any case the "then" and "else" parts must be valid XML fragments.)
+</p>
+<p>
+This tutorial contains <code>&lt;if&gt;</code> tags in a number of places,
+typically to include a small explanation of a topic you have not yet studied.
+Such conditionally included fragments typically depend either on the number of visits
+to a concept or on the knowledge of a concept.
+</p>
+</body>
+</html>

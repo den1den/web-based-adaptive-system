@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE aha_relation_type SYSTEM 'aha_relation_type.dtd'>
+<aha_relation_type>
+	<name>hide</name>
+	<listitems>
+		<generateListItem isPropagating="false" location="___source.access" >
+			<requirement> true </requirement>
+			<trueActions>
+				<action>
+					<conceptName> ___destination </conceptName>
+					<attributeName> hierarchy </attributeName>
+					<expression> false </expression>
+				</action>
+			</trueActions>
+		</generateListItem>
+	</listitems>
+</aha_relation_type>

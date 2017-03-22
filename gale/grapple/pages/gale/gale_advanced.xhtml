@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Advanced <gale:object name="glossary_gale" /> Topics</h1>
+
+<p>
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 1.3c</a> describes many advanced
+aspects of GALE. We consider a few advanced topics that may be of interest to authors of courses.
+</p>
+<h2>Internal Communication</h2>
+<p>
+GALE components communicate with each other either through SOAP messages sent over the GALE event bus
+or through method calls. The GALE adaptation engine needs to communicate with the
+<gale:object name="glossary_dm" /> and <gale:object name="glossary_um" /> services.<br/>
+The communication with the DM services uses the following methods:
+<ul>
+<li>
+<b>getdm</b> asks for the DM information about a single concept specified using a URI.
+</li>
+<li>
+<b>listdm</b> lists the URIs for all concepts whose name starts with the specified URI.
+</li>
+<li>
+<b>querydm</b> retrieves DM information based on a (hibernate) query rather than a URI.
+</li>
+<li>
+<b>setdm</b> sends a list of (serialized) entities to the DM service(s).
+</li>
+<li>
+<b>updatedm</b> is initiated by the DM service to tell the adaptation engine the DM has changed.
+This allows the adaptation engine to update its DM cache.
+</li>
+</ul>
+There may be multiple DM services, and in fact by default there already are several. They need not support
+all methods mentioned above. In addition to the standard DM service there is an AHA3Service that reads
+files in the AHA! format (AHA! was developed
+at the <a href="http://www.tue.nl/">Eindhoven University of Technology</a> prior to GALE).
+There is a GDOMService that reads files in the GDOM format to which GALE can export an application.
+</p>
+<p>
+There is also an Open Corpus DM service that allows domain and adaption models to be stored externally.
+The information can be stored in separate files using the
+<gale:a href="gale_code"><gale:object name="glossary_gam" /></gale:a> format, or inside resources using the meta element.
+In the Open Corpus setting the URI that identifies the concept is used as a URL to locate DM information for the concept.  When the concept URI is used as a URL the resulting document is scanned for a <code>&lt;meta&gt;</code> element
+with "name" attribute "gale.dm". The contents of this meta element is expected to be GAM code describing the current
+concept. When no information for the current concept is found, the Open Corpus service searches for files called
+"concept.gdom" and "concept.gam". It does so from the current path in the URL up to the root of the server specified.
+The first description found on the current concept is used.
+</p>
+<p>
+The communication with the UM service involves UM events and "entity" events, where an "entity" event asks
+for course-independent information about a user. Communication with the UM service uses the following methods:
+<ul>
+<li>
+<b>getentity</b> retrieves an entity (user info) based on a URI.
+</li>
+<li>
+<b>setentity</b> sends a (serialized) user entity that needs to be updated to the UM service.
+</li>
+<li>
+<b>getum</b> retrieves UM info based on a URI.
+</li>
+<li>
+<b>setum</b> sends (serialize) UM info to the UM service.
+</li>
+<li>
+<b>updateum</b> is initiated by the UM service to tell the adaptation engine that a UM value changed.
+This allows the adaptation engine to update its UM cache.</li>
+<li>
+<b>updatedm</b> is initiated by the DM service to tell the adaptation engine that the DM changed,
+but is also received by the UM service to update "default" values.
+</li>
+<li>
+<b>query</b> retrieves UM data based on a (hibernate) query.
+</li>
+</ul>
+The architecture of GALE shows that the initiative for updates can come from different components.
+The GALE adaptation engine can for instance tell the UM service that the some UM value has changed, but the UM service
+can also tell the adaptation engine that a value has changed (thus invalidating the UM cache).
+</p>
+<h2>External Communication</h2>
+<p>
+UM information in GALE may need to be stored or retrieved from external sources.
+Within GRAPPLE in particular, GALE needs to be able to communicate with
+<gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a> to exchange this information.
+</p>
+<p>The adaptation engine part of GALE only uses its internal UM service. It has no notion of a difference between external
+or internal user model. Hence, the UM service needs to make this distinction.
+The UM service itself should not be responsible for the direct communication with external parties.
+That would make for a less modular system. We chose to define special events that are generated
+by the user model service, that help in externalizing user model values.
+</p>
+<p>Included in GALE is a GUMF UM service that listens on the event bus for these events generated by the default UM service.
+The specifics of these events are described in the table below. The service communicates with GUMF over the
+<gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a> and uses the GEB connector
+(see <gale:a href="gale_architecture">the GALE architecture</gale:a>) to receive the result.
+GEB works asynchronously and waiting for the result could take a long time (relative to GALE's internal processing).
+When GALE's UM service generates events for externalization, it does not wait for the result.
+A service that uses these events is expected to generate "setum" events when necessary.
+This is what the GUMF service does when it receives an event that indicates the retrieval of an external value.
+</p>
+<p>The messages used in the communication with GUMF are:
+<ul>
+<li>
+<b>getPublicUM</b> This message indicates that external (non-authorative) UM information is needed.
+The service that receives this message is supposed to answer with a "setum" message.
+This message must contain a URI indicating the internal GALE name for the UM variable, the external name, type and range
+for the variable.
+</li>
+<li>
+<b>setPublicUM</b> This message states that a certain UM variable should be published (when updated).
+Again there should be a URI for the internal
+GAME name, an external name, type and range. Note that there is no value here. When an "updateum" message is
+then received the update will be sent to GUMF (over GEB).
+</li>
+<li>
+<b>updateum</b> When this message is sent by the UM service for a variable that has been declared as public
+by calling "getPublicUM" the value will be sent to GUMF (over GEB).
+</li>
+<li>
+<b>setum</b> When GUMF answers a "getPublicUM" call a "setum" message pushes this value to the internal UM service.
+</li>
+</ul>
+</p>
+<p>
+GALE offers web services for adding new courses and retrieving the available courses. GALE exposes its internal
+event bus through the "sendGaleEvent" method. For each course GALE can be asked to generate a URL that serves as
+an entry point to start the course. The course itself is made available through servlets and to the outside GALE
+acts as a normal web server.
+The available methods (messages) are:
+<ul>
+<li>
+<b>updateCAMModel</b> is sent to GALE (from <gale:a href="GAT"><gale:object name="glossary_gat" /></gale:a>)
+when you "Deploy" a course in the Course editor.
+GALE will respond with a URL of the start concept or with an error message.
+</li>
+<li>
+<b>getCourses</b> is a request from an <gale:a href="LMS"><gale:object name="glossary_lms" /></gale:a>,
+needed to enable the LMS to show a list of available courses. You can add a starting index and number to get
+a subrange from a very long course list.
+</li>
+<li>
+<b>getCourseCount</b> is a request from an LMS to ask how many courses there are.
+</li>
+<li>
+<b>sendGaleEvent</b> lets external services send events to the GALE internal event bus.
+</li>
+</ul>
+</p>
+
+<h2>Security</h2>
+<p>
+Allowing arbitrary Java code to run as part of adaptive applications and courses gives great power to authors.
+However, badly written code could run indefinitely or break the server.
+Malicious code could access the operating system of the server running GALE, which would comprise security even further.
+</p>
+<p>To prevent the aforementioned security risks, GALE runs author written code only in a protected sandbox.
+The sandbox uses built-in, proven Java security that is also used when running applets on the web.
+Java's byte code verifier prevents malicious byte code that could not have been generated from Java source code.
+Security restrictions on the source code prevent access to many functions that are otherwise available to Java
+applications, like direct file system access, access to other threads running in the JVM, etc.
+In effect, GALE code can do the same as a Java applet and most other functions are restricted and will raise an exception.
+Author written code runs in a separate thread that is monitored and that can be halted when too much time is spent on a single function. (Note that if the server is very slow and/or overloaded code might sometimes be halted even when
+there is no problem with the code. Every single request is given 3 seconds of run-time which should be about an
+order of magnitude longer than what is normally needed.)
+</p>
+<p>These security measures ensure the integrity of the GALE server with respect to (semi) arbitrary Java code written by authors.
+</p>
+
+<h2>Extending GALE</h2>
+<p>
+We indicate the possible extensions here but do not describe how to actually implement the extensions.
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 1.3c</a> has the details needed for that.
+Possible GALE extensions are:
+<ul>
+<li>
+You could invent a new tag and define the (adaptive) function GALE should perform when it encounters this tag
+(i.e. write the module for that behavior).
+For instance, GALE already has an <code>&lt;if&gt;</code> tag for conditionally choosing between two fragments
+(in the &lt;then&gt; and &lt;else&gt; parts). You could create a new tag to select between more alternatives.
+This might look like this:
+<pre>
+    &lt;gale:select expr="${gale://gale.tue.nl/personal#experience}"&gt;	&lt;gale:case value="beginner"&gt;            &lt;p&gt;Structured Query Language (SQL) would allow you to express the question in a machine understandable format.&lt;/p&gt;	&lt;/gale:case&gt;	&lt;gale:case value="intermediate"&gt;		&lt;p&gt;&lt;gale:a href="sql"&gt;SQL&lt;/gale:a&gt; would enable you to create the appropriate query.&lt;/p&gt;	&lt;/gale:case&gt;	&lt;gale:case value="expert"&gt;            &lt;p&gt;In SQL the query would look something like:&lt;br\&gt;                SELECT * FROM person WHERE city = 'brunssum'&lt;/p&gt;	&lt;/gale:case&gt;    &lt;/gale:select&gt;
+</pre>
+</li>
+<li>
+You could come up with a new "view", like a new type of menu (instead of the static-tree-view used in this tutorial).
+A new "view" can not only be based on the <gale:object name="glossary_dm" /> but also the
+<gale:object name="glossary_um" />. And unlike code an author inserts into a page or a
+<gale:object name="glossary_prt" /> a view can also use the UM of different learners.
+You can for instance define an "expert" view that shows the top five learners with the highest knowledge
+about the current concept.
+</li>
+<li>
+You could create a new plugin that generates output not to be embedded in the page but that forms a whole page
+by itself. An example would be a plugin that generates a list of all concepts of the course with the learner's
+knowledge value for each concept.
+</li>
+<li>
+You could add a new service to GALE's event bus, for instance to import/create a DM from external sources and/or
+in different formats than GALE currently supports.
+</li>
+<li>
+You could create a new Processor and insert it somewhere in the Processor pipeline. For instance,
+instead of the Load Processor for loading files from a file system or through HTTP you could create a Processor
+to load pages from a database.
+</li>
+<li>
+You could add a new Login Manager. Currently there is a standard (stand-alone) login manager and there is
+the IdPLoginManager used with <a href="http://shibboleth.internet2.edu/">Shibboleth</a>.
+</li>
+</ul>
+</p>
+</body>
+</html>

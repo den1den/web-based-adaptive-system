@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Creating a (Pedagogical) Course Model</h1>
+
+<p>
+The Course Adaptation Tool us used to define the pedagogical structure of a course.
+(The result is sometimes referred to as the <em>Conceptual Adaptation Model</em> or CAM
+and sometimes also as the Pedagogical Course Model.)
+Whereas the <gale:object name="glossary_dm" /> represents the conceptual
+structure of the topic domain of a course, the CAM connects concepts or sets of concepts
+with each other based on pedagogical or presentation goals.
+In the DM a relationship connects two concepts (like A is "parent" of B).
+In the CAM we can create relationships between an arbitrary number of sets of concepts.
+The placeholders for the related (sets of) concepts are called "sockets".
+Throughout the description of the Course Adaptation Tool we will use
+some pedagogical relationship types (or PRTs),
+but we have a separate description of the
+<gale:a href="gat_crt">standard pedagogical relationship types</gale:a>
+that are part of the GRAPPLE distribution.
+<if expr="${gat_crt#visited}==0">
+<then>
+As an example when some set A of concepts should be studied before you can understand
+the concepts of set B we create a <em>prerequisite</em> relationship between set A and set B.
+</then>
+</if>
+The pedagogical relations (may) have <em>adaptive behavior</em> associated with them.
+<if expr="${gat_crt#visited}==0">
+<then>
+For instance, with the prerequisite between A and B links to concepts of set B may be hidden until
+all the concepts of A have been studied.</then>
+</if>
+</p>
+<p>
+When you open a "Course" the screen may look (more or less) like the screenshot below:
+<br /><br />
+<img src="../../images/cam.jpg" />
+<br /><br />
+The pane on the left shows the available types of PRTs (called "rules") available in the
+default distribution, created by you, currently used in the course or all relationship types combined.
+From this pane PRTs can be dragged onto the right pane which shows the instances of
+these types currently in use in the course.
+A pedagogical relationship can also be added by selecting "Insert Pedagogical Relation"
+from the context menu (right click) used in the right pane. The screenshot below shows
+the result of a drag and drop operation. The created instance of the PRT shows the name of the PRT
+and the sockets, each with their name. The sockets are initially empty (no "Items") and can be populated
+later.
+<br /><br />
+<img src="../../images/cam-dragdrop.jpg" />
+<br /><br />
+</p>
+<p>
+In addition to the previous method, pedagogical relations can also be copied and pasted.
+Copying a relation is done by right-clicking on a relation node and selecting “Copy Relation”.
+Then, pasting is done by right-clicking in empty space on the canvas and choosing “Paste Relation”.
+This creates a new instance of the same PRT, including possibly modified colurs and shapes,
+but with empty sockets. Please note that PRT instances can be copied from other
+CAM windows as well as the current window. The screenshots below show the copy/paste context menus.
+<br /><br />
+<img src="../../images/cam-copypaste.jpg" />
+<img src="../../images/cam-paste.jpg" />
+<br /><br />
+There are multiple ways in which concepts can be added to a socket of a pedagogical relationship.
+Concepts can be copied and pasted between sockets of pedagogical relations:
+<br /><br />
+<img src="../../images/cam-copyconcepts.jpg" />
+<img src="../../images/cam-pasteconcepts.jpg" />
+<br /><br />
+You can also use the item "Edit" from the context menu to edit the socket and insert concepts
+form some <gale:object name="glossary_dm" />. This results in a three step dialog shown below: first the set of concepts in the socket
+is shown; you then click on "Insert Concept" to get a list of available <gale:object name="glossary_dm" />(s) and finally after selecting
+a <gale:object name="glossary_dm" /> you can select one or more concepts from that <gale:object name="glossary_dm" /> and click on "Insert Concept" in that dialog box.
+<br /><br />
+<img src="../../images/cam-insertconcept1.jpg" />
+<br /><br />
+<img src="../../images/cam-insertconcept2.jpg" />
+<br /><br />
+<img src="../../images/cam-insertconcept3.jpg" />
+<br /><br />
+As you can infer from the dialog described above a course model (CAM) can combine concepts
+from several different DMs. This is useful when for instance you wish to add prerequisites
+where the a concept requires foreknowledge from concepts in another course.
+</p>
+<p>
+In the current Course Editor all PRT instances are <em>separate</em>. When A is a prerequisite of B
+and B is a prerequisite of C the graphical display will show the two sockets for "B" separately.
+However, the tool does show in a visual way that sockets of different relationships have concepts in common:
+<br /><br />
+<img src="../../images/cam-commonconcepts.jpg" />
+</p>
+<p>
+A relationship can also be edited by selecting "Edit" from the context menu:
+<br /><br />
+<img src="../../images/cam-editcrt.jpg" />
+<br /><br />
+You can change the color and shape of the presentation of a relationship.
+However the most important functionality is that you can change parameter values.
+A prerequisite may require "80%" knowledge of the first concept(s), but this number is actually
+a parameter that can be changed, for instance to reduce the required level of knowledge.
+</p>
+<p>
+Other editing functions are fairly straightforward: deleting a relationship, deleting the concepts in
+a socket (currently you can only delete all concepts at once), saving the course model to the database
+or exporting it to a file.
+</p>
+<p>
+When a course (pedagogical structure) is ready you can select "Deploy" from the "File" menu.
+This sends the course (CAM) to GALE to enable learners to start studying the course.
+</p>
+<p>
+For the interested reader we have an explanation of the
+<gale:a href="gat_cam_data">CAM data structures</gale:a>
+which you can access through the "Debug" tab.
+To create courses you do not need to know these technical details.
+</p>
+</body>
+</html>

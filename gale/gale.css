@@ -1,0 +1,48 @@
+body {
+	font-family: 'Trebuchet MS',Verdana,sans-serif;}
+	
+a:active           {text-decoration:none;color:#A02020}
+a:hover            {text-decoration:none;color:#F00000}
+a:link             {text-decoration:none;color:#A02020}
+a:visited          {text-decoration:none;color:#A02020}
+a.good:active      {text-decoration:none;color:#2020D0}
+a.good:hover       {text-decoration:none;color:#0000F0}
+a.good:link        {text-decoration:none;color:#2020D0}
+a.good:visited     {text-decoration:none;color:#2020D0}
+a.neutral:active   {text-decoration:none;color:#802080}
+a.neutral:hover    {text-decoration:none;color:#C000C0}
+a.neutral:link     {text-decoration:none;color:#802080}
+a.neutral:visited  {text-decoration:none;color:#802080}
+a.bad:active       {text-decoration:none;color:#101010}
+a.bad:hover        {text-decoration:none;color:#404040}
+a.bad:link         {text-decoration:none;color:#101010}
+a.bad:visited      {text-decoration:none;color:#101010}
+
+#gale-nav li {
+    list-style: none;
+}
+
+ul#gale-nav {
+	padding: 0px;
+	margin: 0px;
+}
+
+#gale-nav ul {
+    padding: 0px 0px 0px 15px;
+    margin: 2px;
+}
+
+div#gale-static-tree-view {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 250px;
+	height: 100%;
+	margin: 5px;
+	padding: 5px;
+}
+
+div#gale-content {
+	left: 250px;
+	position: absolute;
+}

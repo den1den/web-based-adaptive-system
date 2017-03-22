@@ -1,0 +1,140 @@
+<gdom xmlns="http://gale.tue.nl/gdom">
+	<concept name="gale://gale.tue.nl/admin/_layout">
+		<attribute name="layout" type="java.lang.String">
+			<default><![CDATA[ 
+"<struct cols=\"20%;*\">"+
+"    <view name=\"static-tree-view\"/>"+
+"    <content/>"+
+"</struct>"			
+			]]></default>
+			<property name="persistent" value="false"/>
+		</attribute>	
+	</concept>
+    <concept name="gale://gale.tue.nl/admin/password">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/password.xhtml"</default>
+            <property name="persistent" value="false"/>        
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="title" value="Change Password"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/done">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/done.xhtml"</default>
+            <property name="persistent" value="false"/>        
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="title" value="List of read pages"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/todo">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/todo.xhtml"</default>
+            <property name="persistent" value="false"/>        
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="title" value="List of read pages"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/courselist">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/courselist.xhtml"</default>
+            <property name="persistent" value="false"/>        
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="title" value="List of installed courses"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/index">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/index.xhtml"</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="description" value="The administration index page"/>
+        <property name="title" value="Administration"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/exec">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/exec.xhtml"</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="description" value="The administration exec page"/>
+        <property name="title" value="Exec"/>
+    </concept>
+    <concept name="gale://gale.tue.nl/admin/AMt">
+        <attribute name="resource" type="java.lang.String">
+            <default>"gale:/admin/AMt.xhtml"</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="visited" type="java.lang.Integer">
+            <default>0</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <attribute name="suitability" type="java.lang.Boolean">
+            <default>true</default>
+            <property name="persistent" value="false"/>
+        </attribute>
+        <property name="type" value="page"/>
+        <property name="description" value="Start the AMt Tool"/>
+        <property name="title" value="AMt tool"/>
+    </concept>
+    <relation name="parent">
+        <inconcept>gale://gale.tue.nl/admin/AMt</inconcept>
+        <outconcept>gale://gale.tue.nl/admin/index</outconcept>
+    </relation>
+    <relation name="extends">
+        <inconcept>gale://gale.tue.nl/admin/index</inconcept>
+        <outconcept>gale://gale.tue.nl/admin/_layout</outconcept>
+    </relation>
+    <relation name="extends">
+        <inconcept>gale://gale.tue.nl/admin/AMt</inconcept>
+        <outconcept>gale://gale.tue.nl/admin/_layout</outconcept>
+    </relation>
+</gdom>

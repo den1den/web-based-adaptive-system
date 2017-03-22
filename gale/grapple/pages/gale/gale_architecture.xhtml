@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Global Architecture of <gale:object name="glossary_gale" /></h1>
+
+<p>
+The following image shows the overall architecture of GALE:
+<br /><br />
+<img src="../../images/gale-architecture.jpg" />
+<br /><br />
+We explain the architecture by dividing up the figure according to color:
+<ul>
+<li>
+<em>green</em> (8 components top left):<br />
+GALE is implemented using Java and Servlet technology. When you access a concept (by clicking on a link
+in the browser) the GALE servlet handles the request.The servlet coordinates most of the work done by GALE as a direct result of requests by users.
+For each user there is a "GALE context" keeping track of the current user and concept.
+If the context does not yet exist when a request comes in a <em>Login Manager</em> is invoked.
+GALE has a stand-alone login manager and one for the use with the
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a> single sign-on service.
+The <em>Concept manager</em> extracts the requested concept from the URL of the request.
+<br />
+GALE uses <a href="http://www.springsource.org">Spring</a>, a well-known Inversion of Control container,
+to configure and instantiate all components. In this tutorial we often refer to “standard” or “default” functionality of GALE whereas in reality the functionality can be modified by changing the
+<code>galeconfig.xml</code> configuration file. Even the <gale:a href="gale_code">code language</gale:a>
+for evaluating expressions over <gale:object name="glossary_dm" /> and <gale:object name="glossary_um" />
+can be changed through the configuration.
+</li>
+<li>
+<em>purple</em> (6 components bottom left):<br />
+The real work is done by <gale:a href="gale_adaptation">processors, modules and plug-ins</gale:a>.
+The processors, modules and plug-ins load resources (like XHTML or XML files), perform adaptation
+to some parts (in the case of XML, depending on the occurrence of certain tags) and then produce
+output to be sent in the reply to the user (or user's browser).
+</li>
+<li>
+<em>blue</em> (7 components on the right):<br />
+</li>
+Several components deliver services to the main adaptation engine.
+When you create a course structure using <gale:object name="glossary_gat" /> you "Deploy" the course
+which sends the <gale:object name="glossary_cam" /> to GALE, either directly or through
+<gale:object name="glossary_geb" />. The "CAM update service" handles these events.
+The "Domain Model service" maintains an internal representation of the model. There are additional
+<gale:object name="glossary_dm" /> services to import courses defined using other tools.
+GALE has its own "User Model service" which collects detailed information on the learners' interaction
+with courses and it has a "<gale:object name="glossary_gumf" />GUMF connector" to exchange selected information with GUMF. Additional services can easily be added to GALE.
+<li>
+<em>red</em> (1 large vertical component in the center):<br />
+GALE has its own internal Event Bus, which is a <em>synchronous</em> bus unlike <gale:object name="glossary_geb" />.
+There are (currently) two implementations of this bus (which can be selected through the Spring configuration):
+one uses SOAP (over HTTP) and one uses local method calls,
+thus avoiding protocol overhead. The SOAP implementation makes it possible to run different parts
+on different machines, for instance to have a separate UM server.
+</li>
+</ul>
+In this tutorial we concentrate on the Adaptation Engine part, and more specifically on
+how the processors (and modules) perform the adaptation.
+</p>
+</body>
+</html>

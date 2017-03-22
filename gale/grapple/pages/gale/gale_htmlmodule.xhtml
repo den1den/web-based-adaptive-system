@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h2>The <gale:object name="glossary_gale" /> HTMLModule (and &lt;html&gt; tag)</h2>
+
+<p>
+GALE is mostly used to perform adaptation to HTML or XHTML files.
+These files all start with an <code>&lt;html&gt;</code> tag.
+This tag is followed by the <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> parts of the document.
+These two parts are optional.
+GALE needs to add to elements to the <code>&lt;head&gt;</code> element:
+<ul>
+<li>
+<code>&lt;link rel="stylesheet" type="text/css" href="${home}/gale.css" /&gt;</code><br />
+This ensures that the standard GALE CSS file is used, which defines the colors to be used in the
+<gale:a href="gale_adaptlinkmodule">link adaptation</gale:a>.
+</li>
+<li>
+<code>&lt;base href="http://host:port/gale/concept/gale://gale.tue.nl/cam/GRAPPLE/gale_adaptingresources/${home}/grapple/pages/gale/gale_adaptingresources.xhtml" /&gt;</code><br />
+This (with the real name and number instead of the "host" and "port" parts) ensures that relative links
+from with a page result in the correct reference.
+</li>
+</ul>
+</p>
+<p>
+It may seem strange that the manipulation to the <code>&lt;head&gt;</code> element is done by a module
+that handles the <code>&lt;html&gt;</code> tag and not the <code>&lt;head&gt;</code> tag.
+However, because the <code>&lt;html&gt;</code> tag is mandatory and the <code>&lt;head&gt;</code> tag is optional
+a module that manipulates the <code>&lt;head&gt;</code> tag would not be triggered if the <code>&lt;head&gt;</code>
+tag were absent from a page.
+</p>
+</body>
+</html>

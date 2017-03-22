@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gale="http://gale.tue.nl/adaptation">
+<body>
+<gale:object data="../header.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+
+<h2>Advanced Topics for System Designers and Server Managers</h2>
+
+<p>Authoring for AHA! can be done by editing concept relationships
+through the <gale:a href="graphauthor">graph author</gale:a>. When the
+graph author seems too restricted you can choose to edit the <gale:a
+	href="concepts">concept structure</gale:a> and <gale:a href="rules">event-condition-action rules</gale:a>
+through the <gale:a href="concepteditor">concept
+editor</gale:a> or to edit the concepts and rules directly in the corresponding
+XML file. However, the functionality of the graph author can be
+stretched by <gale:a href="templates">creating new
+templates</gale:a> for concept relationship types and/or changing existing ones.
+</p>
+
+<p>Another potential advanced aspect is the performance. When the
+performance of an AHA! server is too low there are several ways to try
+to improve it by changing the <gale:a href="ahaconfig">AHA!
+configuration</gale:a>:</p>
+<ul>
+	<li>When using XML files instead of the mySQL database performance
+	can be increased by moving the directory tree with the files to a
+	separate disk (through the XMLROOT parameter). Note that moving the
+	files to a different file system on the same disk does not help.</li>
+	<li>When using mySQL one can move the database to a different
+	machine than the one running the AHA! server, and change the
+	"mysqlhost" parameter to refer to that machine.</li>
+</ul>
+
+<gale:object data="../footer.xhtml" type="text/aha">
+	<p><b>Warning:</b> If you see this text it means you are not
+	viewing the page through the AHA! system.</p>
+</gale:object>
+</body>
+</html>

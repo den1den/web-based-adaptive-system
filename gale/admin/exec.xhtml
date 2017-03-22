@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:gale="http://gale.tue.nl/adaptation">
+	<body>
+		<h1
+			style="font-family:Tahoma,Arial;text-align:center;color:#2020A0;margin-top:20px">Gale Administration</h1>
+		<form method="post">
+			<gale:attr-variable name="action"
+				expr="gale.req().getRequestURL().toString()+&quot;?plugin=form&quot;" />
+			<gale:if expr="gale.req().getParameter(&quot;error&quot;) != null">
+				<gale:then>
+					<p style="color: #D02020">
+						<gale:variable expr="gale.req().getParameter(&quot;error&quot;)" />
+					</p>
+				</gale:then>
+			</gale:if>
+			<p>
+				exec: <input type="text" name="exec" size="100"/>
+			</p>
+			<input type="submit" name="submit" />
+			<input type="hidden" name="redirect">
+				<gale:attr-variable name="value" expr="gale.concept().getUriString()"/>
+			</input>
+		</form>
+	</body>
+</html>

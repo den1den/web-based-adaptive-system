@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Querying and Updating Data Spaces in <gale:object name="glossary_gumf" /></h1>
+
+<h2>Querying data spaces</h2>
+<p>
+GUMF provides two main interfaces: (1) a RESTful interface and (2) a SPARQL (and SeRQL) endpoint.
+The RESTful interface allows clients to query GUMF for
+<gale:a href="gumf_grapplestatement">GrappleStatements</gale:a> via HTTP.GET and to store RDF/XML-formatted
+Grapple statements via HTTP.POST. Queries are represented by the URLs and correspond to patterns the
+returned Grapple statements should return. The following table gives some examples:
+<br /><br />
+<img src="../../images/gumf-query.jpg" />
+<br /><br />It is always mandatory to have "../ds/DATASPACE_ID" as base URL possibly followed by some patterns.
+Further, it is mandatory to provide the ID and security token of the client application within the query
+string, e.g., "..ds/13?client=10&amp;token=14433793371801540". Currently, the RESTful GUMF interface supports
+two output formats: RDF is the default output (or attach "..&amp;format=rdf" to the URL) and RSS format will
+be returned if the query string contains "..&amp;format=rss", e.g., "../umf/ds/13?format=rss".
+</p>
+<p>The SPARQL endpoint can be accessed via "/rest/sparql". Mandatory parameters are:<ul>
+<li>client = ID of your client application that sends the request</li><li>token = security token of your client application</li><li>query = SPARQL query (Construct or Select query)</li>
+</ul>SPARQL queries can also be tested via the GUMF Web interface as depicted in the figure below:
+<br /><br />
+<img src="../../images/gumf-sparqlquery.jpg" />
+<br /><br />For example, to retrieve all interests (foaf:interest) of a user one can use the following query:
+<pre>Select ?interest   WHERE {  ?s &lt;http://www.grapple-project.org/grapple-core/predicate&gt;                                            &lt;http://xmlns.com/foaf/0.1/interest&gt; .     ?s &lt;http://www.grapple-project.org/grapple-core/object&gt; ?interest}
+</pre>
+</p>
+
+<h2>Storing data in data spaces</h2>
+<p>
+To add data to the data space of a client application, the client can simply post RDF/XML-serialized Grapple
+statements to the data space. For example, /grapple-umf/ds/13?ds=10&amp;token=14433793371801540 as URL and
+RDF/XML-serialized Grapple statements within the body of the post request. For example:<pre> &lt;rdf:RDF    xmlns:gc="http://www.grapple-project.org/grapple-core/"    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;&lt;rdf:Description rdf:about="http://www.grapple-project.org/umf/temp-uri"&gt;	&lt;rdf:type rdf:resource="http://www.grapple-project.org/grapple-core/Statement"/&gt;	&lt;gc:subject&gt;http://www.grapple-project.org/user/peter&lt;/gc:subject&gt;	&lt;gc:predicate rdf:resource="http://xmlns.com/foaf/0.1/interest"/&gt;	&lt;gc:object&gt;Jazz&lt;/gc:object&gt;	&lt;gc:level rdf:datatype="http://www.w3.org/2001/XMLSchema#double"&gt;0.7&lt;/gc:level&gt;	&lt;gc:origin&gt;[peter(Interest: Jazz, 0.7]&lt;/gc:origin&gt;&lt;/rdf:Description&gt;&lt;/rdf:RDF&gt;
+</pre>GUMF then sets some metadata fields, saves the statement within the corresponding data space and returns the Grapple statement as it was stored in the data space.<pre> &lt;rdf:RDF    xmlns:gc="http://www.grapple-project.org/grapple-core/"    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;&lt;rdf:Description rdf:about="http://www.grapple-project.org/umf/6357701291243375806816"&gt;	&lt;rdf:type rdf:resource="http://www.grapple-project.org/grapple-core/Statement"/&gt;	&lt;gc:subject&gt;http://www.grapple-project.org/user/peter&lt;/gc:subject&gt;	&lt;gc:predicate rdf:resource="http://xmlns.com/foaf/0.1/interest"/&gt;	&lt;gc:object&gt;Jazz&lt;/gc:object&gt;	&lt;gc:level rdf:datatype="http://www.w3.org/2001/XMLSchema#double"&gt;0.7&lt;/gc:level&gt;	&lt;gc:origin&gt;[peter(Interest: Jazz, 0.7]&lt;/gc:origin&gt;	&lt;gc:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"&gt;2009-05-27T00:10:06.817+02:00&lt;/gc:created&gt;	&lt;gc:creator rdf:resource="/grapple-umf/client/10"/&gt;&lt;/rdf:Description&gt;&lt;/rdf:RDF&gt;
+</pre>
+</p>
+
+<h2>The GUMF Java Client API</h2>
+<p>For the development of Java client applications that store data in a GUMF data space and/or query for data,
+you can make use of the Java Client API (modules "grapple-umf-client" and "grapple-umf-model").
+<gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a> for instance is such a Java client
+application.To store a Grapple statement via the Java Client API, you first have to create a Client instance,
+where you have to specify the client ID and some security token of your application.
+(Both the ID and the token are generated by GUMF when registering the client application.)
+<pre>Client client = ClientFactory.getClient(			"8", //your client ID 			"14096511-613309362"); //the secret of your client</pre>
+Afterwards you can simply "tell" the client the Grapple statement that should be stored as well as the ID
+of the data space where it should be stored.
+<pre>GrappleStatement result =  client.tell(  "11", //the dataspace where the statement should be stored  "http://www.grapple-project.org/user/peter", //the user about whom the statement is  "http://xmlns.com/foaf/0.1/interest", //the property  "Web 2.0", //the value of the property   "0.8", //the level/dgree: to which extend is the statement true  "[test-peter(Interest: Web 2.0, 0.8]" //the statement in its original form                                 //(how it is serialized within your client application));</pre>		The returned Grapple statement (result) is the statement that was actually stored in the selected data space
+or, more precisely, in the data repository that is associated with the selected data space.
+</p>
+<p>To query for Grapple statements via the Java Client API, you can "ask" the client for Grapple statements
+that match a specific pattern.
+<pre>List&lt;GrappleStatement&gt; results = client.ask(       "10", //the dataspace to be queried        null, //about which user should the statement?       "interest", //are you interested in a special property (e.g. "interst").                    //null = wildcard       null, //are you interested in statements that have certain values? -&gt;              //null = wildcard       "0.1", //what is the minimum level the statement should have        null, //return only statements that were created after... -&gt;              //null = no time restriction         null); //who should be the creator of the statement</pre>
+</p>
+</body>
+</html>

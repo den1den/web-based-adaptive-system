@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Domain Relations Tab in the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The Domain Relations Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-domainrelations.jpg" />
+</p>
+<p>
+In this tab you can assign this PRT to some domain relations.
+This means that when the PRT is used in a
+<gale:a href="gat_cam"><gale:object name="glossary_cam" /></gale:a> (without the need to assign
+any concepts to sockets) the PRT will automatically be applied to all instances of a
+<gale:object name="glossary_dm" /> relation.
+For instance, one could automatically associate a "knowledge propagation" PRT with all instances
+of a "parent" DM relation to have knowledge propagated throughout the concept hierarchy of a course.
+Unfortunately the CAM tool does not currently support this, so the Domain Relations tab has
+no effect.
+</p>
+</body>
+</html>

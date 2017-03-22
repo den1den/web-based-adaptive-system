@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>GEB: The GRAPPLE Event Bus</h1>
+
+<p>
+Communication within the GRAPPLE framework is facilitated by the GRAPPLE Event Bus that supports the following core functions: <ul>
+<li>managing the valid interfaces
+</li>
+<li>facilitating the communication between the components.
+</li>
+</ul>
+The Event Bus supports a number of services that should be used by all communicating components that use the GRAPPLE Framework.
+</p>
+<p>To properly connect to the Event Bus a component should use the following synchronous
+(request-response) or asynchronous GEB operations:
+<pre>
+	gebRegisterListenerOperation (eventListenerID, methods:&lt;method, description&gt;):Bool/String
+	gebListMethodsListenerOperation():methods:&lt;method, description&gt;
+	gebUnsubscribeListenerOperation (eventListenerID): String (eventListenerID)
+	eventGEBListenerOperation (previousIdEvent*, method, body):Integer (idAssignedEvent)
+	eventEventListener (eventId, previousIdEvent*, method, body):void
+</pre>
+* previousIdEvent is always optional.
+<ul>
+<li>The <code>gebRegisterListenerOperation</code> method is a request-response service.It is used to subscribe a new component’s eventListener to the Event Bus.
+The two arguments used are:
+<ul>
+<li><code>eventListenerID</code>, a unique identifier (String) that contains the address of the
+eventListener where forwarded messages can be sent to.
+</li>
+<li><code>methods</code>, a list of methods that the new eventListener subscribes to.
+Components only handle specific methods (i.e. the one that is called in an event "method").
+GEB will only send events to component that listens to that specific event.
+Methods are complex type values, composed by one string describing the name of the method
+and a second string describing the functionality of the method;
+it is an attribute with cardinality 1 to n.The register method returns "true" if the registration has been completed successfully
+or an explanatory error message if it failed.
+</li>
+</ul></li>
+<li>
+<code>gebListMethodsListenerOperation</code> is a request-response service.
+It is used to retrieve the list of methods registered by all component listeners.It returns the <code>methods</code> complex type, 
+which is a list of values composed by a string which identifies the name of the method and another string
+which contains the description of the method.
+<br /><code>gebListMethodsListenerOperation</code> exists mainly for development purposes, to allow developers to
+interrogate other components to figure out which methods they support.
+</li>
+<li>
+<code>gebUnsubscribeListenerOperation</code> is used to unregister an eventListener.
+The eventListnerID that is returned is the same as the one submitted, as confirmation that
+this eventListener was unsubscribed. (No value is returned when the submitted eventListener did
+not exist.)
+Note that if an eventListener is unresponsive for too long GEB will automatically unregister it.
+</li>
+<li>
+<code>eventGEBListenerOperation</code> is a request-response service. The sender will wait for a response
+containing the <code>idAssignedEvent</code>.This event is processed by GEB, and (apart from generating a response) it will generate a new event
+with additional information like the <code>idAssignedEvent</code>.
+The arguments are:
+<ul>
+<li><code>previousIdEvent</code>, a unique identifier of type String. This is not a mandatory attribute
+but it can be used by the caller to indicate that the request is related to another (earlier) event.</li>
+<li>
+<code>method</code>, the type of event (String). This is used by GEB to decide to which listening
+components an event should be sent. An example of a method to set UM data would be "setUMData"
+through which a component (like an <gale:a href="LMS"><gale:object name="glossary_lms" /></gale:a>
+or <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>) would send data to
+<gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>).
+The method refers to a specific method of one of the registered components.
+</li>
+<li><code>body</code>, contains the actual event call that is interpreted by the components
+that receive the event. For example, if the component that sends the event wants to set user
+information in GUMF the body would contain the parameters for the "setUMData" method, i.e.
+userID, requestingApplicationID, type and one or more GrappleStatements. <code>body</code>
+is of type String.</li>
+</ul>
+<code>eventGEBListenerOperation</code> returns either the idAssignedEvent (the ID assigned  to the new event)
+or an error message explaining why the request failed.
+</li>
+<li>
+<code>eventEventListener</code> is a one way service. This means that GEB sends a request to the
+Listener Components, but will not wait for a response. (If sending fails repeatedly GEB will
+conclude that the service is off-line and will unregister it. Services should therefore always
+reregister themselves when they are restarted.)
+<br />The event is a request to the Listener Components that are registered with the method
+involved in the eventEventListener. This event will be processed by the listening components.
+If needed these components may also generate an event containing some kind of response.
+<br />
+The arguments are:
+<ul>
+<li><code>eventId</code>, a unique identifier of events of type String. The eventId is generated by GEB
+(when handling the <code>eventGEBListener</code> request). The functionality of this ID is to provide
+the possibility to identify the messages exchanged between the components through GEB.
+</li>
+<li><code>previousIdEvent</code>, a unique identifier of type String. This is an optional argument
+and is provided by the component which issued the request. This ID is the identification of a
+possibly related (earlier) event.
+</li>
+<li><code>method</code> is the type of event (String). This is used by GEB to decide to which listening
+components an event should be sent. We already used "setUMData" as an example with <code>eventGEBListener</code>. GEB sends this request onwards using <code>eventEventListener</code>.
+The <code>method</code> must refer to a specific method that is made available to the system
+by one of the registered components.
+</li>
+<li><code>body</code> contains the actual event call that is interpreted by the components that receive
+the event. For example, if the component that sends the event wants to set user information in GUMF
+the body would contain the arguments to the "setUMData" method, i.e. userID, requestingApplicationID,
+type and one or more GrappleStatements. <code>body</code> is of type String.</li>
+</ul>
+</li>
+</ul>
+</p>
+<p>
+The following diagram exemplifies the usage of the eventGEB method of GEB,
+and the eventEventListener method of the Listener Components.
+In the example a component called LMS1 wants to query GUMF for user data it previously stored
+in GUMF, for instance the age of a user.
+Therefore it sends an event to GEB. It indicates that it wants to use the method
+"queryUMdata" and it includes the right arguments like the actual query. GEB computes that only
+GUMF and LMS2 have the method "queryUMData" registered so it forwards the event to GUMF and LMS2.
+GEB generates a response with the id generated for the event. LMS2 receives and parses the event too,
+but it considers that the information content in the message is not relevant,
+and as a result it ignores the event. GUMF receives and parses the event and generates a new event,
+including the ID of the previous event, facilitating the identification of the message from LMS1,
+and the result for the query in the form of GRAPPLE statements. GEB computes that this new event from
+GUMF should be forwarded to LMS1 and LMS2.
+<br />In this example, LMS1 calls eventGEBListener(queryUMData, age): 1 where 1 is the idAssignedEvent.
+GUMF calls, as response, eventGEBListener(1,getUMData, 32): 2.
+<br />When LMS1 receives the event, it understands that this response comes from the earlier event,
+because it knows that the event LMS1 generated has the idAssingedEvent equal to 1.
+So it understands that this event is the answer to the query it sent before.
+<br /><br />
+<img src="../../images/geb1.jpg" />
+<br /><br />
+<img src="../../images/geb2.jpg" />
+</p>
+</body>
+</html>

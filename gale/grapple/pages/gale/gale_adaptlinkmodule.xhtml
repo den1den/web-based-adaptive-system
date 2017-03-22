@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> AdaptLinkModule (&lt;a&gt; tag)</h1>
+
+<p>
+Link adaptation is the most common form of adaptation in adaptive learning environments.
+GALE supports two forms of link adaptation: <em>adaptive link annotation</em> and
+<em>adaptive link hiding</em>. Both are in fact realized using the same technique:
+link hiding is achieved by annotating the link in such a way that it becomes invisible
+(actually, indistinguishable from plain text).
+</p>
+<p>
+Link adaptation can be done using the <code>&lt;a&gt;</code> and the <code>&lt;adapt-link&gt;</code>
+tags. There are two attributes that are meaningful to GALE: the <code>href</code> attribute
+defines the link destination and the <code>exec</code> defines optional additional
+<gale:a href="gale_code">GALE code</gale:a> to be executed when the link is clicked.
+Below are three examples of their use:
+<ul>
+<li>
+<code>&lt;gale:a href="welcome"&gt;...&lt;/gale:a&gt;</code><br />
+This defines an adaptive link to a (relative) concept called "welcome".
+</li>
+<li>
+<code>&lt;gale:a href="tour" exec="#{tour#start,true};"&gt;...&lt;/gale:a&gt;</code><br />
+This defines an adaptive link to a (relative) concept called "tour" and when the link is clicked
+the "start" <gale:object name="glossary_um" /> attribute of the concept "tour" is set to "true".
+</li>
+<li>
+<code>&lt;a href="welcome"&gt;&lt;gale:adapt-link exec="#{#visit-tutorial,true};"/&gt;…&lt;/a&gt;</code><br />
+The <code>&lt;gale:adapt-link&gt;</code> tag adds the <code>exec</code> code to its parent
+<code>&lt;a&gt;</code> tag which can be in any namespace. 
+</li>
+</ul>
+</p>
+<p>
+The actual adaptation to the links is defined through attributes of the concept
+<code>gale://gale.tue.nl/config</code>. We explain the details in the section on
+<gale:a href="gale_adaptingpresentation">adapting the presentation</gale:a> because in fact
+all that happens is that the presentation of the link anchor changes.
+The adaptation process consists of two steps:
+<ol>
+<li>
+First the UM state is used to determine the <em>class</em> of the link. This is done using
+the value of <code>gale://gale.tue.nl/config/link#classexpr</code> or by the value
+of the <code>#link.classepr</code> attribute of the current concept.
+The default expression is:
+<pre>
+(${#suitability}?(${#visited}>0?\"neutral\":\"good\"):\"bad\")
+</pre>
+For suitable links it means that the class is "good" for unvisited and "neutral" for visited links.
+An unsuitable link gets the class "bad".
+</li>
+<li>
+The class is used in combination with a CSS file to produce a link presentation.
+The name of the CSS file is stored in <code>gale://gale.tue.nl/config/presentation#css</code>
+and can be overridden by the <code>#layout.css</code> attribute of the current concept.
+The default CSS file is <code>${home}/gale.css</code>. (The expression <code>${home}</code>
+results in the top level directory of GALE.)
+The default CSS defines that links are not underlined and it presents "good" links in blue,
+"neutral" links in purple and "bad" links in black,
+a schema that results in a combination of <em>link annotation</em> (for suitable links)
+and <em>link hiding</em> (for unsuitable links).
+</li>
+</ol>
+</p>
+<p>
+In this tutorial you also see colored balls on the left, in the accordion menu.
+The Spring configuration file "galeconfig.xml" contains the following default definition
+of the use of these icons:
+<pre>
+  &lt;bean class="nl.tue.gale.ae.config.LinkConfig"&gt;
+    &lt;property name="iconList"&gt;
+      &lt;list&gt;
+        &lt;value&gt;("static-tree-view".equals(gale.currentView())?
+            (${#suitability}?(${#visited}&gt;0?"pre:gale:/images/WhiteBall.gif":
+              "pre:gale:/images/GreenBall.gif"):"pre:gale:/images/RedBall.gif"):null)
+        &lt;/value&gt;
+      &lt;/list&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+</pre>
+The configuration says that icons are only used in the "static-tree-view" (the technical name
+for the accordion menu) and it says that suitable links are prepended with a green ball when
+unvisited and a white ball when visited and unsuitable links are prepended with a red ball.
+<br />
+Like with "classexpr" the iconList can be changed by changing
+<code>gale://gale.tue.nl/config/link#iconList</code> or by means of the <code>#link.iconlist</code>
+attribute of the concept.
+</p>
+</body>
+</html>

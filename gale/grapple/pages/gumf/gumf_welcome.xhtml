@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>GUMF: The GRAPPLE User Modeling Framework</h1>
+
+<p>
+A user modeling framework maintains all processes related to governing and disclosing
+access to a user model, where a user model contains a representation of assumptions
+about one or more types of user characteristics of an individual user. In other words
+the system maintains a model about the user that for instance contains assumptions
+about their knowledge, misconceptions, goals, plans, preferences, tasks, or abilities.
+</p>
+<p>
+As we specifically target a pedagogical environment in GRAPPLE the GRAPPLE User Modeling
+Framework needs to take the specifics of a learning application into account:
+the <gale:object name="glossary_um" /> contains an overlay over the
+<gale:object name="glossary_dm" />. This means that for every concept in the domain
+ontology the UM maintains a value that expresses the knowledge of the student for
+that concept. (The notion of "knowledge" can be Boolean (the student "has knowledge"
+or has "no knowledge"), but also an integer (the student has a knowledge of 80 on a
+scale from 0 to 100), a qualitative measure (the student has "poor", "average" or "good"
+knowledge), but it can also be a structured value taking different "types of knowledge"
+into account, like knowledge of information, of procedure, ability to perform the
+procedure, etc.
+<br />
+Despite this focus on learning GUMF provides ways to connect to and incorporate data
+from social networks or other data sources into GUMF, so as to enable adaptation
+based on information people have stored in different such services.
+</p>
+<p>
+User models nowadays should also be <em>scrutable</em>. This means that users should
+have access to their user data and to some extent be able to modify their personal data.
+(Of course students are not allowed to arbitrarily change their knowledge values
+without any control by teachers.) GUMF offers an interface for inspecting user models
+(independent of other GRAPPLE components) in order to ensure scrutability.
+</p>
+<p>
+The user models in GUMF are based on
+<gale:a href="gumf_grapplestatement">GrappleStatements</gale:a>
+that say something about a user.
+These statements are communicated between other GRAPPLE components and
+<gale:a href="gumf_umservice">GUMF services</gale:a> through
+a <gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>.
+GUMF offers several methods for its GEB eventListener. Here are the most important ones:
+<ul>
+<li>
+The "setUMData" method is used to store statements in GUMF (to <em>tell</em> something to GUMF).
+</li>
+<li>
+The "queryUMData" method is used to query GUMF for statements (to <em>ask</em> something from GUMF).
+</li>
+<li>
+The "setUMMappingRules" method is used to define how to compute
+UM values from other UM values. The <gale:a href="gat_um">UM mapping tool</gale:a>
+is used to define such conversions.
+</li>
+</ul>
+</p>
+<p>
+Note that in GRAPPLE different GRAPPLE components register themselves with GUMF
+in order to get access to UM information about their users. As a result there is
+no GUMF to <a href="http://shibboleth.internet2.edu/">Shibboleth</a> connection
+as end-users never log in on GUMF directly.
+</p>
+<p>
+Most information about GUMF in this tutorial is taken from the
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 6.1b</a>
+and <a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 2.1</a>.
+</p>
+</body>
+</html>

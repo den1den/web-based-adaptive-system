@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> Code Languages</h1>
+
+<p>
+GALE code is based on Java, with extensions to access <gale:object name="glossary_dm" /> and
+<gale:object name="glossary_um"/>. It can be used in many places, inside HTML/XHTML, DM and UM definitions,
+<gale:object name="glossary_prt" />s, etc.
+</p>
+<h2>GALE Statements and expressions</h2>
+<p>Any GALE expression or statement is basically a piece of Java code extended with a special notation for using
+UMl variables and DM concepts and attributes.
+You also have access to the current GaleContext or current resource that GALE is working on from within your code.
+There is a reserved variable available called "gale" that is of the type nl.tue.gale.ae.GaleContext.
+This is the wrapper around the current resource and includes utility functions to retrieve everything GALE
+has access to at the moment.<br />The special notation to access UM and DM is often referred to as pseudo code.<code>${ &lt;pseudo&gt; }</code> is used to access UM and DM and <code>#{ &lt;pseudo&gt; , ... };</code> is used to
+assign to UM variables, where <code>&lt;pseudo&gt;</code> refers to a special expression that can be resolved to a URI.
+The URI can refer to concepts, attributes, and their properties. 
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 1.3c</a> defines the exact syntax and
+semantics of pseudo code. We explain the code based on examples:
+<dl>
+<dt><code>${#suitability}</code></dt>
+<dd>This expression returns the value of the suitability attribute of the current concept.
+</dd><dt><code>${#image?title}</code></dt>
+<dd>This expression returns the value of the "title" property of the "image" attribute of the current concept;
+</dd>
+<dt><code>${-&gt;(parent)?type}</code></dt>
+<dd>This expression returns the value of the type property of the parent concept. The construct <code>-&gt;(parent)</code>
+reference actually yields a list (array) of parent concepts. Concepts in DM may have relations of the same name to different
+other concepts. With for instance <code>-&gt;(parent)[2]</code> you can refer to the third element of the list.
+Without index the first element is taken.
+</dd>
+<dt><code>${-&gt;(parent)?type}.equals("page")</code></dt>
+<dd>This Boolean expression checks whether the value of the type property of the (first) parent concept is equal to "page".
+</dd>
+<dt><code>${-&gt;(parent)&lt;-(parent)}.length</code></dt>
+<dd>This expression returns the number of children of the parent concept (the number of siblings of the current concept, plus 1).
+</dd>
+<dt><code>${details&lt;-(related)}</code></dt>
+<dd>This expression returns an array of concepts that have a "related" relation to the "details" relative concept (if the current concept would be <code>gale://gale.tue.nl/welcome</code>, the details concept would
+be <code>gale://gale.tue.nl/details</code>)
+</dd><dt><code>${gale://gale.tue.nl/personal#email}</code></dt><dd>
+This expression returns the value of the email attribute of the <code>gale://gale.tue.nl/personal</code> concept
+</dd>
+<dt><code>#{-&gt;(parent)#visited, ${-&gt;(parent)#visited}+1};</code></dt><dd>
+This assignment increments the UM attribute "visited" of the parent concept.
+</dd>
+<dt><code>#{gale://gale.tue.nl/personal#history, gale.conceptUri()};</code></dt>
+<dd>This assignment stores the current concept URI in a variable called "history" in the concept
+<code>gale://gale.tue.nl/personal</code>.
+</dd>
+</dl>All GALE expressions and statements are pre-parsed into real Java code and then compiled to Java bytecode.
+This bytecode is reused (cached) whenever possible.
+</p>
+<p>GALE expressions can be used in various places in the DM, like a concept’s event code and an attribute’s event and default code.
+They can also be used in XHTML pages written by the author, whenever he uses a tag with an "expr" attribute
+(like with an "if" or "variable" tag for instance). To avoid security problems with Java code written by authors GALE
+uses a Sandbox environment to ensure the code cannot access data is should not have access to,
+like the UM of other users. (See the <gale:a href="gale_advanced">advanced GALE section</gale:a> for details.)
+</p><h2>The GRAPPLE Application Model Language (GAM)</h2>
+<p>When applications are created using the <gale:object name="glossary_gat" /> authoring tool concepts are defined
+in a fragmented way. Part of the definition is done in the <gale:a href="gat_dm">DM tool</gale:a>,
+and template parts are defined in the <gale:a href="gat_crt">PRT tool</gale:a> and bound to concepts
+in the <gale:a href="gat_cam">CAM tool</gale:a>. For the specification of such partial concept definitions
+we use the GRAPPLE Application Model language GAM.</p>
+<p>GAM code consists of a list of concept definitions. A concept definition defines attributes
+(possibly with properties), properties and relation to other concepts:
+<pre>&lt;concept-uri&gt; {	#&lt;attribute-name&gt;:&lt;type&gt; &amp; `&lt;default-expr&gt;`	#[&lt;persistent-attribute-name&gt;] `&lt;default-value&gt;` {		&lt;property-name&gt; `&lt;value&gt;`	}	&lt;property-name&gt; `&lt;value&gt;`	&lt;property-name&gt; + `&lt;value&gt;`	-&gt;(&lt;relation-name&gt;) &lt;relative-concept-uri&gt; {		&lt;concept-definition&gt;	}}
+</pre>Some properties have a special purpose within GALE. The <em>event</em> property of a concept has a value
+that is interpreted as Java code to be executed when the associated concept is requested by the user.
+The <em>event</em>. property of an attribute defines code to be executed when the attribute value is updated.
+Attributes can have properties like "persistent", "public" and "authoritative". The "persistent" property
+(either "true" or "false") is used to indicate whether updates to the corresponding UM variable should be stored
+permanently (by GALE). Non-persistent attributes are calculated using their "default" expression.
+Public, authoritative attributes are stored in <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>,
+whereas public, non-authorative attributes are requested from GUMF.
+</p>
+<p>
+GAM code fragments can be <em>combined</em> to compose complete concept definitions.The operators ‘&amp;’ and ‘+’ in the code above are used when different GAM definitions should be merged.
+They are used as operators by the GAT to GALE compiler to merge the individual attributes and properties.
+‘&amp;’ refers to the Boolean “and” operator and ‘+’ refers to string concatenation.
+If these operators are omitted the compiler overwrites any previous definitions when it encounters a new one.The following example GAM code creates a concept called ‘gale://gale.tue.nl/course/java/arrays’ with one persistent
+attribute called "visited". The corresponding UM variable is incremented every time the concept is accessed.
+The example code:
+<pre>gale://gale.tue.nl/course/java/arrays {	#[visited]:Integer `0`	event + `#{#visited, ${visited}+1};`}
+</pre>
+The "+" indicates that the assignment (incrementing "visited") is added to any event code that may already
+exist because of other fragments of GAM code.
+</p>
+<h2>Writing GAM code in PRTs</h2>
+<p>For GAM code to be of any use inside the PRT and CAM tools, we have added language construct that serve as
+placeholders for the concepts. A PRT has several sockets and each socket may contain any number of concepts in the CAM.
+During compilation every combination of concepts is created and passed to the GAM code interpreter.
+In GAM you can refer to sockets using the <code>%socket%</code> notation. If a PRT has a "source" and "target"
+socket, you can write <code>%source%</code> and <code>%target%</code> to refer to these sockets.
+A PRT can also have a parameter, referred to in the same way.Here is example code for a prerequisite CRT, which has a "source" and "target" socket and a "level" parameter:
+<pre>%target% {	#suitability:Boolean &amp; `${%source%#knowledge &gt; %level%}`}
+</pre>
+Each concept in the "target" socket becomes suitable when the knowledge of <em>all</em> the concepts in the
+"source" socket is at least the value of the "level" parameter. The <em>all</em> is a consequence of the use of the
+"&amp;" symbol. You can also use the symbol "|" to indicate the logical (inclusive) "or" operator. This can be
+useful when you have several concepts that each (rather than all together) provide enough foreknowledge to make another
+common concept suitable.</p>
+<p>
+Here is another example of GAM code used in a PRT:
+<pre>
+%self% {   event +      `if (${#suitability})          #{#own_knowledge, 100};      else if (${#own_knowledge} &lt; 35)          #{#own_knowledge, 35};`   #own_knowledge {      event +      `#{#knowledge, #knowledge + changed.diff/(${&lt;-(parent)}.length+1)};`
+   #knowledge {event + `       if (${-&gt;(parent)}.length &gt; 0)           #{-&gt;(parent)#knowledge, ${-&gt;(parent)#knowledge}+changed.diff/(${-&gt;(parent)&lt;-(parent)}.length+1)};     `}   }}
+</pre>
+This example contains most of the code of the standard "knowledge update" PRT. Such a PRT has only one socket,
+called "self". Upon accessing a concept the own_knowledge of the concept becomes 100 when the concept is suitable.
+For an unsuitable concept the own_knowledge becomes 35 unless it was already higher.
+The remainder of the rule says that a change to the own_knowledge of the concept leads to a recompilation
+of the knowledge based on the own_knowledge of the concept and the knowledge of its children,
+and changes to the knowledge are propagated to the parent concept.
+</p>
+</body>
+</html>

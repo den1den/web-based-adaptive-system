@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-destroy-method="destroy"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	                    http://jax-ws.dev.java.net/spring/core http://gale.win.tue.nl/xsd/core.xsd
+	                    http://jax-ws.dev.java.net/spring/servlet http://gale.win.tue.nl/xsd/servlet.xsd">
+
+	<bean id="galeConfig" class="nl.tue.gale.ae.GaleConfig"
+		init-method="initConfig">
+		<property name="openCorpus" value="false" />
+		<property name="useGEB" value="false" />
+		<property name="rootGaleUrl" value="http://localhost:8080/gale/concept/" />
+		<property name="autoInit" value="30" />
+		<property name="mimeTable">
+			<util:properties id="mimeTableProps" location="WEB-INF/mimeTable.properties" />
+		</property>
+		<property name="safeDomains">
+			<util:properties location="WEB-INF/safeDomains.properties" />
+		</property>
+	</bean>
+
+	<bean id="hibernateDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/galedb" />
+		<property name="username" value="galedb" />
+		<property name="password" value="galepw" />
+	</bean>
+
+	<bean id="hibernateSessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="hibernateDataSource" />
+		<property name="schemaUpdate" value="true" />
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:nl/tue/gale/dm/data/Concept.hbm.xml
+				</value>
+				<value>classpath:nl/tue/gale/dm/data/Attribute.hbm.xml
+				</value>
+				<value>classpath:nl/tue/gale/dm/data/ConceptRelation.hbm.xml
+				</value>
+				<value>classpath:nl/tue/gale/um/data/UserEntity.hbm.xml
+				</value>
+				<value>classpath:nl/tue/gale/um/data/EntityValue.hbm.xml
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+			</value>
+		</property>
+	</bean>
+
+	<bean id="dataManager" class="nl.tue.gale.ae.DataManager"
+		init-method="init">
+		<property name="sessionFactory" ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="logManager" class="nl.tue.gale.ae.LogManager">
+		<property name="logDir" value="/log" />
+	</bean>
+
+	<!-- <bean id="eventListenerFactory" class="nl.tue.gale.event.SOAPFactory" 
+		/> -->
+	<bean id="eventListenerFactory" class="nl.tue.gale.event.LocalFactory"
+		lazy-init="true">
+		<property name="postfix" value="ServiceImpl" />
+	</bean>
+
+	<bean id="gebManager" class="nl.tue.gale.geb.GEBManager">
+		<property name="gebURL" value="http://localhost:18080/GrappleEventBus/" />
+		<property name="baseURL" value="http://localhost:8080/gale/services/" />
+		<property name="autoRegister">
+			<map>
+				<entry>
+					<key>
+						<value>updateCAMModel;getCourses;getCourseCount;queryUMDataResponse
+						</value>
+					</key>
+					<value>GaleEventListener</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="galeEventListener" class="nl.tue.gale.geb.GaleEventListener">
+		<property name="updateContentService" ref="updateContentService" />
+		<property name="courseListService" ref="courseListService" />
+		<property name="gebManager" ref="gebManager" />
+		<property name="eventBusClient" ref="eventBusClient" />
+	</bean>
+	<wss:binding url="/services/GaleEventListener">
+		<wss:service>
+			<ws:service bean="#galeEventListener" />
+		</wss:service>
+	</wss:binding>
+
+	<bean id="codeResolver" class="nl.tue.gale.common.code.JavaCodeResolver">
+		<property name="gel">
+			<bean class="nl.tue.gale.ae.impl.GELResolverImpl" />
+		</property>
+	</bean>
+
+	<bean id="codeManager" class="nl.tue.gale.common.code.JavaCodeManager">
+		<property name="importCode">
+			<list>
+				<value>nl.tue.gale.common.GaleUtil</value>
+				<value>nl.tue.gale.um.data.*</value>
+				<value>nl.tue.gale.dm.data.*</value>
+				<value>nl.tue.gale.common.uri.URI</value>
+				<value>nl.tue.gale.common.uri.URIs</value>
+				<value>nl.tue.gale.ae.processor.xmlmodule.CountModule</value>
+				<value>nl.tue.gale.ae.processor.view.TreeNodes</value>
+				<value>nl.tue.gale.ae.processor.view.TreeNode</value>
+				<value>java.util.*</value>
+				<value>static nl.tue.gale.common.GaleUtil.avg</value>
+				<value>static nl.tue.gale.common.GaleUtil.sum</value>
+				<value>static nl.tue.gale.common.GaleUtil.and</value>
+				<value>static nl.tue.gale.common.GaleUtil.pick</value>
+				<value>static java.lang.Math.*</value>
+			</list>
+		</property>
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+
+	<bean id="eventbusServiceImpl" class="nl.tue.gale.event.EventBusImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="wsdl"
+			value="http://localhost:8080/gale/services/EventBus?service=EventBus&amp;port=EventBusPort" />
+	</bean>
+	<bean id="dmServiceImpl" class="nl.tue.gale.dm.DMServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="dataManager" ref="dataManager" />
+	</bean>
+	<bean id="aha3ServiceImpl" class="nl.tue.gale.conversion.aha3.AHA3ServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+	<bean id="gdomServiceImpl" class="nl.tue.gale.dm.GDOMServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+	<bean id="ocServiceImpl" class="nl.tue.gale.dm.OpenCorpusServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+	<bean id="umServiceImpl" class="nl.tue.gale.um.UMServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="dataManager" ref="dataManager" />
+		<property name="codeManager" ref="codeManager" />
+		<property name="codeResolver">
+			<bean class="nl.tue.gale.common.code.JavaCodeResolver" />
+		</property>
+	</bean>
+	<bean id="aeServiceImpl" class="nl.tue.gale.ae.AEServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="um" ref="umCache" />
+		<property name="dm" ref="dmCache" />
+	</bean>
+	<bean id="gebServiceImpl" class="nl.tue.gale.geb.GEBServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="gebManager" ref="gebManager" />
+		<property name="gumfUser" value="16" />
+		<property name="gumfToken" value="239283892793" />
+		<property name="autoRegister" value="true" />
+	</bean>
+	<bean id="gamServiceImpl" class="nl.tue.gale.dm.GAMServiceImpl">
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+	<!-- <bean id="eventbusService" class="nl.tue.gale.event.EventBus"> <property 
+		name="impl" ref="eventbusServiceImpl" /> </bean> <bean id="dmService" class="nl.tue.gale.dm.DMService"> 
+		<property name="impl" ref="dmServiceImpl" /> </bean> <bean id="aha3Service" 
+		class="nl.tue.gale.conversion.aha3.AHA3Service"> <property name="impl" ref="aha3ServiceImpl" 
+		/> </bean> <bean id="gdomService" class="nl.tue.gale.dm.GDOMService"> <property 
+		name="impl" ref="gdomServiceImpl" /> </bean> <bean id="ocService" class="nl.tue.gale.dm.OpenCorpusService"> 
+		<property name="impl" ref="ocServiceImpl" /> </bean> <bean id="umService" 
+		class="nl.tue.gale.um.UMService"> <property name="impl" ref="umServiceImpl" 
+		/> </bean> <bean id="aeService" class="nl.tue.gale.ae.AEService"> <property 
+		name="impl" ref="aeServiceImpl" /> </bean> <bean id="gebService" class="nl.tue.gale.geb.GEBService"> 
+		<property name="impl" ref="gebServiceImpl" /> </bean> <wss:binding url="/services/EventBus"> 
+		<wss:service> <ws:service bean="#eventbusService" /> </wss:service> </wss:binding> 
+		<wss:binding url="/services/DM"> <wss:service> <ws:service bean="#dmService" 
+		/> </wss:service> </wss:binding> <wss:binding url="/services/AHA3"> <wss:service> 
+		<ws:service bean="#aha3Service" /> </wss:service> </wss:binding> <wss:binding 
+		url="/services/GDOM"> <wss:service> <ws:service bean="#gdomService" /> </wss:service> 
+		</wss:binding> <wss:binding url="/services/OC"> <wss:service> <ws:service 
+		bean="#ocService" /> </wss:service> </wss:binding> <wss:binding url="/services/UM"> 
+		<wss:service> <ws:service bean="#umService" /> </wss:service> </wss:binding> 
+		<wss:binding url="/services/AE"> <wss:service> <ws:service bean="#aeService" 
+		/> </wss:service> </wss:binding> <wss:binding url="/services/GEB"> <wss:service> 
+		<ws:service bean="#gebService" /> </wss:service> </wss:binding> -->
+
+	<bean id="cacheOptimizer" class="nl.tue.gale.event.CacheOptimizer"
+		init-method="init">
+		<property name="eventBus" ref="eventbusServiceImpl" />
+	</bean>
+
+	<bean id="courseListService" class="nl.tue.gale.ae.grapple.CourseListService">
+		<property name="eventBusClient" ref="eventBusClient" />
+		<property name="dmCache" ref="dmCache" />
+		<property name="galeConfig" ref="galeConfig" />
+	</bean>
+	<wss:binding url="/services/CourseList">
+		<wss:service>
+			<ws:service bean="#courseListService" />
+		</wss:service>
+	</wss:binding>
+
+	<bean id="updateContentManager" class="nl.tue.gale.ae.grapple.UpdateContentManager">
+		<property name="eventBusClient" ref="eventBusClient" />
+	</bean>
+
+	<bean id="updateContentService" class="nl.tue.gale.ae.grapple.UpdateContentService">
+		<property name="updateContentManager" ref="updateContentManager" />
+	</bean>
+	<wss:binding url="/services/AddContent">
+		<wss:service>
+			<ws:service bean="#updateContentService" />
+		</wss:service>
+	</wss:binding>
+
+	<bean id="eventBusClient" class="nl.tue.gale.ae.impl.DefaultEventBusClient"
+		lazy-init="true">
+		<property name="eventBus"
+			value="http://localhost:8080/gale/services/EventBus?service=EventBus&amp;port=EventBusPort" />
+		<property name="eventListenerFactory" ref="eventListenerFactory" />
+		<property name="register">
+			<list>
+				<value>http://localhost:8080/gale/services/DM?service=DM&amp;port=DMPort
+				</value>
+				<value>http://localhost:8080/gale/services/AHA3?service=AHA3&amp;port=AHA3Port
+				</value>
+				<value>http://localhost:8080/gale/services/GDOM?service=GDOM&amp;port=GDOMPort
+				</value>
+				<value>http://localhost:8080/gale/services/OC?service=OC&amp;port=OCPort
+				</value>
+				<value>http://localhost:8080/gale/services/UM?service=UM&amp;port=UMPort
+				</value>
+				<value>http://localhost:8080/gale/services/AE?service=AE&amp;port=AEPort
+				</value>
+				<value>http://localhost:8080/gale/services/GEB?service=GEB&amp;port=GEBPort
+				</value>
+				<value>http://localhost:8080/gale/services/GAM?service=GAM&amp;port=GAMPort
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- <bean id="loginManager" class="nl.tue.gale.ae.impl.IdPLoginManager"> 
+		<property name="idpLocation" value="http://localhost:18080/idp/profile/SAML2/POST/SSO"/><property 
+		name="spIssuer" value="http://localhost:8080/gale" /> </bean> -->
+	<bean id="loginManager" class="nl.tue.gale.ae.LoginManager">
+		<property name="handlerList">
+			<list>
+				<!-- <bean class="nl.tue.gale.ae.impl.LinkLoginHandler"> <property name="psk" 
+					value="GjsI84pl" /> </bean> -->
+				<bean class="nl.tue.gale.ae.impl.DefaultLoginHandler" />
+				<bean class="nl.tue.gale.ae.impl.OpenIdLoginHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conceptManager" class="nl.tue.gale.ae.impl.DefaultConceptManager" />
+
+	<bean id="processorManager" class="nl.tue.gale.ae.impl.DefaultProcessorManager">
+		<property name="processorList">
+			<list>
+				<ref bean="pluginProcessor" />
+				<ref bean="layoutProcessor" />
+				<ref bean="updateProcessor" />
+				<ref bean="loadProcessor" />
+				<ref bean="logProcessor" />
+				<ref bean="htmlProcessor" />
+				<ref bean="parserProcessor" />
+				<ref bean="csslayoutProcessor" />
+				<ref bean="xmlProcessor" />
+				<ref bean="serializeProcessor" />
+				<ref bean="sendProcessor" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="umCache" class="nl.tue.gale.um.UMCache">
+		<constructor-arg>
+			<bean class="nl.tue.gale.ae.impl.UMCacheResolver">
+				<property name="eventBusClient" ref="eventBusClient" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dmCache" class="nl.tue.gale.dm.DMCache">
+		<constructor-arg>
+			<bean class="nl.tue.gale.ae.impl.DMCacheResolver">
+				<property name="eventBusClient" ref="eventBusClient" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="userEntityCache" class="nl.tue.gale.ae.impl.UserEntityCache">
+		<constructor-arg>
+			<bean class="nl.tue.gale.ae.impl.UserEntityCacheResolver">
+				<property name="eventBusClient" ref="eventBusClient" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="eventManager" class="nl.tue.gale.ae.event.EventManager">
+		<property name="handlerList">
+			<list>
+				<bean class="nl.tue.gale.ae.impl.AccessEventHandler">
+					<property name="codeManager" ref="codeManager" />
+					<property name="umCache" ref="umCache" />
+				</bean>
+				<bean class="nl.tue.gale.ae.impl.AjaxEventHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="galeServletBean" class="nl.tue.gale.ae.GaleServletBean">
+		<property name="processorManager" ref="processorManager" />
+		<property name="loginManager" ref="loginManager" />
+		<property name="conceptManager" ref="conceptManager" />
+	</bean>
+
+	<bean id="configManager" class="nl.tue.gale.ae.config.ConfigManager">
+		<property name="resolveList">
+			<list>
+				<ref bean="processorConfig" />
+				<ref bean="linkConfig" />
+				<ref bean="presentationConfig" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="processorConfig" class="nl.tue.gale.ae.config.ProcessorConfig" />
+
+	<bean id="linkConfig" class="nl.tue.gale.ae.config.LinkConfig">
+		<property name="iconList">
+			<list>
+				<value>("static-tree-view".equals(gale.currentView())?(${#suitability}?(${#visited}>0?"pre:gale:/images/WhiteBall.gif":"pre:gale:/images/GreenBall.gif"):"pre:gale:/images/RedBall.gif"):null)
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="presentationConfig" class="nl.tue.gale.ae.config.PresentationConfig">
+		<property name="viewTable">
+			<map>
+				<entry>
+					<key>
+						<value>static-tree-view</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.view.StaticTreeView" />
+				</entry>
+				<entry>
+					<key>
+						<value>next-view</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.view.NextView" />
+				</entry>
+				<entry>
+					<key>
+						<value>file-view</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.view.FileView" />
+				</entry>
+				<entry>
+					<key>
+						<value>single-list-view</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.view.SingleListView" />
+				</entry>
+				<entry>
+					<key>
+						<value>multi-list-view</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.view.MultiListView" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pluginProcessor" class="nl.tue.gale.ae.processor.PluginProcessor">
+		<property name="pluginTable">
+			<map>
+				<entry>
+					<key>
+						<value>logout</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.LogoutPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>form</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.FormPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>mc</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.MCPlugin">
+						<property name="log" value="true" />
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<value>exec</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.ExecPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>export</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.ExportPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>debug</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.DebugPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>password</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.PasswordPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>ajax</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.AjaxPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>update</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.UpdateContentPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>reset-profile</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.ProfileResetPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>status</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.StatusPlugin" />
+				</entry>
+				<entry>
+					<key>
+						<value>comments</value>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.plugin.CommentsPlugin" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="layoutProcessor" class="nl.tue.gale.ae.processor.FrameLayoutProcessor" />
+
+	<bean id="logProcessor" class="nl.tue.gale.ae.processor.LogProcessor" />
+
+	<bean id="loadProcessor" class="nl.tue.gale.ae.processor.LoadProcessor" />
+
+	<bean id="htmlProcessor" class="nl.tue.gale.ae.processor.HTMLProcessor" />
+
+	<bean id="parserProcessor" class="nl.tue.gale.ae.processor.ParserProcessor" />
+
+	<!-- <bean id="ajaxProcessor" class="nl.tue.gale.ae.processor.AjaxProcessor"/> -->
+
+	<bean id="serializeProcessor" class="nl.tue.gale.ae.processor.SerializeProcessor" />
+
+	<bean id="csslayoutProcessor" class="nl.tue.gale.ae.processor.CSSLayoutProcessor" />
+
+	<bean id="xmlProcessor" class="nl.tue.gale.ae.processor.XMLProcessor">
+		<property name="moduleTable">
+			<map>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}if</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.IfModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}adapt-link</value>
+							<value>{http://gale.tue.nl/adaptation}a</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.AdaptLinkModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}object</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.ObjectModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}handler</value>
+							<value>{http://gale.tue.nl/adaptation}plugin</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.PluginModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}variable</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.VariableModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}for</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.ForModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}count</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.CountModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}attr-variable</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.AttrVariableModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}view</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.ViewModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+								<value>text/xml</value>
+								<value>application/xml</value>
+								<value>application/smil</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>{http://gale.tue.nl/adaptation}test</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.MCModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list>
+							<value>html</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.HTMLModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list value-type="java.lang.String">
+							<value>{http://gale.tue.nl/adaptation}repo</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.RepositoryModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xml</value>
+								<value>application/xml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list value-type="java.lang.String">
+							<value>{http://gale.tue.nl/adaptation}example</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.ExampleModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<list value-type="java.lang.String">
+							<value>{http://gale.tue.nl/adaptation}text</value>
+						</list>
+					</key>
+					<bean class="nl.tue.gale.ae.processor.xmlmodule.TextModule">
+						<property name="mimeToHandle">
+							<list>
+								<value>text/xhtml</value>
+							</list>
+						</property>
+						<property name="handlerList">
+							<list>
+								<bean class="nl.tue.gale.ae.processor.xmlmodule.CreoleTextHandler" />
+							</list>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="updateProcessor" class="nl.tue.gale.ae.processor.UpdateProcessor" />
+
+	<bean id="sendProcessor" class="nl.tue.gale.ae.processor.SendProcessor" />
+</beans>

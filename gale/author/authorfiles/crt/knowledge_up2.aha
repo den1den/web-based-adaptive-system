@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE aha_relation_type SYSTEM 'aha_relation_type.dtd'>
+<aha_relation_type>
+	<name> knowledge_up2 </name>
+	<listitems>
+		<generateListItem isPropagating="true" location="___source.access" >
+			<requirement> true </requirement>
+			<trueActions>
+				<action combination="DIV_D">
+					<conceptName> ___destination </conceptName>
+					<attributeName> knowledge </attributeName>
+					<expression>___destination.knowledge + (var:DIVIDE * ____source.knowledge)</expression>
+				</action>
+			</trueActions>
+		</generateListItem>			
+	</listitems>
+</aha_relation_type>

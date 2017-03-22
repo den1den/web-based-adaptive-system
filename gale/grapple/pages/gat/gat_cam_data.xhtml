@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+
+<h1>Data Structure of a Course (<gale:object name="glossary_cam" />)</h1>
+
+<p>
+The CAM is specified in an XML based format and it is wrapped in a common part (a "header"),
+shared between different models (<gale:a href="gat_dm"><gale:object name="glossary_dm" /></gale:a>,
+<gale:a href="gat_crt"><gale:object name="glossary_prt" /></gale:a> and CAM).
+The following XML code outlines the common structure of GRAPPLE authoring tool models,
+illustrated with a CAM.
+Each model has a header part, where metadata of the model is located.
+Metadata include title, description, creation and update time, author, authorisation,
+and unique UUID of the model:
+<pre>
+&lt;model&gt;  &lt;header&gt;
+    &lt;modeluuid&gt;660e8400-e29b-41d4-a716-446655440000&lt;/modeluuid&gt;       //the modelUuid is a unique identifier for the model.    &lt;modeltype&gt;CAM&lt;/modeltype&gt;       //Types can be DM, CRT, CAM or their VR and Simulation equivalent    &lt;authoruuid&gt;660e8400-e29b- a716-41d4-446655440000&lt;/authoruuid&gt;       // the author UUID is the unique identifier of the author, who created the model    &lt;authorisation&gt;readwrite&lt;/authorisation&gt;       // authorisation for all other author; the original author always has all permissions.       //permissions can be none (no access by other authors) read (read-only access) and       //readwrite (read and write access)    &lt;creationtime&gt;1242904243000&lt;/creationtime&gt; //the timestamp of creation of the model    &lt;updatetime&gt;1242904243000&lt;/updatetime&gt; //the timestamp the model was last updated    &lt;title&gt;sun-example-cam&lt;/title&gt; //the title of the model    &lt;description&gt;CAM for the Solar System example&lt;/description&gt; //the description of the model  &lt;/header&gt;  &lt;body&gt; //the body contains the actual content of the model    &lt;cam&gt; //depending on the model there will be a <gale:object name="glossary_dm" />, CAM or CRT tag to indicate the model type
+          //content of the model (in this case cam) see below for more details
+    &lt;/cam&gt;  &lt;/body&gt;&lt;/model&gt;
+</pre>
+Below we explain the CAM language via an example. We see this type of CAM output as XML descriptions of
+groups of concepts and named pedagogical relations between them.
+For example, if a single concept A is a prerequisite for a single concept B, the corresponding CAM could be:
+<pre>&lt;model&gt;  &lt;header&gt; .. &lt;/header&gt;  &lt;body&gt;    &lt;cam&gt;      &lt;camInternal&gt;        &lt;domainModel&gt;..&lt;/domainModel&gt;        &lt;crtModel&gt; .. &lt;/crtModel&gt;          &lt;crt&gt;	    &lt;uuid&gt;cf5de7f5-12b5-4720-92e5-736cac59985b&lt;/uuid&gt;	    &lt;shape&gt;diamond&lt;/shape&gt;	    &lt;colour&gt;#C0C0C0&lt;/colour&gt;	    &lt;camSocket&gt; 	      &lt;uuid&gt;e9b45bd0-6013-11de-8a39-0800200c9a66&lt;/uuid&gt;	      &lt;socketId&gt;cf5de7f5-12b5-4720-92e5-zzzzzzzzz&lt;/socketId&gt;             &lt;position&gt;&lt;x&gt;100&lt;/x&gt;&lt;y&gt;250&lt;/y&gt;&lt;/position&gt;             &lt;size&gt;10&lt;/size&gt;             &lt;shape&gt;rectangle&lt;/shape&gt;				 	                              &lt;colour&gt;#006633&lt;/colour&gt;             &lt;entity&gt;&lt;dmId&gt;201-de-8a39-0800200c9a66&lt;/dmId&gt;&lt;/entity&gt;	    &lt;/camSocket&gt;	    &lt;camSocket&gt;	      &lt;caption&gt;target&lt;/caption&gt;	      &lt;uuid&gt;f539bae0-6013-11de-8a39-0800200c9a66&lt;/uuid&gt;	      &lt;socketId&gt;2b5-4720-92e5-pppppppppppp&lt;/socketId&gt;	      &lt;position&gt;&lt;x&gt;100&lt;/x&gt;&lt;y&gt;400&lt;/y&gt;&lt;/position&gt;             &lt;size&gt;10&lt;/size&gt;	      &lt;shape&gt;rectangle&lt;/shape&gt;	      &lt;colour&gt;#006633&lt;/colour&gt;	      &lt;entity&gt;&lt;dmId&gt;11de-8a39-0800200c9a66&lt;/dmId&gt;&lt;/entity&gt;	    &lt;/camSocket&gt;	 &lt;/crt&gt;      &lt;/camInternal&gt;    &lt;/cam&gt;  &lt;/body&gt;&lt;/model&gt;
+</pre>As we can see the CAM consists of two parts the header and the body, the header is the common header described
+above. The body part contains the information specific for the CAM model. The body part contains the following information:
+<ul>
+<li>The domainModels (<gale:object name="glossary_dm" />s) and crtModels (PRTs) in use.
+</li>
+<li>A number of crt tags, containing the instantiation of PRTs from the crtModel
+with actual concepts from the domainModel.</li>
+</ul>The crt tag contains the following information:
+<ul>
+<li>A unique identifier: the uuid
+</li>
+<li>The shape and color of the PRT, for displaying the PRT in the Course Editor,
+this is optional, defaults will be used if the tags are omitted.
+</li>
+<li>An optional position element. The position of a PRT needs to be given if the PRT is not binary
+(either exactly 1 or more than 2 sockets). For binary PRTs the position is calculated,
+based on the position of the sockets.
+</li>
+<li>A number (at least 1) of camSockets.</li>
+</ul>The camSockets contain the instantiation with the actual concepts, they contain the following information:
+<ul>
+<li>An optional caption, a name for the socket, for the authors assistance.
+</li>
+<li>A unique identifier, the uuid
+</li>
+<li>A socketId, the unique id of the specific socket in the crtModel
+</li>
+<li>A position, the position where the socket should be displayed in the Course Editor.
+</li>
+<li>An optional shape and color, the shape and color a CAM socket should have,
+a default will be used if the tags are omitted.
+</li>
+<li>A number of entity tags.
+</li>
+</ul>The entity contains the instantiation with the actual concepts, they contain the following information:
+<ul>
+<li>Zero or one dmID, the ID (not the name) of the concept in the DM that is assigned to the entityID, with
+</li>
+<li>Zero or more labels for the resource of a concept and an optional location for a resource
+</li>
+<li>A number of relationshipType elements, where a requirement for a concept to be involved in a
+certain relationship in the DM model can be expressed
+(e.g., the entity should have participated in an IS-A relation)
+</li>
+<li>The relative position in the socket instance, if it differs from the default.
+</li>
+<li>The size of the entity in the socket, if it differs from the default.
+</li>
+<li>The shape of the entity in the CAM instance, if it differs from the default.
+</li>
+<li>The image of the entity in the CAM instance, if it differs from the default.
+</li>
+<li>The color of the entity in the CAM instance, if it differs from the default.
+</li>
+</ul>The description of the subject domain and behavior semantics of the PRT called ‘prerequisite’ needs to be separately imported from the DM and CRT repositories.
+These descriptions are then included in the domainModel and crtModel parts.
+</p>
+<p>
+More technical details can be found in <a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 3.3c</a>.
+</p>
+</body>
+</html>

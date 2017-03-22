@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Using Sakai in GRAPPLE</h1>
+
+<p>
+GRAPPLE (and specifically the GRAPPLE Conversion Component module) can be installed on
+Sakai versions 2.5 and 2.6. 
+A tool imports all libraries automatically. You then need to edit the file
+"tomcat/sakai/sakai.properties" to indicate:
+<ul>
+<li>
+the location (URL) of <gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>;
+</li>
+<li>
+the URL where Sakai can register its listener on GEB:<br />grapple.geb.registerListenerURL = http://localhost:9000/GrappleEventBus/gebListenerService?wsdl
+</li>
+<li>the URL where Sakai can send events to:<br />grapple.geb.sendEventURL = http://localhost:9000/GrappleEventBus/eventGEBListenerService?wsdl
+</li>
+</ul>To deploy this tool to Sakai you only have to execute "mvn clean install sakai:deploy"
+in the grapple directory.It will then copy the generated warfile to the tomcat/webapps directory and (re-)load itself.
+</p>
+<p>
+An administrator can assign GRAPPLE courses to users.
+The following screenshot is how the GRAPPLE tool might look for an administrator:
+<br /><br />
+<img src="../../images/sakai-grapplecourses.jpg" />
+<br /><br />
+Although the admin can refresh the list of <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a> courses
+(called Grapple Courses in the screenshot) this is done automatically every 2 hours.
+<br />Sakai will register itself to GEB and if that fails it will automatically retry.
+The screenshot shows that the listener is active.
+<br />
+The "Group events selection" link will take the admin to a form where (s)he can select
+which events should be published to GEB:
+<br /><br />
+<img src="../../images/sakai-eventsselection.jpg" />
+<br /><br />
+The administrator must assign a course to a teacher, which is a three step process:
+select user, select course, then confirmation.
+<br /><br />
+<img src="../../images/sakai-assigncourse1.jpg" />
+<br /><br />
+<img src="../../images/sakai-assigncourse2.jpg" />
+<br /><br />
+<img src="../../images/sakai-assigncourse3.jpg" />
+<br /><br />
+With Sakai, when a learner accesses the adaptive learning material it is shown within the
+browser window of Sakai.
+</p>
+</body>
+</html>

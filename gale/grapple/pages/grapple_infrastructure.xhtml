@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Global GRAPPLE Infrastructure</h1>
+
+<p>
+The figure below shows the overall architecture of GRAPPLE:
+</p>
+<img src="../images/architecture.jpg" />
+<p>
+At the top of the figure we see two components that connect several of the underlying components.
+For this tutorial the underlying components are most important, but we wish to first mention the
+role of the top ones.
+</p>
+<p>
+The communication between the various GRAPPLE components is managed by
+<gale:a href="GEB"><gale:object name="glossary_geb" /></gale:a>. This is an <em>asynchronous</em> communication
+channel between the other components. GRAPPLE components can send messages to the event bus and can
+"listen" to certain events. This is not a <em>request/response</em> communication like for instance
+HTTP used between Web browsers and servers. Components should never block while waiting for a response
+from another component.
+</p>
+<p>
+Many institutes and companies can share access to GRAPPLE. They can share courses and <gale:object name="glossary_um" />s.
+To enable their users to access GRAPPLE the Shibboleth single sign-on facility is used.
+<a href="http://shibboleth.internet2.edu/">Shibboleth</a> is used in many networks of shared information services
+and its development is completely independent from GRAPPLE. Shibboleth is only used for the identification
+of learners. The authoring environment currently does not use it.
+</p>
+
+<p>
+A typical scenario for using GRAPPLE (as teacher) is that you set up access to a course on your
+institute's/company's <gale:a href="LMS"><gale:object name="glossary_lms" /></gale:a>. For the course you
+create a number of communication channels, activities, assignments and tests. The learning process
+and progress depends on the performance of learners on these assignments and tests. The results
+are stored not only in the LMS' "gradebook" but also in <gale:a href="GUMF"><gale:object name="glossary_gumf" /></gale:a>.
+You then create <em>adaptive course material</em> in which the adaptation may depend on the
+user's progress through the "written" material and on the test/assignment results.
+The structure and adaptation of the course is created using <gale:a href="GAT"><gale:object name="glossary_gat" /></gale:a> and
+the content is created using any XML editor you prefer. The adaptive course material is then
+served to the learners through <gale:a href="GALE"><gale:object name="glossary_gale" /></gale:a>.
+GALE may use information about the learner, obtained from GUMF, but also uses its internal detailed <gale:object name="glossary_um" /> to guide the student through the learning process. Some information about this progress can be communicated
+from GALE back to GUMF where it may later be used for adaptation in (the same or) other courses.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The <gale:object name="glossary_gale" /> ViewModule (&lt;view&gt;)</h1>
+
+<p>
+The <code>&lt;view&gt;</code> tag is a special-purpose tag used exclusively in the layout definition
+of a course: the browser window is divided into different parts (4 parts in case of this tutorial)
+and in each part a "view" is presented. One of these is the <code>&lt;content /&gt;</code> and
+represents the adapted page. The other parts are defined using the <code>&lt;view&gt;</code> tag
+and use the three most common "standard" views:
+<ul>
+<li>
+<code>&lt;gale:view name="static-tree-view" /&gt;</code> generates the accordion menu you see on the left.
+It shows part of the concept hierarchy of the course (in this case the GRAPPLE tutorial).
+</li>
+<li>
+<code>&lt;gale:view name="next-view" /&gt;</code> generates a link to the next concept in the concept
+hierarchy, using a depth-first navigation algorithm.
+This tags has an optional "expr" argument that specifies a condition on the next concept.
+The code <code>&lt;gale:view name="next-view" expr=="${#suitability} &amp;&amp; ${#visited} == 0" /&gt;</code>
+generates a link to the next suitable and unvisited concept in the concept hierarchy.
+</li>
+<li>
+<code>&lt;gale:view name="file-view" file="gale:/grapple/header.xhtml" /&gt;</code>
+fills the view with the contents of the given file argument. The contents of that file is subject
+to adaptation. Instead of a "file" argument you can also use an "expr" argument to compute the URL
+of the file, or a "content" attribute that defines the content to be used instead of a real file.
+Examples:<br />
+<code>&lt;view name="file-view" expr="${#content.file}" /&gt;</code> uses the current concept's
+"content.file" attribute to determine the filename.<br />
+<code>&lt;gale:view name="file-view" content="${#description}" /&gt;</code> uses the current concept's
+"description" attribute to extract the text to be used instead of a file. Note that this "text" should be
+a valid piece of XML. (If is it only a piece of text you can place <code>&lt;span&gt;</code>
+and <code>&lt;/span&gt;</code> around it to make it valid XML.)
+</li>
+</ul>
+</p>
+<p>
+Even though views are only used in the layout definition of a course they can in fact also be used
+anywhere on a page. The content of the view is then inserted in a similar way as with the
+<gale:a href="gale_objectmodule">object</gale:a> tag and module.
+</p>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>Logging in in the <gale:object name="glossary_lms" /></h1>
+
+<p>
+Below are the data associated with the event when a user logs in in the LMS integrated with GRAPPLE.
+This event does not correspond to the Registration event. The user variables are mapped to
+<a href="http://www.imsglobal.org/profiles/">IMS LIP</a> 1.0.1 (the numbers below indicate the single table and row in the IMS LIP specification): <ul>
+<li>
+LMS type (CLIX, Claroline, Moodle, ELEX, Sakai): contentype – 13.3 – sourcedid (13.3.1.1)</li>
+<li>
+url: contentype – 13.3 – id (13.3.1.2)</li>
+<li>
+User id: security key - 11.4 - keyfields (11.4.1 - fieldlabel, 11.4.2 - fielddata)</li>
+<li>
+Course id: activity - contentype – 13.3 – sourceid (13.3.1.1)</li>
+<li>
+IP address: identification - 2.9 extension (14.13 ext_identification).</li>
+</ul>
+</p>
+<p>
+For an example of the XML code of this event type we refer to
+<a href="http://grapple-project.org/deliverables">GRAPPLE Deliverable 5.2b</a>.
+<br />(You do not need to know this to use GRAPPLE.)
+</p>
+</body>
+</html>

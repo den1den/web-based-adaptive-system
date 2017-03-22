@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:gale="http://gale.tue.nl/adaptation">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../tutorial.css" type="text/css" />
+  <title></title>
+</head>
+
+<body>
+<h1>The Meta Info Tab of the <gale:object name="glossary_prt" /> Editor</h1>
+
+<p>
+The Meta Info Tab of the PRT Editor is shown below:
+<br /><br />
+<img src="../../images/gat-prt-metainfo.jpg" />
+</p>
+<p>
+This tab consists of the following parts:
+<dl>
+<dt><b>Describing the pedagogical meaning</b></dt><dd>
+At the top of the "Meta Info" tab the pedagogical meaning should be described.
+This is important information for course authors who might chose this PRT in the
+<gale:object name="glossary_cam" />. On the other hand, this information is free text and will
+not be interpreted by any GRAPPLE component.
+</dd>
+<dt><b>Additional Information</b></dt><dd>
+There is information on the creation time, modification time and author.
+This information cannot be changed in the tool.
+The information of the author is given as UUID, not as user name.
+</dd>
+<dt><b>Defining a parameter in the PRT</b></dt><dd>
+The section on the parameter allows for defining a parameter for this PRT. The parameter has a
+value for which you define a default. The default value can be overwritten by a course author
+in the CAM for each individual instance of the PRT. The parameter can be used (using the "name") in the
+<gale:a href="gat_prt_code">code section</gale:a>.The example figure shows a definition of a 'level' parameter with value 80. For the G-Prerequisite PRT
+this value is the knowledge level which is necessary so that concepts in the target socket become suitable. If an author uses this PRT in the CAM, she can change this level for each prerequisite.
+</dd>
+</dl>
+</p>
+</body>
+</html>
