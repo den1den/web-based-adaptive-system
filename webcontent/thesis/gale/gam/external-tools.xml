@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">using the GAM language or small snippets
+of GAM code in other tools to create a domain model that includes adaptivity</gale:text>
+
+<gale:text tag="long" type="creole">External tools can use (parts of) the GAM language to
+add adaptivity to domain and course models created with the tools. An example can be found
+in the [[../../research/gat|GRAPPLE Authoring Tools (GAT)]].</gale:text>
+
+<gale:text tag="default" type="creole">Any external authoring tool or converter could
+deploy GAM files to GALE. In the [[../../research/grapple|]] project, graphical tools were
+developed that aid the author in creating an adaptive application. These specific tools
+create [[../../research/cam|.cam.xml]] files and present them to GALE upon deploy. A
+special [[../../research/cam-compiler|CAM compiler]] interprets the file and the concepts
+are stored in the GALE database. New tools should compile their own formats and present
+GAM code to GALE.
+
+The GRAPPLE authoring tools (GAT) use a parameterized version of GAM, much in the same way
+as [[../../aha|AHA!]] used [[../../aha/templates|templates]] in its
+[[../../aha/graph-author|Graph Author]]. Instead of explicitly identifying the concept in
+the GAM code, a parameter is used that refers to the socket of a relation. Any number of
+named sockets can be introduced to a relation type (Pedagogical Relation Type or PRT in
+GAT), e.g., 'source' and 'target' in the case of a binary relation type. The type contains
+a small fragment of GAM code that refers to the sockets:
+
+{{{
+%target% {
+    #suitability:Boolean &amp;="${%source%#knowledge} > 0.7"
+}
+}}}
+
+This code might define a prerequisite. It alters the {{{#suitability}}} expression of the
+'target' concept(s). GAT allows any number of domain concepts to be stored in the target
+socket. The suitability expression will be altered to include a part (or parts) that
+checks whether the 'knowledge' of the source concept(s) is greater than 0.7.
+
+Any GAM code is allowed in a PRT. It is possible to create entirely new concepts or domain
+model relations based on the PRTs defined in the GAT course model. The following example
+would create a new 'image' concept (for every concept in the 'self' socket of the unary
+PRT) that shows the image based on a URL in the concept's 'image' property:
+
+{{{
+%self%/image {
+    #resource "content:#image"
+    #image '
+        &lt;img>
+        &lt;attr-variable xmlns="gale://gale.tue.nl/adaptation" name="src" expr="%self%?image" />
+        &lt;/img>
+    '
+}
+}}}
+</gale:text>
+
+</gale:repo>

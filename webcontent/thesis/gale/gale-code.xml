@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a simple expression language to allow
+easy access to [[domain-model|domain]] and [[user-model|user model]]</gale:text>
+
+<gale:text tag="long" type="creole">GALE code is Java source code enhanced with a special
+syntax to access the [[user-model|user model]] and [[domain-model|domain model]]. The code
+is written by authors of adaptive applications and executed by GALE.</gale:text>
+
+<gale:text tag="intro" type="creole">Creating an adaptive course or web application
+requires some automated process to update the user model whenever that is deemed necessary
+by the author. Adaptive hypermedia systems differ greatly in the amount of control they
+give to the author when updating the user model and using this model to adapt content,
+presentation, etc.
+
+To allow any current and future system to be simulated by GALE, //it allows any adaptation
+that can be programmed//. Though the language used can be changed by replacing a GALE
+module called the [[system/codemanager|'Code Manager']], the default will be sufficient in
+most cases. Java (1.5) is used as the default programming language. To simplify authoring
+the most common adaptation rules, a special syntax allows easy access to domain and user
+model.</gale:text>
+
+<gale:text tag="default" type="creole">Almost any Java code can be written where GALE code
+is expected. Some code may be rejected or cause an exception when run because of security
+restrictions (e.g. it is not allowed to access the file system of the GALE server). To
+access the [[gel/gel|GALE Expression Language (GEL)]] the syntax {{{${ ... ~}}}} is used.
+The idea to use this syntax is taken from the
+[[=http://java.sun.com/products/jsp/syntax/2.0/syntaxref207.html#1010522|JSP
+EL]]. The GEL syntax can be [[gel/usage|mixed]] with the rest of the Java
+code.
+
+GALE code can be used to express both statements and expressions. The context determines
+which one is required. [[gam/syntax|Event code]] in the [[domain-model|domain model]]
+should be statement code, whereas [[gam/attribute|default values]] for attributes should
+be expressions. Everytime an expression is required you can optionally include a tilde
+(~~) at the start of the expression to build a complex function. This thesis contains
+something that looks like the following function to determine the resource associated with
+a concept:
+
+{{{
+#resource ='~~
+    if (${#suitability})
+        return ${.}.getUri()+".xml";
+    else
+        return "unsuitable.xml";
+'
+}}}
+
+GALE code is often used when writing resources (the actual content) for an application.
+Various [[modifying-resource|modules]] are available that allow adaptation to the content
+of XML and XHTML/HTML pages. The [[system/if-module|if module]] and
+[[system/variable-module|variable module]] are some examples.
+
+{{{
+&lt;p>Hi, &lt;gale:variable expr="${gale://gale.tue.nl/personal#name}" />.
+    &lt;gale:if expr="${#visited} &lt; 3">&lt;b>Read these instructions carefully!&lt;/b>&lt;/gale:if>
+&lt;/p>
+}}}
+
+This example retrieves the name stored in the 'gale:~//gale.tue.nl/personal' concept.
+Depending on how often you have 'visited' the current concept the string 'Read these
+instructions carefully' is shown.</gale:text>
+
+</gale:repo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the process of changing the content of a
+resource to make it more suitable for a particular user</gale:text>
+
+<gale:text tag="long" type="creole">Determining how the content of a resource should be
+adapted for a specific user is a process that strongly depends on the type of content. To
+support adaptation of HTML, XHTML and XML, GALE includes [[system/processors]] that use
+special instructions that the author embedded in the content. These instructions are for
+example {{{&lt;gale:if expr="...">}}} or {{{&lt;gale:variable name="...">}}} and many
+more. They allow parts of the actual content to depend on the [[domain-model|domain
+model]] and [[user-model|user model]].</gale:text>
+    
+<gale:text tag="default" type="creole">Determining how the content of a resource should be
+adapted for a specific user is a process that strongly depends on the type of content. As
+an adaptive hypermedia server, GALE supports HTML, XHTML and XML by default. Through its
+modular architecture GALE allows extensions to adapt other content as well.
+
+HTML is first translated to XHTML, and XHTML is a form of XML. GALE introduces an XML
+namespace ({{{http://gale.tue.nl/adaptation}}}) that contains tags that support adapting
+the content based on the [[user-model|user model]] and [[domain-model|domain model]]. Some
+of the tags can be used in any form of XML, while others are only meaningful in XHTML.
+<gale:if expr="${system/processors#known}"> In the description of each module we indicate
+which forms of XML can be adapted by that module.</gale:if>
+
+Here is an example of how to use these tags to conditionally include a piece of
+content:
+
+{{{
+&lt;html xmlns="http://www.w3.org/TR/xhtml1/strict"
+      xmlns:gale="http://gale.tue.nl/adaptation">
+  &lt;body>
+    &lt;gale:if expr="${#visited} &lt;= 1">Welcome to this site for the first time!&lt;/gale:if>
+    Make your selection of beers in the options below:
+  &lt;/body>
+&lt;/html>
+}}}
+
+The language used to create expressions is [[gale-code|GALE (EL) code]]. The various tags
+available are these:
+* [[system/if-module|&lt;gale:if>]], conditionally include a piece of XML based on an
+  expression.
+* [[system/object-module|&lt;gale:object>]], include the content of another concept or
+  file in the current XML document.
+* [[system/link-module|&lt;gale:a>]], create an adaptive link to another concept.
+* [[system/variable-module|&lt;gale:variable>]], insert the result of an expression as
+  text.
+* [[system/attr-variable-module|&lt;gale:attr-variable>]], insert the result of an
+  expression as attribute in the parent tag.
+* [[system/for-module|&lt;gale:for>]], loops over the contents of the associated XML
+  element to include it multiple times.
+* [[system/text-module|&lt;gale:text>]], allows taggable blocks of text written using
+  different syntax and converted to XHTML.
+* [[system/repo-module|&lt;gale:repo>]], creates a repository of text fragments.
+* [[system/count-module|&lt;gale:count>]], counts the number of visited or still to read
+  concepts.
+* [[system/test-module|&lt;gale:test>]], creates a multiple choice test and makes the
+  result available in the user model.
+* [[system/plugin-module|&lt;gale:plugin>]], creates a link to a
+  [[system/processors|plugin]].
+* [[system/view-module|&lt;gale:view>]], generating X(HT)ML based on the current
+  concept, domain and user model.
+* [[system/html-module|'html' module]], used to support some of GALE's functions.
+
+</gale:text>
+
+<gale:text tag="analytic" type="creole">There are many frameworks that provide the ability
+to alter parts of an (X)HTML document programmatically before it is served to the client,
+e.g. [[=http://www.php.net/|PHP]], [[=http://www.jcp.org/en/jsr/detail?id=245|JSP]],
+[[=http://wicket.apache.org|Apache Wicket]], etc. Specifications like
+[[=http://www.w3.org/TR/xslt|XSLT]] can be used to describe how a particular XML document
+should be transformed. Though these techniques could be used to perform adaptation to
+(X)HTML, there are several reasons why GALE does not use any of these at the moment.
+
+GALE has roots in [[../aha|AHA!]], a project that predates many of the techniques that are
+currently available. XML and XSLT were emerging technologies at the time and
+[[../research/early-aha|early versions]] of AHA! focused on HTML. As authors came up with
+new ideas, new tags were invented along the way. When the focus shifted to adapting XML,
+using an in-memory DOM tree was easier to implement than SAX processing. There was no
+compelling reason to change that later on. Authors seemed quickly familiar with the
+various tags available in GALE. Some GALE constructs, like conditional object inclusion,
+are difficult to mimic with other frameworks.
+
+All of the functionality described in this section is handled by a single GALE
+[[system/processors|processor]]<gale:if expr="!${system/processors#known}"> (a component
+in the GALE <gale:a href="system/adaptation-engine">Adaptation Engine</gale:a> that is
+part of the processing stack)</gale:if>. This type of component can be swapped without
+even recompiling GALE. This allows for future implementations that do use SAX processing,
+XSLT, or any of the other options. Not all implementations need to support the same
+functionality. </gale:text>
+
+</gale:repo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">using HTML tables to lay out different
+[[system/view-module|views]] in a browser</gale:text>
+
+<gale:text tag="long" type="creole">HTML tables can be used to lay out
+[[system/view-module|views]] in a web browser. A special {{{#layout}}} attribute in the
+[[domain-model|domain model]] can be used to activate this type of layout. The content of
+the attribute defines the different views and their location in the browser.</gale:text>
+
+<gale:text tag="default" type="creole">Layout using tables requires something that
+resembles an HTML {{{&lt;frameset>}}}. The tag used here is called 'struct'. An example:
+
+{{{
+#layout '
+  &lt;struct cols="250px;*">
+    &lt;view name="static-tree-view" />
+    &lt;struct rows="60px;*;40px">
+      &lt;view name="file-view" file="header.xhtml" />
+      &lt;content />
+      &lt;p>&lt;hr />Next suggested concept to study: &lt;view name="next-view" />&lt;/p>
+    &lt;/struct>
+  &lt;/struct>
+'
+}}}
+
+Whenever a concept is found that defines a {{{#layout}}} attribute, GALE interprets the
+content as serialized XML that uses {{{&lt;struct>}}} tags, combined with 'cols' or 'rows'
+attributes to define a structured layout. The {{{&lt;content />}}} tag is a placeholder
+for the actual content of the concept. It is replaced with an {{{&lt;iframe>}}} tag, that
+links to the exact same concept in GALE, but with an added marker to indicate that this
+time only the content itself is needed (a request parameter is added, 'frame=true').
+
+Both techniques adapt the layout-generated XHTML before the actual content. Whenever the
+content updates the UM (by including {{{&lt;gale:object>}}} tags for instance), these
+updates are //not// seen by the layout-generated XHTML.</gale:text>
+
+<gale:text type="creole" tag="default" expr="${../howitworks#new-content}">You have
+learned some new things that will help you better understand how this thesis works. This
+might be a good time to take a quick look at the '[[../howitworks|]]' page.</gale:text>
+
+</gale:repo>

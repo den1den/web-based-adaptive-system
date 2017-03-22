@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the different types of events sent over
+the [[events|event bus]]</gale:text>
+
+<gale:text tag="long" type="creole">Event types are use by the [[events|event bus]] to
+route events. The bus maintains a list of subscribed services for each event type. Only
+those services will be informed. Types indicate whether the event was about a user model
+update, a request for information about the domain model, etc.</gale:text>
+
+<gale:text tag="default" type="creole">
+== Event types (methods) ==
+
+Event types can be split into three categories:
+
+==== \DM events ====
+
+* //getdm//, requests information about a particular concept. A single parameter is
+  expected of the form: 'uri:&lt;URI>', where &lt;URI> is replaced with an actual concept
+  URI. Most \DM services listen for this event and try to locate information on the
+  concept. If a \DM service is unable to locate the requested concept, nothing is
+  returned.
+* //setdm//, sends new concept definitions for storage. Multiple serialized concepts can
+  be included as parameters. In most GALE installations there will be only one service
+  that listens for this event and actually stores the concepts in a database. This will
+  most likely result in an //updatedm// event afterwords.
+* //updatedm//, indicates a change in the \DM. Multiple serialized concepts can be
+  included as parameters. \DM services send this method when they detect a change in the
+  underlying \DM. Some services monitor the file system, or poll information on other HTTP
+  servers to detect changes. The \UM service and \AE are often interested in these changes
+  so they can incorporate them in their cache.
+* //querydm//, requests concepts based on an
+  [[=http://docs.jboss.org/hibernate/core/3.3/reference/en/html/queryhql.html|HQL query]].
+  Not all \DM services will support this method, as it requires a database backend. The
+  concepts that are found using the query are serialized using JSON.
+
+==== \UM events ====
+
+* //getum//, requests the value of a \UM variable. A single parameter is expected of the
+  form: 'uri:&lt;URI>, where &lt;URI> is replaced with a \UM URI (i.e. including fragment
+  and userinfo parts). The result will be a serialized {{{EntityValue}}} object.
+* //setum//, sends updated \UM values and requests the changes that occur as a consequence
+  of updating the \UM. The algorithm that determines what \UM values have changed, is
+  described in more detail in the [[caching-um|section on \UM caching]].
+* //updateum//, indicates a change in \UM. The contents of the event contains serialized
+  {{{EntityValue}}} objects representing the actual changes. The \AE and other services
+  can rely on these events to keep there cache in sync.
+* //queryum//, requests \UM values based on an
+  [[=http://docs.jboss.org/hibernate/core/3.3/reference/en/html/queryhql.html|HQL query]].
+  The {{{EntityValue}}} objects are serialized using JSON.
+* //invalidateum//, indicates that \UM caches might no longer contain the current value
+  for the specified \UM URI. Whenever a component caches \UM values, it should listen to
+  this event and respond by removing the value from the cache.
+* //setentity//, sends an update for a {{{UserEntity}}} object.
+* //getentity//, requests a specific {{{UserEntity}}} object.
+* //resetum//, request a profile reset. This will reset all \UM values except comments.
+  The {{{UserEntity}}} is not included in the reset (i.e. the user still exists).
+
+==== CacheOptimizer events ====
+
+The {{{CacheOptimizer}}} synchronously resets all caches used throughout GALE. There is
+one 'cache' in particular that needs an unlimited size. The \UM service builds a
+dependency graph of related attributes. This graph is used to determine how an update to
+one attribute can influence others (non-persistent attributes with default code). There is
+no easy mechanism for the \UM to decide when to 'forget' parts of this graph. Elements can
+only be removed of no cache exists in other components of GALE that contain particular \UM
+values. The graph can only be cleared entirely, if all caches throughout GALE are cleared
+as well. This is what the {{{CacheOptimizer}}} periodically does, through the following
+events:
+
+* //ccdm//, clear all caches in \DM services
+* //cdum//, clear all caches in \UM services
+* //cdae//, clear all caches in the \AE</gale:text>
+
+</gale:repo>

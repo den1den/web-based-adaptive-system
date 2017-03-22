@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">extending GALE to handle specific tags in
+XML or XHTML</gale:text>
+
+<gale:text tag="long" type="creole">GALE can be extended to support new methods of
+adapting the X(HT)ML content of a document. The adaptation that should occur when specific
+tags are found can be placed in a class that extends the {{{Module}}} interface. This
+'module' can be made available to GALE by binding it to specific tags in XML.</gale:text>
+
+<gale:text tag="default" type="creole">A common way to adapt a course is to categorise the
+user as 'beginner', 'intermediate' or 'expert' and to then change the content accordingly.
+Different resources could be [[../locating-content|selected]] based on the level of the
+user. If more fine-grained control over what parts of the resource should appear
+differently for each user is needed, [[if-module|&lt;gale:if>]] tags can be used. Using
+{{{&lt;gale:if>}}} tags to create separate parts for beginner, intermediate and expert
+users is tedious. For one reason, one would have to use nested {{{&lt;gale:if>}}} tags.
+For every type of user added later, a new {{{&lt;gale:if>}}} tag would have to be added.
+This problem could be solved by introducing a {{{&lt;gale:select>}}} construction.
+(Alternatively conditional inclusion of objects could be used.) In this section a new XML
+module is created and appropriate configuration to support the {{{&lt;gale:select>}}} tag
+in XHTML. This new tag should preferably be used as follows:
+
+{{{
+&lt;gale:select expr="${http://wwwis.win.tue.nl/2ID05#user-level}">
+    &lt;gale:case value="beginner">
+        &lt;p>Structured Query Language (SQL) would allow you to express the
+        question in a machine understandable format.&lt;/p>
+    &lt;/gale:case>
+    &lt;gale:case value="intermediate">
+        &lt;p>&lt;gale:a href="sql">SQL&lt;/gale:a> would enable you to create the
+        appropriate query.&lt;/p>
+    &lt;/gale:case>
+    &lt;gale:case value="expert">
+        &lt;p>In SQL the query would look something like:&lt;br\>
+        SELECT * FROM person WHERE city = 'brunssum'&lt;/p>
+    &lt;/gale:case>
+&lt;/gale:select>
+}}}
+
+The {{{&lt;gale:select>}}} tag would have a single attribute 'expr', which is a
+[[../gale-code|GALE (EL) code]] expression. This value is matched with one of the
+{{{&lt;gale:case>}}} tags by comparing it to the 'value' attribute. The
+entire {{{&lt;gale:select>}}} element in the original XHTML should be replaced by the contents of the
+selected {{{&lt;gale:case>}}} element.
+
+=== Creating the source code ===
+
+To create a new XML module, a new class has to be created that implements the
+{{{nl.tue.gale.ae.processor.xmlmodule.Module}}} interface. A basic (empty) module would
+look like this:
+
+{{{
+package mydomain.xmlmodule;
+import java.util.List;
+import org.dom4j.Element;
+import nl.tue.gale.ae.processor.xmlmodule.Module;
+
+public class SelectModule implements Module {
+    private static final List&lt;String> mimeToHandle =
+        Arrays.asList(new String[] {"text/xhtml", "text/xml",
+                "application/xml", "application/smil" });
+
+    public List&lt;String> getMimeToHandle() {
+        return mimeToHandle;
+    }
+
+    public Element traverse(Element element, Resource resource)
+            throws ProcessorException {
+        return element;
+    }
+}
+}}}
+
+The XML processor only calls modules that are registered for the particular mime type
+being processed. When trying to create this list of mime types configurable in
+galeconfig.xml (like default modules included in GALE), the following code could be used:
+
+{{{
+private List&lt;String> mimeToHandle =
+    Arrays.asList(new String[] {"text/xhtml", "text/xml",
+            "application/xml", "application/smil" });
+
+public List&lt;String> getMimeToHandle() {
+    return mimeToHandle;
+}
+
+public void setMimeToHandle(List&lt;String> mimeToHandle) {
+    this.mimeToHandle = mimeToHandle;
+}
+}}}
+
+The traverse method is where all the action of the new select element will go. The first
+step is to evaluate the expression and store the result (as a string):
+
+{{{
+GaleContext gale = GaleContext.of(resource);
+String expr = element.attributeValue("expr");
+String value = gale.eval(expr).toString();
+}}}
+
+Next the correct case sub element needs to be found by matching the value attribute:
+
+{{{
+Element case = null;
+    for (Element e:element.elementIterator("case"))
+        if (value.equals(e.attributeValue("value"))) case = e;
+}}}
+
+The only remaining thing to do is to replace the entire select element by the matched case
+element's content. This is relatively difficult, because the content might not be a single
+element or other node, but multiple nodes. Those nodes themselves may need processing
+(they may have other GALE tags in them). Below is the code to do all that:
+
+{{{
+processor.traverseChildren(case, resource);
+List&lt;Node> content = (List&lt;Node>) element.getParent().content();
+int index = content.indexOf(element);
+for (Node node : (List&lt;Node>) case.content()) {
+    content.add(index, node);
+    index++;
+}
+content.remove(element);
+return null;
+}}}
+
+The call to {{{processor.traverseChildren()}}} will recursively process the contents of
+the matched case element. The location of the select element within its parent element
+will then be found. Next the contents of the case element to that location will be added
+while preserving node order. Finally the original select element is removed from its
+parent. Null is returned because the XML processor only uses the return value of a module
+to process its children and that has already been done.
+
+The next step would be to compile this source code and make it available to GALE. Either a
+jar file that contains the class file should be created, or the class file in
+WEB-INF/classes/mydomain/xmlmodule should be stored within the Tomcat webapps/gale
+directory.
+
+=== Configuring GALE to use a new module ===
+
+What remains is telling GALE about the new module and when to use it. In galeconfig.xml a
+description of all processors can be found. The most interesting is the XML processor, for
+it contains a list of all modules. The following section can be found within the
+galeconfig.xml:
+
+{{{
+&lt;bean class="nl.tue.gale.ae.processor.XMLProcessor">
+    &lt;property name="moduleTable">
+&lt;map>
+}}}
+
+A new entry in the moduleTable of the XML processor has to be added for the new
+SelectModule. The new entry is shown below:
+
+{{{
+&lt;entry>
+    &lt;key>
+        &lt;list>
+            &lt;value>{http://gale.tue.nl/adaptation}select&lt;/value>
+        &lt;/list>
+    &lt;/key>
+    &lt;bean class="mydomain.xmlmodule.SelectModule" />
+&lt;/entry>
+}}}
+
+If the option to make your module's mime types configurable has been used, they could be
+configured as follows:
+
+{{{
+&lt;bean class="mydomain.xmlmodule.SelectModule">
+    &lt;property name="mimeToHandle">
+        &lt;list>
+            &lt;value>text/xhtml&lt;/value>
+            &lt;value>text/xml&lt;/value>
+            &lt;value>application/xml&lt;/value>
+            &lt;value>application/smil&lt;/value>
+        &lt;/list>
+    &lt;/property>
+&lt;/bean>
+}}}
+
+The new module is available once GALE is restarted and it can be tested by using the
+example XHTML provided earlier.</gale:text>
+
+</gale:repo>

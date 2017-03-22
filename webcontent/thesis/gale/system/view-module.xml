@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">generating X(HT)ML based on the current
+concept, \DM and \UM</gale:text>
+
+<gale:text tag="long" type="creole">{{{
+&lt;gale:view
+    name="next-view"
+    expr="${#suitability} &amp;&amp; ${#visited} == 0"
+/>
+}}}
+
+The {{{&lt;gale:view>}}} tag inserts content that is generated programmatically in the
+X(HT)ML document. The {{{name}}} attribute identifies the view to use. Any other
+parameters depend on the view in question.</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The 'view' module allows
+the generation of XHTML to include menus, additional concept info, etc. The
+[[configuration|configuration]] links the 'view' module to the &lt;gale:view> tag. By
+default the only valid mime type is:
+* "text/xhtml"</gale:text>
+
+<gale:text tag="default" type="creole">Views are often used in combination with
+[[../presentation|adaptive layout]]. They generate XHTML based on the current concept and
+optionally on view parameters. The name of the view is specified in a 'name' attribute.
+
+=== Menus ===
+
+A menu can be included when presenting concepts. To create the hierarchical structure
+required, a 'parent' relation is used. The parent relation should be read like 'has
+parent'. The following piece of [[../gam|GAM]] code illustrates this:
+
+{{{
+A {}
+B {->(parent) A}
+}}}
+
+In this code, A is the parent of B, or B 'has parent' A. All menus in GALE use the parent
+relation to build a hierarchy. Concepts can be conditionally included in the hierarchy
+using a {{{#hierarchy}}} attribute. If the attribute exists it is assumed to be a boolean
+indicating whether the concept should be part of the hierarchy. The following code will
+exclude the concept from the hierarchy when it is unsuitable:
+
+{{{
+A {
+    #hierarchy:Boolean ='${#suitability}'
+}
+}}}
+
+Furthermore, the order of concepts in the hierarchy is controlled using an {{{#order}}}
+attribute. This attribute should return an integer value. Concepts are ordered based on
+their 'order' values from lowest to highest. Since the actual value of the {{{#order}}}
+attribute can be an expression, the ordering of concepts in the hierarchy can be made
+adaptive.
+
+The three views that use the hierarchical structure are:
+* {{{static-tree-view}}}, a menu that displays the current concept and all parents and
+  their siblings
+* {{{single-list-view}}}, a menu that displays all parents, the previous and next sibling,
+  and all children in a single list
+* {{{next-view}}}, a link to the next suitable concept in the hierarchy
+
+These views can be inserted anywhere in the content by including something like this:
+
+{{{
+&lt;gale:view name="static-tree-view" />
+}}}
+
+The {{{static-tree-view}}} can optionally have a 'maxdepth' parameter that will limit the
+depth of the generated menu, possibly removing some of the ancestor concepts and their
+siblings:
+
+{{{
+&lt;gale:view name="static-tree-view" maxdepth="3" />
+}}}
+
+The {{{next-view}}} can optionally have a configuration expression that determines when a
+concept is considered for presentation. The following example illustrates its use:
+
+{{{
+&lt;gale:view name="next-view" expr="${#suitability} &amp;&amp; ${#visited} == 0" />
+}}}
+
+This will only consider a concept for presentation as a next concept when it is suitable
+but not yet visited. The default expression when none is specified is
+{{{${#suitability~}}}}.
+
+=== File View ===
+
+The {{{file-view}}} uses the contents of a file or expression to 'generate' XHTML. It can
+be used in three different ways:
+
+* {{{file}}} attribute, an absolute URL to a file containing the XHTML:
+
+{{{
+&lt;gale:view name="file-view" file="http://gale.win.tue.nl/concept-info.xml" />
+}}}
+
+* {{{expr}}} attribute, a [[../gale-code|GALE (EL) code]] expression that results in the
+  URL of a file. In the following example the {{{#info}}} attribute should return a URL:
+
+{{{
+&lt;gale:view name="file-view" expr="${#info}" />
+}}}
+
+* {{{content}}} attribute, an expression that yields actual XHTML as a string. In the
+  following example the {{{#description}}} attribute should return valid XML as a string:
+
+{{{
+&lt;gale:view name="file-view" content="${#description}" />
+}}}
+
+</gale:text>
+
+</gale:repo>

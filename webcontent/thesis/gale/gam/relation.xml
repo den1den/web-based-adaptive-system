@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">an informal description using examples of
+relations as they appear in the [[../gam|GAM]] language</gale:text>
+
+<gale:text tag="long" type="creole"><gale:object name="../gam?tags=long" />
+
+GAM relations use the '->' and '&lt;-' operators:
+
+{{{
+->(parent)otherconcept
+->(extends)../root
+}}}
+</gale:text>
+
+<gale:text tag="default" type="creole">The following notation is used in GAM to define
+concept relations:
+
+{{{
+http://gale.win.tue.nl/beer {
+    //several examples of beer
+    ->(example)beer/alfa
+    ->(example)beer/warsteiner
+    ->(example)beer/brand
+    ...
+    ->(wiki)http://en.wikipedia.org/wiki/Beer
+    ...
+    &lt;-(parent)brewing {
+        ...
+    }
+    &lt;-(parent)serving {
+        ...
+    }
+}
+}}}
+
+In general -> or &lt;- starts a relation definition. This is followed by the name of the
+relation in parentheses and the (relative) URI of the related concept. Optionally the
+definition of the related concept can be given inline.
+
+=== Inheritance ===
+
+Concept definitions can be inherited by other concepts using the special 'extends'
+relation. Attributes are inherited by default, whereas properties are not. The contents of
+a property or attribute can replace that of an inherited one. Special operators are used
+to merge the content.
+
+{{{
+http://gale.win.tue.nl/beer/alfa {
+    //all attributes are inherited here
+    ->(extends)../beer 
+    
+    //inherit the event code property from the beer concept
+    event +
+    
+    //add a condition to the inherited suitability boolean
+    #suitability:Boolean &amp;="${#interest} > 0.5"
+    
+    //overwrites the title property (if it existed in beer)
+    title "Alfa Beer (since 1870)"
+}
+}}}
+
+The special operators are &amp;=, |= and += for attributes and + for
+properties.</gale:text>
+
+<gale:text tag="analytic" type="creole"><gale:if
+expr="${../../aha/authoring#known}"><gale:then>As we have already seen in the section on
+<gale:a href="../../aha/authoring">authoring for AHA!</gale:a>, adaptive behavior tends to
+be repeated for several concepts.</gale:then><gale:else>An observation made when <gale:a
+href="../../aha/authoring">authoring for AHA!</gale:a> is that adaptive behavior tends to
+be repeated for several concepts.</gale:else></gale:if> One way of aiding the author in
+describing adaptivity without repeating similar definitions was the use of templates. This
+method was introduced in [[../../aha|AHA!]] using the [[../../aha/graph-author|Graph
+Author]]. In [[../../research/gat|GAT]] the same method was used to achieve what in
+programming terms would be called 'code reuse'.
+
+Concept inheritance is another method of facilitating code reuse. It required no
+syntactical changes to the GAM language because the syntax for relations can be used to
+describe inheritance. This minimizes the syntax an author has to learn.</gale:text>
+
+</gale:repo>

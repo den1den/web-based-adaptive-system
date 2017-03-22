@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a repository of [[text-module|text]]
+fragments collected in an XML file instead of true XHTML</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The 'repo' module allows
+a repository of [[text-module|text]] fragments collected in an XML file instead of true
+XHTML. The [[configuration|configuration]] links the 'repo' module to the &lt;gale:repo>
+tag. By default the valid mime types are:
+* "text/xml"
+* "application/xml" </gale:text>
+
+<gale:text tag="default;long" type="creole">The &lt;gale:repo> tag can be used as the root
+element of an XML file. When the &lt;gale:repo> tag is found in a resource included as an
+[[object-module|object]], the tag is translated to a &lt;span> tag, otherwise an &lt;html>
+and &lt;body> tag are created.
+
+{{{
+&lt;gale:repo>
+    &lt;gale:text tag="...">
+    &lt;/gale:text>
+    &lt;gale:text tag="...">
+    &lt;/gale:text>
+    ...
+&lt;/gale:repo>
+}}}
+</gale:text>
+
+<gale:text tag="default" type="creole">This is useful in template authoring strategies. A
+template defines the layout of an adaptive application and the actual content is loaded
+from 'repository' XML files. This way the overhead of creating proper XHTML files for
+every concept can be reduced.</gale:text>
+
+</gale:repo>

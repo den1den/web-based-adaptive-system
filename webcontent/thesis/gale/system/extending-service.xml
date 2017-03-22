@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">extending GALE to respond to events from
+the Adaptation Engine or other services</gale:text>
+
+<gale:text tag="long" type="creole">[[services|Services]] in GALE communicate with each
+other using [[events]]. Extending GALE with a new service allows direct access to these
+events. For example:
+* some \UM updates could be send to another \UM server
+* external knowledge of the user can be made available to GALE
+* new ways of obtaining \DM information can be made available through a service,
+* etc.
+
+To create a new service, the {{{EventListener}}} interface can be implemented. Services
+might be used in a SOAP setting or they can communicate using direct method calls. The
+author of the service should take care that both options are supported.</gale:text>
+
+<gale:text tag="default" type="creole">An author usually builds a domain model for his
+course or application. The domain model is then stored in a location and format that GALE
+understands through one of its domain model services. A lot of content about a particular
+topic might reside outside the course created by the author. It is located on the World
+Wide Web. In this example an event bus service will be created that generates domain model
+information on the fly for 'concepts' that are available on the World Wide Web.
+
+Of course, concepts are not located on the World Wide Web, resources are. In the following
+example the assumption is made that the URI that identifies the concept is also the URL
+that identifies the resource on the WWW. The event bus service will register the 'getdm'
+event. If the URI identifying the concept also represents the URL of an actually existing
+resource, it will generate domain model information for the concept. Preferably the
+definition of this concept should be separated from the code.
+
+In galeconfig.xml the new event bus service should be registered once it has finished.
+This is also a good location to store the concept definition template. The following
+section can be found in galeconfig.xml:
+
+{{{
+&lt;bean id="dmServiceImpl" class="nl.tue.gale.dm.DMServiceImpl">
+...
+&lt;bean id="aha3ServiceImpl" class="nl.tue.gale.conversion.aha3.AHA3ServiceImpl">
+...
+}}}
+
+A bean definition for the new service needs to be created, and it should look as follows:
+
+{{{
+&lt;bean id="wwwServiceImpl" class="mydomain.service.WWWServiceImpl">
+    &lt;property name="eventListenerFactory" ref="eventListenerFactory" />
+    &lt;property name="definition">&lt;![CDATA[
+        ...
+    ]]&gt;&lt;/property>
+&lt;/bean>
+}}}
+
+Within the CDATA section a template for our on the fly concept can be stored as follows
+using GAM code:
+
+{{{
+%resource% {
+    #resource '%resource%'
+    #[visited]:Integer '0'
+    #suitability:Boolean 'true'
+    event '${#visited}++;'
+}
+}}}
+
+The default definition keeps track of the visited count for every concept.
+
+=== Creating the source code ===
+
+The easiest way to start work on a new event bus service is to implement
+{{{nl.tue.gale.event.AbstractEventListener}}}. The new service will look as follows:
+
+{{{
+package nl.tue.gale.ae;
+
+import nl.tue.gale.event.AbstractEventListener;
+
+public class WWWServiceImpl extends AbstractEventListener {
+    protected String getMethods() {
+        return null;
+    }
+
+    protected void init() {
+    }
+}
+}}}
+
+Part of the registration on the event bus is taken care of by the AbstractEventListener
+implementation. The getMethods method should return a list of method names separated by a
+semicolon that our service wants to listen to. In this case the only method is 'getdm'.
+Therefore 'return null;' should be replaced by:
+
+{{{
+return "getdm";
+}}}
+
+The init part might be used to setup any special requirements for the service after the
+event bus is available. Some services use this to start a monitoring thread that will
+update information as it is modified. These services send 'updatedm' or 'updateum' events
+accordingly. There is no need to setup anything at this point, so the init method will
+remain empty. We need to create the 'setDefinition' method to allow Spring to inject the
+concept definition template.
+
+{{{
+private String definition = null;
+public void setDefinition(String definition) {
+    this.definition = definition;
+}
+}}}
+
+Spring will inject the definition when creating the class. Responding to events is done by
+overriding the {{{event}}} method. Some events are handled by the
+{{{AbstractEventListener}}} that are used in the registration process. Therefore a basic
+implementation will look like this:
+
+{{{
+public List&lt;String> event(String method, List&lt;String> params) {
+    List&lt;String> result = super.event(method, params);
+    if (result != null)
+        return result;
+    ...
+}
+}}}
+
+Another convenient method in AbstractEventListener is the {{{error}}} method. It is a good
+idea to encapsulate any exceptions that might be thrown in the body of an event handler to
+properly return and send the result exception to the event bus.
+
+{{{
+try {
+    if ("getdm".equals(method)) {
+        ...
+    }
+} catch (Exception e) {
+    return error(e);
+}
+}}}
+
+Writing the actual content of the domain model service involves getting the URI of the
+requested concept. The URI is encapsulated in the {{{params}}} parameter. The first thing
+to do is retrieve that URI.
+
+{{{
+EventHash eh = new EventHash(params.get(0));
+if (!eh.getName().equals("uri"))
+    throw new IllegalArgumentException("first argument is no uri");
+URI uri = URI.create(eh.getItems().get(0));
+}}}
+
+This is the URI of the requested concept. The next step is checking whether this URI
+identifies an existing resource on the web. This will be done by checking if the protocol
+is 'http'. This is of course not a very rigorous check. The resource could also be loaded
+to test if it works. Since the internal event bus works synchronously, precious time would
+be used in which the user actually sees nothing. The resource location would have to be
+done by a separate thread and could be a time consuming decision. Waiting for an actual
+timeout in the case of a non-existing server might take too long. So instead we check if
+the protocol is 'http'.
+
+{{{
+List&lt;String> result = new LinkedList&lt;String>();
+result.add("result:ok");
+if (!uri.getScheme().equals("http"))
+    return result;
+}}}
+
+Next the concept definition template has to be instantiated and the result has to be
+serialised in a proper way. The literal '%resource%' will be replaced by the actual URI,
+next GAMFormat is called to interpret the domain model code. The result will show the
+concept definition:
+
+{{{
+String currentDef = definition.replace("%resource%", uri.toString());
+List&lt;Concept> concepts = GAMFormat.readGAM(currentDef, uri, Caches.newCache(2));
+Concept concept = null;
+for (Concept c : concepts)
+    if (uri.equals(c.getUri()))
+        concept = c;
+}}}
+
+The concept variable now holds the new instantiated concept definition. It now needs to be
+serialised properly. The Concept class has special methods to serialise and deserialise
+itself over the internal event bus.
+
+{{{
+result.addAll(Concept.toEvent(concept));
+return result;
+}}}
+
+This is the final part of the source code and it is now ready to tell GALE about the new
+service. The compiled code has to be made available to GALE (via the
+/tomcat/webapps/gale/WEB-INF/classes directory).
+
+=== Configuring GALE to use a new service ===
+
+Part of the configuration has already been done within galeconfig.xml. A bean named
+wwwServiceImpl has been created. Setting up a service to make the event bus aware of it
+involves quite a bit more configuration than any other extension to GALE.
+
+GALE's event bus can be configured to use SOAP or local method calls to exchange
+information. Depending on the choice made, the configuration for the individual services
+is different. The event bus is configured to use SOAP or local calls by changing the
+{{{EventListenerFactory}}}. The factory is responsible for instantiating a local event
+listener client for a particular service, based on a URL. Examples of these URLs can be
+found in the definition of the {{{eventBusClient}}} bean in galeconfig.xml:
+
+{{{
+&lt;property name="register">
+    &lt;list>
+        &lt;value>
+            http://localhost:8080/gale/services/DM?service=DM&amp;port=DMPort
+        &lt;/value>
+    ...
+}}}
+
+The idea is that the URL contains everything to locate the particular service and create
+the client interface class. Some parts of the information only make sense when using SOAP,
+but are still included to allow for a transparent change between SOAP and local calls. The
+{{{SOAPFactory}}} uses more information contained in the URL than the {{{LocalFactory}}}.
+
+To register the service on the event bus a line of code like this should be included:
+
+{{{
+&lt;value>
+    http://localhost:8080/gale/services/WWW?service=WWW&amp;port=WWWPort
+&lt;/value>
+}}}
+
+The service has been named 'WWW' and the values in the URL have been changed accordingly.
+When the {{{LocalFactory}}} is used, no additional configuration is required. SOAP
+requires an additional class and some more configuration.
+
+==== Configuring GALE to use a new SOAP service ====
+
+It is imperative that the {{{SOAPFactory}}} is the actual eventListenerFactory and the
+LocalFactory is commented out in galeconfig.xml.
+
+In order to use SOAP for a service it is necessary to build a facade class. Every service
+in GALE follows a naming pattern. The service implementation class is called something
+like 'wwwServiceImpl' and the facade class is called 'wwwService'. This class contains all
+SOAP related information (like service name and port).
+[[=https://jax-ws.dev.java.net|JAXWS]] will use this information to construct all files
+needed to run the SOAP service (like the WSDL). For the wwwService this would look as
+follows:
+
+{{{
+package mydomain.service;
+
+import java.util.List;
+import javax.jws.WebService;
+
+@WebService(endpointInterface="nl.tue.gale.event.EventListener",
+    serviceName="WWW",
+    portName="WWWPort",
+    targetNamespace="http://event.gale.tue.nl/")
+public class WWWService implements nl.tue.gale.event.EventListener {
+    private WWWServiceImpl impl = null;
+
+    public WWWServiceImpl getImpl() {
+        return impl;
+    }
+
+    public void setImpl(WWWServiceImpl impl) {
+        this.impl = impl;
+    }
+
+    public List&lt;String> event(String method, List&lt;String> params) {
+        return impl.event(method, params);
+    }
+}
+}}}
+
+This class functions as a wrapper around the implementation class. In galeconfig.xml this
+class is used to create the SOAP service.
+
+{{{
+&lt;bean id="wwwService" class="mydomain.service.WWWService">
+    &lt;property name="impl" ref="wwwServiceImpl" />
+&lt;/bean>
+&lt;wss:binding url="/services/WWW">
+    &lt;wss:service>&lt;ws:service bean="#wwwService" />&lt;/wss:service>
+&lt;/wss:binding>
+}}}
+
+The service is now available at /services/WWW in the root of our GALE instance. If GALE
+has been installed on a localhost it can be checked by visiting
+http:~//localhost:8080/gale/services/WWW?wsdl.</gale:text>
+
+</gale:repo>

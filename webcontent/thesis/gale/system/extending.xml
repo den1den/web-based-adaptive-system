@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">extending GALE to add new features using
+Java code</gale:text>
+
+<gale:text tag="long" type="creole">It is impossible to foresee future adaptation
+techniques. Nor is it possible to implement every technique that is currently found in
+other systems. GALE offers various extension points:
+* modules, new X(HT)ML content adaptation
+* views, new X(HT)ML content/presentation generation
+* plugins, new actions to be taken when the request URL indicates the use of a plugin
+* services, new ways to respond to GALE events
+* processors, new document formats to adapt or new pre and post processing
+* login, new methods of identifying the user
+* code, changing the underlying language used by GALE to express adaptivity</gale:text>
+
+<gale:text tag="default" type="creole">GALE is built from the ground up with extension in
+mind. Being a //generic// engine for adaptation, implies offering possibilities for future
+formats and techniques to be incorporated. To that end, various functions of GALE have
+been abstracted and separated from other functions.
+
+Instead of only stating that it is easy to extend GALE, we offer some example extensions
+to demonstrate this statement. The examples are fairly technical in nature, because they
+represent all that is required to extend GALE, including the Java code that needs to be
+written. For some readers it may suffice to see the short length of code required to
+extend GALE:
+* [[extending-module|]], handling specific tags in XML or XHTML.
+* [[extending-view|]], generating content based on the request, DM and UM.
+* [[extending-plugin|]], direct control over a user's HTTP request.
+* [[extending-service|]], responding to events from the Adaptation Engine or other
+  services.
+* [[extending-processor|]], handling new types of content or changing specific parts of
+  processing resources.
+* [[extending-login|]], allowing new methods of identifying a user.
+* [[extending-code|]], replacing the default implementation of Java as the language to
+  describe adaptivity. </gale:text>
+
+</gale:repo>

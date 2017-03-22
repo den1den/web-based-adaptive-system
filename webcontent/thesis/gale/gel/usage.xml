@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">using the GALE Expression Language (GEL)
+to refer to object in the [[../domain-model|domain]] and [[../user-model|user model]]
+inside Java code</gale:text>
+
+<gale:text tag="long" type="creole">The GALE Expression Language (GEL) makes it easy to
+access the [[../domain-model|domain]] and [[../user-model|user model]]. GEL can be
+combined with Java code to create any expression over the user model (like
+{{{${#knowledge} > 0.7}}}) or update this model in any way (like
+{{{${#visited}++;}}}).</gale:text>
+
+<gale:text tag="default" type="creole">GEL expressions can be combined with Java code. A
+GEL expression always results in a Java Object. A concept results in a Concept object, a
+property in a String, a list of concepts in an array, and an attribute or list of
+attributes in their actual values from the user model. Here are some examples of
+combinations:
+
+<pre style="white-space:pre-wrap;"><gale:text type="creole" flat="true">
+|${#knowledge} > 0.7                  |is the 'knowledge' UM variable greater than 0.7?
+|${&lt;-(parent)}.length != 0         |does the current concept have children?
+|${#seen} = true;                     |set the 'seen' UM variable to true
+|${#visited}++;                       |increase the 'visited' UM variable
+|if (${#suitability}) ${#seen} = true;|only set the 'seen' UM variable if the concept was suitable
+|${.}.getTitle()                      |use the getTitle method on the current concept to retrieve the title
+|avg(${&lt;=(parent)#knowledge})      |the average knowledge of the child concepts
+</gale:text></pre>
+
+Creating an adaptive application usually requires some [[../gale-code|GALE code]] to be
+written (it is also possible to create an adaptive application without ever writing GALE
+code because you can reuse code written by others). For instance, code appears inside
+[[../gam|GAM]] domain descriptions.
+
+{{{
+#knowledge:Double ='avg(${&lt;=(parent)#knowledge})'
+}}}
+
+This defines the 'knowledge' attribute of a particular concept as the result of an
+expression.
+
+{{{
+event "${#visited}++;"
+}}}
+
+This increases the user's 'visited' UM variable by one every time the concept is
+accessed.</gale:text>
+
+<gale:text type="creole" tag="default" expr="${../../howitworks#new-content}">You have
+learned some new things that will help you better understand how this thesis works. This
+might be a good time to take a quick look at the '[[../../howitworks|]]' page.</gale:text>
+
+</gale:repo>

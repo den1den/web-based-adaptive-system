@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">an informal description using examples of
+attributes as they appear in the [[../gam|GAM]] language</gale:text>
+
+<gale:text tag="long" type="creole"><gale:object name="../gam?tags=long" />
+
+GAM attribute definitions look like this:
+
+{{{
+#[visited]:Integer
+#suitability:Boolean
+    ='${other#visited} > 0'
+}}}
+</gale:text>
+
+<gale:text tag="default" type="creole">An attribute can have a more complex definition
+when compared to a property. Its type may vary, its value might be stored in the user
+model and/or might be based on an expression. To declare an attribute, start the name with
+a hash (#):
+
+{{{
+http://gale.win.tue.nl/beer {
+    #suitability:Boolean 'true' //you are always ready to learn about beer
+    #resource 'http://gale.win.tue.nl/beer.xhtml'
+}
+}}}
+
+The first attribute is named 'suitability', the type is 'Boolean' and its value is
+'true'. The second attribute does not specify a type. By default the type is 'String'. To
+declare an attribute persistent, enclose its name in square brackets []. The attribute's
+value should then be stored in the user model.
+
+{{{
+#[visited]:Integer '0'
+}}}
+
+The contents defined for persistent attributes is used as default value to initialize the
+user model. In many cases the contents can be omitted. The following definition is equal
+to the previous one:
+
+{{{
+#[visited]:Integer
+}}}
+
+The contents can be an expression instead of a simple value. If the attribute is
+persistent the expression is evaluated to determine the default value. Otherwise the
+expression is always used to determine the value of the attribute, turning the attribute
+into a function. To denote an expression, use the equals sign (=).
+
+{{{
+http://gale.win.tue.nl/beer/alfa {
+    //you are only ready to learn about Alfa, after reading about beer for 3 times
+    #suitability:Boolean ='${../beer#visited} > 3'
+}
+}}}
+
+Attributes can contain properties. They are defined in the same way as properties of
+concepts. Properties are placed between curly brackets after the default value of the
+attribute.
+
+{{{
+http://gale.win.tue.nl/beer/settings {
+    //some plug-in might allow the user to change all 'changeable' attributes
+    #[favorite] "Warsteiner" {changeable 'true'}
+}
+http://gale.win.tue.nl/beer {
+    //the event code is executed when the visited value is updated
+    #[visited]:Integer {
+        event '${#knowledge} = (${#suitability}?100:35);'
+    }
+}
+}}}
+</gale:text>
+
+</gale:repo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a service that provides domain model data
+to other components in GALE, like the [[adaptation-engine|\AE]] and [[um-service|\UM
+service]].</gale:text>
+
+<gale:text tag="default;long" type="creole">A domain model service provides other
+components with concept definitions. The service registers on the event bus and would at
+least listen for the [[event-types|'getdm' event]]. Only one service usually implements
+the other DM methods: the database {{{DMService}}} that is part of GALE.</gale:text>
+
+<gale:text tag="default" type="creole">This {{{DMService}}} (with implementation class
+{{{DMServiceImpl}}}) implements all DM methods. It uses the database connection
+[[configuration|configured]] in {{{galeconfig.xml}}}. Whenever (new) concepts are
+requested through 'getdm', the database is accessed to retrieve the concepts based on
+their URI. New concepts can be stored in the database by calling 'setdm'. This will lead
+to 'updatedm' events on a different thread to inform the other components of the changed
+domain model.
+
+Various formats are supported through different DM services, as explained below.
+[[extending-service|New services]] can be added easily.
+
+==== AHA3 DM service ====
+
+The {{{AHA3ServiceImpl}}} reads [[../../aha/models-example|.aha files]] stored in the
+$GALE_HOME/config directory. They are converted on the fly to the new domain and
+adaptation model used by GALE. You can still find an example on every GALE installation in
+the <a><gale:attr-variable name="href"
+expr="GaleUtil.getContextURL(gale.req())+&quot;/config/tutorial.aha&quot;"
+/>tutorial.aha</a> file. The concepts are available by converting the name like this:
+tutorial.welcome -> <gale:a href="gale://gale.tue.nl/aha3/tutorial/welcome"
+adapt="false">gale://gale.tue.nl/aha3/tutorial/welcome</gale:a>.
+
+==== GDOM DM service ====
+
+The {{{GDOMServiceImpl}}} reads [[../gdom|.gdom files]] stored in the $GALE_HOME/config
+directory. These files constitute an accurate description of the domain model used by
+GALE. Every GALE installation includes the [[../../research/grapple|GRAPPLE]] <gale:a
+adapt="false" href="gale://gale.tue.nl/course/grapple/GRAPPLE">tutorial</gale:a>. The
+.gdom file describing the tutorial is called <a><gale:attr-variable name="href"
+expr="GaleUtil.getContextURL(gale.req())+&quot;/config/grapple.gdom&quot;"
+/>grapple.gdom</a>.
+
+==== GAM Service ====
+
+The {{{GAMServiceImpl}}} loads concept definitions from .gam files that can be found in a
+location relative to the concept URI. The GAM Service uses timestamps on the .gam files
+retrieved to detect changes. When a .gam file has changed, that file (and the
+[[../gam/bundled|related modules]]) are loaded again and send over the event bus in an
+'updatedm' event. This allows almost real-time editing of a domain model.</gale:text>
+
+</gale:repo>

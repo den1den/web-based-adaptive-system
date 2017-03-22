@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">Loosely coupled [[../../gale|GALE]]
+components that communicate with each other and the [[adaptation-engine|adaptation
+engine]] over an [[events|event bus]].</gale:text>
+
+<gale:text tag="long" type="creole">GALE services are software components that only
+communicate with other parts of GALE over the [[events|event bus]]. This allows the
+services to be distributed over different machines (and their implementation could
+theoratically be in different languages). They work collaboratively to supply the \AE with
+a consistent view of the \DM and \UM.</gale:text>
+
+<gale:text tag="default" type="creole">The [[events]] and services architecture of GALE
+has helped separate its components. It even allows functionality to be split over multiple
+machines and be written in different programming languages. Services work collaboratively
+to supply the \AE with a consistent view of the \DM and \UM.
+
+Services are registered on the event bus when they send a //register// event (more
+specifically, when such an event is received by the event bus). In the
+//event parameters// they specify their address in a format that is understandable by an
+{{{EventListenerFactory}}}. GALE currently has a {{{LocalFactory}}} that uses method calls
+to relay events, and a {{{SOAPFactory}}} that uses SOAP over HTTP messages to relay
+events. The addresses used by these factories look like this:
+
+{{{
+http://localhost:8080/gale/services/DM?service=DM&amp;port=DMPort
+}}}
+
+When using the {{{SOAPFactory}}}, the information in the URL is used to establish a
+connection with the service. The URL without query string (i.e.
+{{{http://localhost:8080/gale/services/DM}}}) determines the location of the service. The
+name and port are used by the SOAP protocol (they should match the name and port of the
+actual service). The {{{LocalFactory}}} uses a //post-fix// to create the name of a bean
+that should exist in the [[=http://www.springsource.org/about|Spring]] configuration. The
+//post-fix// is 'ServiceImpl' by default and the service name is converted to lower case.
+In our example the resulting bean name would become: 'dmServiceImpl'.
+
+During registration the event bus will register itself to the new service. This allows
+automatic registration, initiated by the event bus, when GALE is started. A //register//
+event that contains the address of the event bus is sent to the service. The service
+should respond with a list of methods that it wants to listen for.
+
+When more than one service listens for a method, and a synchronous event of that type is
+sent to the bus, the bus will wait for all listening services to respond. For instance,
+there might be many services that listen for the 'getdm' event. Ideally, at most one
+service will respond with the found \DM data. The event bus will combine all responses and
+send them back to the original component that initiated the event.
+
+At least two services are required in the default GALE setup:
+* At least one [[dm-service|\DM service]]
+* A [[um-service|\UM service]]
+
+Other services in GALE allow communication with [[../../research/gat|GAT]] and
+[[../../research/gumf|GUMF]], optionally via the
+[[=http://gale.win.tue.nl:10080/gale/concept/gale://gale.tue.nl/course/grapple/GEB|GRAPPLE
+Event Bus (GEB)]].</gale:text>
+
+</gale:repo>

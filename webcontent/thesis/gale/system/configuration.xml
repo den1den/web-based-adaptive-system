@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">using the {{{galeconfig.xml}}} file to
+configure GALE and the individual components</gale:text>
+
+<gale:text tag="default;long" type="creole">The {{{galeconfig.xml}}} file is the central
+configuration point. GALE uses [[=http://www.springsource.org/about|Spring]] as an
+[[=http://martinfowler.com/articles/injection.html|Inversion of Control (IoC)]] container.
+Hence, {{{galeconfig.xml}}} is a
+[[=http://static.springsource.org/spring/docs/2.5.x/reference/beans.html#beans-introduction|Spring
+beans]] file. Almost all the components in GALE are configured as beans using
+{{{galeconfig.xml}}}. This allows changing a component without having to recompile
+anything.</gale:text>
+
+<gale:text tag="default" type="creole">Without going into too much detail, these sections
+of {{{galeconfig.xml}}} are used to configure GALE:
+* {{{galeConfig}}}, used to setup some basic properties of this GALE instance:
+** {{{rootGaleUrl}}}, contains a URL of GALE's location, like 'http:~//localhost:8080/gale/concept/'. Used when the external [[../../research/gat|GAT]] requests a link to a course.
+** {{{mimeTable}}}, configures the relation between file extensions and mime types (when the underlying transport mechanism does not do so)
+** {{{safeDomains}}}, a list of domains that are considered 'safe', allowing [[../gam|GAM]] code to be loaded from those domain.
+** {{{autoInit}}}, an optional integer value representing the seconds to wait until the event bus should initialize even when no web client has made a request to GALE.
+** {{{useGEB}}}, whether GALE should register itself on the [[../../research/grapple|GRAPPLE]] Event Bus (GEB).
+* {{{hibernateDataSource}}} and {{{hibernateSessionFactory}}}, used to communicate with
+  the database. Through [[=http://www.hibernate.org/|Hibernate]] GALE is able to
+  communicate with almost any DBMS. The specific SQL dialect can be configured
+  here.
+* {{{logManager}}}, specifies a {{{logDir}}} property that sets the relative location of
+  the logging directory.
+* {{{eventListenerFactory}}}, specifies the factory object used to create the
+  communication interfaces of the [[events|event bus]]. When switching from the default
+  {{{LocalFactory}}} to the {{{SOAPFactory}}}, uncomment the section that defines the
+  actual SOAP services.
+* {{{loginManager}}}, several [[login|handlers]] can be configured here to support
+  different types of login. Some handlers take parameters, like the {{{LinkLoginHandler}}}.
+* {{{gebManager}}}, sets up parameters used in communication with the GEB. Only used when
+  {{{useGEB}}} is true in the {{{galeConfig}}} section.
+
+Other parts of the configuration file can be used to extend GALE:
+* add a [[extending-module|new module]] to the {{{xmlProcessor}}} bean's
+  {{{moduleTable}}}.
+* add a [[extending-view|new view]] to the {{{presentationConfig}}} bean's
+  {{{viewTable}}}.
+* add a [[extending-plugin|new plugin]] to the {{{pluginProcessor}}} bean's
+  {{{pluginTable}}}.
+* add a [[extending-service|new service]] by creating a new bean for the service's
+  implementation (following the naming convention to end with 'Impl') and using the auto
+  register feature of the {{{eventBusClient}}} bean to register the service. When using
+  SOAP, create additional beans to setup the SOAP web service and link it to the
+  implementation class.
+* add a [[extending-processor|new processor]] by creating a new bean for the service and
+  adding it at the appropriate place in the {{{processorManager}}} bean's
+  {{{processorList}}}.
+* add a [[extending-login|new login handler]] to the {{{loginManager}}} bean's
+  {{{handlerList}}}.
+* [[extending-code|replace the code manager]] by replacing the {{{codeManager}}} and
+  {{{codeResolver}}} beans.
+</gale:text>
+
+</gale:repo>
