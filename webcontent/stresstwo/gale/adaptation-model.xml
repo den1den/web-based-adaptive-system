@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">information that defines the adaptive
+behavior of a particular application or course</gale:text>
+
+<gale:text tag="long" type="creole">[[../gale|GALE]]'s adaptation model is a subset of
+those properties and attributes, and sometimes relations and concepts, of the
+[[domain-model|domain model]] that govern the adaptive behavior of an application or
+course.</gale:text>
+
+<gale:text tag="default" type="creole">GALE aims to be as unrestrictive about adaptation
+as possible. It achieves this through a two-pronged approach:
+* Events (e.g. user actions, external events, timed events, user model updates, etc.) can
+  trigger updates to the [[user-model|user model]]. If we define the user model as just
+  "data" then the most unrestrictive way to update "data" is through program code. GALE
+  allows (almost) any code to be executed, triggered by an event. This [[gale-code|GALE
+  code]] has full control over the user model. The adaptation model should provide a means
+  to locate the code that should be executed when a particular event happens. The event
+  system is extensible, but includes some default event handlers. They handle events like
+  "user requested a concept", "user viewed concept for x seconds" or "user model changed".
+  These events are all related to the domain model, making it the prime candidate to store
+  the information needed to perform adaptation. A concept can have event code attached.
+  This code is executed when the concept is accessed. An attribute can have event code
+  attached that is executed when the attribute's value changes.
+* The actual adaptation to the content, the navigation and the presentation is performed
+  by [[system/processors|processors]]. They perform adaptation based on what's in the
+  domain and user model, so the user model updates are the key to the adaptation. In GALE
+  you can define new modules for handling specific XML tags and to some extent you can
+  also configure the behavior of the existing modules (for instance you can configure how
+  links are adaptively presented).
+
+In adaptive applications there are two ways to perform reasoning over the UM: forward and
+backward reasoning. GALE actually supports both approaches:
+* //Forward reasoning// means that the effects (UM updates and resulting adaptation) of an
+  event are calculated when the event occurs. The event code used in GALE defines forward
+  reasoning.
+* //Backward reasoning// means that when doing the adaptation the adaptation engine needs
+  to check whether the conditions for that adaptation have been reached. This reasoning
+  may go back all the way to finding out whether certain events have happened. In GALE UM
+  attributes can be initialized using a GALE expression instead of a (static) default
+  value. This expression is then evaluated when the value is needed. For instance, the
+  suitability of a concept is expressed in terms of the knowledge of some prerequisite
+  concepts. This suitability is thus obtained through backward reasoning. (The actual
+  [[system/caching-um|implementation]] in GALE is slightly different but without any
+  difference in the observed behavior.)
+  
+In GALE the adaptation can be turned on or off on a per concept basis, using the stability
+property (of the concept). If stability is used to keep a concept stable, its presentation
+and content is kept stable. The stability property can be set to different values:
+* //false//, don't use stability (the same as not including the property)
+* //true//, use stability
+* //session//, use stability during this session, but adapt the next session
+* an expression that evaluates to 'false', 'true' or 'session'
+
+Stability is useful to prevent users from becoming confused from seeing too much
+adaptation. When the contents of a page changes upon subsequent visits the user may wonder
+how often pages need to be accessed before all available content has actually been seen.
+Also, when links start disappearing upon revisiting a concept users may fear that some
+content is hidden from them. (They may start opening new browser windows upon following
+links just to avoid losing access to the links in previous pages.)
+
+Stability is achieved by storing serialized output (the XHTML page) in the UM.
+Each subsequent request for a concept causes UM updates for the concept and the retrieval
+of the stored output. When a page contains (conditionally) included objects that are
+referred to by concepts no UM updates are generated for these included objects (concepts).
+Because of the storage overhead involved (keeping serialized output for every stable
+concept and for every user) the use of stability should be restricted to cases where the
+author deems it really necessary.</gale:text>
+
+</gale:repo>

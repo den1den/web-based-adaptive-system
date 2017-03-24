@@ -1,0 +1,201 @@
+$options {
+    default.properties "event;strict"
+    default.order "auto"
+}
+
+// root concept of the entire thesis
+_concept {
+    strict 'true'
+    // count user clicks of suitable concepts :)
+    #[visited]:Integer
+    event +'
+        boolean countclick = ${#suitability};
+    '
+
+    // flag to indicate that new content is available
+    #[new-content]:Boolean 'false'
+
+    // Resources are .xml files with the same name as the concept. Unsuitable resources go
+    // to unsuitable.xml first. "skip-unsuitable" is a request parameter that allows to
+    // skip unsuitable.xml.
+    #[new-session]:Boolean
+    event +'
+        String externalUrl = gale.req().getParameter("external");
+        boolean external = (externalUrl != null && !"".equals(externalUrl.trim()));
+        ${#new-session} = !"true".equals(gale.req().getParameter("open-session")) && !"".equals(${_concept->(personal)#last-session}) && !${_concept->(personal)#last-session}.equals(gale.req().getSession().getId());
+        if (gale.req().getParameter("tags") != null)
+            countclick = false;
+        if ((external && ${#suitability}) || ${[[=_personal]]#first-time})
+            countclick = false;
+        if (${[[=_personal]]#review} && ${#new-session})
+            countclick = false;
+        if (${#unknown})
+            countclick = false;
+    '
+    #resource ='~
+        if (${[[=_personal]]#first-time})
+            return "[[=intro.xhtml]]";
+        if (${[[=_personal]]#review} && ${#new-session})
+            return "[[=review.xhtml]]";
+        return "[[=layout.xhtml]]";
+    '
+
+    // knowledge definitions
+    #[own-knowledge]:Double
+    event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
+    #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
+    #known-all:Boolean ='${#knowledge} > 0.8'
+    #known:Boolean ='${#own-knowledge} > 0.8'
+
+    // prerequisites
+    #available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
+    #suitability:Boolean ='and(new Object[] {${=>(prereq)#available}, ${=>(prereq-all)#known-all}}) && (!${_concept->(personal)#beginner} || ${#beginner})'
+
+    // tags shown based on whether you view the concept for the first time
+    #tags ='~
+        if (${#visited} > 3) return "default";
+        if ("true".equals(${?intro-first}))
+            return (${#visited} > 1?"default":"intro");
+        return "intro;default";
+    '
+    #tags.class '~
+        if (!gale.isObject() && "long".equals(element.attributeValue("tag")))
+            return "th-sidenote";
+        return null;
+    '
+
+    // layout related stuff
+    #layout.css ='~
+        StringBuilder sb = new StringBuilder("[[=thesis.css]]");
+        if (!${[[=_personal]]#first-time}) {
+            if (!${[[=_personal]]#menu})
+                sb.insert(0, "[[=nomenu.css]];");
+            else
+                sb.insert(0, "[[=menu.css]];");
+            if (${[[=_personal]]#use-comments})
+                sb.insert(0, "[[=comments.css]];");
+            if (${[[=_personal]]#review})
+                sb.insert(0, "[[=review.css]];");
+        }
+        sb.append(";http://fonts.googleapis.com/css?family=Carme");
+        return sb.toString();
+    '
+    #layout.title '"Thesis - "+${.}.getTitle()'
+    #link.hide '!${#hierarchy}'
+    #link.classexpr '~
+        if (${#unknown}) return "unknown";
+        if (!${#suitability}) return "bad";
+        if (${#visited}==0) return "good";
+        if (${#new-content}) return "new";
+        return "neutral";
+    '
+    #link.iconlist 'null'
+    #unknown:Boolean ="false"
+    #[beginner]:Boolean ='!"false".equals(${?beginner})'
+    #hierarchy:Boolean ='(${_concept->(personal)#menu} || (${#suitability} && !${#unknown})) && ${->(parent)#suitability}'
+
+    // used to mark a concept that was too advanced but understood anyway
+    #[mark]:Integer {
+        event '
+            Concept[] list = ${->(prereq)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#own-knowledge");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, 1d));
+            }
+            list = ${->(prereq-all)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#mark-all");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, ((Integer)ev.getValue())+1));
+            }
+        '
+    }
+    #[mark-all]:Integer {
+        event '
+            ${#own-knowledge} = 1d;
+            Concept[] list = ${<-(parent)};
+            for (int i=0;i<list.length;i++) {
+                URI uri = session.resolve(list[i].getUri()+"#mark-all");
+                EntityValue ev = (EntityValue)session.get(uri);
+                session.put(uri, new EntityValue(uri, ((Integer)ev.getValue())+1));
+            }
+        '
+    }
+
+    event +'
+        if (countclick) {${#visited}++; ${#new-content} = false;}
+    '
+    ->(personal)_personal
+
+    // enable a reviewer to return to the previous concept when he begins a new session
+    event +'
+        if (${_concept->(personal)#review} && (countclick || "true".equals(gale.req().getParameter("open-session")))) {
+            ${_concept->(personal)#last-concept} = ${.}.getUriString();
+            ${_concept->(personal)#last-session} = gale.req().getSession().getId();
+        }
+    '
+}
+
+// root concept defining variables that change depending on how often they are viewed
+_variable {
+    // count the number of views
+    #[count]:Integer
+    event +"${#count}++;"
+    // define the resource as based on the number of views and the #value string
+    #resource:String "content:#content"
+    #content:String ='pick(${#count}, ${#value})'
+    // a semicolon seperated list of strings that represents the values (overwritten in
+    // children)
+    #value:String ='"variable (" + ${.}.getUri() + ")"'
+}
+
+// personal settings for the thesis
+_personal {
+    // menu on the left or as drop down
+    #[menu]:Boolean 'true'
+    // first time to visit the thesis
+    #[first-time]:Boolean 'true'
+    // role
+    #[role] 'intermediate' {
+        event '
+            if ("beginner".equals(changed.newValue)) {
+                ${#beginner} = true;
+            }
+            if ("intermediate".equals(changed.newValue)) {
+                ${#beginner} = false;
+            }
+            if ("expert".equals(changed.newValue)) {
+                ${thesis#mark-all}++;
+                ${#analytic-count} = 512;
+                ${#beginner} = false;
+            }
+        '
+    }
+    #[review]:Boolean 'false'
+    #[beginner]:Boolean 'false'
+    #[beginner-level]:Integer '0'
+    #[use-comments]:Boolean 'false'
+    #[last-concept]
+    #[last-session]
+    #[analytic-count]:Integer '-2' {
+        event 'if ((Integer)changed.newValue == 0 && changed.diff != 0) ${#analytic-count} = changed.diff*2;'
+    }
+    #analytic:Boolean ='${#analytic-count} > 0'
+}
+
+settings {->(extends)_concept
+    #hierarchy:Boolean 'false'
+    title 'Thesis Settings'
+}
+
+application {->(extends)_concept
+    title 'Stress Detect Application'
+    no-title 'false'
+}
+
+introduction {->(extends)_concept
+    ->(parent)application
+    #available:Boolean ='${#known}'
+    title 'Introduction'
+}

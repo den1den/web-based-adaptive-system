@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">trying to explain how this thesis works
+as an adaptive application in terms that you can understand</gale:text>
+
+<gale:text tag="long" type="creole">As this thesis itself is an adaptive hypertext, the
+explanation of how this thesis works is adaptive. Depending on the topics you have read in
+the thesis, I can explain how it works in more detail.</gale:text>
+
+<gale:for var="concept" expr="new String[] {&quot;howitworks/overview&quot;,&quot;howitworks/links&quot;,&quot;howitworks/prerequisites&quot;,&quot;howitworks/layout&quot;,&quot;howitworks/gam-files&quot;,&quot;howitworks/advanced&quot;}">
+
+<gale:if expr="!${howitworks/fragments#all-simple} &amp;&amp; !&quot;&quot;.equals(${%concept?title}) &amp;&amp; !${%concept#resource}.endsWith(&quot;empty.xml&quot;)">
+<h3><gale:variable expr="${%concept?title}" /></h3>    
+</gale:if>
+
+<gale:if expr="${%concept#visited} == 0"><gale:then>
+<div style="border-left:1px solid black;margin-left:5px;">
+<gale:object name="%concept" />
+</div>
+</gale:then><gale:else>
+<gale:object name="%concept" />
+</gale:else></gale:if>
+
+</gale:for>
+
+</gale:repo>

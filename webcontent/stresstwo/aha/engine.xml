@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the part of AHA! that processes
+adaptation rules, updates user profiles, and adapts content</gale:text>
+
+<gale:text tag="long" type="creole">The engine is the part of AHA! that processes
+adaptation rules, updates user profiles and adapts content. For every type of content,
+AHA! can use a different 'handler' to adapt it to the user's needs. Updating user profiles
+is done by queuing the adaptation rules that are part of concept's //access//
+attribute.</gale:text>
+
+<gale:text tag="default" type="creole">The engine of AHA! is driven by web clients (mostly
+users with a browser) that request a page or concept of AHA!. Initially AHA! only
+supported requests for pages, an idea taken from [[../research/early-aha|earlier
+versions]]. A request in the form of a URL would look like this:
+
+{{{ http://aha.win.tue.nl:18080/aha/Get/coursename/page.html }}}
+
+The 'Get' servlet will ask the {{{HandlerManager}}} to locate the resource
+{{{'coursename/page.html'}}}. As this is a local resource the location will be on the AHA!
+server. Next, the {{{ProfileManager}}} is told that the specific resource is accessed. It
+will attempt to find a matching concept and associated adaptation rules. This starts the
+user profile update. Finally, the {{{HandlerManager}}} is invoked to call the various
+content handlers installed to adapt the specific resource type.
+
+In a later version requests for a concept instead of a page were allowed in AHA!. A
+request would look like this:
+
+{{{ http://aha.win.tue.nl:18080/aha/Get/coursename/?concept=coursename.concept }}}
+
+The 'Get' servlet will look up the appropriate page through information stored in the
+DM/AM. This option later allowed multiple pages per concept, where the actual page shown
+depends on the UM. In [[../gale|GALE]] many to many relations are allowed between concept
+and resource. A resource can no longer be used to uniquely identify a concept. Hence,
+accessing information through a page URL as was possible in AHA! is no longer allowed in
+GALE.
+
+=== Profile Update ===
+
+When a page is accessed, the {{{ProfileManager}}} will be informed to update the user
+profile. The matching concept data is loaded and adaptation rules stored in the
+{{{access}}} attribute are loaded in a queue. The rules are then executed one by one. If a
+rule updates another attribute value and the rule allowed triggering, the other
+attribute's adaptation rules are loaded and placed at the end of the queue. The process
+continues until the queue is empty.
+
+Initially the [[=http://www.singularsys.com/jep/|JEP]] parser was used to evaluate
+expressions (it was open source at the time). At a later time a new parser was written
+that was more flexible, e.g. allowing variable lookup on the fly instead of providing a
+symbol table up front. The parser allowed basic arithmetic functions with the UM as
+variables.
+
+=== 'Handling' a Resource ===
+
+Content handlers are registered with the {{{HandlerManager}}}. In the initial version of
+AHA! there were different handlers for HTML, XML and XHTML. The {{{HTMLHandler}}} used the
+[[=http://docs.oracle.com/javase/1.4.2/docs/api/javax/swing/text/html/HTMLEditorKit.html|Java
+Swing HTML toolkit]] to parse HTML files, supporting HTML 3.2. The other two handlers
+relied on the [[=http://xerces.apache.org/xerces-j/|Xerces]] XML parser. They interpret
+[[authoring-content|instructions]] in the HTML, XML and XHTML content like &lt;if>,
+&lt;object> and conditional &lt;a> tags.
+
+The three handlers contained some similarities, because conditional constructs like
+&lt;if> tags could occur in all three formats. A later version of AHA! changed the
+structure so that handlers could process each others output. This allowed a simpler
+{{{HTMLHandler}}} that converted the HTML to XHTML. The {{{XMLHandler}}} would handle the
+&lt;if> tags, and the {{{XHTMLHandler}}} would only handle (X)HTML specific tags like the
+anchor (&lt;a>) tag.
+
+In [[../gale|GALE]] the idea of a [[../gale/system/adaptation-engine|modular approach]] to
+[[../gale/system/processors|processing a resource]] is extended.</gale:text>
+
+</gale:repo>

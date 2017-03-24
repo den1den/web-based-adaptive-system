@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">inserting the result of an expression as
+attribute in the parent tag</gale:text>
+
+<gale:text tag="long" type="creole">{{{
+&lt;img>&lt;gale:attr-variable expr="${#image?url}" name="src" />&lt;/img>
+}}}
+
+The {{{&lt;gale:attr-variable>}}} tag evaluates the
+[[../gale-code|GALE (EL) code]] expression contained in the {{{expr}}} attribute. The
+result is placed in an attribute of the parent tag identified by the {{{name}}}
+attribute.</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The 'attr-variable'
+module inserts the result of an expression as attribute in the parent tag. The
+[[configuration|configuration]] links the 'attr-variable' module to the
+&lt;gale:attr-variable> tag. By default the valid mime types are:
+* "text/xhtml"
+* "text/xml"
+* "application/xml"
+* "application/smil"</gale:text>
+
+<gale:text tag="default" type="creole">The {{{&lt;gale:attr-variable>}}} tag evaluates an
+expression, just like the <gale:a
+href="variable-module"><tt>&lt;gale:variable></tt></gale:a> tag. Instead of inserting the
+result as text, the result is inserted as an attribute in the parent tag. For example:
+
+{{{
+&lt;img>&lt;gale:attr-variable name="src" expr="${#image}"/>&lt;/img>
+}}}
+
+If the {{{#image}}} attribute has a value of 'http:~//gale.win.tue.nl/beer.jpg', the
+resulting XHTML would be:
+
+{{{
+&lt;img src="http://gale.win.tue.nl/beer.jpg" />
+}}}
+
+Another example combines the {{{&lt;gale:object>}}} tag with a computed value for the
+'data' attribute:
+
+{{{
+&lt;gale:object>&lt;gale:attr-variable name="data" expr="${#info}" />&lt;/gale:object>
+}}}
+
+This conditionally inserts an object of which the URL (the 'data' attribute) is contained
+in the 'info' attribute of the current concept.
+
+A slightly more complex example of the use of {{{&lt;gale:attr-variable>}}} is:
+
+{{{
+&lt;img>&lt;gale:attr-variable name="src"
+    expr="${gale://gale.tue.nl/personal#isVerbalizer}?${?smallimage}:${?largeimage}">&lt;/img>
+&lt;object>&lt;gale:attr-variable name="data"
+    expr="${gale://gale.tue.nl/personal#isVerbalizer}?${?longinfo}:${?shortinfo}">&lt;/object>
+}}}
+
+Depending on a learning style (verbalizer versus visualizer) a small image and long text
+fragment or a large image and short text fragment is presented.</gale:text>
+
+</gale:repo>

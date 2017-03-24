@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a model describing a specific domain
+through the use of concepts, relations and attributes</gale:text>
+
+<gale:text tag="long" type="creole">A domain model in [[../gale|GALE]] is a graph model
+with directed edges where nodes are represented by concepts and edges by relations. Each
+concept can have multiple attributes and properties. Usually an author designs a domain
+model when creating an adaptive application. Information that governs the
+[[adaptation-model|adaptive behavior]] is attached to the domain model at appropriate
+locations.
+
+Various formats of domain models are supported as input for GALE, including:
+* [[../aha/models-example|.aha format]]
+* [[../research/cam|.cam.xml format]]
+* [[gdom|.gdom.xml format]]
+* [[gam|.gam format]]
+
+The //.cam.xml// format uses [[=http://www.imsglobal.org/vdex/|IMS VDEX]] to describe the
+actual domain model, enriched with specific information to add adaptivity.</gale:text>
+
+<gale:text tag="intro" type="creole">One of the first things to do when creating an
+adaptive application or course is designing the domain model. A domain model represents
+the vocabulary and key concepts of the problem domain. GALE uses this author-made
+description of the domain as a logical place to add information about adaptation and
+[[user-model|user model]].</gale:text>
+
+<gale:text tag="default" type="creole">Concepts are at the heart of GALE's domain model. A
+concept is defined by its name, a set of properties, relations to other concepts, event
+code and a set of attributes. The picture below demonstrates three concepts with
+properties and relations.
+
+{{images/conceptsdomain.jpg|Image of domain concepts and their relations}}
+
+Though properties are mostly used to describe domain level properties of a concept (and
+are thus 'invented' by the author), some GALE components use predefined properties in
+their adaptation. Common properties are:
+
+|title     |a descriptive title used when creating links to the concept in various views
+|event     |event [[gale-code|code]] to be executed by GALE when the concept is requested
+|stability |a flag to indicate whether the presentation of a concept is to be adapted every time, only the first time, once per session, etc.
+|order     |a number used in sorting links to concepts when they are presented in a list
+
+The 'name' of a concept is actually a URI. URIs allow concepts to be globally identifiable
+and unique. A concept name is not allowed to use the user-info, fragment and query parts
+of a [[=http://www.ietf.org/rfc/rfc2396.txt|URI]], as they are reserved to identify the
+user, an attribute and a property respectively.
+
+Attributes are used whenever particular information about a concept is user dependant, or
+a more complex type than a string is needed to define the information.
+
+{{images/attributesdomain.jpg|Image of domain attributes associated with a concept}}
+
+Every attribute has an associated [[user-model|user model]] value. This effectively makes
+attributes in the domain model a schema for the user model. Attributes can have properties
+of their own. An author is again free to invent any number of properties, but some of them
+have a specific meaning in GALE:
+
+|persistent  |the value of this attribute should be stored permanently in the user model
+|type        |the full name of a Java class used to store the value
+|default     |a [[gale-code|GALE code]] expression evaluated when the value of the attribute is not available
+|event       |GALE code executed when the value of the attribute changes in the user model
+
+There are no restrictions on attribute names. Attributes are referenced by taking the
+concept URI they belong to and adding the attribute name as the fragment part (taking URI
+escaping into account). Properties use the query part of a URI as identification. Some
+examples:
+
+{{{
+gale://grapple-project.org/Milkyway/Planet
+}}}
+
+The 'Planet' concept in the 'gale://grapple-project.org/Milkyway' course.
+
+{{{
+gale://grapple-project.org/Milkyway/Planet#visited
+}}}
+
+The 'visited' attribute of the 'Planet' concept.
+
+{{{
+gale://grapple-project.org/Milkyway/Planet?image
+gale://grapple-project.org/Milkyway/Planet#visited?type
+}}}
+
+The 'image' property of the 'Planet' concept and the 'type' property of the 'visited'
+attribute respectively. These URI references are often used when the author needs to refer
+to the user model or domain model in GALE code.
+
+A concept can inherit attributes and properties from other concepts. Defining a relation
+between two concepts with the name 'extends' will effectively make properties and
+attributes of the target concept available to the source concept as if they were defined
+in the source concept.
+
+{{images/extendsdomain.jpg|Image of concept inheritance using the extends relation}}
+
+The 'extends' relation makes copies of the attributes in the Layout concept available in
+the Sun concept. Properties are not automatically inherited, but can be included by
+defining a '~extends' property on the relationship itself, for each property that should
+be included. In our example only the image property will be available in the Sun concept
+(and of course title and type, which are defined in the concept itself). The attributes
+knowledge and layout in the Layout concept are available in Sun, but the resource
+attribute in the Layout concept is overwritten by the resource attribute in
+Sun.
+
+Various formats of domain models are supported as input for GALE, including:
+* [[../aha/models-example|.aha format]]
+* [[../research/cam|.cam.xml format]]
+* [[gdom|.gdom.xml format]]
+* [[gam|.gam format]]
+</gale:text>
+
+</gale:repo>

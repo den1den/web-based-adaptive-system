@@ -1,0 +1,71 @@
+$options {
+    default.properties "event;strict"
+    default.order "auto"
+    parent ".."
+}
+
+_concept {->(extends)../_concept 
+    ->(personal)../_personal
+}
+
+models {->(extends)_concept
+    ->(parent)../aha
+    title 'Domain and User Model'
+}
+
+models-example {->(extends)_concept
+    ->(parent)models
+    title 'Example DM/AM'
+}
+
+authoring {->(extends)_concept
+    ->(parent)../aha
+    title 'Authoring'
+}
+
+authoring-content {->(extends)_concept
+    ->(parent)authoring
+    ->(prereq)models
+    title 'Adaptive Content'
+}
+
+concept-editor {->(extends)_concept
+    ->(parent)authoring
+    ->(prereq)models
+    title 'Concept Editor'
+}
+
+graph-author {->(extends)_concept
+    ->(parent)authoring
+    ->(prereq)models
+    title 'Graph Author'
+}
+
+templates {->(extends)_concept
+    ->(parent)graph-author
+    ->(prereq)models
+    ->(prereq)concept-editor
+    ->(prereq)models-example
+    title 'Templates'
+    beginner 'false'
+}
+
+system {->(extends)_concept
+    ->(parent)../aha
+    ->(prereq-all)authoring
+    title 'System Architecture'
+    beginner 'false'
+    #known-all:Boolean default {event + '${../research/als#new-content} = true;'}
+}
+
+engine {->(extends)_concept
+    ->(parent)system
+    ->(prereq)system
+    title 'AHA! Engine'
+    beginner 'false'
+    #review-next ='~
+        if (${../research/projects#known})
+            return "";
+        return "../research/projects";
+    '
+}

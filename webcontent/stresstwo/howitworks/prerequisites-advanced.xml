@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:object data="prerequisites.xml" />
+
+<gale:text type="creole">This complex behavior for prerequisites is achieved by the
+following code in the root concept of the thesis:
+
+{{{
+// knowledge definitions
+#[own-knowledge]:Double
+event +'if (countclick) ${#own-knowledge} = 1; else ${#own-knowledge} = 0.3;'
+#knowledge:Double ='avg(new Object[] {${&lt;=(parent)#knowledge}, ${#own-knowledge}})'
+#known-all:Boolean ='${#knowledge} > 0.8'
+#known:Boolean ='${#own-knowledge} > 0.8'
+
+// prerequisites
+#available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
+#suitability:Boolean ='and(new Object[] {${=>(prereq)#available}, ${=>(prereq-all)#known-all}})'
+}}}
+
+{{{#own-knowledge}}} is the only persistent attribute stored in the user model that
+affects the prerequisite relations. The 'countclick' boolean is true when the user
+accesses the full concept (not just a part of the concept through the prerequisite box)
+and the concept was suitable at that time. This has an effect on {{{#own-knowledge}}}
+which in turn affects {{{#knowledge}}}, {{{#known}}} and {{{#known-all}}}.
+{{{#knowledge}}} is defined as the average of the {{{#knowledge}}} of the child concepts
+and the {{{#own-knowledge}}} of this concept.
+
+A concept is considered 'available' ({{{#available}}}) if the concept is either
+{{{#known}}} or all {{{prereq}}}(uisite) concepts are known and all {{{prereq-all}}}
+concepts are {{{#known-all}}} (known fully). A concept is 'suitable' if all {{{prereq}}}
+concepts are {{{#available}}} and all {{{prereq-all}}} concepts are {{{#known-all}}}. This
+captures the prerequisite behavior explained earlier.</gale:text>
+
+</gale:repo>

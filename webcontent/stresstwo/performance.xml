@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the performance of [[gale|GALE]] as a web
+server</gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">Being able to respond to user requests quickly
+(preferably within 100 ms, but no longer than one second) is an important design
+requirement that affected [[gale|GALE]]'s overall [[gale/system|architecture]]. The
+ability to distribute the various components over multiple machines allows the use of more
+processing power when needed. To minimize the communication required between various
+components, [[gale/system/caching|caches]] are used throughout GALE. 
+
+Most components are aware that information they provide might be cached. They are built in
+such a way that whenever they provide information, they are also responsible for keeping
+the information up to date. (They thus not only invalidate but also update the cache.)
+This method tends to work well because most information is read often but updated rarely.
+GALE's caches allow most of the information required to perform adaptation (the
+[[gale/domain-model|domain]], [[gale/adaptation-model|adaptation]] and
+[[gale/user-model|user model]]) to be instantly available in the Adaptation Engine
+component, eliminating much of the communication that would otherwise be necessary.
+
+Performance considerations played an important role in the decision on how to implement
+adaptation rules. Though most parts of GALE are unaware of the actual language used to
+describe these rules, the default is a language that mixes Java with [[gale/gel/gel|GEL]]
+(GALE Expression Language). GEL allows easy access to the domain and adaptation model and
+is translated to Java on the fly. The result is Java source code that can be compiled to
+byte code. Since most adaptive documents tend to use similar rules often, this allows GALE
+to cache and [[gale/system/caching-code|reuse the compiled code]], eliminating much of the
+interpretation of adaptation rules.
+
+These two factors have boosted GALE's performance to a level that is experienced as
+instantly by most users. After the initial warming up as GALE's caches fill with
+information, random pages of the adaptive thesis are served in under 20 ms. All tests were
+executed using a HP Compaq 6710b notebook running GALE version 1.2. The notebook has an
+Intel Core 2 CPU T7500 at 2.20 GHz, 2 GB of RAM and runs Windows 7 32-bit.
+
+Though this is a great figure when used by a single user, the [[questions|question]]
+remains how GALE will perform under stress. To answer that question we setup a test suite
+using [[=http://jmeter.apache.org|Apache JMeter]]. A number of concurrent threads were
+used to request random pages of the thesis and different user ids were used to simulate
+multiple users. The results are displayed in the table and accompanying graph:
+
+|=Threads|=Average (ms)|=Deviation (ms)|
+|10      |201          |51             |
+|20      |262          |151            |
+|30      |420          |282            |
+|40      |826          |777            |
+|50      |1293         |1552           |
+|60      |1623         |1821           |
+|70      |2116         |2599           |
+|80      |2546         |2389           |
+|90      |3278         |3322           |
+|100     |3832         |3516           |
+
+{{images/performance-1.jpg|Performance using cache settings 5000/1000}}
+
+GALE's primary use is to serve adaptive hypertext where the reader is assumed to spend
+some time studying the material presented. Assuming the average time spent reading a page
+is 20 seconds and the number of concurrent threads that can be handled within 1 second is
+around 45 (see table), this would allow 900 users that are actively reading the thesis to
+do so comfortably.
+
+These figures can be improved by allocating more memory to GALE's caches. By default the
+[[gale/system/um-service|User Model service]] stores 1000 entries and the
+[[gale/system/adaptation-engine|Adaptation Engine]] 5000. Changing both these numbers to
+32768 results in the following statistics:
+
+|=Threads|=Average (ms)|=Deviation (ms)|
+|10      |27           |8              |
+|20      |99           |66             |
+|30      |174          |140            |
+|40      |326          |218            |
+|50      |377          |233            |
+|60      |549          |396            |
+|70      |570          |398            |
+|80      |701          |477            |
+|90      |789          |601            |
+|100     |966          |738            |
+
+{{images/performance-2.jpg|Performance using cache settings 32768/32768}}
+
+These settings allow 2000 users to actively view content through a single GALE server
+running on a notebook from 2007.
+</gale:text>
+
+</gale:repo>

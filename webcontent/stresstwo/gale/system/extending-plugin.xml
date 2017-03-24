@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">extending GALE when direct control over
+the HTTP session is required</gale:text>
+
+<gale:text tag="long" type="creole">A plugin is normally activated by adding '?plugin=...'
+to the request URL. The plugin has complete control over the HTTP request and response.
+They are used to process forms and update the [[../user-model|user model]] accordingly, or
+to process the result of a multiple choice test, etc. GALE can be extended with new
+plugins.</gale:text>
+
+<gale:text tag="default" type="creole">Testing a new course's adaptivity might be
+difficult when it is not working as expected. Sometimes it is helpful to see all user
+model variables and their values pertaining to the current concept. A new plugin will be
+created for that purpose, which will generate the information. The result will look like
+this:
+
+{{../images/creating-plugin.jpg|Image showing the result of the status plugin}}
+
+A plugin has direct access to the http servlet's request and response objects. It can be
+used to support various functions, like changing the password (PasswordPlugin), logging
+out the user (LogoutPlugin), evaluating a multiple choice test (MCPlugin) or form
+(FormPlugin) or exporting part of the domain model to an xml file (ExportPlugin).
+
+=== Creating the source code ===
+
+To create a new plugin, a new class needs to be created that implements the
+{{{nl.tue.gale.ae.processor.plugin.Plugin}}} interface. Alternatively the AbstractPlugin
+class that contains default implementations for the doGet and doPost methods could be
+extended. That way only one method has to be implemented. A basic (empty) plugin would
+look as follows:
+
+{{{
+package mydomain.plugin;
+
+import nl.tue.gale.ae.processor.plugin.AbstractPlugin;
+
+public class StatusPlugin extends AbstractPlugin {
+    public void doGet(Resource resource) throws ProcessorException {
+    }
+}
+}}}
+
+Plugins implement the {{{doGet}}} and {{{doPost}}} methods that work similarly to the
+methods of a Java servlet. Direct access to the http request and response is available
+through the resource. In this example direct access is not needed. An in-memory XHTML
+document will be created that will be processed by the SerialiseProcessor. The first thing
+to do is create the document.
+
+{{{
+Element result = GaleUtil.createHTMLElement("html");
+resource.put("xml", result);
+Element body = GaleUtil.createHTMLElement("body");
+result.add(body);
+}}}
+
+Next all attributes of the current concept will be reviewed and a representation will be
+added to the document.
+
+{{{
+GaleContext gale = new GaleContext(resource);
+Concept concept = gale.concept();
+for (Attribute attr : concept.getAttributes())
+    body.add(createValueElement(attr, gale));
+}}}
+
+The last thing to do is change the resource to indicate its level of processing.
+
+{{{
+resource.put("mime", "text/xhtml");
+resource.usedStream();
+}}}
+
+The method {{{createValueElement}}} still needs to be implemented which will create the
+contents for every attribute.
+
+{{{
+private Element createValueElement(Attribute attr, GaleContext gale) {
+    Element p = GaleUtil.createHTMLElement("p");
+    p.addText(attr.getUri().toString() + ": "
+            + gale.eval("${" + attr.getUri() + "}"));
+    return p;
+}
+}}}
+
+That is all the code. After compilation, it should be placed in the
+WEB-INF/classes/mydomain/plugin within the tomcat/webapps/gale directory, so that GALE can
+find the new class at runtime.
+
+=== Configuring GALE to use a new plugin ===
+
+Plugins are controlled by the PluginProcessor. This is normally the first processor called
+by GALE. It determines if a plugin should be activated based on the current URL in the
+http request. If the URL has a parameter called 'plugin', its value is used as a key into
+the plugin table. This table is defined in galeconfig.xml in the following section:
+
+{{{
+&lt;bean id="pluginProcessor" class="nl.tue.gale.ae.processor.PluginProcessor">
+    &lt;property name="pluginTable">
+        &lt;map>
+            ...
+}}}
+
+An entry for the new plugin need to be added as follows:
+
+{{{
+&lt;entry>
+    &lt;key>
+        &lt;value>status&lt;/value>
+    &lt;/key>
+    &lt;bean class="mydomain.plugin.StatusPlugin" />
+&lt;/entry>
+}}}
+
+After the modification GALE is restarted and the new plugin should be available on every
+concept by adding '?plugin=status' to the requested URL.</gale:text>
+
+</gale:repo>

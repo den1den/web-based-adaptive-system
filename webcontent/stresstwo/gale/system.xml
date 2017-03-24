@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the architecture of the software that is
+GALE</gale:text>
+
+<gale:text tag="long" type="creole">[[../gale|GALE]] is a modular software package with
+components that can be replaced on the fly. Is is written in Java using servlet technology
+to communicate with HTTP clients (like browsers). It follows an event driven architecture
+where services are loosely coupled with the adaptation engine via an event
+bus.</gale:text>
+
+<gale:text tag="default" type="creole">[[../gale|GALE]] is a modular software package with
+components that can be replaced on the fly. It is written in Java using servlet technology
+to communicate with HTTP clients (like browsers). The following picture gives an overview
+of its architecture.
+
+<span>
+<img usemap="#gale-architecture-image" src="images/gale-architecture.jpg" title="Gale Architecture" />
+<map name="gale-architecture-image">
+<gale:if expr="${system/conceptmanager#suitability}"><area shape="rect" coords="170,35,285,73" href="system/conceptmanager"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/login#suitability}"><area shape="rect" coords="170,91,285,129" href="system/login"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/adaptation-engine#suitability}"><area shape="rect" coords="112,148,227,186" href="system/adaptation-engine"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,299,340,337" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,356,340,394" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,412,340,450" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,470,340,508" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,526,340,564" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/processors#suitability}"><area shape="rect" coords="132,583,340,621" href="system/processors"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/galecontext#suitability}"><area shape="rect" coords="303,35,359,263" href="system/galecontext"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/events#suitability}"><area shape="rect" coords="529,15,605,564" href="system/events"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/configuration#suitability}"><area shape="rect" coords="378,280,416,433" href="system/configuration"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/codemanager#suitability}"><area shape="rect" coords="434,280,472,433" href="system/codemanager"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/caching#suitability}"><area shape="rect" coords="378,35,473,73" href="system/caching"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/caching-um#suitability}"><area shape="rect" coords="378,148,472,186" href="system/caching-um"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/services#suitability}"><area shape="rect" coords="378,91,472,129" href="system/services"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/dm-service#suitability}"><area shape="rect" coords="643,16,869,74" href="system/dm-service"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/um-service#suitability}"><area shape="rect" coords="643,167,869,225" href="system/um-service"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/services#suitability}"><area shape="rect" coords="642,91,868,149" href="system/services"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${system/services#suitability}"><area shape="rect" coords="643,242,869,300" href="system/services"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${../research/cam-compiler#suitability}"><area shape="rect" coords="643,413,869,471" href="../research/cam-compiler"><gale:adapt-link /></area></gale:if>
+<gale:if expr="${../research/gumf-gale#suitability}"><area shape="rect" coords="605,601,831,656" href="../research/gumf-gale"><gale:adapt-link /></area></gale:if>
+</map>
+</span>
+
+Clients (readers using a browser to access webpages) are shown on the left and connect to
+the [[system/adaptation-engine|Adaptation Engine]] component by requesting concepts.
+Various smaller modules are used to service the request:
+* The [[system/login|Login Manager]] handles everything related to logging in and
+  registering users.
+* The [[system/conceptmanager|Concept Manager]] translates the HTTP request to a request
+  for a concept.
+* The [[system/processors|Processor Stack]] (and subcomponents) updates some user profile
+  information based on the concept access and loads and adapts resources based on
+  information in the user profile.
+* Various [[system/caching|caches]] are loosely coupled with the outside world and provide
+  a virtual view of the domain, adaptation and user models as provided by (possibly
+  external) services.
+
+The [[system/events|Event Bus]] uses the publisher/subscriber paradigm to route events
+between the various registered components.
+
+[[system/dm-service|Domain Model services]] provide details on domain and adaptation
+models. Various DM services are included in GALE. For instance, the GAM service reads
+DM/AM descriptions contained in .gam files that can be located anywhere on the Internet.
+The Adaptation Engine and other components that require access to the global domain model
+are unaware of the origin of these concept descriptions.
+
+The [[system/um-service|User Model service]] (typically one for every GALE instance)
+provides access to the user model and might use information in the adaptation model that
+contains rules associated with user model values. The service views any update to the user
+model as a possible event that might lead to further updates. Any resulting change to the
+user model that might be relevant to the other components is communicated over the Event
+Bus to allow possible caches to stay valid.
+
+The [[../research/grapple|GRAPPLE project]] provided tools to integrate an adaptive
+hypermedia system with Learning Management Systems (LMS). The components in the bottom
+right of the overview image form a bridge between GALE's Event Bus and components
+developed in GRAPPLE, like the GRAPPLE Event Bus (GEB), the [[../research/gumf|GRAPPLE
+User Model Framework]] (GUMF) and the [[../research/gat|GRAPPLE Authoring Tools]] (GAT).
+</gale:text>
+
+</gale:repo>

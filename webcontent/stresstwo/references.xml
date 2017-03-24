@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text type="creole" expr="gale.req().getParameter(&quot;tags&quot;) != null"> You can
+see all references <gale:a href="references" adapt="false"
+class="good">here</gale:a>.</gale:text>
+
+<gale:text tag="default;Abel09" type="creole">[Abel09]
+
+Abel, F., Heckmann, D., Herder, E., Hidders, J., Houben, G.J., Krause, D., Leonardi, E.,
+van der Sluijs, K.: A framework for flexible user profile mashups, Int. Workshop on
+Adaptation and Personalization for Web 2.0 at UMAP '09, CEUR Workshop Proceedings,
+2009.</gale:text>
+
+<gale:text tag="default;Akker06" type="creole">[Akker06]
+
+Akkermans, P., Aroyo, L., Bellekens, P., iFanzy: Personalised Filtering Using Semantically
+Enriched TV-Anytime Content. Demo at the Third European Semantic Web Conference,
+2006.</gale:text>
+
+<gale:text tag="default;Amen04" type="creole">[Amen04]
+
+Amendola, I., Cena, F., Console, L. Crevola, A., Goy, A., Modeo, S., Perrero, M., Torre,
+I., Toso, A., UbiquiTO: a Multi-Device Adaptive Guide. Proceedings of the sixth
+International Symposium on Mobile Human-Computer Interaction – MobileHCI, pp. 13-16,
+Springer Verlag, 2004.</gale:text>
+
+<gale:text tag="default;Bloch08" type="creole">[Bloch08]
+
+Bloch, J., Effective Java, Second Edition, Prentice Hall Press, 2008.</gale:text>
+
+<gale:text tag="default;Brus96" type="creole">[Brus96]
+
+Brusilovsky, P., Schwarz, E.W., Weber, G., ELM-ART: An Intelligent Tutoring System on
+World Wide Web. Proceedings of ITS’96, the Third International Conference on Intelligent
+Tutoring Systems, Springer LNCS 1086, pp. 261-269, 1996.</gale:text>
+
+<gale:text tag="default;Brus96-2" type="creole">[Brus96-2]
+
+Brusilovsky, P., Methods and techniques of adaptive hypermedia, User Modeling and
+User-Adapted Interaction 6(2-3), pp. 87-129, 1996.</gale:text>
+
+<gale:text tag="default;Brus98" type="creole">[Brus98]
+
+Brusilovsky, P., Eklund, J., Schwarz, E., Web-based education for all: A tool for
+developing adaptive courseware. Computer Networks and ISDN Systems (Proceedings of the 7th
+Int. World Wide Web Conference, 30 (1-7), pp. 291-300, 1998.</gale:text>
+
+<gale:text tag="default;Brus01" type="creole">[Brus01]
+
+Brusilovsky, P., Adaptive hypermedia, User Modeling and User-Adapted Interaction 11(1-2),
+pp. 87-110, 2001.</gale:text>
+
+<gale:text tag="default;Brus03" type="creole">[Brus03]
+
+Brusilovsky, P., Santic, T., De Bra, P., A Flexible Layout Model for a Web-Based Adaptive
+Hypermedia Architecture, Proceedings of the AH2003 Workshop, TU/e CSN 03/04, pp. 77-86,
+Budapest, Hungary, May 2003.</gale:text>
+
+<gale:text tag="default;Bush45" type="creole">[Bush45]
+
+Bush, V., As We May Think!, Atlantic Monthly, Vol. 176 No. 1, pp. 101-108,
+1945.</gale:text>
+
+<gale:text tag="default;Calvi97" type="creole">[Calvi97]
+
+Calvi, L., De Bra, P., Using Dynamic Hypertext to create Multi-Purpose Textbooks,
+Proceedings of ED-MEDIA’97, 1997.</gale:text>
+
+<gale:text tag="default;Conlan04" type="creole">[Conlan04]
+
+Conlan, O., Wade, V., Evaluation of APeLS – An Adaptive eLearning Service Based on the
+Multi-model, Metadata-Driven Approach, Proceedings of the third International Conference
+on Adaptive Hypermedia, Springer LNCS 3137, pp. 291-295, 2004.</gale:text>
+
+<gale:text tag="default;Cris05" type="creole">[Cris05]
+
+Cristea, A. I., Smits, D., De Bra., P., Writing MOT, Reading AHA! - Converting Between an
+Authoring and a Delivery System for Adaptive Educational Hypermedia, In Proc. of A3EH
+Workshop at the AIED 2005 conference, Amsterdam, The Netherlands, pages 107-114,
+2005.</gale:text>
+
+<gale:text tag="default;DeBra96" type="creole">[DeBra96]
+
+De Bra, P. M. E., Teaching Hypertext and Hypermedia through the Web, Journal of Universal
+Computer Science 2(12), pp. 797-804, 1996.</gale:text>
+
+<gale:text tag="default;DeBra97" type="creole">[DeBra97]
+
+De Bra, P., Calvi, L., Creating adaptive hyperdocuments for and on the Web, Proceedings of
+WebNet’97 Conference, Toronto, pp. 149–155, 1997.</gale:text>
+
+<gale:text tag="default;DeBra00" type="creole">[DeBra00]
+
+De Bra, P., Aerts, A., Houben, G.J., Wu, H., Making General-Purpose Adaptive Hypermedia
+Work, Proceedings of the AACE Webnet 2000 Conference, pp. 117-123, 2000.</gale:text>
+
+<gale:text tag="default;DeBra02" type="creole">[DeBra02]
+
+De Bra, P., Aerts, A., Smits, D., Stash, N., AHA! Version 2.0: More Adaptation Flexibility
+for Authors, In: Driscoll, M., Reeves, T.C. (eds.) Proc. of World Conference on ELearning,
+E-Learn 2002, AACE, pp. 240-246, 2002.</gale:text>
+
+<gale:text tag="default;DeBra02-2" type="creole">[DeBra02-2]
+
+De Bra, P., Aerts, A., Smits, D., Stash, N., AHA! meets AHAM, Second International
+Conference on Adaptive Hypermedia and Adaptive Web-Based Systems, Springer LNCS 2347, pp.
+381-384, 2002.</gale:text>
+
+<gale:text tag="default;DeBra02-3" type="creole">[DeBra02-3]
+
+De Bra, P., Aerts, A., Rousseau, B., Concept Relationship Types for AHA! 2.0. Proceedings
+of the AACE ELearn'2002 conference, October 2002, pp. 1386-1389, 2002.</gale:text>
+
+<gale:text tag="default;DeBra03" type="creole">[DeBra03]
+
+De Bra, P., Aerts, A., Berden, B., De Lange, B., Rousseau, B., Santic, T., Smits, D.,
+Stash, N., AHA! The Adaptive Hypermedia Architecture, Proceedings of the fourteenth ACM
+Hypertext Conference, pp. 81-84, ACM Press, 2003.</gale:text>
+
+<gale:text tag="default;DeBra03-2" type="creole">[DeBra03-2]
+
+De Bra, P., Santic, T., Brusilovsky, P., AHA! meets Interbook and more…, Proceedings of
+the AACE ELearn 2003 Conference, pp. 57-64, 2003.</gale:text>
+
+<gale:text tag="default;DeBra03-3" type="creole">[DeBra03-3]
+
+De Bra, P., Aerts, A., Berden, B., De Lange, B., Escape from the Tyranny of the Textbook:
+Adaptive Object Inclusion in AHA!. Proceedings of the AACE ELearn 2003 Conference,
+Phoenix, Arizona, November 2003, pp. 65-71, 2003.</gale:text>
+
+<gale:text tag="default;DeBra06" type="creole">[DeBra06]
+
+De Bra, P., Smits, D., Stash, N., The Design of AHA!, Proceedings of the seventeenth ACM
+Conference on Hypertext and Hypermedia, pp. 133-134, ACM Press, 2006, with adaptive
+version at
+[[=http://aha.win.tue.nl/ahadesign/|http://aha.win.tue.nl/ahadesign/]].</gale:text>
+
+<gale:text tag="default;DeBra10" type="creole">[DeBra10]
+
+De Bra, P., Smits, D., van der Sluijs, K., Cristea, A., Hendrix, M., GRAPPLE,
+Personalization and Adaptation in Learning Management Systems, In ED-MEDIA, World
+Conference on Educational Multimedia, Hypermedia &amp; Telecommunication,
+2010.</gale:text>
+
+<gale:text tag="default;DeBra12" type="creole">[DeBra12]
+
+De Bra, P., Smits, D., van der Sluijs, K., Cristea, A.I., Foss, J., Glahn, C., Steiner,
+C., GRAPPLE: Learning Management Systems meet Adaptive Learning Environments, chapter 6
+In: Intelligent and Adaptive Educational-Learning Systems: Achievements and Trends, Smart
+Innovation, Systems and Technologies, KES-Springer Verlang Book Series, 2012 (to
+appear).</gale:text>
+
+<gale:text tag="default;Hage10" type="creole">[Hage10]
+
+Hage, W.R. van, Stash, N., Wang, Y., Aroyo, L.M., Finding your way through the Rijksmuseum
+with an adaptive mobile museum guide. Proceedings of the seventh Extended Semantic Web
+Conference (ESWC), pp. 46-59, 2010.</gale:text>
+
+<gale:text tag="default;Hend08" type="creole">[Hend08]
+
+Hendrix, M., De Bra, P., Pechenizkiy, M., Smits, D., Cristea, A. I.,·Defining adaptation
+in a generic multi layer model: CAM: The GRAPPLE Conceptual Adaptation Model, Proceedings
+of the 3rd European Conference on Technology-Enhanced Learning 2008, pp. 132-143, Springer
+LNCS, Maastricht, The Netherlands, 2008.</gale:text>
+
+<gale:text tag="default;Henze00" type="creole">[Henze00]
+
+Henze, N., Adaptive hyperbooks: Adaptation for project-based learning resources. PhD
+Dissertation, University of Hannover, 2000.</gale:text>
+
+<gale:text tag="default;Houben08" type="creole">[Houben08]
+
+Houben, G.J., van der Sluijs, K., Barna, P., Broekstra, J., Casteleyn, S., Fiala, Z.,
+Frasincar, F., Hera. in: Web Engineering: Modeling and Implementing Web Applications,
+Human-Computer Interaction Series, pp. 263-301, Springer Verlag, 2008.</gale:text>
+
+<gale:text tag="default;Kay02" type="creole">[Kay02]
+
+Kay, J., Kummerfeld, B., Lauder, P., Personis: A server for user modeling, In: De Bra, P.,
+Brusilovsky, P. and Conejo, R. (eds.) Proc. of Second International Conference on Adaptive
+Hypermedia and Adaptive Web-Based Systems (AH'2002), Málaga, Spain, May 29-31,
+2002.</gale:text>
+
+<gale:text tag="default;Knutov09" type="creole">[Knutov09]
+
+Knutov, E., De Bra, P., Pechenizkiy, M., 'AH 12 years later: a comprehensive survey of
+adaptive hypermedia methods and techniques', New Review of Hypermedia and Multimedia,
+15:1,5-38, 2009.</gale:text>
+
+<gale:text tag="default;Kuflik11" type="creole">[Kuflik11]
+
+Kuflik, T., Stock, O., Zancanaro, M., Gorfinke., A., Jbara, S., Kats, S., Sheidin, J.,
+Kashtan, N., A Visitor’s Guide in an Active Museum: Presentations, Communications, and
+Reflection. In ACM Journal on Computing and Cultural Heritage, 3(3), ACM Press,
+2011.</gale:text>
+
+<gale:text tag="default;Ramp05" type="creole">[Ramp05]
+
+Ramp, E., De Bra, P., Brusilovsky, P., High-Level Translation of Adaptive Hypermedia
+Applications, Proceedings of the ACM Hypertext Conference, Salzburg, Austria, Sept. 7-9,
+2005, pp. 126-128, 2005.</gale:text>
+
+<gale:text tag="default;Ramp05-2" type="creole">[Ramp05-2]
+
+Ramp, E., De Bra, P., Brusilovsky, P., Authoring and Delivery of Adaptive Electronic
+Textbooks made Easy, Proceedings of the AACE ELearn'2005 Conference, Vancouver, Canada,
+October 25-28, 2005, pp. 142-149, 2005.</gale:text>
+
+<gale:text tag="default;Rossi08" type="creole">[Rossi08]
+
+Rossi, G., Schwabe, D., Modeling and Implementing Web Applications with Oohdm. Modeling
+and Implementing Web Applications, Human-Computer Interaction Series, pp. 109-155,
+Springer Verlag, 2008.</gale:text>
+
+<gale:text tag="default;Smits02" type="creole">[Smits02]
+
+Smits, D., <a href="aha/AHA - Data design and manipulation.pdf">AHA - Data design and
+manipulation</a>, Report of Internship, TU/e, 2002.</gale:text>
+
+<gale:text tag="default;Wang08" type="creole">[Wang08]
+
+Wang, Y., Stash, N., Aroyo, L., Gorgels, P., Rutledge, L., Schreiber, G., Recommendations
+Based on Semantically-enriched Museum Collections. Journal of Web Semantics: Science,
+Services and Agents on the World Wide Web, 6(4), pp. 43-50, 2008.</gale:text>
+
+<gale:text tag="default;Wu02" type="creole">[Wu02]
+
+Wu, H. A., Reference Architecture for Adaptive Hypermedia Applications, doctoral thesis,
+Eindhoven University of Technology, The Netherlands, ISBN 90-386-0572-2, 2002.</gale:text>
+
+</gale:repo>

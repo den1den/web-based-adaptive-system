@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a User Modeling Framework developed in
+the context of the [[grapple|GRAPPLE]] project</gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">The GRAPPLE User Modeling Framework (GUMF)
+[[../references?tags=Abel09|[Abel09~]]], developed by Fabian Abel and others, allows
+different client applications to store and query user model information. In
+[[grapple|GRAPPLE]] it functions as a bridge between the various components, for instance
+[[../gale|GALE]] and the LMSs. When a course is followed in GALE some part of the user
+model can be made publically available through GUMF. The author of a GALE course needs to
+specify what part should be public. An LMS can retrieve information on, for instance, the
+user's expertise of a course. It could also be the other way around. A GALE user model
+variable can depend on information in GUMF. When a user performs a test in the LMS, that
+information is send to GUMF and ends up in GALE. It can influence the subsequent
+adaptation there.
+
+Information is stored and retrieved through Grapple Statements. They contain observations
+or facts about users like:
+* David likes computers
+* Jenny understands photography (learned with Sakai, last year)
+
+The contents of a Grapple Statement is made up of several terms (as found in
+[[=http://grapple-project.org/public-files/deliverables/D6.1b-WP6-DesignImplementationDistributedUM-v1.2.pdf|GRAPPLE
+Deliverable 6.1b]]):
+* {{{gc:subject}}}, The entity (usually the user) the statement is about. The value of
+  {{{gc:subject}}} can be any resource, preferably defined through a URI. Example values
+  of {{{gc:subject}}} are: http:~//www.grapple-project.org/user/john,
+  http:~//john.myopenid.com, http:~//john-doe.com/foaf.rdf#me,
+  http:~//example.org/people.rdf#ProjectTeamXY, "johndoe", or "1826342".
+* {{{gc:user}}}, The property {{{gc:user}}} is a subproperty of {{{gc:subject}}} and
+  therefore inherits the characteristics of {{{gc:subject}}} (including the recommendation
+  to use URIs, although we also allow for literal values). While {{{gc:subject}}} might
+  refer to entities, which are not users (e.g. groups, organizations, or entities, which
+  form some kind of context of a user profile), {{{gc:user}}} explicitly refers to a user
+  entity.
+* {{{gc:predicate}}}, Refers to a property the user/subject has. In general, the
+  {{{gc:predicate}}} refers to a property that is defined in another (domain) ontology.
+  The value of {{{gc:predicate}}} can, for example, be {{{foaf:interest}}}
+  (http:~//xmlns.com/foaf/0.1/interest) which is a property specified in the FOAF ontology
+  that can be used to specify the interests of an entity. In the current version of
+  GRAPPLE Core, the range of {{{gc:predicate}}} is not restricted to URIs, but permits any
+  types of resource. However, we strongly recommend the usage of URIs pointing to
+  properties that are formally defined in an ontology, so that the semantics are
+  explicitly specified.
+* {{{gc:object}}}, The attribute {{{gc:object}}} contains the actual value of the entire
+  statement. For the example above, where {{{gc:predicate}}} is given with
+  {{{foaf:interest}}}, the value of {{{gc:object}}} could be
+  "http:~//en.wikipedia.org/wiki/Semantic_Web" which would then mean that the user/subject
+  is interested in the Wikipedia page about Semantic Web. The range of {{{gc:object}}} is
+  not restricted. It can be any string value, number, URI, etc. Other examples are
+  "peter@web.de", "happy", "17252", etc.
+* {{{gc:level}}}, This property can be used to further qualify the value of the object. It
+  can, for example, be a double value between 0.0 and 1.0 that describes the level of the
+  user's competences, interests, etc. or it can be a textual description that further
+  describes the object, e.g. "expert", "beginner", "rather", "extremely", etc. As there
+  are different approaches to qualify the value of the object, the range of {{{gc:level}}}
+  is not further restricted. We therefore recommend the usage of typed literals. In
+  RDF/XML syntax this could, for example, look as follows: <br/>(a) {{{&lt;gc:level
+  rdf:datatype="http:~//www.w3.org/2001/XMLSchema#double">0.7&lt;/gc:level> }}}<br/>(b)
+  {{{&lt;gc:level
+  rdf:datatype="http:~//example.org/Schema#doubleBetweenZeroAndOne">0.7&lt;/gc:level>
+  }}}<br/>(c) {{{&lt;gc:level
+  rdf:datatype="http:~//www.w3.org/2001/XMLSchema#string">good&lt;/gc:level>}}}
+  <br/>Example (b) refers to an own data type (possibly defined in XML Schema), which adds
+  further restrictions to the built-in data type "double" that is used in (a). It is also
+  possible to extend the GRAPPLE Core ontology with specializations (subproperties) of
+  {{{gc:level}}} that explicitly prescribe a certain range (semantically as well as
+  syntactically).
+* {{{gc:origin}}}, The value of {{{gc:origin}}} contains the statement in its original
+  form as it is modeled and formatted in the application that produced the main part of
+  the GrappleStatement. The range of origin is therefor deliberately unspecified. However,
+  we again recommend the usage of typed literals. For example, the values of
+  {{{gc:origin}}} could look as follows: "[user: john, key: interest, value: 'Semantic
+  Web', firstTimeUpdated: false]" or "&lt;profile
+  user='john'>&lt;record>&lt;key>interest&lt;/key>&lt;value>Semantic
+  Web&lt;/value>&lt;firstTimeUpdated> false
+  &lt;/firstTimeUpdated>&lt;/record>&lt;/profile>".
+  
+The terms {{{gc:subject}}} (or alternatively {{{gc:user}}}), {{{gc:predicate}}}, and
+{{{gc:object}}} are mandatory while {{{gc:level}}} and {{{gc:origin}}} are optional. More
+terms exist, but they refer to meta-information about the statement. A Grapple Statement
+can be [[gumf-gale|bound]] to a user model variable in GALE.</gale:text>
+
+</gale:repo>

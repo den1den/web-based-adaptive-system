@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole"></gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">When a new research field reaches a certain
+maturity, it is a good idea to take a step back and look at what has been accomplished. In
+the area of [[../research|adaptive hypermedia]] several good sources exist. These sources
+are a great aid in determining the components of a //generic// adaptive hypermedia
+system. Over time the methods and techniques to provide adaptation have increased. Our
+better understanding of the machanics that drive an AHS has had a great influence on the
+design of [[../aha|AHA!]] and [[../gale|GALE]].
+
+One of the first comprehensive surveys on AHS by Peter Brusilovsky
+[[../references?tags=Brus96-2|[Brus96-2~]]] contained the following taxonomy of adaptation
+techniques:
+
+{{images/tax-brusilovsky-1.jpg|Early taxonomy by Peter Brusilovsky}}
+
+Most AHS at that time implemented these adaptation techniques or a subset of them. In the
+5 years following 1996 many new AHS were developed. According to
+[[../references?tags=Brus01|[Brus01~]]] two factors contributed to the rapid growth of the
+research: "The first factor is the rapid increase in the use of the World Wide Web. The
+Web, with its clear demand for adaptivity due to its widely diverse audience served to
+boost adaptive hypermedia research, pro- viding both a challenge and an attractive
+platform. Almost all the papers published before 1996 describe classic pre-Web hypertext
+and hypermedia. In contrast, the majority of papers published since 1996 are devoted to
+Web-based adaptive hypermedia systems. The second factor is the accumulation and
+consolidation of research experience in the field. It is clearly visible that research in
+adaptive hypermedia performed and reported up to 1996 has provided a good foundation for
+the new generation of research. . . . The early papers provided no (or almost no)
+references to similar work in adaptive hypermedia, and described original methods and
+techniques. Almost all the systems developed by 1996 were laboratory systems developed to
+demonstrate and explore innovative ideas. In contrast, many papers published since 1996
+are clearly based on earlier research. These papers cite earlier work, and usually suggest
+an elaboration or an extension of techniques suggested earlier. In addition, a large
+number of systems developed since 1996 are either real world systems, or research systems
+developed for real world settings. This is indicative of the relative maturity of adaptive
+hypermedia as a research direction."
+
+A new taxonomy in [[../references?tags=Brus01|[Brus01~]]] included adaptation techniques
+found in the newer generation of AHS:
+
+{{images/tax-brusilovsky-2.jpg|Taxonomy by Peter Brusilovsky}}
+
+This taxonomy separates adaptation techniques in two areas: adaptive presentation and
+adaptive navigation support. A more recent taxonomy in
+[[../references?tags=Knutov09|[Knutov09~]]] takes another aspect into account, namely
+content adaptation. An example would be inserting a fragment of text only for a particular
+user or a set of users (based on their user model). Knutov's taxonomy takes into account
+that some of the techniques could be called adaptive presentation and content adaptation.
+There is some overlap between the three major techniques:
+
+{{images/tax-knutov.jpg|Taxonomy by Evgeny Knutov}}
+
+Since all adaptive hypermedia systems use hypermedia to present information to the user,
+and the current standards are all based around (X)HTML, a system that allows arbitrary
+manipulation of (X)HTML would be able to perform all of the techniques described above. Of
+course, this definition would be valid for many systems, like Java servlets in general, or
+PHP, JSP, Apache Wicket, XSLT (when XHTML is used), etc. They all allow generation and
+manipulation of (X)HTML. The goal of AHA! and GALE was and is to allow all adaptation
+techniques described here, with the least authoring effort possible, and to create a
+simple yet powerful method of describing and refering to the domain and user model. In
+GALE we realised 'adaptation inheritance', the process where one author can specify parts
+of the adaptation and another author can reuse and build upon those
+definitions.</gale:text>
+
+<gale:text tag="default" type="creole" expr="${../howitworks#new-content}">It might be
+time to take another look at the '[[../howitworks|]]' topic. There is some more
+information there now (as you can see by the link color). I have marked the new
+information by drawing a line on the left side of it. <gale:if
+expr="${../_personal#review}">Even though you are reviewing this thesis, it is ok to take
+a look at this page. It will not have any effect on the rest of this thesis. Once you have
+read the 'How It Works' page (by following the link above), I will lead you back to the
+next topic.</gale:if> </gale:text>
+
+</gale:repo>

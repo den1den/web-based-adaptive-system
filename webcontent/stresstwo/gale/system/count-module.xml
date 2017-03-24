@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">counting the numbers of concepts read and
+still to read</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The
+[[configuration|configuration]] links the 'count' module to the &lt;gale:count> tag. By
+default the valid mime types are:
+* "text/xhtml"
+* "text/xml"
+* "application/xml"
+* "application/smil"</gale:text>
+    
+<gale:text tag="default;long" type="creole">The &lt;gale:count> tag counts either the
+number of concepts read or the number of concepts to read. The options are:
+
+{{{
+&lt;gale:count method="done" />
+}}}
+
+or
+
+{{{
+&lt;gale:count method="todo" />
+}}}
+</gale:text>
+
+<gale:text tag="default" type="creole">In some adaptive applications this information is
+shown in the header. This gives the reader some impression of his progress through the
+material. I could tell you that you have read about <gale:variable expr="~
+int visited = CountModule.getVisitedUriCache(${.}.getUri(), gale).length;
+int total = CountModule.getUriCache(${.}.getUri(), gale).length;
+return (visited * 100) / total;
+" />%. The count modules returns <gale:count method="done" /> (done) and <gale:count
+method="todo" /> (todo). To determine if you have read a page, the {{{#visited}}}
+attribute is used. Whether that really means you have seen the page is up to the author of
+the adaptive application. The 'parent' relation is used to detect the boundaries of the
+current application.
+
+From now on we will display the number of concepts studied, and the number still to do in
+the header menu. <gale:if expr="${_concept->(personal)#beginner}"> Since you are a
+non-expert you will not be guided to all these concepts but only to 51 of them.
+</gale:if></gale:text>
+
+</gale:repo>

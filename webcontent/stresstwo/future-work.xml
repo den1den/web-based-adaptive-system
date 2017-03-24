@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">future work that would improve upon the
+current state-of-the-art adapative hypermedia systems</gale:text>
+
+<gale:text tag="default;long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">To further improve performance, more of the work
+that GALE has to do needs to be distributed. One option would be to allow the creation of
+a GALE server pool, where work is evenly distributed over servers in the pool. Another
+option is to do some or most of the work on the client. This option would allow better
+scaling (since the processing power increases with the number of active clients). GALE's
+architecture already loosely couples several components using an
+[[gale/system/events|event bus]]. The [[gale/system/adaptation-engine|adaptation engine]]
+might be modified to allow it to run inside the client's browser. This would greatly
+reduce GALE's workload. Furthermore, it allows changes to the content after the page is
+shown. Some user model values might be stored elsewhere on the internet or require
+advanced reasoning to deduce. When the adaptation engine in the client receives these user
+model values, the page can be updated on the fly. This would allow a very fast initial
+response.
+
+The reasoning behind adaptation is not visible to the reader. When links are recommended
+or not, and when blocks of text appear or are removed, the reader may want to know why.
+Scrutability by the reader may lead to improved learning. Scrutability exists for user
+model information [[references?tags=Kay02|[Kay02~]]] but a lot of UM data in GALE is
+intended to steer the adaptation and is not meaningful for the end-user, so scrutability
+of the UM data requires more than just giving access to the data. Scrutability of the
+adaptation has not been studied in general at all. There is a limited form of adaptation
+scrutability in Interbook by means of the "teach me" functionality. Similar functionality
+can be found in this thesis through the prerequisite boxes that are also available when a
+concept is unsuitable. But how do we extend GALE to help readers find this type of
+information without the author explicitely defining it (as is done in this thesis)?
+
+When GALE is used in a Technology-Enhanced Learning setting, there is no feedback on how
+'good' the adaptation is. A human teacher will learn from mistakes in the learning path he
+chose when presenting the material. Data mining on extended GALE logs could be used to
+automatically find problems in the suggested learning paths and alter the adaptation
+accordingly. GALE currently does not log whether a concept access was through a
+recommended link or not. It is computationally hard to recompute this after the fact. So
+GALE needs to log more in order to facilitate data mining on its log data.
+
+Searching in adaptive hypermedia is more difficult than in traditional hypertext. As the
+text can be different from one user to another, the search results should also be
+different. For a particular user, traditional indexing methods might return results that
+do not include the term searched for. A new GALE [[gale/system/processors|processor]]
+might index pages after they are fully adapted. A probabilistic model can be used to
+indicate the chance that a specific term is found in a concept. This would allow searching
+and ordering of adaptive material in an efficient manner.
+
+Because GALE requires a login, the material is not accessible to search engines, severely
+limiting the chances of being found. A special [[gale/system/extending-login|Login
+Handler]] could be developed that detects the search engine's bot that crawls the Web.
+When the search engine views the material, adaptation would be turned off and all the
+material would be shown.
+
+Being able to distribute the resources that make up an adaptive application on the World
+Wide Web, could be called Open Corpus. However, true 'Open Corpus Adaptation' would be
+able to adapt information that was not authored with adaptation in mind. GALE could
+perform a shallow analysis of the material and detect whether the material might have some
+relevance to a concept. The adaptation rules attached to the concept might be used to
+adapt the new information, for instance helping to determine if the material is suitable
+or not.</gale:text>
+
+</gale:repo>

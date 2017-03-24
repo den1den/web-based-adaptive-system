@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a component of the
+[[adaptation-engine|\AE]] that manages user identities</gale:text>
+
+<gale:text tag="long" type="creole">The {{{LoginManager}}} allows various
+{{{LoginHandler}}}s to perform different types of login. There is a {{{LoginHandler}}} to
+perform registration and login through forms, another handler for OpenID login, another
+for Shibboleth, etc.</gale:text>
+
+<gale:text tag="default" type="creole">The {{{LoginManager}}} is responsible for obtaining
+the user's identity. When the {{{GaleServlet}}} requests the user's identity, and the
+{{{LoginManager}}} is unable to obtain it without additional HTTP requests, it can have
+direct control over the HTTP response. This allows the use of HTML forms to obtain the
+identity, or use HTTP redirects to enable [[=http://shibboleth.internet2.edu/|Shibboleth]]
+and [[=http://openid.net/|OpenID]] login methods.
+
+Various techniques can be combined using //LoginHandlers//:
+* {{{DefaultLoginHandler}}}, allows registration and login using HTML forms.
+* {{{LinkLoginHandler}}}, obtains identity using specially crafted URLs.
+* {{{IdPLoginHandler}}}, forwards login requests to a Shibboleth Identity Provider.
+* {{{OpenIDLoginHandler}}}, use an OpenID entered in an HTML form and forward the login to
+  the OpenID provider.
+  
+This thesis uses a GALE instance [[configuration|configured]] to use the
+{{{DefaultLoginHandler}}} and the {{{OpenIDLoginHandler}}}. That is why you see the two
+boxes when logging in.
+
+Communication between the {{{LoginManager}}} and the registered //handlers// goes
+something like this:
+
+//Manager//: Does anyone have a userid?
+
+//Handlers//: No.
+
+//Manager//: (I can see none of the //handlers// have written anything to the user.) I'm
+going to write a login page, does anyone want to add anything to it?
+
+//DefaultLoginHandler//: I have got this basic login form.
+
+//OpenIDLoginHandler//: I want to show this OpenID box.
+
+//Manager//: Thanks. (Storing original request URL.) Showing the form. ... ... Here is the
+HTTP request with form details. Who can do something with it?
+
+//OpenIDLoginHandler//: That is my OpenID box! I'm taking over the HTTP response now.
+(Doing OpenID stuff.) I have got a userid!
+
+//Manager//: Redirecting to the original URL.
+
+LoginHandlers are powerful [[extending-login|extensions]] that can add HTML to the
+login page, handle registration of users, and/or use any login method including those that
+require HTTP redirects.</gale:text>
+
+</gale:repo>

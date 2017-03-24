@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text type="creole">The menu <gale:if expr="${../_personal#menu}"><gale:then>on the left</gale:then><gale:else> at the top </gale:else></gale:if> is generated on the fly based on the current state of the user model. Some items may be
+hidden based on an expression. For instance, I hide topics of which the parent topic is
+not suitable. Only when the parent becomes suitable, can you see them in the menu (or
+follow them through a link on a page). Hiding and showing the menu is also done through
+the user model.
+<gale:if expr="${../_personal#menu}"><gale:then>
+If you want me to <gale:a href="../howitworks" exec="${../_personal#menu} = false;">hide
+the menu</gale:a>, that is no problem.
+<gale:if expr="${../gale/gale-code#known-all} &amp;&amp; ${../gale/system/link-module#known}">
+This hiding and showing is achieved using the <gale:a
+href="../gale/system/link-module">'link' module</gale:a>:
+
+<pre>
+&lt;gale:a href="howitworks"
+        exec="${_personal#menu} = false;">
+    hide the menu&lt;/gale:a>
+</pre>
+</gale:if>
+</gale:then><gale:else>
+<gale:a href="../howitworks" exec="${../_personal#menu} = true;">Showing the
+menu</gale:a> is easy.
+<gale:if expr="${../gale/gale-code#known-all} &amp;&amp; ${../gale/system/link-module#known}">
+This hiding and showing is achieved using the <gale:a
+href="../gale/system/link-module">'link' module</gale:a>:
+
+<pre>
+&lt;gale:a href="howitworks"
+        exec="${_personal#menu} = true;">
+    Showing the menu&lt;/gale:a>
+</pre>
+</gale:if>
+</gale:else></gale:if>
+
+The header at the top contains some functions in a small menu on the right. The menu
+allows access to the comments panel on the right, you can reset your profile (starting the
+adaptation from scratch), and logout. Resetting your profile is not a good idea. It will
+erase all your knowledge (about this thesis, only in my user profile). Only use this when
+you really want to start over. The CSS file mentioned before
+(<a><gale:attr-variable name="href" expr="${../thesis}.getUri().resolve(&quot;thesis.css&quot;)" />thesis.css</a>)
+is used to layout the various components on the screen through &lt;div>
+sections in the HTML.
+<gale:a adapt="false" href="../howitworks?external=http://www.w3.org/TR/css3-mediaqueries/">
+Media queries
+</gale:a> are used
+to change the layout based on detected screen resolution and/or device. This includes the
+location of the menu, comments and optionally the review path. To experience the
+difference, view this thesis on a mobile device.</gale:text>
+
+</gale:repo>

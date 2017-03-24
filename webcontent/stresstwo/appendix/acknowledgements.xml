@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole"></gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">During my Computer Science study I came into
+contact with the group of people conducting adaptive hypermedia research at the Eindhoven
+University of Technology. They were looking for someone to implement a new generic system
+for adaptive hypermedia. This appeared to be a suitable topic for an internship and I have
+been interested in adaptive hypermedia ever since.
+
+First and foremost I would like to thank my promoter Paul De Bra for being a great
+supervisor and mentor, for our regular discussions on adaptive hypermedia (as many ideas
+described in this thesis originate from those) and for allowing me to discover the merits
+of writing documentation (as opposed to only designing and implementing software) at my
+own pace. This thesis and underlying software would not exist without him.
+
+I would like to express my gratitude to the members of the reading committee: Hans
+Cuypers, Nicola Henze, Mykola Pechenizkiy and Vincent Wade, for their many comments that
+helped improve the quality of this thesis. In particular, I thank Vincent for not only
+commenting on the contents but also on the usability of the adaptive hypertext.
+
+The work presented in this thesis took place within the scope of many projects,
+specifically the AHA! project and GRAPPLE. I would like to thank Stichting NLnet and the
+European Commission for their financial support, the many partners in the GRAPPLE project
+for their contributions that helped shape GALE and the Eindhoven University of Technology
+for being a flexible organization where I was able to perform most of my research
+part-time.
+
+In the course of the past ten years I met many people working in the area of adaptive
+hypermedia who have affected my work. Many thanks go to Natasha Stash for her programming
+on AHA! and her enthusiasm for adaptive hypermedia, to Alexandra Cristea for her ideas on
+languages to describe adaptive behavior and to Alexandros Paramythis for his great help
+and expertise in programming with Java, which motivated me to use software libraries
+whenever possible. I would like to thank Riet van Buul and Ine van der Ligt for their
+great administrative skills and support.
+
+I owe a debt of gratitude to my parents, Martin and Sibilla Smits, who have always
+supported me. I would not have finished my Computer Science study if it wasn’t for my
+father’s persistent effort to motivate me. Finally I would like to give special thanks to
+my wife Jenny who had to miss me more than usual these past few months.
+
+David Smits
+
+Landgraaf, February 2012 </gale:text>
+
+</gale:repo>

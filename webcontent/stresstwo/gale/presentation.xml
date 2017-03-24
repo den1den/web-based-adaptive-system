@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">presenting content in such a way that it
+suits the user best</gale:text>
+
+<gale:text tag="long" type="creole">Presenting content in a suitable way might involve
+more than just showing the actual content. Different types of menus, a guide that shows
+the user where to go next, or other views might contribute to the adaptivity of the
+application. These views should be layed out, and their content might depend on the
+[[domain-model|domain model]] and [[user-model|user model]]. Different techniques to
+layout components in a browser exist and are supported by GALE, like CSS or HTML
+tables.</gale:text>
+
+<gale:text tag="default" type="creole">The presentation of a concept by GALE can be as
+simple as showing the result of the [[locating-content|selected]], optionally
+[[modifying-resource|modified]] resource. However, GALE supports several techniques to
+layout a presentation that includes multiple views. What layout is actually used and what
+content is shown in the views can be adaptive. To use layout, some specific attributes
+need to be present in the concept's [[domain-model|domain model]]. Which attributes need
+to be present depends on the specific technique used to create the layout. The two
+techniques currently implemented are:
+* Layout [[layout-css|using CSS]]
+* Layout [[layout-tables|using tables]] and an &lt;iframe>
+
+Layout is often used in combination with views, where the content is presented in one
+frame (a portion of the user's screen) and other frames use generated content. This
+generated content can be a menu, some additional information on the current concept,
+relations to other concepts, etc. The [[system/view-module||&lt;gale:view>]] tag is often
+used to generate this content. Several views exist by default:
+* {{{static-tree-view}}}, a menu that displays the current concept and all parents and
+  their siblings
+* {{{single-list-view}}}, a menu that displays all parents, the previous and next sibling,
+  and all children in a single list
+* {{{next-view}}}, a link to the next suitable concept in the hierarchy
+* {{{file-view}}}, displays contents of a file or an expression
+</gale:text>
+
+</gale:repo>

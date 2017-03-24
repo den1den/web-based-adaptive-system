@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">caching the result of compiling pure Java
+code snippets for reuse when similar [[../gale-code|GALE (EL) code]] is used in the
+future</gale:text>
+
+<gale:text tag="default;long" type="creole">Parsing and compiling Java code is an expensive
+operation. Anytime an author uses a [[../gale-code|GALE (EL) code]] block, it is
+translated to pure Java that should be executed. A single page access might require
+between 1 and tens or hundreds of these code fragments to be executed, largely depending
+on the content. Caching is essential to performance here.</gale:text>
+
+<gale:text tag="default" type="creole">Code fragments are often very similar. One of the
+things that allows GALE to support thousands of concurrent users is the way it handles all
+this code. Consider the following [[../gam|GAM]] code.
+
+{{{
+your-side {
+    #[empire]:Long '0'
+    #[rebellion]:Long '0'
+}
+
+darth-vader {
+    event '${your-side#empire}++;'
+}
+
+luke-skywalker {
+    event '${your-side#rebellion}++;'
+}
+}}}
+
+Both pieces of code do the same thing, for different \UM variables. They both increment a
+{{{Long}}} value by 1. The {{{JavaCodeManager}}} is able to translate both pieces of code
+to the same Java code. Whenever a {{{${...~}}}} notation is found, it is first translated
+to a method parameter in Java. The type of the parameter is determined by the result of
+evaluating the GALE EL expression. Both pieces of code will be translated to this Java
+code:
+
+{{{
+package nl.tue.gale.common.code;
+
+import ...;
+
+public class CodeManagerPartXX implements JavaCodeResolver.JavaCodeVariableStore {
+    public Long _v_0;
+    public Object main(Long _p__v_0) throws Exception {
+        _v_0 = _p__v_0;
+        _v_0++;
+    }
+    
+    public Object[] getVariables() {return new Object[] {_v_0};}
+}
+}}}
+
+This code is compiled and the compiled class is cached. As explained in the general
+section on [[caching]], the cache uses an LRU algorithm. Code that is used often will have
+a higher chance of remaining in the cache.
+
+Executing pieces of code still requires analyzing the {{{${...~}}}} sections and resolving
+them to actual object values. These values are in most cases passed to already compiled
+Java code run inside the same JVM and the result is retrieved via the {{{getVariables}}}
+method. This caching allows for great performance.
+</gale:text>
+
+</gale:repo>

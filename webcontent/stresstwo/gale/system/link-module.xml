@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a module that allows adaptive links to
+other concepts</gale:text>
+
+<gale:text tag="long" type="creole">{{{
+&lt;gale:a href="tour" exec="#{tour#start,true};">...&lt;/gale:a>
+}}}
+
+The {{{&lt;gale:a>}}} tag represents a link to a concept. The {{{href}}} attribute
+contains a relative URI based on the current concept URI. The link can be annotated based
+on an expression. Optionally [[../gale-code|GALE code]] can be included that is executed
+when the link is followed.</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The 'link' module allows
+the creation of adaptive links to other concepts. The [[configuration|configuration]]
+links the 'link' module to the &lt;gale:a> and &lt;gale:adapt-link> tags. By default the
+only valid mime type is:
+* "text/xhtml"</gale:text>
+
+<gale:text tag="default" type="creole">Link adaptation is the most common form of
+adaptation in adaptive hypermedia systems. In GALE the {{{&lt;gale:a>}}} tag will be used
+most often. There are several attributes that are meaningful:
+* The {{{href}}} attribute is an absolute or relative URI of the target concept.
+* The {{{exec}}} attribute contains optional [[../gale-code|GALE (EL) code]] that is
+  executed when the link is clicked.
+* The {{{adapt}}} attribute can be set to 'false' to indicate that no link adaptation
+  should be performed. The {{{href}}} destination is still modified to reflect a link to a
+  concept. This option is used to create links to concept that have static annotation.
+
+{{{
+&lt;gale:a href="welcome">...&lt;/gale:a>
+}}}
+
+This defines an adaptive link to a (relative) concept called 'welcome'.
+
+{{{
+&lt;gale:a href="tour" exec="#{tour#start,true};">...&lt;/gale:a>
+}}}
+
+This defines an adaptive link to a (relative) concept called 'tour' and when the link is
+clicked the 'start' user model variable of this concept is set to 'true'.
+
+{{{
+&lt;gale:a href="welcome" adapt="false" class="good">Continue...&lt;/gale:a>
+}}}
+
+This defines a link to the 'welcome' concept that is always shown as a 'good' link.
+
+=== Link Annotation ===
+
+How a link should be adapted, based on the current state of the user model, is entirely
+configurable. The css class can be changed based on an expression over the user model. The
+default expression configured in GALE is:
+
+{{{
+(${#suitability}?(${#visited}>0?"neutral":"good"):"bad")
+}}}
+
+For suitable links it means that the class is 'good' for unvisited and 'neutral' for
+visited links. An unsuitable link gets the class 'bad'. A different expression can be used
+to decide on the css class using the {{{#link.classexpr}}} attribute. The value should be
+a string that defines the expression. This expression is used in any content shown as part
+of the concept containing the {{{#link.classexpr}}} attribute. Using css to annotate links
+is part of [[../presentation|adaptive presentation]].
+
+=== Link Hiding ===
+
+The {{{#link.hide}}} attribute can be used to store an expression that determines if the
+link should be hidden completely. Link hiding can be achieved through css by choosing the
+same text color as normal text. However, the link will still be available. Using
+{{{#link.hide}}} will cause the link itself to be removed, but the link text will remain
+as normal text. The following piece of [[../gam|GAM]] code demonstrates its use:
+
+{{{
+http://gale.win.tue.nl/beer {
+    #link.hide '!${#suitability}'
+}
+}}}
+
+Using this GAM code, any link to a concept that appears in the content of the 'beer'
+concept, will be hidden if the target concept is not 'suitable'. Similarly, link removal
+can be achieved using {{{#link.remove}}}. When this Boolean attribute returns true, the
+link will be removed completely, including the link text.
+
+=== Icon Annotation ===
+
+Links can be annotated using images. This is possible using the {{{#link.iconlist}}}
+attribute. GALE expects this variable to yield a single expression or a list of
+expressions. These expressions should in turn result in a URL (as string), pointing to the
+image to use for annotations, or {{{null}}} if no image should be used. Example GAM code:
+
+{{{
+http://gale.win.tue.nl/beer {
+    #link.iconlist '~
+        if ("static-tree-view".equals(gale.currentView()))
+            return (${#suitability}?(${#visited}>0?"pre:gale:/images/WhiteBall.gif":
+              "pre:gale:/images/GreenBall.gif"):"pre:gale:/images/RedBall.gif");
+        else
+            return null;
+    '
+}
+}}}
+
+This example says that icons are only used in the 'static-tree-view' (the technical
+name for the accordion menu) and it says that suitable links are prepended with a green
+ball when unvisited and a white ball when visited and unsuitable links are prepended with
+a red ball. Normally the icons are added after the link. Prepending the icon URL with
+'pre:' will cause the icon to appear before the link.
+
+=== &lt;gale:adapt-link> ===
+
+In some cases the use of {{{&lt;gale:adapt-link>}}} is justified. It performs the same
+type of adaptation, but does so on the parent tag. No attributes of
+{{{&lt;gale:adapt-link>}}} are used. The second example on this page might be written like
+this:
+
+{{{
+&lt;a href="tour" exec="#{tour#start,true};">&lt;gale:adapt-link />...&lt;/a>
+}}}
+
+Notice that the link anchor is not in the GALE namespace. Using the
+{{{&lt;gale:adapt-link>}}} tag allows adaptation similar to that of link anchors, to
+different tags. An example might be an image map:
+
+{{{
+&lt;span>
+&lt;img usemap="#gale-architecture-image" src="images/gale-architecture.jpg" title="Gale Architecture" />
+&lt;map name="gale-architecture-image">
+&lt;area shape="rect" coords="170,35,285,73" href="system/concept-manager">&lt;gale:adapt-link />&lt;/area>
+&lt;area shape="rect" coords="170,91,285,129" href="system/login-manager">&lt;gale:adapt-link />&lt;/area>
+&lt;/map>
+&lt;/span>
+}}}
+
+If this image map is combined with the previous code on link hiding, GALE will remove the
+entire {{{&lt;area>}}} tag if the associated concept is 'unsuitable', thus creating an
+adaptive image map.</gale:text>
+
+</gale:repo>

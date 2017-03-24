@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">authoring conceptual models and content
+for use by AHA!</gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">As with its [[../research/early-aha|predecessors]],
+the development of AHA! has always been author-driven. The functionality offered is based
+on ideas of various authors to enhance their hypermedia applications with adaptivity. The
+AHAM [[../references?tags=Wu02|[Wu02~]]] reference model succeeded to capture the generic
+structure of most AHS at the time. AHA! version 2 was built as an implementation of AHAM
+(though there are some differences), making it a generic AHS of that time.
+
+Authoring any hypermedia application involves writing content. The de facto standard for
+writing hypermedia is (X)HTML. Several tools exist to aid an author in writing (X)HTML.
+While some of them hide the source code completely and only show a graphical user
+interface, most will allow the author to manipulate the (X)HTML code directly. This allows
+beginner and expert authors to create (X)HTML.
+
+A similar approach is taken when creating an adaptive hypermedia application. It will
+still be a hypermedia application. Hence, writing (X)HTML is still a vital part. From that
+perspective, the content is a good place for the author to [[authoring-content|write
+instructions]] that are useful for an adaptation engine, i.e. "skip this section for
+users with 'this' in their profile". As most tools to author hypermedia allow the editing
+of the actual (X)HTML, no effort was made to improve on this part of authoring an adaptive
+hypermedia application.
+
+To perform adaptation, AHA! also needs a [[models|domain and adaptation model]]. This is a
+different type of authoring task as writing the content. It is a task that is largely
+unique to adaptive hypermedia and as a result tools to make authoring easy had to be
+developed. At first the only method of creating a DM/AM was to [[models-example|write them
+in XML]]. The format is very verbose and creating even small domain models containing a
+few dozen concepts was a considerable task. A [[concept-editor|concept editor]] was
+developed to aid in the creation of the DM/AM [[../references?tags=DeBra02|[DeBra02~]]].
+It followed a similar structure as the XML format, which came to be known as the Koen
+format, after its 'inventor' (<a
+href="http://www.google.nl/search?q=koenformat">google-ing</a> it might still yield the
+source code).
+
+Anyone authoring an application using the concept editor or XML format will quickly
+recognize patterns in the rules created. A common attribute is the number of times a
+concept has been requested, a visited counter. Some notion of 'knowledge of a concept' is
+used in many applications. If the concepts form a hierarchical structure, it is common to
+propagate knowledge through the structure. Requirements might depend on knowledge values
+of other concepts. The concept editor and XML format are tedious methods when used to
+create an application that contains a lot of these 'boilerplate' rules. They would have to
+be created for every concept in the application.
+
+Recognizing these patterns in adaptation rules prompted the development of a higher level
+authoring tool. The tool was called the [[graph-author|'Graph Author']]. It allows an
+author to draw a graph where concepts are nodes and edges are relations that have template
+DM/AM code. Hierarchical properties were added to the XML concept definition and the graph
+author presents the concepts of an application as a tree structure. A specific template
+can be attached to the hierarchy, mostly used to perform knowledge propagation. The tool
+made authoring an adaptive application much faster and easier. When the graph model is
+saved, the tool also creates a 'compiled' version in the AHA! XML format (.aha file).
+</gale:text>
+
+</gale:repo>

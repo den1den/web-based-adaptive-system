@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the component of GALE responsible for
+maintaining a consistent user profile and making it available over the event
+bus</gale:text>
+
+<gale:text tag="default;long" type="creole">The \UM service implements all
+[[event-types|event types]] related to the \UM. User model data can be stored, retrieved
+and queried. Furthermore, the service provides pushing \UM data to keep caches in other
+components in sync.</gale:text>
+
+<gale:text tag="default" type="creole">One of the most complex tasks of the \UM service is
+updating a user model variable and calculating the 'side-effects'. Every time a variable
+is updated, it might trigger event code attached to the corresponding attribute. This
+event code can change more variables. Non-persistent variables might be calculated based
+on an expression. An expression can depend on other user model variables. The entire
+triggering mechanism is captured in an action queue (an [[../../aha/engine|idea]] present
+in [[../../aha|AHA!]] as well). The action queue opens a session to a UM
+[[caching|cache]]. This ensures atomic behavior.
+
+There are four types of actions in the queue:
+* 'change', change a UM variable. The action will first check if the change is a 'real'
+  change. In other words, this action will only do anything if the value before execution
+  is different than the value after execution. When the change is 'real', it is executed
+  in the session and a new 'expand' action is added to the end of the queue. If there is
+  any trigger code attached, an 'exec' action is added to the queue.
+* 'expand', expand a specific UM variable. For every non-persistent variable that is part
+  of a concept that has been requested by another component of GALE, check if the
+  expression depends on the specified variable. It would be disastrous to performance to
+  check every non-persistent variable. Furthermore, such an algorithm would not scale very
+  well. Therefore, whenever a concept definition is loaded by the UM service, static
+  analysis is performed to build a dependency graph. The graph is used to instantly
+  determine the //'known'// non-persistent depending variables. The //'unknown'//
+  non-persistent variables that might depend on a user model change are irrelevant,
+  because nobody is interested in them anyway (otherwise somebody would have asked the UM
+  service about them). For every 'known' depending variable a 'check' action is added to
+  the queue.
+* 'check', recalculate the value of a non-persistent attribute by evaluating its default
+  expression. The new value is put in a 'change' action that is added to the queue.
+* 'exec', executes event code attached to persistent and non-persistent attributes. An
+  inner session is used to determine the effect on the real session. For every variable
+  that has actually changed, add an 'expand' event and possibly a new 'exec' event.
+
+The queue is started with the changes that are send to the \UM service. The queue is
+finished when it is empty. To prevent possible termination problems, the queue has a
+maximum number of 1000 actions. When that number is reached, the session is rolled back.
+
+This is an O(1) algorithm in that it does not depend on the number of user model variables
+stored in the service's cache (that uses a hash table). If a user model change does not
+change anything else, the algorithm will stop fast, since only real changes lead to more
+actions.</gale:text>
+
+</gale:repo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">caching the actual value of \UM
+variables, even if they are calculated on the fly as the result of an
+expression</gale:text>
+
+<gale:text tag="long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">The \AE needs \UM information frequently.
+Calculating the value of the {{{#resource}}} attribute or of the {{{#suitability}}} of a
+concept, might all be expensive operations. Consider the case where link annotation
+depends on the {{{#suitability}}} of a concept. Building a menu requires the potential
+evaluation of dozens of {{{#suitability}}} values. The menu might be very similar from one
+concept request to another. It would be a waste of precious server time to ask the \UM
+service for a new value of an attribute every time.
+
+The solution is for the \AE to hang on to an attribute value returned by the \UM service
+for some time. Most components in the \AE are totally unaware of the fact that \UM
+information is retrieved over an event bus. They simply ask the \UM cache that is part of
+the \AE for a specific value. If the cache does not hold the value, it will retrieve it
+over the event bus.
+
+Caching introduces new problems. How long should the \UM cache hold on to values returned
+by the \UM service? The answer is, the \UM cache does not know. Only the \UM service
+knows. This is caused by the 'seperation of concerns' between \AE and \UM service. The \AE
+should only 'know' or 'be able to understand' that part of the \DM that is relevant. That
+is the event code attached to concepts. It gets executed when a concept is accessed,
+something only the \AE knows. The \AE uses concept relations in the \DM (e.g. to build
+menus). The \UM service is the only component in GALE that knows (and should know)
+anything about attribute event code and default values. They determine how \UM information
+is obtained, stored and updated. Consider the following example [[../gam|GAM]].
+
+{{{
+_concept {
+    #resource ='${.}.getUri()+".xhtml"'
+    #[visited]:Integer '0'
+    #suitability:Boolean 'true'
+    event '${#visited}++;'
+}
+
+leaders {->(extends)_concept
+}
+
+darth-vader {->(extends)_concept
+    ->(parent)leaders
+}
+
+luke-skywalker {->(extends)_concept
+    ->(parent)leaders
+    #suitability:Boolean ='${darth-vader#visited} > 0'
+}
+}}}
+
+Imagine a user visits the {{{leaders}}} page, containing links to both {{{darth-vader}}}
+and {{{luke-skywalker}}}. The link to {{{darth-vader}}} will be recommended, but the link
+to {{{luke-skywalker}}} will not. This adaptation requires the {{{#suitability}}} of both
+concepts. The \UM service will return {{{false}}} for {{{luke-skywalker#suitability}}}.
+How long should the \AE hold on to this value? Until the user reads about
+{{{darth-vader}}}. The {{{darth-vader}}} page might contain a link to
+{{{luke-skywalker}}}. This link should be recommended when the {{{darth-vader}}} page is
+displayed for the first time. There is no way for the \AE to know this other than (being
+able to) read it in the default expression. This would break 'seperation of concerns'.
+
+To solve the issue, the communication between \AE and \UM has been extended. The
+conversation goes something like this:
+
+//\AE to \UM//: Can you tell me something about
+{{{http://david@gale.win.tue.nl/starwars/leaders/luke-skywalker#suitability}}}?
+
+//\UM//: Sure, it's {{{false}}}.
+
+...
+
+//\AE//: I need you to update
+{{{http://david@gale.win.tue.nl/starwars/leaders/darth-vader#visited}}} to {{{1}}}. **Does
+anything change for me?**
+
+//\UM//: OK. You should update
+{{{http://david@gale.win.tue.nl/starwars/leaders/luke-skywalker#suitability}}} to
+{{{true}}}.
+
+Anytime the \AE sends updated information to the \UM service, it needs to wait for
+possible updates to other \UM values. These updates might be caused by the execution of
+event code attached to an attribute, or because another attribute contains default code
+that uses the value of an attribute that has changed. It should also be noted that the
+second answer by the \UM service may have been different if the first question by the \AE
+had never been asked. The answer might have been just 'OK'. The \UM service in GALE uses
+the actual runtime usage to enhance its answers like that.
+
+To answer the question 'Does anything change for me?', the \UM service builds a dependency
+graph. Whenever \UM information pertaining to an unknown concept is requested, the new
+concept's attribute default expressions are analyzed and attribute dependencies are added
+to the graph. An attribute A depends on B whenever B is used in the default expression of
+A. For every dependency 'A depends on B', an edge is added to the graph from B to A.
+Whenever B changes, A might have to be recalculated. This information is used by the \UM
+service to quickly determine what the changes would have to be for the \AE and its runtime
+cache.</gale:text>
+
+</gale:repo>

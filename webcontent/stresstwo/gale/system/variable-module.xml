@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">inserting the result of an expression as
+text in the containing XML document</gale:text>
+
+<gale:text tag="long" type="creole">{{{
+&lt;gale:variable expr="${->(parent)?title}" />
+}}}
+
+The {{{&lt;gale:variable>}}} tag evaluates the expression in the {{{expr}}} attribute and
+adds the result as text in the containing X(HT)ML document.</gale:text>
+
+<gale:text tag="default" type="creole" expr="${processors#known}">The 'variable' module
+inserts the result of an expression as text in the containing XML document. The
+[[configuration|configuration]] links the 'variable' module to the &lt;gale:variable> tag.
+By default the valid mime types are:
+* "text/xhtml"
+* "text/xml"
+* "application/xml"
+* "application/smil"</gale:text>
+
+<gale:text tag="default" type="creole">The {{{&lt;gale:variable>}}} tag can be used to
+insert the result of a [[../gale-code|GALE (EL) code]] expression in the actual content.
+The expression is provided in an {{{expr}}} attribute. Some examples:
+
+{{{
+&lt;gale:variable expr="${->(parent)?title}" />
+}}}
+
+This code returns "<gale:variable expr="${->(parent)?title}" />" for this page (the title
+of the parent concept).
+
+{{{
+&lt;gale:variable expr="gale.req().getRequestURL()" />
+}}}
+
+This code returns: <gale:variable expr="gale.req().getRequestURL()" />, which is the
+request URL used to access the current concept. It should match the location field of the
+browser.
+
+{{{
+&lt;gale:variable expr="${->(parent)?event}" />
+}}}
+
+The adaptation code of the parent concept: <gale:variable expr="${->(parent)?event}" />.
+
+When the only thing a {{{&lt;gale:variable>}}} tag should do is show a UM variable, using
+the {{{name}}} attribute instead of {{{expr}}} performs better. The following example will
+show the value of the {{{#visited}}} attributed, a counter for visits to the current
+concept.
+
+{{{
+&lt;gale:variable name="#visited" />
+}}}
+
+Apparently the result is <gale:variable name="#visited" />. When you reload this page you
+should see the number increase. <gale:if expr="${#visited} > 4">Haven't you done that
+enough times already!</gale:if></gale:text>
+
+</gale:repo>

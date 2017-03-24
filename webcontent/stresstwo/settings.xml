@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="default" type="creole">The settings for this thesis that are currently
+available to you are shown below:
+<form id="startform" method="POST">
+<gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
+<table>
+<tr valign="top"><td><gale:if expr="${_concept-&gt;(personal)#review}"><gale:then><input name="review" type="checkbox" value="true" checked="yes"/></gale:then><gale:else><input name="review" type="checkbox" value="true"/></gale:else></gale:if></td>
+<td>You want an optional guided tour. I will display a suggested next concept to study.
+Other topics of course remain available. Note that if you keep following the guided tour
+all the time then reading this hypertext becomes a linear experience.</td></tr>
+</table>
+<p>
+<a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Apply</a>
+</p>
+<input name="exec" type="hidden" value="${_concept-&gt;(personal)#review} = &quot;true&quot;.equals(gale.req().getParameter(&quot;review&quot;));" />
+<input name="redirect" type="hidden"><gale:attr-variable name="value" expr="gale.req().getParameter(&quot;redirect&quot;)" /></input>
+</form>
+</gale:text>
+
+</gale:repo>

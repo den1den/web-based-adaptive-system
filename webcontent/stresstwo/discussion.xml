@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">how the work described in this thesis
+answers the [[questions|research questions]] and its impact</gale:text>
+
+<gale:text tag="default" type="creole">== Discussion and Impact</gale:text>
+
+<gale:text tag="default;long" type="creole"></gale:text>
+
+<gale:text tag="default" type="creole">//Adaptive hypermedia// has great potential. There
+seems to be no end to the amount of information available on the World Wide Web today.
+When authors, publishing this huge amount, would have the ability to write things
+differently or write different things, based on their knowledge of the reader, would they
+use that power? One can never answer that question without having realized the technical
+context to support it.
+
+Many adaptive hypermedia systems have been created. However, the added complexity of
+authoring adaptive hypermedia and the limited functionality and performance issues of
+adaptive hypermedia systems have limited the amount of material produced. This thesis,
+and accompanying prototype [[gale|GALE]], is based on 15 years of experience of authors
+writing adaptive hypermedia and engineers developing systems to support them. It answers
+the [[questions]] raised in the introduction.
+
+GALE is a 'generic' AHS. It can perform most adaptation using rules that govern the
+[[gale/adaptation-model|adaptive behavior]]. It is easily
+[[gale/system/extending|extended]] to add new functionality. GALE is 'usable' in the sense
+that authoring adaptive behavior is not needlessly complex. Authoring can be complex,
+because adaptive behavior can be complex. However, GALE allows authors to
+[[gale/gam/relation|inherit]] adaptive behavior defined elsewhere. Not only can the
+content be distributed over the Internet, the domain and adaptation model can be
+distributed as well, allowing for 'open model adaptation'.
+
+[[performance|Performance]] matters. This is not something that should be easily
+disregarded by engineers of adaptive hypermedia systems. Readers tend to avoid slow web
+sites. The acceptance of adaptive sites may be hampered by excessive latency caused by
+slow adaptation engines. Furthermore, the Internet allows potentially many concurrent
+readers. Poor performance will likely get worse when more people are reading. GALE has
+great performance, as you can experience from reading this thesis on a server that not 
+only simultaneously delivers several adaptive applications to many different users but
+also server the Information Systems Group's website, Learning Management System and other
+applications.
+
+The existence of a flexible generic adaptive hypermedia system that performs well offers a
+technological basis for further research into the nature and usefulness of adaptive 
+hypermedia. Further improvements to performance and acceptance can be realized in the
+[[future-work|future]].</gale:text>
+
+</gale:repo>

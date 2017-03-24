@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a component of the
+[[adaptation-engine|adaptation engine]] that provides configuration details for various
+other components</gale:text>
+
+<gale:text tag="long" type="creole">After various configuration models were used, we
+settled for a replaceable implementation that relies on the [[domain-model|domain model]]
+by default. Most information about layout and link adaptation can be configured on a
+global scale for an entire GALE instance, and for every concept individually.</gale:text>
+
+<gale:text tag="default" type="creole">Many components need information to perform their
+function. For instance, the [[link-module|&lt;gale:a>]] adaptive link anchor needs to
+decide what annotation is best for a particular link. This decision will likely depend on
+the \UM. 'Someone' should define an expression that uses \UM values to determine what CSS
+class to use for the link. Another example is the way layout should be handled. 'Someone'
+needs to define how a concept or set of concepts should be displayed, what portion of the
+screen should contain which views, etc.
+
+In [[../../aha|AHA!]] several methods were used to store this type of configuration. At
+first, most things were hard-coded. What \UM values were used to decide the link class,
+was determined by the code in the {{{HTMLHandler}}} and {{{XMLHandler}}}. When layout was
+added to AHA!, it became clear that some options should be made configurable. Two XML
+files were introduced: {{{ConceptTypeConfig.xml}}} and {{{LayoutConfig.xml}}}. These files
+existed on a per course level. They contained layout information, what views to use for
+different types of concepts, as well as expressions that governed the adaptive link
+anchors.
+
+On the road to GALE, an intermediate version of AHA! (version 3.5) contained a new
+mechanism to include configuration details. The details were stored in
+{{{ConceptConfig.xml}}} files. These files could be stored in the {{{GALE_HOME/config}}}
+directory and in the same directory as the resource, allowing greater configuration
+flexibility. The individual {{{ConceptConfig.xml}}} files could be merged (much like
+cascading style sheets, CSS), resulting in configuration details for a particular concept.
+
+The integration of GALE within [[../../research/grapple|GRAPPLE]] showed the need for a
+simpler method to convey this information between systems, in particular between the
+GRAPPLE authoring tools (GAT) and GALE. Most of these configuration details are now stored
+in the \DM on a per concept basis.
+
+To make it easier to change the method of obtaining and storing configuration related
+details, GALE modules are encouraged to use separate {{{ConfigResolver}}} objects. Each
+{{{ConfigResolver}}} is identified by a URI (without fragment part). When the
+{{{ConfigManager}}} receives a request in the form of a configuration URI (including
+fragment part), the propert {{{ConfigResolver}}} is located and the fragment part of the
+URI is used as a method name. For instance, the URI
+{{{gale://gale.tue.nl/config/link#classexpr}}} is used by the adaptive link anchor module
+to obtain the expression used to decide the link class. A {{{ConfigResolver}}} called
+{{{LinkConfig}}} is bound to the {{{gale://gale.tue.nl/config/link}}} URI, and this class
+contains the code that actually retrieves the expression. The implementation in GALE first
+checks the concept for the expression (the {{{#link.classexpr}}} attribute), if that fails
+it uses an expression in {{{galeconfig.xml}}}, and if that fails there is a hard-coded
+expression.
+
+The various //ConfigResolvers// are configured using Spring. They are good candidates for
+GALE extensions. By default these //ConfigResolvers// exist:
+* ProcessorConfig ({{{gale://gale.tue.nl/config/processor}}})
+** {{{#list}}}, return a list of [[processors]] that should be used to process the resource
+* LinkConfig ({{{gale://gale.tue.nl/config/link}}})
+** {{{#iconlist}}}, return a list of string URLs that identify images for a link to the current concept
+** {{{#hide}}}, a Boolean expression that should be evaluated to decide if a link to the current concept should be shown or hidden
+** {{{#classexpr}}}, a String expression that should result in a CSS class to be used for a link to the current concept
+* PresentationConfig ({{{gale://gale.tue.nl/config/presentation}}})
+** {{{#css}}}, return the CSS files to use for the current concept
+** {{{#cssLayout}}}, return serialized XML that should be inserted in the content when the {{{CSSLayoutProcessor}}} is used
+** {{{#layout}}}, return an XML DOM element that provides the structure for layout
+** {{{#title}}}, return the title to be used in the resulting HTML head section
+** {{{#view-...}}}, return the actual view object bound to the specified name</gale:text>
+
+</gale:repo>

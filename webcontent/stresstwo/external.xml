@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<span xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+<iframe scrolling="yes" frameborder="0" style="border:0;margin:0;padding:0;" width="100%" height="100%">
+<gale:attr-variable name="src" expr="gale.req().getParameter(&quot;external&quot;)" />
+</iframe>
+</span>

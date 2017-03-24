@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+<meta http-equiv="refresh">
+<gale:attr-variable name="content"
+    expr="&quot;0;URL=&quot;+GaleUtil.getContextURL(gale.req())+&quot;/concept/&quot;+${_concept->(personal)#last-concept}+&quot;?open-session=true&quot;" />
+</meta>
+
+<body style="margin:0;padding:0;top:0;left:0;right:0;position:absolute;overflow:auto">
+    
+<gale:text tag="default" type="creole">Welcome back to the adaptive thesis: "Towards a
+Generic Distributed Adaptive Hypermedia Environment".
+
+You are seeing this page because you are reviewing the thesis. Most likely you want to get
+back to where you left off. That would be here:
+
+<gale:a exec="${_concept->(personal)#last-session} = gale.req().getSession().getId();">
+<gale:attr-variable name="href" expr="${_concept->(personal)#last-concept}" />
+<gale:variable expr="((Concept)gale.dm().get(URIs.of(${_concept->(personal)#last-concept}))).getTitle()" />
+</gale:a>
+
+You could of course also visit the page you requested now:
+
+<gale:a exec="${_concept->(personal)#last-session} = gale.req().getSession().getId();">
+<gale:attr-variable name="href" expr="${.}.getUriString()" />
+<gale:variable expr="${?title}" />
+</gale:a>
+
+</gale:text>
+
+</body>
+</html>

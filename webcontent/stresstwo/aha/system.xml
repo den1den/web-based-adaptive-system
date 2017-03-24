@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the architecture of the AHA!
+software</gale:text>
+
+<gale:text tag="long" type="creole">The AHA! software (version 2 and 3) can be split in
+several components:
+* Data objects, to represent a user profile, a concept, its attributes, and
+  the various rule definitions.
+* Data access, interfaces and implementations using XML and MySQL to store, retrieve and
+  search for the various data objects.
+* A 'Get' servlet that acts as a bridge between adaptation engine and web clients.
+* 'Content handlers' that adapt the various types of content that pass through AHA!.
+* An 'adaptation rule' execution engine.</gale:text>
+
+<gale:text tag="default" type="creole">Designing the software of the second version of the
+AHA! engine was done from the ground up
+[[../references?tags=DeBra02-2;Smits02|[DeBra02-2, Smits02~]]]. The initial engine was
+split up in three components:
+* Data objects, Java objects to represent a user profile, a concept, its attributes, and
+  the various rule definitions.
+* Data access, interfaces and implementations using XML and MySQL to store, retrieve and
+  search for the various data objects.
+* [[engine|Engine]], the 'Get' servlet used as bridge between AHA! and Web clients, a
+  'handler' architecture to adapt various types of content, and a rule processing queue
+  and expression interpreter to handle the adaptation rules.
+
+Various functions were added to AHA! over time:
+* Layout [[../references?tags=Brus03|[Brus03~]]], as part of the Interbook to AHA!
+  translation [[../references?tags=DeBra03-2;Ramp05;Ramp05-2|[DeBra03-2, Ramp05,
+  Ramp05-2~]]] to support various views.
+* [[concept-editor|Concept editor]] tool, to create low level domain models.
+* [[graph-author|Graph Author]], easy authoring using a graph of concepts and relations
+  [[../references?tags=DeBra02-3|[DeBra02-3~]]].
+* Application Management Tool (AMt), to administer courses and allow authors to store
+  content on the AHA! server.
+* Concept stability, allowing the presentation of concepts or attributes to be stable if
+  various conditions hold [[../references?tags=DeBra03-3|[DeBra03-3~]]].
+* Style adaptation, adapting the presentation style of blocks of text
+  [[../references?tags=DeBra06|[DeBra06~]]].
+</gale:text>
+
+</gale:repo>

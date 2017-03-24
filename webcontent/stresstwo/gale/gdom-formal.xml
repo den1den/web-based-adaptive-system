@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">a formal definition of [[gdom|GDOM]]</gale:text>
+
+<gale:text tag="default" type="creole">The XML Schema of GDOM:
+
+{{{
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+targetNamespace="http://gale.tue.nl/gdom" xmlns:gdom="http://gale.tue.nl/gdom">
+  &lt;xs:element name="gdom">
+    &lt;xs:complexType>
+      &lt;xs:sequence>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:concept"/>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:relation"/>
+      &lt;/xs:sequence>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="concept">
+    &lt;xs:complexType>
+      &lt;xs:sequence>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:attribute"/>
+        &lt;xs:element ref="gdom:event"/>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:property"/>
+      &lt;/xs:sequence>
+      &lt;xs:attribute name="name" use="required" type="xs:anyURI"/>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="attribute">
+    &lt;xs:complexType>
+      &lt;xs:sequence>
+        &lt;xs:element ref="gdom:default"/>
+        &lt;xs:element ref="gdom:event"/>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:property"/>
+      &lt;/xs:sequence>
+      &lt;xs:attribute name="name" use="required" type="xs:string"/>
+      &lt;xs:attribute name="type" use="required" type="xs:string"/>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="default" type="xs:string"/>
+  &lt;xs:element name="relation">
+    &lt;xs:complexType>
+      &lt;xs:sequence>
+        &lt;xs:element ref="gdom:inconcept"/>
+        &lt;xs:element ref="gdom:outconcept"/>
+        &lt;xs:element maxOccurs="unbounded" ref="gdom:property"/>
+      &lt;/xs:sequence>
+      &lt;xs:attribute name="name" use="required" type="xs:string"/>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="inconcept" type="xs:anyURI"/>
+  &lt;xs:element name="outconcept" type="xs:anyURI"/>
+  &lt;xs:element name="event" type="xs:string"/>
+  &lt;xs:element name="property">
+    &lt;xs:complexType>
+      &lt;xs:attribute name="name" use="required" type="xs:string"/>
+      &lt;xs:attribute name="value" use="required" type="xs:string"/>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+&lt;/xs:schema>
+}}}
+</gale:text>
+
+</gale:repo>

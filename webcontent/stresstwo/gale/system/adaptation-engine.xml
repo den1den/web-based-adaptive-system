@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">the part of GALE that communicates with
+clients via HTTP, maintains sessions and loads and adapts resources through
+[[processors]]</gale:text>
+
+<gale:text tag="long" type="creole">The '\AE' part of [[../../gale|GALE]] is the part that
+actually adapts resources. It is seperated from other parts, like the [[dm-service|\DM
+service]] and [[um-service|\UM service]], through an [[events|eventbus]]. This allows the
+different parts of GALE to be distributed over multiple machines.
+
+The \AE uses a list of [[processors]] to adapt the resources before they are send to the
+user. The individual processors need access to the [[../domain-model|\DM]] and
+[[../user-model|\UM]]. To improve performance the \AE maintains a [[caching|cache]] of \DM
+and \UM information.</gale:text>
+
+<gale:text tag="default" type="creole">As can be seen from the [[../system|general
+architecture image]], the \AE contains a lot of smaller components. They all work together
+to provide the end user with a timely response to an HTTP request. All of the components
+are instantiated by [[=http://www.springsource.org/about|Spring]], making it easy to
+replace a single component without recompiling others.
+
+When the \AE receives the HTTP request, a number of questions have guided the separation
+of the \AE in its components:
+* Who is making the request?
+* What concept is requested?
+* What effect does this have on the \UM?
+* What content should be loaded for the concept?
+* How should the content be modified for this user?
+* What presentation methods should be used?
+
+These questions are answered by different components. The question 'how to modify the
+content' has lead to the idea of [[processors]], where each processor can handle a
+different type of content. This idea has roots in [[../../aha|AHA!]] where they were
+called //[[../../aha/engine|handlers]]// and there actually was an {{{HTMLHandler}}} and
+{{{XMLHandler}}}. In early versions, the {{{HTMLHandler}}} in AHA! did all the parsing and
+modifying of HTML itself, and the {{{XMLHandler}}} did similar things using the
+[[=http:~//xerces.apache.org/xerces-j/|Xerces]] parser. Seeing how this easily lead to
+code duplication (both handlers containing code to interpret 'if' tags for instance), the
+architecture was changed to allow one //handler// to run after another.
+
+In AHA! the //handlers// 'handled' specific types of content (hence the name 'handler'),
+where one type of content could be converted into another (HTML to XHTML), causing the
+next //handler// to process the new content. In GALE the idea of chaining these components
+was extended and they were called //processors//. After an initial context has been set
+up, the processors are executed in a predefined order.
+
+The first two questions are part of setting up the initial context. They are answered by
+the [[login|LoginManager]] and [[conceptmanager|ConceptManager]] respectively. The final
+four questions are answered by [[processors]]. The {{{GaleServlet}}} component is the
+entry point of the HTTP request and calls all other components. The remaining components
+in the image are there for support:
+* The <gale:a href="galecontext"><tt>GaleContext</tt></gale:a> acts as a wrapper around
+  the {{{Resource}}} object that contains all relevant information for the current
+  request. The {{{Resource}}} object is created when an HTTP request is received by the
+  {{{GaleServlet}}}. After a setup phase, it is passed from one processor to the next.
+* The <gale:a href="codemanager"><tt>CodeManager</tt></gale:a> is responsible for
+  executing and evaluating [[../gale-code|GALE (EL) code]].
+* The [[configmanager|Configuration]] component acts as a bridge between requests for
+  configuration details and the actual method of retrieving the information. It is
+  explained in detail below.
+* The //[[caching|caches]]// offer a transparent view of the \UM and \DM that grows and
+  shrinks as needed. The {{{AEService}}} only exists to keep the caches synchronized with
+  events that occur outside the \AE.
+</gale:text>
+
+</gale:repo>

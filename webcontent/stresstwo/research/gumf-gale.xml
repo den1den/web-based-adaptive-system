@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+xmlns:gale="http://gale.tue.nl/adaptation">
+
+<gale:text tag="short" flat="true" type="creole">binding a user model variable in GALE to
+a Grapple Statement in GUMF</gale:text>
+
+<gale:text tag="default;long" type="creole">Binding a user model variable in GALE to
+information in GUMF is done by setting the appropriate properties of an attribute in
+GALE's [[../gale/domain-model|domain model]]. The binding can either specify retrieving
+information from GUMF and storing it locally in GALE, or storing the value of a GALE user
+model variable as a Grapple Statement in GUMF.</gale:text>
+
+<gale:text tag="default" type="creole">The actual value of a variable in GALE corresponds
+to the {{{gc:level}}} of a GRAPPLE statement.
+
+The attribute properties involved are:
+* {{{public}}}, value can be 'true', 'false' or a URI specifying the {{{gc:object}}} of a
+  Grapple Statement. Setting {{{public}}} to true or a URI binds the information in the
+  corresponding user model variable to GUMF. When public is set to true the
+  {{{gc:object}}} of the Grapple Statement will be the GALE URI used for the concept that
+  the attribute is a part of.
+* {{{publicPredicate}}}, optional; value is a URI specifying the {{{gc:predicate}}} of a
+  Grapple Statement. When this property is omitted the predicate will be the name of the
+  attribute in GALE.
+* {{{authorative}}}, value can be 'true' or 'false' (default: false). Indicates whether
+  the variable stored by GALE is authorative. When authorative is set to true, GALE sends
+  a new Grapple Statement to GUMF every time the variable is updated in GALE. Otherwise,
+  GALE queries GUMF for the last Grapple Statement pertaining to the variable on a regular
+  basis.
+* {{{gumf.range}}}, optional; value can specify the range of expected/allowed values of
+  the variable (e.g. 0-100).
+
+When using the GRAPPLE Authoring Tools (GAT), most of these properties can be accessed
+through the CRT tool's GUI. They can all be set directly in the GALE code written in the
+CRT tool. An attribute declared as public should also be declared 'internally persistent',
+by setting the persistent property to 'true' (even if GALE is not authorative). Failing to
+do so can result in undetermined behavior. The CAM to GALE compiler automatically sets
+this property for all public attributes.
+
+<gale:if expr="!${../gale/system/caching-um#known}">A separate optional GALE <gale:a
+href="../gale/system/services">service</gale:a> takes care of all the work
+involved.</gale:if></gale:text>
+
+</gale:repo>
