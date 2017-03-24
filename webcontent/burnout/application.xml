@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gale:repo 
-xmlns:gale="http://gale.tue.nl/adaptation">
-
-<gale:text tag="short" flat="true" type="creole">researching the possibility of creating a
-usable generic adaptive hypermedia system that performs well</gale:text>
-
-
-<gale:text tag="default" type="creole">
-== Secondary title ==
-
-This application will detect the stuff that causes stress in bitches. Proceed to the  [[introduction|introduction page]].
-
-</gale:text>
-
-
-<gale:text tag="default" type="creole" expr="${introduction#knowledge} &lt; 0.5">
-
-<gale:if expr="!${introduction#known}">If you have not seen the introduction, this will be shown.</gale:if>
-<gale:if expr="${introduction#known}">If you have seen the introduction, this will be shown.</gale:if>
-</gale:text>
-
+<gale:repo
+    xmlns:gale="http://gale.tue.nl/adaptation">
+    <gale:text tag="short" flat="true" type="creole">researching the possibility of creating a
+        usable generic adaptive hypermedia system that performs well
+    </gale:text>
+    <gale:text tag="default" type="creole">
+        This application will detect the stuff that causes stress in bitches. Proceed to the  [[introduction|introduction page]].
+    </gale:text>
+    <gale:text tag="default" type="creole" expr="${introduction#knowledge} &lt; 0.5">
+        <gale:if expr="!${introduction#known}">If you have not seen the introduction, this will be shown.</gale:if>
+        <gale:if expr="${introduction#known}">If you have seen the introduction, this will be shown.</gale:if>
+    </gale:text>
 </gale:repo>

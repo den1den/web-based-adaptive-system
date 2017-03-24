@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gale:repo
-xmlns:gale="http://gale.tue.nl/adaptation">
-
-<gale:text tag="default" type="creole">
-giving a gentle introduction to the
-material in the thesis and its context.
-Go back to main page?  [[application|click here]].
-</gale:text>
-
-
+    xmlns:gale="http://gale.tue.nl/adaptation">
+    <gale:text tag="default" type="creole">
+        giving a gentle introduction to the
+        material in the thesis and its context.
+        Go back to main page?  [[application|click here]].
+    </gale:text>
 </gale:repo>

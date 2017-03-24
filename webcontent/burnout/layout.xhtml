@@ -1,69 +1,109 @@
+<!-- Layout of any page in the application -->
 <gale:if
-xmlns:gale="http://gale.tue.nl/adaptation" expr="gale.isObject()"><gale:then>
-<gale:object><gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;"/></gale:object>
-</gale:then><gale:else>
-<xhtml>
-<head>
-<base><gale:attr-variable name="href" expr="${.}.getUriString()" /></base>
-<meta name="viewport" content="width=device-width" />
-</head>
-<body>
-<div id="header">
-    <gale:object data="header.xhtml" />
-</div>
-<gale:if expr="${_concept-&gt;(personal)#review}">
-<div id="footer">
-    <span class="th-footer">
-    <div style="float:right;text-align:right">
-    <gale:if expr="${.}.getAttribute(&quot;review-next&quot;) != null"><gale:then>
-    <gale:if expr="!&quot;&quot;.equals(${#review-next})">
+    xmlns:gale="http://gale.tue.nl/adaptation" expr="gale.isObject()">
     <gale:then>
-    Next topic:
-    <gale:a adapt="false" class="good">
-        <gale:attr-variable name="href" expr="${.}.getUri().resolve(${#review-next}).toString()" />
-        <gale:variable expr="((Concept)gale.dm().get(${.}.getUri().resolve(${#review-next}))).getTitle()" />
-<!--
-        <gale:variable expr="~System.out.println(gale.dm().get(${.}.getUri().resolve(${#review-next}))); return &quot;hello&quot;;" />
--->
-    </gale:a>
-    </gale:then><gale:else>
-    <gale:view label="Next topic: " done="end of tour" name="next-view" expr="${#suitability} &amp;&amp; ${#visited} == 0 &amp;&amp; !${#unknown}"/>
-    </gale:else></gale:if>
-    </gale:then><gale:else>
-    <gale:view label="Next topic: " done="end of tour" name="next-view" expr="${#suitability} &amp;&amp; ${#visited} == 0 &amp;&amp; !${#unknown}"/>
-    </gale:else></gale:if>
-    </div>
-    </span>
-</div>
+        <gale:object>
+            <gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;"/>
+        </gale:object>
+    </gale:then>
+    <!-- Our custom styling -->
+    <gale:else>
+        <xhtml>
+            <!-- Start Head -->
+            <head>
+                <!--Import Google Icon Font-->
+                <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                <!--Import materialize.css-->
+                <link type="text/css" rel="stylesheet" href="http://localhost:8000/node_modules/materialize-css/dist/css/materialize.min.css"
+                      media="screen,projection" />
+
+                <!--Let browser know website is optimized for mobile-->
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </head>
+            <!-- End Head -->
+
+            <!-- Start Body -->
+            <body>
+                <div id="header">
+                    <gale:object data="header.xhtml" />
+                </div>
+                <div class="container">
+
+                    <!-- Start custom GALE header interface -->
+                    <ul id="slide-out" class="side-nav" style="height: 100%">
+                        <!-- I think this is the tree view on the left of the page -->
+                        <gale:if expr="${_concept-&gt;(personal)#menu}">
+                            <div id="menu">
+                                <gale:a id="menu-link" exec="${_concept->(personal)#menu} = false;" adapt="false">
+                                    <gale:attr-variable name="href" expr="${.}.getUriString()" />
+                                </gale:a>
+                                <gale:view name="static-tree-view" maxdepth="3" />
+                            </div>
+                        </gale:if>
+                    </ul>
+
+
+
+
+                    <!-- Main content of the page -->
+                    <div id="gale-content">
+                        <gale:if expr="(gale.req().getParameter(&quot;external&quot;) != null &amp;&amp; !&quot;&quot;.equals(gale.req().getParameter(&quot;external&quot;).trim()))">
+                            <gale:then>
+                                <gale:object>
+                                    <gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;external.xml&quot;)" />
+                                </gale:object>
+                            </gale:then>
+                            <gale:else>
+                                <gale:if expr="${#suitability} || &quot;true&quot;.equals(gale.req().getParameter(&quot;skip-unsuitable&quot;))">
+                                    <gale:then>
+                                        <gale:object>
+                                            <gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;prereq.xhtml&quot;)" />
+                                        </gale:object>
+                                        <gale:if expr="!&quot;true&quot;.equals(${?no-title})">
+                                            <h2>
+                                                <gale:variable expr="${.}.getTitle()" />
+                                                <gale:if expr="${#unknown}"> (under construction)</gale:if>
+                                            </h2>
+                                        </gale:if>
+                                        <gale:object>
+                                            <gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;" />
+                                        </gale:object>
+                                        <gale:if expr="&quot;true&quot;.equals(${?analytic}) &amp;&amp; ${#suitability}">
+                                            <gale:object data="analytic.xhtml" />
+                                        </gale:if>
+                                        <gale:if expr="!${#suitability}">
+                                            <gale:object>
+                                                <gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable-question.xhtml&quot;)" />
+                                            </gale:object>
+                                        </gale:if>
+                                    </gale:then>
+                                    <gale:else>
+                                        <gale:object>
+                                            <gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable.xhtml&quot;)" />
+                                        </gale:object>
+                                    </gale:else>
+                                </gale:if>
+                            </gale:else>
+                        </gale:if>
+                    </div>
+                </div>
+
+                <!-- Custom Styling Javascripts -->
+                <script type="text/javascript" src="http://localhost:8000/node_modules/jquery/dist/jquery.min.js"></script>
+                <script type="text/javascript" src="http://localhost:8000/node_modules/materialize-css/dist/js/materialize.min.js"></script>
+                <script>
+                    (function ($) {
+                        $(function () {
+
+                            $('.button-collapse').sideNav();
+                            $('.button-collapse-2').sideNav();
+                        }); // end of document ready
+                    })(jQuery);
+                </script>
+
+
+            </body>
+            <!-- End body -->
+        </xhtml>
+    </gale:else>
 </gale:if>
-<gale:if expr="${_concept-&gt;(personal)#menu}">
-<div id="menu">
-    <gale:a id="menu-link" exec="${_concept->(personal)#menu} = false;" adapt="false">
-        <gale:attr-variable name="href" expr="${.}.getUriString()" />
-    </gale:a>
-    <gale:view name="static-tree-view" maxdepth="3" />
-</div>
-</gale:if>
-<div id="gale-content">
-    <gale:if expr="(gale.req().getParameter(&quot;external&quot;) != null &amp;&amp; !&quot;&quot;.equals(gale.req().getParameter(&quot;external&quot;).trim()))"><gale:then>
-        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;external.xml&quot;)" /></gale:object>
-    </gale:then><gale:else><gale:if expr="${#suitability} || &quot;true&quot;.equals(gale.req().getParameter(&quot;skip-unsuitable&quot;))"><gale:then>
-        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;prereq.xhtml&quot;)" /></gale:object>
-        <gale:if expr="!&quot;true&quot;.equals(${?no-title})"><h2><gale:variable expr="${.}.getTitle()" /><gale:if expr="${#unknown}"> (under construction)</gale:if></h2></gale:if>
-        <gale:object><gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;" /></gale:object>
-        <gale:if expr="&quot;true&quot;.equals(${?analytic}) &amp;&amp; ${#suitability}"><gale:object data="analytic.xhtml" /></gale:if>
-        <gale:if expr="!${#suitability}">
-            <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable-question.xhtml&quot;)" /></gale:object>
-        </gale:if>
-    </gale:then><gale:else>
-        <gale:object><gale:attr-variable name="data" expr="${_concept-&gt;(personal)[0]}.getUri().resolve(&quot;unsuitable.xhtml&quot;)" /></gale:object>
-    </gale:else></gale:if></gale:else></gale:if>
-</div>
-<gale:if expr="${_concept-&gt;(personal)#use-comments}">
-<div id="comments">
-    <gale:object><gale:attr-variable name="name" expr="&quot;?plugin=comments&amp;no-update=true&amp;redirect=&quot;+${.}.getUriString()" /></gale:object>
-</div>
-</gale:if>
-</body>
-</xhtml>
-</gale:else></gale:if>

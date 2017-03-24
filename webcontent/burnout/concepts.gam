@@ -35,8 +35,6 @@ _concept {
     #resource ='~
         if (${[[=_personal]]#first-time})
             return "[[=intro.xhtml]]";
-        if (${[[=_personal]]#review} && ${#new-session})
-            return "[[=review.xhtml]]";
         return "[[=layout.xhtml]]";
     '
 
