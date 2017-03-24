@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <span class="th-header" xmlns="http://www.w3.org/TR/xhtml1/strict" xmlns:gale="http://gale.tue.nl/adaptation">
-    
-<gale:if expr="!${_concept-&gt;(personal)#menu}">
-<gale:a id="menu-link" exec="${_concept->(personal)#menu} = true;" adapt="false">
-    <gale:attr-variable name="href" expr="${.}.getUriString()" />
-</gale:a>
-<div style="float:left">
-<gale:view name="single-list-view" />
-</div>
-</gale:if>
+
 
 <div style="float:right;text-align:right;">
 <ul>
@@ -29,6 +21,7 @@
     <li><gale:a href="?plugin=logout" adapt="false">logout</gale:a></li>
     </ul>
 </ul>
+<hr></hr>
 </div>
 
 </span>

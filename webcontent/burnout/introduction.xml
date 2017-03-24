@@ -2,62 +2,11 @@
 <gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
 xmlns:gale="http://gale.tue.nl/adaptation">
 
-<gale:text tag="short" flat="true" type="creole">giving a gentle introduction to the
-material in the thesis and its context</gale:text>
+<gale:text tag="default" type="creole">
+giving a gentle introduction to the
+material in the thesis and its context.
+Go back to main page?  [[application|click here]].
+</gale:text>
 
-<gale:text tag="long" type="creole">The technology described in this thesis will allow an
-author to create //adaptive hypermedia//, a text that will depend on the reader's
-knowledge, interest, goals, etc. Several considerations have played an important role in
-the design of the developed languages, models and systems:
-* reading an adaptive hypertext should not be slower than reading a traditional hypertext,
-* authors should be able to express any adaptivity based on the user,
-* the full complexity of adaptive behavior should be hidden from authors that don't need
-  to see or change it,
-* setting up the required adaptive hypermedia system should be easy.</gale:text>
-
-<gale:text tag="default" type="creole">Authors have used written text for centuries to
-convey ideas. They were constrained by the linear nature of books, papers, and the like.
-Hypertext has empowered authors, in that it allows interlinking fragments and pages of
-text and thus creating a document that is radically different from a linear text. Going 
-from linear text to hypertext requires a change in mindset for both authors and readers. 
-Only when authors come to convey ideas using this newfound power and when readers learn to
-cope with this new navigational freedom, will hypertext reach its full potential.
-
-Though the idea of hypertext dates back to the 1940's 
-[[references?tags=Bush45|[Bush45~]]], it was not until the technological context was 
-available that authors started to use it en masse. However, the same technological context 
-can be used to empower authors even further. Conveying ideas is still the driving force 
-behind any authoring, linear text and hypertext. Taking your readers into account while 
-writing, is something every author should do. The technology described in this thesis will 
-allow an author to create //adaptive hypermedia//, a text that will depend on the reader's 
-knowledge, interest, goals, etc.
-
-When World Wide Web was first introduced it was intended as a means for sharing
-information. It uses information pages and links, and is therefore a form of hypermedia.
-Nowadays the Web is being used as a common user interface platform for all different kinds
-of applications, from communication (through discussion forums), shopping, banking and
-other global types of services down to controlling your heating, lighting and other types
-of devices in the home, and using interface devices ranging from mobile phones to huge
-computer monitors and wall-size displays. This thesis does not deal with the possibilities
-for adaptive technology in all these aspects of the Web, but concentrates on the Web as
-the hypermedia platform it is mainly used for: we look at applications in which users
-interact with information (pages), like in on-line courses, news-services, museum sites,
-(shopping) catalogs, encyclopedia, etc. We look at how these applications can adapt
-themselves to their individual users or user groups, through the interaction of the users
-with the applications.
-
-The main focus of the work described here was to create the technological context
-necessary to support authors in creating these //adaptive hypermedia// applications. As 
-such, we call the development author-driven. Several considerations have played an 
-important role in the design of the developed languages, models and systems:
-* reading (accessing) an adaptive hypertext should not be slower than reading a 
-  traditional hypertext,
-* authors should be able to express any adaptivity based on the user,
-* the full complexity of adaptive behavior should be hidden from authors who don't need
-  to see or change it,
-* setting up the required adaptive hypermedia system should be easy.
-
-Designing a system that takes these considerations into account has led to several
-[[questions]].</gale:text>
 
 </gale:repo>

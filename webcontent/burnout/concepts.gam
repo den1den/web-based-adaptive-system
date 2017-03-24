@@ -66,7 +66,7 @@ _concept {
 
     // layout related stuff
     #layout.css ='~
-        StringBuilder sb = new StringBuilder("[[=thesis.css]]");
+        StringBuilder sb = new StringBuilder("[[=burnout.css]]");
         if (!${[[=_personal]]#first-time}) {
             if (!${[[=_personal]]#menu})
                 sb.insert(0, "[[=nomenu.css]];");
@@ -166,7 +166,7 @@ _personal {
                 ${#beginner} = false;
             }
             if ("expert".equals(changed.newValue)) {
-                ${thesis#mark-all}++;
+                ${application#mark-all}++;
                 ${#analytic-count} = 512;
                 ${#beginner} = false;
             }

@@ -5,12 +5,13 @@ xmlns:gale="http://gale.tue.nl/adaptation">
 
 <gale:text tag="default" type="creole">
 
-{{images/cover.jpg}}
+{{images/burnout.jpg}}
 <form id="startform" method="POST">
     <gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
     <input name="role" type="radio" value="intermediate" checked="true" />
-    <a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Continue...</a>
-    (after you have read the above instructions)
+    It's your first time here buddy!<br/>
+    <a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Click here</a>
+    to continue!
     <input name="exec" type="hidden" value="${_concept-&gt;(personal)#role} = gale.req().getParameter(&quot;role&quot;); ${_concept-&gt;(personal)#first-time} = false; ${_concept->(personal)#review} = &quot;true&quot;.equals(gale.req().getParameter(&quot;review&quot;));" />
     <input name="redirect" type="hidden"><gale:attr-variable name="value" expr="${.}.getUriString()" /></input>
 </form>
