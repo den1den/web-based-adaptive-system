@@ -15,14 +15,14 @@ _concept {
     event +'
         boolean countclick = ${#suitability};
     '
-    
+
     // flag to indicate that new content is available
     #[new-content]:Boolean 'false'
-    
+
     // Resources are .xml files with the same name as the concept. Unsuitable resources go
     // to unsuitable.xml first. "skip-unsuitable" is a request parameter that allows to
     // skip unsuitable.xml.
-    #[new-session]:Boolean 
+    #[new-session]:Boolean
     event +'
         String externalUrl = gale.req().getParameter("external");
         boolean external = (externalUrl != null && !"".equals(externalUrl.trim()));
@@ -38,19 +38,19 @@ _concept {
     '
     #resource ='~
         if (${[[=_personal]]#first-time})
-            return "[[=intro.xhtml]]";
+            return "[[=intro.html]]";
         if (${[[=_personal]]#review} && ${#new-session})
-            return "[[=review.xhtml]]";
-        return "[[=layout.xhtml]]";
+            return "[[=review.html]]";
+        return "[[=layout.html]]";
     '
-    
+
     // knowledge definitions
     #[own-knowledge]:Double
     event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
     #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
     #known-all:Boolean ='${#knowledge} > 0.8'
     #known:Boolean ='${#own-knowledge} > 0.8'
-    
+
     // prerequisites
     #available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
     #suitability:Boolean ='and(new Object[] {${=>(prereq)#available}, ${=>(prereq-all)#known-all}}) && (!${_concept->(personal)#beginner} || ${#beginner})'
@@ -97,7 +97,7 @@ _concept {
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
     #hierarchy:Boolean ='(${_concept->(personal)#menu} || (${#suitability} && !${#unknown})) && ${->(parent)#suitability}'
-    
+
     // used to mark a concept that was too advanced but understood anyway
     #[mark]:Integer {
         event '
@@ -126,12 +126,12 @@ _concept {
             }
         '
     }
-    
+
     event +'
         if (countclick) {${#visited}++; ${#new-content} = false;}
     '
     ->(personal)_personal
-    
+
     // enable a reviewer to return to the previous concept when he begins a new session
     event +'
         if (${_concept->(personal)#review} && (countclick || "true".equals(gale.req().getParameter("open-session")))) {

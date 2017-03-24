@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<span class="th-header" xmlns="http://www.w3.org/TR/xhtml1/strict" xmlns:gale="http://gale.tue.nl/adaptation">
+<span class="th-header" xmlns:gale="http://gale.tue.nl/adaptation">
 
 
 <div style="float:right;text-align:right;">
@@ -8,9 +8,9 @@
             <gale:variable expr="${gale://gale.tue.nl/personal#name}" /></gale:a></li>
     <ul>
     <span class="separator" />
-    <gale:if expr="${_concept-&gt;(personal)gale/system/count-module#known}">
+    <!--<gale:if expr="${_concept-&gt;(personal)gale/system/count-module#known}">
     <li>(<gale:count method="done"/> done / <gale:count method="todo"/> todo)</li>
-    </gale:if>
+</gale:if> -->
     <li><gale:a href="#" adapt="false" exec="${_concept->(personal)#use-comments} = !${_concept->(personal)#use-comments};"><gale:if expr="${_concept->(personal)#use-comments}"><gale:then><b>comments</b></gale:then><gale:else>comments</gale:else></gale:if></gale:a></li>
     <li><gale:a adapt="false"><gale:attr-variable name="href" expr="${_concept-&gt;(personal)settings}.getUriString()+&quot;?redirect=&quot;+${.}.getUriString()" />settings</gale:a></li>
     <!--<li><gale:a href="?plugin=status" adapt="false">status</gale:a></li>-->

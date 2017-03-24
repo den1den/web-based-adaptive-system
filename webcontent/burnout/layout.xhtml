@@ -1,8 +1,8 @@
-<gale:if xmlns="http://www.w3.org/TR/xhtml1/strict"
+<gale:if
 xmlns:gale="http://gale.tue.nl/adaptation" expr="gale.isObject()"><gale:then>
 <gale:object><gale:attr-variable name="data" expr="${.}.getUriString()+&quot;.xml&quot;"/></gale:object>
 </gale:then><gale:else>
-<html>
+<xhtml>
 <head>
 <base><gale:attr-variable name="href" expr="${.}.getUriString()" /></base>
 <meta name="viewport" content="width=device-width" />
@@ -65,5 +65,5 @@ xmlns:gale="http://gale.tue.nl/adaptation" expr="gale.isObject()"><gale:then>
 </div>
 </gale:if>
 </body>
-</html>
+</xhtml>
 </gale:else></gale:if>

@@ -199,3 +199,9 @@ introduction {->(extends)_concept
     #available:Boolean ='${#known}'
     title 'Introduction'
 }
+
+questions {->(extends)_concept
+    ->(parent)application
+    #available:Boolean ='${#known}'
+    title 'Questions'
+}

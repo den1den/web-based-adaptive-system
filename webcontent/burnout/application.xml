@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gale:repo xmlns="http://www.w3.org/TR/xhtml1/strict"
+<gale:repo 
 xmlns:gale="http://gale.tue.nl/adaptation">
 
 <gale:text tag="short" flat="true" type="creole">researching the possibility of creating a
