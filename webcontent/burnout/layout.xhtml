@@ -33,7 +33,7 @@
                     <ul id="slide-out" class="side-nav" style="height: 100%">
                         <!-- I think this is the tree view on the left of the page -->
                         <gale:if expr="${_concept-&gt;(personal)#menu}">
-                            <div id="menu">
+                            <div id="menu" style="padding-left: 20px;">
                                 <gale:a id="menu-link" exec="${_concept->(personal)#menu} = false;" adapt="false">
                                     <gale:attr-variable name="href" expr="${.}.getUriString()" />
                                 </gale:a>

@@ -182,10 +182,7 @@ _personal {
     #analytic:Boolean ='${#analytic-count} > 0'
 }
 
-settings {->(extends)_concept
-    #hierarchy:Boolean 'false'
-    title 'Thesis Settings'
-}
+
 
 application {->(extends)_concept
     title 'Stress Detect Application'
@@ -202,4 +199,8 @@ questions {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
     title 'Questions'
+}
+settings {->(extends)_concept
+    ->(parent)application
+    title 'Settings'
 }
