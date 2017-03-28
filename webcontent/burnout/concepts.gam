@@ -204,3 +204,6 @@ settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
+question {->(extends)_concept
+    ->(parent)questions
+    title 'Question'

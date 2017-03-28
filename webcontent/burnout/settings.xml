@@ -7,7 +7,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
 <gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
 <table>
 <tr valign="top"><td><gale:if expr="${_concept-&gt;(personal)#review}"><gale:then><input name="review" type="checkbox" value="true" checked="yes"/></gale:then><gale:else><input name="review" type="checkbox" value="true"/></gale:else></gale:if></td>
-<td>Gayness: <b>on</b>.</td></tr>
+<td>Adaptiveness: <b>on</b>.</td></tr>
 </table>
 <p>
 <a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Save settings</a>

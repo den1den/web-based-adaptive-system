@@ -1,3 +1,18 @@
 body {
     font-family: "Arial";
 }
+.btn span p{
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+.btn span p a {
+    width: 250px;
+    margin-left: -30px;
+    color: white;
+    display: inline-block;
+}
+.btn {
+    width: 250px;
+}

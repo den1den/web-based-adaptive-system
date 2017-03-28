@@ -2,8 +2,12 @@
 <gale:repo
     xmlns:gale="http://gale.tue.nl/adaptation">
     <gale:text tag="default" type="creole">
-        giving a gentle introduction to the
-        material in the thesis and its context.
-        Go back to main page?  [[application|click here]].
+        When using this application you will be presented with several questions and scenarios regarding your personal and professional life. After answering all questions, you will get a personalized advice on how to deal with the symptoms of burnout you might show. Eventually, you can reflect on your own behavior and ideally change that behavior if necessary. Click below to continue to the questions.
+
     </gale:text>
+    <div class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>
+    <gale:text tag="default" type="creole">
+        [[questions|To questions]]
+    </gale:text>
+    </div>
 </gale:repo>
