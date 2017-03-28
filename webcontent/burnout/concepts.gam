@@ -11,6 +11,10 @@ _concept {
     event +'
         boolean countclick = ${#suitability};
     '
+    
+    /// Test variable
+    #[burnout]:Integer
+    event +''
 
     // flag to indicate that new content is available
     #[new-content]:Boolean 'false'
@@ -195,10 +199,36 @@ introduction {->(extends)_concept
     title 'Introduction'
 }
 
+/// Questions are numbered, the text of a question is in a sperate file
+/// The question number devided by 100 is the category
 questions {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
     title 'Questions'
+    
+    /// #[previousQuestion]:Integer
+    /// event + '${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));'
+    /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
+    
+    /// #[previousAnswer]:Integer
+    /// event + '${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));'
+    
+    /// TODO store the result:
+    /// if(${#scores} == null){${#scores} = new float[5]};
+    /// ${#scores}[${#previousQuestion}/100] += 1;
+    
+
+    
+    /// Process previous question:
+    /// #[stressors].get()
+    
+    /// question_txt = 'Static question: Are you a complete retard?'
+    /// answer_1 = 'Of course'
+    /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
+    /// answer_2 = 'What is a retard?'
+    /// answer_2_link = 'http://www.google.nl/'
+    /// answer_3 = 'Nope, i'm an airplane'
+    /// answer_3_link = 'http://www.google.nl/'
 }
 settings {->(extends)_concept
     ->(parent)application

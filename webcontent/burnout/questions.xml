@@ -6,6 +6,10 @@ xmlns:gale="http://gale.tue.nl/adaptation">
 giving a gentle introduction to the
 material in the thesis and its context.
 Go back to main page?  [[application|click here]].
+
+<gale:variable expr="${questions}" />
+<gale:variable expr="${.}#title" />
+
 </gale:text>
 
 
