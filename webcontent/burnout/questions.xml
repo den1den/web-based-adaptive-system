@@ -5,6 +5,10 @@ xmlns:gale="http://gale.tue.nl/adaptation">
 <gale:text tag="default" type="creole">
 This page provides an overview of the questions.
 Go back to main page?  [[application|click here]].
+
+<gale:variable expr="${questions}" />
+<gale:variable expr="${.}#title" />
+
 </gale:text>
 
 
