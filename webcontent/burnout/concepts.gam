@@ -11,8 +11,8 @@ _concept {
     event +'
         boolean countclick = ${#suitability};
     '
-    
-    /// Test variable
+
+    ///  Test variable
     #[burnout]:Integer
     event +''
 
@@ -137,6 +137,7 @@ _concept {
             ${_concept->(personal)#last-session} = gale.req().getSession().getId();
         }
     '
+
 }
 
 // root concept defining variables that change depending on how often they are viewed
@@ -189,7 +190,7 @@ _personal {
 
 
 application {->(extends)_concept
-    title 'Stress Detect Application'
+    title 'Main Page'
     no-title 'false'
 }
 
@@ -201,27 +202,34 @@ introduction {->(extends)_concept
 
 /// Questions are numbered, the text of a question is in a sperate file
 /// The question number devided by 100 is the category
-questions {->(extends)_concept
+question {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
     title 'Questions'
-    
-    /// #[previousQuestion]:Integer
-    /// event + '${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));'
+
+    #[previousQuestion]:Integer
+    event + '${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));'
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
-    
+
     /// #[previousAnswer]:Integer
     /// event + '${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));'
-    
-    /// TODO store the result:
-    /// if(${#scores} == null){${#scores} = new float[5]};
-    /// ${#scores}[${#previousQuestion}/100] += 1;
-    
 
-    
+    /// TODO store the result:
+    #[scores]:String '""'
+    event + '
+        ${scores} += "0";
+
+    '
+    // affect values = q[id][c] (2d array of question id and copying ID)
+
+    /// if(${#scores} == null){
+    ///     ${#scores} = new float[7]
+    /// };
+    /// ${#scores}[${#previousQuestion}/100] += 1;
+
     /// Process previous question:
     /// #[stressors].get()
-    
+
     /// question_txt = 'Static question: Are you a complete retard?'
     /// answer_1 = 'Of course'
     /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
@@ -234,6 +242,3 @@ settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
-question {->(extends)_concept
-    ->(parent)questions
-    title 'Question'

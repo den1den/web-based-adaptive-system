@@ -6,9 +6,10 @@ xmlns:gale="http://gale.tue.nl/adaptation">
 This page provides an overview of the questions.
 Go back to main page?  [[application|click here]].
 
-<gale:variable expr="${questions}" />
-<gale:variable expr="${.}#title" />
-
+<!--<gale:variable expr="${question}" /> -->
+<gale:variable expr="${question#previousQuestion}" />
+Blah
+ <gale:variable expr="${question#scores}" /> 
 </gale:text>
 
 

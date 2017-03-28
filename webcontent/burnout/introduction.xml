@@ -7,7 +7,7 @@
     </gale:text>
     <div class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>
     <gale:text tag="default" type="creole">
-        [[questions|To questions]]
+        [[question|To questions]]
     </gale:text>
     </div>
 </gale:repo>
