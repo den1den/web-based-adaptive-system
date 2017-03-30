@@ -25,6 +25,23 @@
 
             <!-- Start Body -->
             <body>
+                <!-- Overlay -->
+                <div class='burnout-loader'>
+                    <div class="burnout-center">
+                        <div class="preloader-wrapper big active">
+                               <div class="spinner-layer spinner-blue-only">
+                                     <div class="circle-clipper left">
+                                           <div class="circle"></div>
+                                     </div><div class="gap-patch">
+                                           <div class="circle"></div>
+                                     </div><div class="circle-clipper right">
+                                           <div class="circle"></div>
+                                     </div>
+                               </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- End overlay -->
                 <div id="header">
                     <gale:object data="header.xhtml" />
                 </div>
@@ -98,11 +115,27 @@
 
                             $('.button-collapse').sideNav();
                             $('.button-collapse-2').sideNav();
+                             $(".burnout-loader").fadeOut(500);
                         }); // end of document ready
                     })(jQuery);
                 </script>
 
-
+                <!-- Overlay -->
+                <script>
+                  $(function () {
+                    $(".neutral").click(function () {
+                      $(".burnout-loader").fadeIn(1000);
+                    });
+                  });
+                </script>
+                <script>
+                  $(function () {
+                    $(".good").click(function () {
+                      $(".burnout-loader").fadeIn(1000);
+                    });
+                  });
+                </script>
+                <!-- End Overlay -->
             </body>
             <!-- End body -->
         </xhtml>

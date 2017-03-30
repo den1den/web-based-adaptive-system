@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/TR/xhtml1/strict"
     xmlns:gale="http://gale.tue.nl/adaptation">
-    <body style="margin:0;padding:0;top:0;left:0;right:0;position:absolute;overflow:auto">
+    <head>
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="http://localhost:8000/node_modules/materialize-css/dist/css/materialize.min.css"
+              media="screen,projection" />
+        <link type="text/css" rel="stylesheet" href="http://localhost:8000/burnout.css"
+                media="screen,projection" />
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container" style="text-align: center;">
+
         <gale:text tag="default" type="creole">
-            {{images/burnout.jpg}}
             <form id="startform" method="POST">
                 <gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
-                <input name="role" type="radio" value="intermediate" checked="true" />
-                It's your first time here buddy!<br/>
-                <a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Click here</a>
-                to continue!
+                <input style="display: none;" name="role" type="radio" value="intermediate" checked="true" />
+                <h5>
+                This is your first time using the Burnout application. This application was NOT made by certified professionals with background knowledge on the concerned topic. By using this application I accept that all advice given by the application is to be used at my own risk.</h5>
+                <h3><a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Continue and accept conditions</a></h3>
                 <input name="exec" type="hidden" value="${_concept-&gt;(personal)#role} = gale.req().getParameter(&quot;role&quot;); ${_concept-&gt;(personal)#first-time} = false; ${_concept->(personal)#review} = &quot;true&quot;.equals(gale.req().getParameter(&quot;review&quot;));" />
                 <input name="redirect" type="hidden">
                 <gale:attr-variable name="value" expr="${.}.getUriString()" />
                 </input>
             </form>
         </gale:text>
+    </div>
     </body>
 </html>

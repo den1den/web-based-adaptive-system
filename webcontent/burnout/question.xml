@@ -37,8 +37,17 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         </div>
 
     </div>
-    <gale:text tag="default" type="creole">
-        Previous question:
-        <gale:variable expr="${question#previousQuestion}" />
-    </gale:text>
+    <br/>
+    <div id="question-progress-bar">
+        <div class="progress">
+          <div class="determinate" style="width: 70%"></div>
+        </div>
+        <span>70% completed</span>
+    </div>
+    <div style="display: none">
+        <gale:text tag="default" type="creole">
+            Previous question:
+            <gale:variable expr="${question#previousQuestion}" />
+        </gale:text>
+    </div>
 </gale:repo>
