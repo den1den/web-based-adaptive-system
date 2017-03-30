@@ -2,17 +2,29 @@ body {
     font-family: "Arial";
 }
 .btn span p{
-    width: 0px;
     height: 0px;
     margin: 0px;
     padding: 0px;
 }
-.btn span p a {
+.btn-small span p a {
     width: 250px;
     margin-left: -30px;
     color: white;
     display: inline-block;
 }
-.btn {
+.btn-large span p a {
+    width: 100% !important;
+    color: white;
+    display: inline-block;
+}
+.btn-small {
     width: 250px;
+}
+.btn-large {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+h5 {
+    margin-bottom: 30px;
 }

@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gale:repo
 xmlns:gale="http://gale.tue.nl/adaptation">
+    <h1 class="header center green-text">
+        <gale:text tag="default" type="creole">
+            How stressed are you today?
+        </gale:text>
 
-<gale:text tag="default" type="creole">
-This page provides an overview of the questions.
-Go back to main page?  [[application|click here]].
+    </h1>
+    <div class="row center">
+        <h5 class="header col s12 light">
+            Stress is defined as being really annoyed by your group members calling you mom.
+        </h5>
+        <br/>
+        <div class="waves-effect waves-light btn btn-large">
+            <gale:text tag="default" type="creole">
+                [[question?pq=12|A lot]]
+            </gale:text>
+        </div>
+        <br/>
+        <div class="waves-effect waves-light btn btn-large">
+            <gale:text tag="default" type="creole">
+                [[answer2|A decent amount]]
+            </gale:text>
+        </div>
+        <br/>
+        <div class="waves-effect waves-light btn btn-large">
+            <gale:text tag="default" type="creole">
+                [[answer3|A little]]
+            </gale:text>
+        </div>
+        <br/>
+        <div class="waves-effect waves-light btn btn-large">
+            <gale:text tag="default" type="creole">
+                [[answer4|Nothing at all]]
+            </gale:text>
+        </div>
 
-<!--<gale:variable expr="${question}" /> -->
-<gale:variable expr="${question#previousQuestion}" />
-Blah
- <gale:variable expr="${question#scores}" /> 
-</gale:text>
-
-
+    </div>
+    <gale:text tag="default" type="creole">
+        Previous question:
+        <gale:variable expr="${question#previousQuestion}" />
+    </gale:text>
 </gale:repo>

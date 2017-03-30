@@ -5,7 +5,7 @@
         When using this application you will be presented with several questions and scenarios regarding your personal and professional life. After answering all questions, you will get a personalized advice on how to deal with the symptoms of burnout you might show. Eventually, you can reflect on your own behavior and ideally change that behavior if necessary. Click below to continue to the questions.
 
     </gale:text>
-    <div class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>
+    <div class="waves-effect waves-light btn btn-small"><i class="material-icons right">keyboard_arrow_right</i>
     <gale:text tag="default" type="creole">
         [[question|To questions]]
     </gale:text>

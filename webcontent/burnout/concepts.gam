@@ -187,8 +187,6 @@ _personal {
     #analytic:Boolean ='${#analytic-count} > 0'
 }
 
-
-
 application {->(extends)_concept
     title 'Main Page'
     no-title 'false'
@@ -205,22 +203,25 @@ introduction {->(extends)_concept
 question {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
-    title 'Questions'
-
+    title 'Question'
+    no-title 'true'
     #[previousQuestion]:Integer
-    event + '${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));'
+    event + '
+        try{
+            ${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));
+        }catch(Exception e){
+            ${#previousQuestion} = -1;
+        }
+    '
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
 
     /// #[previousAnswer]:Integer
     /// event + '${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));'
 
     /// TODO store the result:
-    #[scores]:String '""'
-    event + '
-        ${scores} += "0";
-
-    '
-    // affect values = q[id][c] (2d array of question id and copying ID)
+    // #scores:String ='" "'
+    event + ''
+    /// affect values = q[id][c] (2d array of question id and copying ID)
 
     /// if(${#scores} == null){
     ///     ${#scores} = new float[7]
