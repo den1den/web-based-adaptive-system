@@ -10,20 +10,20 @@
             <li>
                 <gale:a adapt="false">
                     <gale:attr-variable name="href" expr="${_concept-&gt;(personal)settings}.getUriString()+&quot;?redirect=&quot;+${.}.getUriString()" />
-                     <b><i class="material-icons" style="display: inline-block;">account_circle</i><gale:variable expr="${gale://gale.tue.nl/personal#name}" /></b>
+                     <i class="material-icons" style="display: inline-block;">account_circle</i><b class="header-text"><gale:variable expr="${gale://gale.tue.nl/personal#name}" /></b>
                 </gale:a>
             </li>
             <li>
-                <a href="#" data-activates="slide-out" class="button-collapse-2"><i class="material-icons" style="display: inline-block;">map</i>Show Navigation</a>
+                <a href="#" data-activates="slide-out" class="button-collapse-2"><i class="material-icons" style="display: inline-block;">map</i><b class="header-text">Show Navigation</b></a>
             </li>
             <li>
-                <gale:a adapt="false">
+                <gale:a>
                     <gale:attr-variable name="href" expr="${_concept->(personal)application}.getUriString()+&quot;?plugin=reset-profile&quot;" />
-                    <i class="material-icons" style="display: inline-block;">settings_backup_restore</i>Reset Profile
+                    <i class="material-icons" style="display: inline-block;">settings_backup_restore</i><b class="header-text">Reset Profile</b>
                 </gale:a>
             </li>
             <li>
-                <gale:a href="?plugin=logout" adapt="false"><i class="material-icons" style="display: inline-block;">highlight_off</i>Logout</gale:a>
+                <gale:a href="?plugin=logout" adapt="false"><i class="material-icons" style="display: inline-block;">highlight_off</i><b class="header-text">Logout</b></gale:a>
             </li>
         </ul>
 

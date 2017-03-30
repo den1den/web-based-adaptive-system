@@ -20,19 +20,19 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[answer2|A decent amount]]
+                [[question?pq=12|A decent amount]]
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[answer3|A little]]
+                [[question?pq=123|A little]]
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[answer4|Nothing at all]]
+                [[question?pq=12|Nothing at all]]
             </gale:text>
         </div>
 
