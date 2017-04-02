@@ -85,12 +85,10 @@ _concept {
     #layout.title '"Burnout - "+${.}.getTitle()'
     #link.hide '!${#hierarchy}'
     #link.classexpr '~
-        /// if (${#unknown}) return "unknown";
-        /// if (!${#suitability}) return "bad";
-        /// if (${#visited}==0) return "good";
-        /// if (${#new-content}) return "new";
         return "neutral";
     '
+    
+    
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -215,8 +213,93 @@ question {->(extends)_concept
     '
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
 
-    /// #[previousAnswer]:Integer
-    /// event + '${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));'
+    #[previousAnswer]:Integer
+    event + '
+    try{
+        ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
+    }catch(Exception e){${#previousAnswer} = -1;}
+    '
+    #[questionScore]:String
+///    event + '
+///        float[][] questionScoreArray = new float[][]{new float[]{}};
+///        class Scope {
+///            static String arr2str(float[][] arr2str_a){
+///                StringBuilder arr2str_b = new StringBuilder();
+///                for(int i = 0; i < arr2str_a.length; i++){
+///                for(int j = 0; j < arr2str_a[i].length; j++){
+///                arr2str_b.append(arr2str_a[i][j]);
+///                if(j < arr2str_a[i].length - 1) arr2str_b.append("_");
+///                }
+///                if(i < arr2str_a.length - 1) arr2str_b.append("I");
+///                }
+///            }
+///        }
+///    '
+    event + '
+        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0 
+    
+        //questionScoreArray[i][j] = score on category j for question i on positive answer
+        float[][] questionScoreArray = new float[][]{
+            new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.2f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.3f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
+        };
+        int previousQuestion = ${#previousQuestion};
+        float previousAnswerImpact = ${#previousAnswer} * 1f; // the impact of the answer (-1, 1)
+        
+        String questionScoreStr = ${#questionScore};
+        if(resetUserQuestionScore || "".equals(questionScoreStr)){
+            // set ${#questionScore} to 0 if it was not set
+            // <emptyarr2str>
+            StringBuilder emptyarr2str = new StringBuilder();
+            for(int i = 0; i < questionScoreArray.length; i++){
+            for(int j = 0; j < questionScoreArray[i].length; j++){
+            emptyarr2str.append(0);
+            if(j < questionScoreArray[i].length - 1) emptyarr2str.append("_");
+            }
+            if(i < questionScoreArray.length - 1) emptyarr2str.append("I");
+            }
+            // </emptyarr2str>
+            questionScoreStr = String.valueOf(emptyarr2str);
+        }
+        // read ${#questionScore} to an array
+        // <str2arr>
+        String[] str2arr_split = questionScoreStr.split("I");
+        float[][] str2arr = new float[str2arr_split.length][];
+        for(int i = 0; i < str2arr_split.length; i++){
+            String[] str2arr_r2 = str2arr_split[i].split("_");
+            //debug: System.out.println("(sub)Splitting `"+str2arr_split[i]+"` to length ("+str2arr_r2.length+")");
+            str2arr[i] = new float[str2arr_r2.length];
+            for(int j = 0; j < str2arr_r2.length; j++) {
+                str2arr[i][j] = Float.parseFloat(str2arr_r2[j]);
+            }
+        }
+        //debug: System.out.println("Splitting `"+questionScoreStr+"` to length ("+str2arr.length+", "+str2arr[0].length+")");
+        // </str2arr>
+        
+        // apply score to array
+        float[][] questionScore = str2arr;
+        for(int i = 0; i < questionScoreArray[previousQuestion].length; i++){
+            questionScore[previousQuestion][i] += questionScoreArray[previousQuestion][i] * previousAnswerImpact;
+        }
+        
+        // store array as string again
+        // <arr2str>
+        StringBuilder arr2str = new StringBuilder();
+        for(int i = 0; i < questionScore.length; i++){
+            for(int j = 0; j < questionScore[i].length; j++){
+                arr2str.append(questionScore[i][j]);
+                if(j < questionScore[i].length - 1) arr2str.append("_");
+            }
+            if(i < questionScore.length - 1) arr2str.append("I");
+        }
+        // </arr2str>
+        questionScoreStr = String.valueOf(arr2str);
+        ${#questionScore} = String.valueOf(questionScoreStr);
+    '
+    ///
 
     /// TODO store the result:
     // #scores:String ='" "'

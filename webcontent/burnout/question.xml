@@ -4,6 +4,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
     <h1 class="header center green-text">
         <gale:text tag="default" type="creole">
             How stressed are you today?
+            <br/>${#questionScore}: {<gale:variable expr="${question#questionScore}" />}
         </gale:text>
 
     </h1>
@@ -14,25 +15,25 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=12|A lot]]
+                [[question?pq=2|A lot]]
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=12|A decent amount]]
+                [[question?pq=2|A decent amount]]
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=123|A little]]
+                [[question?pq=3|A little]]
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=12|Nothing at all]]
+                [[question?pq=2|Nothing at all]]
             </gale:text>
         </div>
 
