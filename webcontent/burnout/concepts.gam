@@ -210,7 +210,7 @@ question {->(extends)_concept
             ${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));
         }catch(Exception e){
             System.out.println("GET `pq` not set: " + String.valueOf(e));
-            ${#previousQuestion} = -1;
+            ${#previousQuestion} = 0;
         }
     '
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
@@ -221,7 +221,7 @@ question {->(extends)_concept
         ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
     } catch(Exception e) {
         System.out.println("GET `pa` not set: " + String.valueOf(e));
-        ${#previousAnswer} = -1;
+        ${#previousAnswer} = 0;
     }
     '
     #[userScore]:String
@@ -265,8 +265,31 @@ userScoreStr += String.valueOf("_A_");
 }
 ///////////////////// END_JAVA_ENCODE /////////////////////
         ${#userScore} = userScoreStr;
-            '
-    }
+        String[][] questions = new String[][]{new String[]{"101","How would you describe your feelings towards the people you work with?","Please identify any positive or negative feelings towards your co-workers.","Question Subtitle","I respect the people that I work with, I value their input and ideas, and they value mine.","I get along well with my colleagues but I would not spend time with them outside work hours.","I feel increasing anger at my co-workers."},new String[]{"102","How do you find that you tend to treat people?","Image Source","Please describe your interaction with other people.","I enjoy spending time with people as I think it is rewarding.","I tend to treat people with a fair degree of callousness.","I am less sympathetic with people than perhaps they deserve."},new String[]{"103","Do you generally feel excited about coming to work?","Image Source","Please describe your feelings or attitude towards your job.","I generally wake up looking forward to the day ahead.","Sometimes I_d rather do something besides work, but I generally enjoy my work at least somewhat.","I have noticed that I have become much more negative and cynical about my job and employer. "},new String[]{"104","How would you describe your attitude towards others?","Image Source","Please describe your feelings towards others.","I feel energized after spending time with other people.","I deliberately try to avoid people.","I feel increasingly cynical or hyper-critical with friends and family."},new String[]{"201","When you think about the life of your dreams, how close does your current life come?","Image Source","Please identify how close to your ideal life you are.","I don_t know exactly how it happened, but I_m doing the things I love.","Who thinks about that stuff? My life is what it is and I can_t do much to change it.","I am not doing what I want to do. Sometimes I think, _Is this really my life?_"},new String[]{"202","How satisfied are you with yourself nowadays?","Image Source","Please describe your feelings towards yourself at this point of time.","I think I am on a good track towards my personal development.","I think I am doing well but there is still a long way until the person I aspire to be.","I feel like I am just not good enough anymore."},new String[]{"301","When you think about the life of your dreams, how close does your current life come?","Image Source","Question Subtitle","Answer 1","Answer 2","Answer 3"}};
+        int previousAnswer = ${#previousQuestion};
+        System.out.println(questions[previousAnswer][1]);
+                    '
+
+    #[questionTxt]:String
+    event + '
+        ${#questionTxt} = questions[previousAnswer][1];
+    '
+
+    #[answer1Text]:String
+    event + '
+        ${#answer1Text} = questions[previousAnswer][4];
+    '
+    #[answer2Text]:String
+    event + '
+        ${#answer2Text} = questions[previousAnswer][5];
+    '
+    #[answer3Text]:String
+    event + '
+        ${#answer3Text} = questions[previousAnswer][6];
+    '
+
+        
+}
 settings {->(extends)_concept
     ->(parent)application
     title 'Settings'

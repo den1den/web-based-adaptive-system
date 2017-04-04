@@ -214,7 +214,7 @@ question {->(extends)_concept
             ${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));
         }catch(Exception e){
             System.out.println("GET `pq` not set: " + String.valueOf(e));
-            ${#previousQuestion} = -1;
+            ${#previousQuestion} = 0;
         }
     '
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
@@ -225,7 +225,7 @@ question {->(extends)_concept
         ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
     } catch(Exception e) {
         System.out.println("GET `pa` not set: " + String.valueOf(e));
-        ${#previousAnswer} = -1;
+        ${#previousAnswer} = 0;
     }
     '
     #[userScore]:String
@@ -316,16 +316,40 @@ question {->(extends)_concept
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
         ${#userScore} = userScoreStr;
         <?php // Set questions
-        //PHP_PRINT($config['questions'], 'questions', 'String');
+        PHP_PRINT($config['questions'], 'questions', 'String');
         /*
         ${#questionScore} = userProfileStr;
-        int previousAnswer = ${#previousAnswer};
-        String questionStr = questions[previousAnswer][1];
-        System.out.println(questionStr);
+
+        String questionStr = ;
         ${_concept->(question)#question_txt} = "questionStr";
         */
         ?>
+        int previousAnswer = ${#previousQuestion};
+        System.out.println(questions[previousAnswer][1]);
+        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
+        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
     '
+
+    #[questionTxt]:String
+    event + '
+        ${#questionTxt} = questions[previousAnswer][1];
+    '
+
+    #[answer1Text]:String
+    event + '
+        ${#answer1Text} = questions[previousAnswer][4];
+    '
+    #[answer2Text]:String
+    event + '
+        ${#answer2Text} = questions[previousAnswer][5];
+    '
+    #[answer3Text]:String
+    event + '
+        ${#answer3Text} = questions[previousAnswer][6];
+    '
+
+    <?php /* questionTxt = ''
+    question_txt = '' */ ?>
     <?php /* /// TODO store the result:
     // #scores:String ='" "'
     event + ''
@@ -347,6 +371,7 @@ question {->(extends)_concept
     /// answer_3 = 'Nope, i'm an airplane'
     /// answer_3_link = 'http://www.google.nl/'
     */ ?>
+
 }
 settings {->(extends)_concept
     ->(parent)application
