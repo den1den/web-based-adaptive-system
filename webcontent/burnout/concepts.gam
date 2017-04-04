@@ -87,8 +87,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-    
-    
+
+
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -196,7 +196,7 @@ introduction {->(extends)_concept
     title 'Introduction'
 }
 
-/// Questions are numbered, the text of a question is in a sperate file
+/// Questions are numbered, the text of a question is in a seperate file
 /// The question number devided by 100 is the category
 question {->(extends)_concept
     ->(parent)application
@@ -211,13 +211,13 @@ question {->(extends)_concept
             ${#previousQuestion} = -1;
         }
     '
-    /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
-
     #[previousAnswer]:Integer
     event + '
     try{
         ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
-    }catch(Exception e){${#previousAnswer} = -1;}
+    }catch(Exception e){
+        ${#previousAnswer} = -1;
+    }
     '
     #[questionScore]:String
 ///    event + '
@@ -236,8 +236,8 @@ question {->(extends)_concept
 ///        }
 ///    '
     event + '
-        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0 
-    
+        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0
+
         //questionScoreArray[i][j] = score on category j for question i on positive answer
         float[][] questionScoreArray = new float[][]{
             new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
@@ -246,9 +246,10 @@ question {->(extends)_concept
             new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
             new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
         };
+
         int previousQuestion = ${#previousQuestion};
         float previousAnswerImpact = ${#previousAnswer} * 1f; // the impact of the answer (-1, 1)
-        
+
         String questionScoreStr = ${#questionScore};
         if(resetUserQuestionScore || "".equals(questionScoreStr)){
             // set ${#questionScore} to 0 if it was not set
@@ -278,13 +279,13 @@ question {->(extends)_concept
         }
         //debug: System.out.println("Splitting `"+questionScoreStr+"` to length ("+str2arr.length+", "+str2arr[0].length+")");
         // </str2arr>
-        
+
         // apply score to array
         float[][] questionScore = str2arr;
         for(int i = 0; i < questionScoreArray[previousQuestion].length; i++){
             questionScore[previousQuestion][i] += questionScoreArray[previousQuestion][i] * previousAnswerImpact;
         }
-        
+
         // store array as string again
         // <arr2str>
         StringBuilder arr2str = new StringBuilder();
