@@ -1,3 +1,84 @@
 {
-  "default_user_profile": [0.5, 0, 0, 0, 0, 0, 0]
+  "default_user_profile": [
+    0.5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "questions": [
+    [
+      "101",
+      "How would you describe your feelings towards the people you work with?",
+      "Please identify any positive or negative feelings towards your co-workers.",
+      "Question Subtitle",
+      "I respect the people that I work with, I value their input and ideas, and they value mine.",
+      "I get along well with my colleagues but I would not spend time with them outside work hours.",
+      "I feel increasing anger at my co-workers."
+    ],
+    [
+      "102",
+      "How do you find that you tend to treat people?",
+      "Image Source",
+      "Please describe your interaction with other people.",
+      "I enjoy spending time with people as I think it is rewarding.",
+      "I tend to treat people with a fair degree of callousness.",
+      "I am less sympathetic with people than perhaps they deserve."
+    ],
+    [
+      "103",
+      "Do you generally feel excited about coming to work?",
+      "Image Source",
+      "Please describe your feelings or attitude towards your job.",
+      "I generally wake up looking forward to the day ahead.",
+      "Sometimes I_d rather do something besides work, but I generally enjoy my work at least somewhat.",
+      "I have noticed that I have become much more negative and cynical about my job and employer. "
+    ],
+    [
+      "104",
+      "How would you describe your attitude towards others?",
+      "Image Source",
+      "Please describe your feelings towards others.",
+      "I feel energized after spending time with other people.",
+      "I deliberately try to avoid people.",
+      "I feel increasingly cynical or hyper-critical with friends and family."
+    ],
+    [
+      "201",
+      "When you think about the life of your dreams, how close does your current life come?",
+      "Image Source",
+      "Please identify how close to your ideal life you are.",
+      "I don_t know exactly how it happened, but I_m doing the things I love.",
+      "Who thinks about that stuff? My life is what it is and I can_t do much to change it.",
+      "I am not doing what I want to do. Sometimes I think, _Is this really my life?_"
+    ],
+    [
+      "202",
+      "How satisfied are you with yourself nowadays?",
+      "Image Source",
+      "Please describe your feelings towards yourself at this point of time.",
+      "I think I am on a good track towards my personal development.",
+      "I think I am doing well but there is still a long way until the person I aspire to be.",
+      "I feel like I am just not good enough anymore."
+    ],
+    [
+      "301",
+      "When you think about the life of your dreams, how close does your current life come?",
+      "Image Source",
+      "Question Subtitle",
+      "Answer 1",
+      "Answer 2",
+      "Answer 3"
+    ]
+  ],
+  "question_values": [
+    [1,-1,-1,-1,0,1],
+    [1,-1,-1,-1,0,1],
+    [1,-1,-1,-1,0,1],
+    [1,-1,-1,-1,0,1],
+    [0,2,1,-1,0,0],
+    [0,2,1,-1,0,0]
+  ]
 }
