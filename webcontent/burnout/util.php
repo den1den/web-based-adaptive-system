@@ -23,6 +23,7 @@ function array_depth(array $array) {
 include_once 'util_java.php';
 
 $config = json_decode(file_get_contents('config.json'), true);
+if(!isset($config)) throw new Exception();
 
 if(false) {// DEBUG JAVA SYNTAX
 	echo "\n";
@@ -36,5 +37,5 @@ if(false) {// DEBUG JAVA SYNTAX
 	JAVA_DECODE( 'string', 'a1rray', 1, false, 'String' );
 	JAVA_ENCODE( "a1rray", "s1tring", 1 );
 
-	PHP_print($config['default_user_profile'], 'x');
+	PHP_PRINT($config['default_user_profile'], 'x');
 }

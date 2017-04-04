@@ -3,37 +3,53 @@
 xmlns:gale="http://gale.tue.nl/adaptation">
     <h1 class="header center green-text">
         <gale:text tag="default" type="creole">
-            How stressed are you today?
-            <br/>${#questionScore}: {<gale:variable expr="${question#questionScore}" />}
+            <!-- Question title is printed here. -->
+
+            <!--
+            if(showText == true){
+                // Show textual question
+                <gale:variable expr="${question#questionTextArray[question id][0]}" />
+            }else{
+                // Show image question
+                <gale:variable expr="${question#questionTextArray[question id][1]}" />
+            }
+            -->
         </gale:text>
 
     </h1>
     <div class="row center">
         <h5 class="header col s12 light">
-            Stress is defined as being really annoyed by your group members calling you mom.
+            <!-- Question sub title ('detailed explanation') is printed here, should with hide this by default? -->
+
+            <!--
+            <gale:variable expr="${question#questionTextArray[question id][2]}" />
+            -->
         </h5>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=2|A lot]]
+                <!-- Answer 1
+                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
+                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][3]}" /> ]]
+                -->
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=2|A decent amount]]
+                <!-- Answer 2
+                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
+                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][4]}" /> ]]
+                -->
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large">
             <gale:text tag="default" type="creole">
-                [[question?pq=3|A little]]
-            </gale:text>
-        </div>
-        <br/>
-        <div class="waves-effect waves-light btn btn-large">
-            <gale:text tag="default" type="creole">
-                [[question?pq=2|Nothing at all]]
+                <!-- Answer 3
+                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
+                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][5]}" /> ]]
+                -->
             </gale:text>
         </div>
 
@@ -48,7 +64,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
     <div style="display: none">
         <gale:text tag="default" type="creole">
             Previous question:
-            <gale:variable expr="${question#previousQuestion}" />
+            <!-- <gale:variable expr="${question#previousQuestion}" /> -->
         </gale:text>
     </div>
 </gale:repo>

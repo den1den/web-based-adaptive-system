@@ -62,10 +62,10 @@ function _JAVA_DECODE( $input_var, $target_var, $depth, $type ) {
 	echo "}\n";
 }
 
-function JAVA_ENCODE( $input_var, $target_var, $depth ) {
+function JAVA_ENCODE( $input_var, $target_var, $depth, $exists=false ) {
 
 	echo "///////////////////// JAVA_ENCODE $input_var -> $target_var /////////////////////\n";
-	echo "String {$target_var} = \"\";\n";
+	echo ($exists ? "" : "String ") . $target_var . " = \"\";\n";
 	_JAVA_ENCODE( $input_var, $target_var, 0, $depth );
 	// echo "String $target_var = String.valueOf({$target_var}Builder); \n";
 	echo "///////////////////// END_JAVA_ENCODE /////////////////////\n";
@@ -93,6 +93,10 @@ function _PHP_print( $array, $type, $depth ) {
 		$val = $array;
 		if($type === 'float'){
 			return $val . "f";
+		} else if($type === 'String') {
+			// TODO: Maybe replace ' by \'
+			if(strpos($val, "'") !== false) throw new Exception(" >'< found in >$val< ");
+			return '"' . $val . '"';
 		} else {
 			return $val;
 		}
@@ -103,7 +107,10 @@ function _PHP_print( $array, $type, $depth ) {
 
 	return "new {$type}" . str_repeat( "[]", $depth ) . "{" . implode( ",", $sub ) . "}";
 }
-function PHP_print( $array, $varname, $type = 'float' ) {
+function PHP_PRINT( $array, $varname, $type = 'float' ) {
+	if(!isset($array)){
+		throw new Exception();
+	}
 	$depth = array_depth( $array );
 	echo $type . str_repeat( "[]", $depth ) . " $varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
 }

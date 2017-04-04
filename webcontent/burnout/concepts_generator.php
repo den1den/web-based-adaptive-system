@@ -48,11 +48,11 @@ _concept {
 
     // knowledge definitions
     /// BUGGY CODE!
-    /// #[own-knowledge]:Double
-    /// event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
-    /// #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
-    /// #known-all:Boolean ='${#knowledge} > 0.8'
-    /// #known:Boolean ='${#own-knowledge} > 0.8'
+    #[own-knowledge]:Double
+    event + 'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
+    #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
+    #known-all:Boolean ='${#knowledge} > 0.8'
+    #known:Boolean ='${#own-knowledge} > 0.8'
 
     // prerequisites
     #available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
@@ -223,13 +223,13 @@ question {->(extends)_concept
     event + '
     try{
         ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
-    }catch(Exception e){
+    } catch(Exception e) {
         System.out.println("GET `pa` not set: " + String.valueOf(e));
         ${#previousAnswer} = -1;
     }
     '
-    #[questionScore]:String
-<?php /*
+    #[userScore]:String
+    <?php /*
  event + '
          float[][] questionScoreArray = new float[][]{new float[]{}};
          class Scope {
@@ -297,37 +297,35 @@ question {->(extends)_concept
 
  */ ?>
     event + '
-        String questionScoreStr = "";
-        <?php // String questionScoreStr = ${#questionScore}; ?>
-        final boolean resetUserQuestionScore = true;
+        final boolean resetUserScore = true;
+        <?php PHP_PRINT($config['question_values'], 'questionScores'); // 2d ?>
 
-        float[][] questionScoreArray = new float[][]{
-            new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.2f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.3f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
-        };
-        // Set user profile
-        float[] userProfile;
-        if("".equals(questionScoreStr) || resetUserQuestionScore){
+        // Read userScore
+        float[] userScore;
+        String userScoreStr = ${#userScore};
+        if(resetUserScore || "".equals(userScoreStr)){
             <?php
-            PHP_print($config['default_user_profile'], 'defaultUserProfile');
-            JAVA_ENCODE('defaultUserProfile', 'defaultUPString', 1); ?>
-            System.out.println("defaultUPString = " + defaultUPString);
-            userProfile = defaultUserProfile;
+            PHP_PRINT($config['default_user_profile'], 'defaultUserScore');
+            JAVA_ENCODE('defaultUserScore', 'defaultUserScoreStr', 1); ?>
+            System.out.println("setting defaultUserScoreStr = " + defaultUserScoreStr);
+            userScore = defaultUserScore;
         } else {
-            <?php JAVA_DECODE('questionScoreStr', 'userProfile', 1, true); ?>
+            <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
         }
-
-        <?php //TODO: do something with `float[] userProfile;`; ?>
-
-
-        <?php JAVA_ENCODE('userProfile', 'userProfileStr', 1); ?>
+        <?php // TODO: do something with `float[] userProfile;`; ?>
+        <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
+        ${#userScore} = userScoreStr;
+        <?php // Set questions
+        //PHP_PRINT($config['questions'], 'questions', 'String');
+        /*
         ${#questionScore} = userProfileStr;
-        <?php // ${#questionScore} = userProfileStr; ?>
+        int previousAnswer = ${#previousAnswer};
+        String questionStr = questions[previousAnswer][1];
+        System.out.println(questionStr);
+        ${_concept->(question)#question_txt} = "questionStr";
+        */
+        ?>
     '
-
     <?php /* /// TODO store the result:
     // #scores:String ='" "'
     event + ''
@@ -341,7 +339,7 @@ question {->(extends)_concept
     /// Process previous question:
     /// #[stressors].get()
 
-    /// question_txt = 'Static question: Are you a complete retard?'
+    ///
     /// answer_1 = 'Of course'
     /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
     /// answer_2 = 'What is a retard?'
