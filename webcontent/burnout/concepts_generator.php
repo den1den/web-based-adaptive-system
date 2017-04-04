@@ -210,23 +210,27 @@ question {->(extends)_concept
     no-title 'true'
     #[previousQuestion]:Integer
     event + '
+        int previousQuestion;
         try{
-            ${#previousQuestion} = Integer.parseInt(gale.req().getParameter("pq"));
+            previousQuestion = Integer.parseInt(gale.req().getParameter("pq"));
         }catch(Exception e){
             System.out.println("GET `pq` not set: " + String.valueOf(e));
-            ${#previousQuestion} = 0;
+            previousQuestion = 0;
         }
+        ${#previousQuestion} = previousQuestion;
     '
     /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
 
     #[previousAnswer]:Integer
     event + '
-    try{
-        ${#previousAnswer} = Integer.parseInt(gale.req().getParameter("pa"));
-    } catch(Exception e) {
-        System.out.println("GET `pa` not set: " + String.valueOf(e));
-        ${#previousAnswer} = 0;
-    }
+        int previousAnswer;
+        try{
+            previousAnswer = Integer.parseInt(gale.req().getParameter("pa"));
+        } catch(Exception e) {
+            System.out.println("GET `pa` not set: " + String.valueOf(e));
+            previousAnswer = 0;
+        }
+        ${#previousAnswer} = previousAnswer;
     '
     #[userScore]:String
     <?php /*
@@ -307,13 +311,21 @@ question {->(extends)_concept
             <?php
             PHP_PRINT($config['default_user_profile'], 'defaultUserScore');
             JAVA_ENCODE('defaultUserScore', 'defaultUserScoreStr', 1); ?>
-            System.out.println("setting defaultUserScoreStr = " + defaultUserScoreStr);
+            System.out.println("Users default score is reset to defaultUserScoreStr = " + defaultUserScoreStr);
             userScore = defaultUserScore;
         } else {
             <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
         }
-        <?php // TODO: do something with `float[] userProfile;`; ?>
+
+        float answerEffect = previousAnswer * .5f;
+        System.out.println("questionScores[previousQuestion].length == " + questionScores[previousQuestion].length);
+        System.out.println("userScore.length == " + userScore.length);
+        for(int i = 0; i < 6; i++){
+            userScore[i] += answerEffect * questionScores[previousQuestion][i];
+        }
+
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
+        System.out.println("New user score is userScoreStr = " + userScoreStr);
         ${#userScore} = userScoreStr;
         <?php // Set questions
         PHP_PRINT($config['questions'], 'questions', 'String');
@@ -324,28 +336,26 @@ question {->(extends)_concept
         ${_concept->(question)#question_txt} = "questionStr";
         */
         ?>
-        int previousAnswer = ${#previousQuestion};
-        System.out.println(questions[previousAnswer][1]);
-        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
-        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
+
+        int nextAnswerIndex = ${#previousQuestion} + 1;
     '
 
     #[questionTxt]:String
     event + '
-        ${#questionTxt} = questions[previousAnswer][1];
+        ${#questionTxt} = questions[nextAnswerIndex][1];
     '
 
     #[answer1Text]:String
     event + '
-        ${#answer1Text} = questions[previousAnswer][4];
+        ${#answer1Text} = questions[nextAnswerIndex][4];
     '
     #[answer2Text]:String
     event + '
-        ${#answer2Text} = questions[previousAnswer][5];
+        ${#answer2Text} = questions[nextAnswerIndex][5];
     '
     #[answer3Text]:String
     event + '
-        ${#answer3Text} = questions[previousAnswer][6];
+        ${#answer3Text} = questions[nextAnswerIndex][6];
     '
 
     <?php /* questionTxt = ''
