@@ -2,12 +2,51 @@
 <gale:repo
     xmlns:gale="http://gale.tue.nl/adaptation">
     <gale:text tag="default" type="creole">
-        When using this application you will be presented with several questions and scenarios regarding your personal and professional life. After answering all questions, you will get a personalized advice on how to deal with the symptoms of burnout you might show. Eventually, you can reflect on your own behavior and ideally change that behavior if necessary. Click below to continue to the questions.
-
+        When using this application you will be presented with several questions and scenarios regarding your personal and professional life. After answering all questions, you will get a personalized advice on how to deal with the symptoms of burnout you might show. Eventually, you can reflect on your own behavior and ideally change that behavior if necessary.
     </gale:text>
+    <div class="col s12 m7 l6 pagination">
+       <div id="pagination-short"></div>
+   </div>
+
+   <!-- Start Card -->
+   <div class="row page" id="page-1">
+           <div class="card teal darken-2">
+             <div class="card-content white-text">
+               <span class="card-title">Questions</span>
+               <p>First you will be presented with a question. This can be either a textual question, or an image.</p>
+             </div>
+         </div>
+   </div>
+   <!-- End card -->
+
+   <!-- Start Card -->
+   <div class="row page" id="page-2">
+           <div class="card teal darken-2">
+             <div class="card-content white-text">
+               <span class="card-title">Answering</span>
+               <p>You are then required to pick an answer.</p>
+             </div>
+         </div>
+   </div>
+   <!-- End card -->
+
+   <!-- Start Card -->
+   <div class="row page" id="page-3">
+           <div class="card teal darken-2">
+             <div class="card-content white-text">
+               <span class="card-title">Results</span>
+               <p>In the end, you will be presented with tips tailored to the answers you provided.</p>
+             </div>
+         </div>
+   </div>
+   <!-- End card -->
+
+   <gale:text tag="default" type="creole">
+       If you know how to use this system, you can continue to the question pages.
+   </gale:text>
     <div class="waves-effect waves-light btn btn-small"><i class="material-icons right">keyboard_arrow_right</i>
     <gale:text tag="default" type="creole">
-        [[question|To questions]]
+         [[question|To questions]]
     </gale:text>
     </div>
 </gale:repo>

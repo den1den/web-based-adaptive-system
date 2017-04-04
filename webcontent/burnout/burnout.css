@@ -10,7 +10,7 @@ body {
     width: 200px;
 }
 .btn-small span p a {
-    width: 250px;
+    width: 260px;
     margin-left: -30px;
     color: white;
     display: block;
@@ -25,7 +25,16 @@ body {
     text-align: center;
     margin-bottom: 10px;
 }
-
+.pagination li{
+    vertical-align: center;
+    line-height: 30px;
+    font-size: 18px;
+    padding: 0 10px;
+}
+.pagination li.active{
+    background-color: teal;
+    color: white;
+}
 h5 {
     margin-bottom: 30px;
 }

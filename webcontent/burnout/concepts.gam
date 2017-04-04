@@ -88,8 +88,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-    
-    
+
+
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -187,7 +187,7 @@ _personal {
 }
 
 application {->(extends)_concept
-    title 'Main Page'
+    title 'About Incaendio'
     no-title 'false'
 }
 
@@ -301,7 +301,7 @@ userScoreStr += String.valueOf("_A_");
         ${#answer3Text} = questions[nextAnswerIndex][6];
     '
 
-        
+
 }
 settings {->(extends)_concept
     ->(parent)application
