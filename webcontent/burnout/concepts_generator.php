@@ -1,3 +1,7 @@
+<?php
+include_once 'util.php';
+ob_start();
+?>
 $options {
     default.properties "event;strict"
     default.order "auto"
@@ -225,50 +229,106 @@ question {->(extends)_concept
     }
     '
     #[userScore]:String
-        event + '
+    <?php /*
+ event + '
+         float[][] questionScoreArray = new float[][]{new float[]{}};
+         class Scope {
+             static String arr2str(float[][] arr2str_a){
+                 StringBuilder arr2str_b = new StringBuilder();
+                 for(int i = 0; i < arr2str_a.length; i++){
+                 for(int j = 0; j < arr2str_a[i].length; j++){
+                 arr2str_b.append(arr2str_a[i][j]);
+                 if(j < arr2str_a[i].length - 1) arr2str_b.append("_");
+                 }
+                 if(i < arr2str_a.length - 1) arr2str_b.append("I");
+                 }
+             }
+         }
+     '
+    event + '
+        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0 
+    
+        //questionScoreArray[i][j] = score on category j for question i on positive answer
+        float[][] questionScoreArray = new float[][]{
+            new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.2f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.3f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
+        };
+        int previousQuestion = ${#previousQuestion};
+        float previousAnswerImpact = ${#previousAnswer} * 1f; // the impact of the answer (-1, 1)
+        
+        String questionScoreStr = ${#questionScore};
+        if(resetUserQuestionScore || "".equals(questionScoreStr)){
+            // set ${#questionScore} to 0 if it was not set
+            // <emptyarr2str>
+            StringBuilder emptyarr2str = new StringBuilder();
+            for(int i = 0; i < questionScoreArray.length; i++){
+            for(int j = 0; j < questionScoreArray[i].length; j++){
+            emptyarr2str.append(0);
+            if(j < questionScoreArray[i].length - 1) emptyarr2str.append("_");
+            }
+            if(i < questionScoreArray.length - 1) emptyarr2str.append("I");
+            }
+            // </emptyarr2str>
+            questionScoreStr = String.valueOf(emptyarr2str);
+        }
+        // read ${#questionScore} to an array
+        <?php //java_str2arr('questionScoreStr', 'questionScore', 2); ?>
+        for(int i = 0; i < questionScoreArray[previousQuestion].length; i++){
+            questionScore[previousQuestion][i] += questionScoreArray[previousQuestion][i] * previousAnswerImpact;
+        }
+        
+        // store array as string again
+        // <arr2str>
+        StringBuilder arr2str = new StringBuilder();
+        for(int i = 0; i < questionScore.length; i++){
+            for(int j = 0; j < questionScore[i].length; j++){
+                arr2str.append(questionScore[i][j]);
+                if(j < questionScore[i].length - 1) arr2str.append("_");
+            }
+            if(i < questionScore.length - 1) arr2str.append("I");
+        }
+        // </arr2str>
+        questionScoreStr = String.valueOf(arr2str);
+        ${#questionScore} = String.valueOf(questionScoreStr);
+    '
+
+ */ ?>
+    event + '
         final boolean resetUserScore = true;
-        float[][] questionScores = new float[][]{new float[]{1f,-1f,-1f,-1f,0f,1f},new float[]{1f,-1f,-1f,-1f,0f,1f},new float[]{1f,-1f,-1f,-1f,0f,1f},new float[]{1f,-1f,-1f,-1f,0f,1f},new float[]{0f,2f,1f,-1f,0f,0f},new float[]{0f,2f,1f,-1f,0f,0f}};
+        <?php PHP_PRINT($config['question_values'], 'questionScores'); // 2d ?>
 
         // Read userScore
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
-            float[] defaultUserScore = new float[]{0.5f,0f,0f,0f,0f,0f,0f};
-///////////////////// JAVA_ENCODE defaultUserScore -> defaultUserScoreStr /////////////////////
-String defaultUserScoreStr = "";
-for (int i0 = 0; i0 < defaultUserScore.length; i0++) {
-defaultUserScoreStr += String.valueOf(defaultUserScore[i0]);
-if(i0 < defaultUserScore.length - 1) {
-defaultUserScoreStr += String.valueOf("_A_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
+            <?php
+            PHP_PRINT($config['default_user_profile'], 'defaultUserScore');
+            JAVA_ENCODE('defaultUserScore', 'defaultUserScoreStr', 1); ?>
             System.out.println("setting defaultUserScoreStr = " + defaultUserScoreStr);
             userScore = defaultUserScore;
         } else {
-            ///////////////////// JAVA_DECODE userScoreStr -> float[] userScore /////////////////////
-String[] userScoreStrArray1 = userScoreStr.split("_A_");
-float[] userScore1 = new float[userScoreStrArray1.length];
-for (int i1 = 0; i1 < userScoreStrArray1.length; i1++) {
-userScore1[i1] = Float.parseFloat(userScoreStrArray1[i1]);
-}
-userScore = userScore1;
-///////////////////// END JAVA_DECODE /////////////////////
+            <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
         }
-                ///////////////////// JAVA_ENCODE userScore -> userScoreStr /////////////////////
-userScoreStr = "";
-for (int i0 = 0; i0 < userScore.length; i0++) {
-userScoreStr += String.valueOf(userScore[i0]);
-if(i0 < userScore.length - 1) {
-userScoreStr += String.valueOf("_A_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
+        <?php // TODO: do something with `float[] userProfile;`; ?>
+        <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
         ${#userScore} = userScoreStr;
-        String[][] questions = new String[][]{new String[]{"101","How would you describe your feelings towards the people you work with?","Please identify any positive or negative feelings towards your co-workers.","Question Subtitle","I respect the people that I work with, I value their input and ideas, and they value mine.","I get along well with my colleagues but I would not spend time with them outside work hours.","I feel increasing anger at my co-workers."},new String[]{"102","How do you find that you tend to treat people?","Image Source","Please describe your interaction with other people.","I enjoy spending time with people as I think it is rewarding.","I tend to treat people with a fair degree of callousness.","I am less sympathetic with people than perhaps they deserve."},new String[]{"103","Do you generally feel excited about coming to work?","Image Source","Please describe your feelings or attitude towards your job.","I generally wake up looking forward to the day ahead.","Sometimes I_d rather do something besides work, but I generally enjoy my work at least somewhat.","I have noticed that I have become much more negative and cynical about my job and employer. "},new String[]{"104","How would you describe your attitude towards others?","Image Source","Please describe your feelings towards others.","I feel energized after spending time with other people.","I deliberately try to avoid people.","I feel increasingly cynical or hyper-critical with friends and family."},new String[]{"201","When you think about the life of your dreams, how close does your current life come?","Image Source","Please identify how close to your ideal life you are.","I don_t know exactly how it happened, but I_m doing the things I love.","Who thinks about that stuff? My life is what it is and I can_t do much to change it.","I am not doing what I want to do. Sometimes I think, _Is this really my life?_"},new String[]{"202","How satisfied are you with yourself nowadays?","Image Source","Please describe your feelings towards yourself at this point of time.","I think I am on a good track towards my personal development.","I think I am doing well but there is still a long way until the person I aspire to be.","I feel like I am just not good enough anymore."},new String[]{"301","When you think about the life of your dreams, how close does your current life come?","Image Source","Question Subtitle","Answer 1","Answer 2","Answer 3"}};
+        <?php // Set questions
+        PHP_PRINT($config['questions'], 'questions', 'String');
+        /*
+        ${#questionScore} = userProfileStr;
+
+        String questionStr = ;
+        ${_concept->(question)#question_txt} = "questionStr";
+        */
+        ?>
         int previousAnswer = ${#previousQuestion};
         System.out.println(questions[previousAnswer][1]);
-                    '
+        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
+        <?php // ${#questionTxt} = questions[previousAnswer][1]; ?>
+    '
 
     #[questionTxt]:String
     event + '
@@ -288,9 +348,35 @@ userScoreStr += String.valueOf("_A_");
         ${#answer3Text} = questions[previousAnswer][6];
     '
 
-        
+    <?php /* questionTxt = ''
+    question_txt = '' */ ?>
+    <?php /* /// TODO store the result:
+    // #scores:String ='" "'
+    event + ''
+    /// affect values = q[id][c] (2d array of question id and copying ID)
+
+    /// if(${#scores} == null){
+    ///     ${#scores} = new float[7]
+    /// };
+    /// ${#scores}[${#previousQuestion}/100] += 1;
+
+    /// Process previous question:
+    /// #[stressors].get()
+
+    ///
+    /// answer_1 = 'Of course'
+    /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
+    /// answer_2 = 'What is a retard?'
+    /// answer_2_link = 'http://www.google.nl/'
+    /// answer_3 = 'Nope, i'm an airplane'
+    /// answer_3_link = 'http://www.google.nl/'
+    */ ?>
+
 }
 settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
+<?php
+file_put_contents('concepts.gam', ob_get_clean());
+?>
