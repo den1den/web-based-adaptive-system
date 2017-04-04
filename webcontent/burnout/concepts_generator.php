@@ -1,3 +1,7 @@
+<?php
+include_once 'util.php';
+ob_start();
+?>
 $options {
     default.properties "event;strict"
     default.order "auto"
@@ -43,11 +47,12 @@ _concept {
     '
 
     // knowledge definitions
-    #[own-knowledge]:Double
-    event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
-    #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
-    #known-all:Boolean ='${#knowledge} > 0.8'
-    #known:Boolean ='${#own-knowledge} > 0.8'
+    /// BUGGY CODE!
+    /// #[own-knowledge]:Double
+    /// event +'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
+    /// #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
+    /// #known-all:Boolean ='${#knowledge} > 0.8'
+    /// #known:Boolean ='${#own-knowledge} > 0.8'
 
     // prerequisites
     #available:Boolean ='${#known} || and(new Object[] {${=>(prereq)#known}, ${=>(prereq-all)#known-all}})'
@@ -224,9 +229,77 @@ question {->(extends)_concept
     }
     '
     #[questionScore]:String
+<?php /*
+ event + '
+         float[][] questionScoreArray = new float[][]{new float[]{}};
+         class Scope {
+             static String arr2str(float[][] arr2str_a){
+                 StringBuilder arr2str_b = new StringBuilder();
+                 for(int i = 0; i < arr2str_a.length; i++){
+                 for(int j = 0; j < arr2str_a[i].length; j++){
+                 arr2str_b.append(arr2str_a[i][j]);
+                 if(j < arr2str_a[i].length - 1) arr2str_b.append("_");
+                 }
+                 if(i < arr2str_a.length - 1) arr2str_b.append("I");
+                 }
+             }
+         }
+     '
+    event + '
+        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0 
+    
+        //questionScoreArray[i][j] = score on category j for question i on positive answer
+        float[][] questionScoreArray = new float[][]{
+            new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.2f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.3f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
+            new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
+        };
+        int previousQuestion = ${#previousQuestion};
+        float previousAnswerImpact = ${#previousAnswer} * 1f; // the impact of the answer (-1, 1)
+        
+        String questionScoreStr = ${#questionScore};
+        if(resetUserQuestionScore || "".equals(questionScoreStr)){
+            // set ${#questionScore} to 0 if it was not set
+            // <emptyarr2str>
+            StringBuilder emptyarr2str = new StringBuilder();
+            for(int i = 0; i < questionScoreArray.length; i++){
+            for(int j = 0; j < questionScoreArray[i].length; j++){
+            emptyarr2str.append(0);
+            if(j < questionScoreArray[i].length - 1) emptyarr2str.append("_");
+            }
+            if(i < questionScoreArray.length - 1) emptyarr2str.append("I");
+            }
+            // </emptyarr2str>
+            questionScoreStr = String.valueOf(emptyarr2str);
+        }
+        // read ${#questionScore} to an array
+        <?php //java_str2arr('questionScoreStr', 'questionScore', 2); ?>
+        for(int i = 0; i < questionScoreArray[previousQuestion].length; i++){
+            questionScore[previousQuestion][i] += questionScoreArray[previousQuestion][i] * previousAnswerImpact;
+        }
+        
+        // store array as string again
+        // <arr2str>
+        StringBuilder arr2str = new StringBuilder();
+        for(int i = 0; i < questionScore.length; i++){
+            for(int j = 0; j < questionScore[i].length; j++){
+                arr2str.append(questionScore[i][j]);
+                if(j < questionScore[i].length - 1) arr2str.append("_");
+            }
+            if(i < questionScore.length - 1) arr2str.append("I");
+        }
+        // </arr2str>
+        questionScoreStr = String.valueOf(arr2str);
+        ${#questionScore} = String.valueOf(questionScoreStr);
+    '
+
+ */ ?>
     event + '
         String questionScoreStr = "";
-                final boolean resetUserQuestionScore = true;
+        <?php // String questionScoreStr = ${#questionScore}; ?>
+        final boolean resetUserQuestionScore = true;
 
         float[][] questionScoreArray = new float[][]{
             new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
@@ -238,45 +311,49 @@ question {->(extends)_concept
         // Set user profile
         float[] userProfile;
         if("".equals(questionScoreStr) || resetUserQuestionScore){
-            float[] defaultUserProfile = new float[]{0.5f,0f,0f,0f,0f,0f,0f};
-///////////////////// JAVA_ENCODE defaultUserProfile -> defaultUPString /////////////////////
-String defaultUPString = "";
-for (int i0 = 0; i0 < defaultUserProfile.length; i0++) {
-defaultUPString += String.valueOf(defaultUserProfile[i0]);
-if(i0 < defaultUserProfile.length - 1) {
-defaultUPString += String.valueOf("_A_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
+            <?php
+            PHP_print($config['default_user_profile'], 'defaultUserProfile');
+            JAVA_ENCODE('defaultUserProfile', 'defaultUPString', 1); ?>
             System.out.println("defaultUPString = " + defaultUPString);
             userProfile = defaultUserProfile;
         } else {
-            ///////////////////// JAVA_DECODE questionScoreStr -> float[] userProfile /////////////////////
-String[] questionScoreStrArray1 = questionScoreStr.split("_A_");
-float[] userProfile1 = new float[questionScoreStrArray1.length];
-for (int i1 = 0; i1 < questionScoreStrArray1.length; i1++) {
-userProfile1[i1] = Float.parseFloat(questionScoreStrArray1[i1]);
-}
-userProfile = userProfile1;
-///////////////////// END JAVA_DECODE /////////////////////
+            <?php JAVA_DECODE('questionScoreStr', 'userProfile', 1, true); ?>
         }
 
-        
+        <?php //TODO: do something with `float[] userProfile;`; ?>
 
-        ///////////////////// JAVA_ENCODE userProfile -> userProfileStr /////////////////////
-String userProfileStr = "";
-for (int i0 = 0; i0 < userProfile.length; i0++) {
-userProfileStr += String.valueOf(userProfile[i0]);
-if(i0 < userProfile.length - 1) {
-userProfileStr += String.valueOf("_A_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
+
+        <?php JAVA_ENCODE('userProfile', 'userProfileStr', 1); ?>
         ${#questionScore} = userProfileStr;
-            '
+        <?php // ${#questionScore} = userProfileStr; ?>
+    '
 
-    }
+    <?php /* /// TODO store the result:
+    // #scores:String ='" "'
+    event + ''
+    /// affect values = q[id][c] (2d array of question id and copying ID)
+
+    /// if(${#scores} == null){
+    ///     ${#scores} = new float[7]
+    /// };
+    /// ${#scores}[${#previousQuestion}/100] += 1;
+
+    /// Process previous question:
+    /// #[stressors].get()
+
+    /// question_txt = 'Static question: Are you a complete retard?'
+    /// answer_1 = 'Of course'
+    /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
+    /// answer_2 = 'What is a retard?'
+    /// answer_2_link = 'http://www.google.nl/'
+    /// answer_3 = 'Nope, i'm an airplane'
+    /// answer_3_link = 'http://www.google.nl/'
+    */ ?>
+}
 settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
+<?php
+file_put_contents('concepts.gam', ob_get_clean());
+?>
