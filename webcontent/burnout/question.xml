@@ -26,7 +26,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             -->
         </h5>
         <br/>
-        <div class="waves-effect waves-light btn btn-large">
+        <div class="waves-effect waves-light btn btn-large" id="question1">
             <gale:text tag="default" type="creole">
                 <!-- Answer 1
                 GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
@@ -36,7 +36,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             </gale:text>
         </div>
         <br/>
-        <div class="waves-effect waves-light btn btn-large">
+        <div class="waves-effect waves-light btn btn-large" id="question2">
             <gale:text tag="default" type="creole">
                 <!-- Answer 2
                 GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
@@ -46,7 +46,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             </gale:text>
         </div>
         <br/>
-        <div class="waves-effect waves-light btn btn-large">
+        <div class="waves-effect waves-light btn btn-large" id="question3">
             <gale:text tag="default" type="creole">
                 <!-- Answer 3
                 GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
@@ -88,4 +88,22 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             <!-- <gale:variable expr="${question#previousQuestion}" /> -->
         </gale:text>
     </div>
+
+    <script>
+        (function($){
+        $( document ).ready(function() {
+            var questionIndex = <gale:variable expr="${question#questionIndex}" />;
+            var amp = String.fromCharCode(38);
+            $( "#question1" ).click(function( event ) {
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=0';
+            });
+            $( "#question2" ).click(function( event ) {
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=1';
+            });
+            $( "#question3" ).click(function( event ) {
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=2';
+            });
+        });
+        })(jQuery);
+    </script>
 </gale:repo>

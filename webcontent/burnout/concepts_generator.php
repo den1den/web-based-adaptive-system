@@ -214,6 +214,10 @@ question {->(extends)_concept
     no-title 'true'
     #[previousQuestion]:Integer
     event + '
+        //// Set this to reset the score on each page reload (debugging purposes only)
+        final boolean resetUserScore = false;
+        System.out.println();// Start log with empty line for this concept
+
         int previousQuestion;
         try{
             previousQuestion = Integer.parseInt(gale.req().getParameter("pq"));
@@ -223,7 +227,6 @@ question {->(extends)_concept
         }
         ${#previousQuestion} = previousQuestion;
     '
-    /// OR COULD BE: event + '~ return Integer.parseInt(gale.req().getParameter("pq"));'
 
     #[previousAnswer]:Integer
     event + '
@@ -236,6 +239,49 @@ question {->(extends)_concept
         }
         ${#previousAnswer} = previousAnswer;
     '
+
+    #[answers]:String
+    event + '
+        String answersString = ${#answers};
+        int[] answers;
+        if(resetUserScore || "".equals(answersString)){
+            <?php $defaultAnswers = array_fill(0, $questionN, 0);
+            PHP_PRINT($defaultAnswers, 'defaultAnswers', 'int'); // 2d ?>
+            answers = defaultAnswers;
+        } else {
+            <?php JAVA_DECODE('answersString', 'answers', 1, true, 'int'); ?>
+        }
+        // int[] answers is retrieved
+
+        int[] questionOrdering = new int[<?=$questionN?>]; int ix = 0;
+        boolean newAnswer = true;
+        Arrays.fill(questionOrdering, -1);
+        for (int i = 0; i < answers.length; i++) {
+            if(i == previousQuestion) {
+                newAnswer = false;
+                answers[i] = previousAnswer;
+                System.out.println("Stored answer " + previousAnswer + " for question " + previousQuestion);
+            }
+            if(answers[i] == -1) {
+                questionOrdering[ix++] = i;
+            }
+        }
+        questionOrdering = Arrays.copyOf(questionOrdering, ix);
+        System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
+        System.out.println("         answers = " + Arrays.toString(answers));
+
+        int nextQuestionIndex;
+        if(questionOrdering.length > 0){
+            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
+        } else {
+
+            nextQuestionIndex = 0;
+        }
+
+        <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
+        ${#answers} = answersString;
+    '
+
     #[userScore]:String
     <?php /*
  event + '
@@ -305,7 +351,6 @@ question {->(extends)_concept
 
  */ ?>
     event + '
-        final boolean resetUserScore = true;
         <?php PHP_PRINT($questionValues, 'questionScores'); // 2d ?>
 
         // Read userScore
@@ -315,16 +360,14 @@ question {->(extends)_concept
             <?php
             PHP_PRINT($config['default_user_profile'], 'defaultUserScore');
             JAVA_ENCODE('defaultUserScore', 'defaultUserScoreStr', 1); ?>
-            System.out.println("Users default score is reset to defaultUserScoreStr = " + defaultUserScoreStr);
             userScore = defaultUserScore;
+            System.out.println("Users score is reset to defaultUserScoreStr = " + defaultUserScoreStr);
         } else {
             <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
         }
 
-        if(previousQuestion != -1 && previousAnswer != -1){
+        if(previousQuestion != -1 && previousAnswer != -1 && newAnswer){
             float answerEffect = previousAnswer * .5f;
-            System.out.println("questionScores[previousQuestion].length == " + questionScores[previousQuestion].length);
-            System.out.println("userScore.length == " + userScore.length);
             for(int i = 0; i < 6; i++){
                 userScore[i] += answerEffect * questionScores[previousQuestion][i];
             }
@@ -333,6 +376,7 @@ question {->(extends)_concept
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
         System.out.println("New user score is userScoreStr = " + userScoreStr);
         ${#userScore} = userScoreStr;
+
         <?php // Set questions
         PHP_PRINT($config['questions'], 'questions', 'String');
         /*
@@ -344,46 +388,16 @@ question {->(extends)_concept
         ?>
     '
 
-    #[answers]:String
-    event + '
-        String answersString = ${#answers};
-        int[] answers;
-        if(resetUserScore || "".equals(answersString)){
-            <?php $defaultAnswers = array_fill(0, $questionN, 0);
-            PHP_PRINT($defaultAnswers, 'defaultAnswers', 'int'); // 2d ?>
-            answers = defaultAnswers;
-        } else {
-            <?php JAVA_DECODE('answersString', 'answers', 1, true, 'int'); ?>
-        }
-        // int[] answers is retrieved
-
-        int[] questionOrdering = new int[<?=$questionN?>]; int ix = 0;
-        Arrays.fill(questionOrdering, -1);
-        for (int i = 0; i < answers.length; i++) {
-            if(i == previousQuestion) {
-                answers[i] = previousAnswer;
-                System.out.println("Stored answer " + previousAnswer + " for question " + previousQuestion);
-            }
-            if(answers[i] == 0) { questionOrdering[ix++] = i; }
-        }
-        questionOrdering = Arrays.copyOf(questionOrdering, ix);
-
-        int nextQuestionIndex;
-        if(questionOrdering.length > 0){
-            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
-        } else {
-            nextQuestionIndex = 0;
-        }
-        System.out.println("nextQuestionIndex = " + nextQuestionIndex);
-
-        <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
-        ${#answers} = answersString;
-    '
     #[percentage]:Integer
     event + '
         int percentage = (int)((double)(<?=$questionN?> - questionOrdering.length)/<?=$questionN?>*100);
         System.out.println("percentage = " + percentage);
         ${#percentage} = percentage;
+    '
+
+    #[questionIndex]:Integer
+    event + '
+        ${#questionIndex} = nextQuestionIndex;
     '
 
     #[questionTxt]:String
