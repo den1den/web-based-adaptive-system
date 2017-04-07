@@ -1,5 +1,10 @@
 body {
     font-family: "Arial";
+    background-color: gray;
+
+}
+main {
+    background-color: white;
 }
 .btn span p{
     height: 0px;
@@ -19,6 +24,12 @@ body {
     width: 100% !important;
     color: white;
     display: inline-block;
+}
+h2{
+    margin-top: 0px;
+}
+main {
+    padding-top: 25px;
 }
 .btn-large {
     width: 100%;
@@ -98,3 +109,12 @@ h5 {
     font-weight: bold;
     color: white;
 }
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }

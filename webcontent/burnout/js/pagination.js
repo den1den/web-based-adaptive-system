@@ -1,7 +1,7 @@
 $(function() {
   $('#pagination-short').materializePagination({
       align: 'center',
-      lastPage:  3,
+      lastPage:  4,
       firstPage:  1,
       useUrlParameter: false,
       onClickCallback: function(requestedPage){
