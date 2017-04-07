@@ -195,7 +195,7 @@ _personal {
 }
 
 application {->(extends)_concept
-    title 'Main Page'
+    title 'Welcome to incendio'
     no-title 'false'
 }
 
@@ -378,6 +378,12 @@ question {->(extends)_concept
 
         <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
         ${#answers} = answersString;
+    '
+    #[percentage]:Integer
+    event + '
+        int percentage = (int)((double)(<?=$questionN?> - questionOrdering.length)/<?=$questionN?>*100);
+        System.out.println("percentage = " + percentage);
+        ${#percentage} = percentage;
     '
 
     #[questionTxt]:String

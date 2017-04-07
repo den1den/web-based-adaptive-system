@@ -16,7 +16,6 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             -->
         </gale:text>
         <gale:variable expr="${#questionTxt}" />
-
     </h1>
     <div class="row center">
         <h5 class="header col s12 light">

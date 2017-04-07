@@ -88,8 +88,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-
-
+    
+    
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -187,7 +187,7 @@ _personal {
 }
 
 application {->(extends)_concept
-    title 'About Incaendio'
+    title 'Welcome to incendio'
     no-title 'false'
 }
 
@@ -332,6 +332,12 @@ answersString += String.valueOf("_A_");
 ///////////////////// END_JAVA_ENCODE /////////////////////
         ${#answers} = answersString;
     '
+    #[percentage]:Integer
+    event + '
+        int percentage = (int)((double)(23 - questionOrdering.length)/23*100);
+        System.out.println("percentage = " + percentage);
+        ${#percentage} = percentage;
+    '
 
     #[questionTxt]:String
     event + '
@@ -351,7 +357,7 @@ answersString += String.valueOf("_A_");
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
 
-
+        
 }
 settings {->(extends)_concept
     ->(parent)application
