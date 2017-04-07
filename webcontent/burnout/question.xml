@@ -74,8 +74,8 @@ xmlns:gale="http://gale.tue.nl/adaptation">
      <!-- Modal Structure -->
      <div id="modal1" class="modal">
            <div class="modal-content">
-                 <h4>Joke header</h4>
-                 <p>Babies in blenders?</p>
+                 <h4>Joke</h4>
+                 <p><gale:variable expr="${#joke}" /></p>
            </div>
            <div class="modal-footer">
                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -95,6 +95,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             var questionIndex = <gale:variable expr="${question#questionIndex}" />;
             var percentage = <gale:variable expr="${question#percentage}" />;
             document.getElementById('percentage-bar').style.width = percentage + '%';
+            var hasJoke = <gale:variable expr="String.valueOf(${#joke}).length() > 0" />;
             var amp = String.fromCharCode(38);
             $( "#question1" ).click(function( event ) {
                 window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=0';
@@ -105,6 +106,11 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             $( "#question3" ).click(function( event ) {
                 window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=2';
             });
+            if(hasJoke){
+                $('.modal').modal();
+            } else {
+                $('.joke-badge').addClass('disabled');
+            }
         });
         })(jQuery);
     </script>

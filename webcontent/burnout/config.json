@@ -190,7 +190,7 @@
         "Please describe your responce to intimacy attempt from your partner.",
         "I relax into the experience.",
         "My mind sometimes wanders, but after a few minutes I catch myself and enjoy it.",
-        "I wish this person, whom I care about, would leave me alone. Or I think, _I don_t have time to indulge myself like this. I should stop._" ],
+        "I wish this person, whom I care about, would leave me alone. Or I think: I dont have time to indulge myself like this. I should stop." ],
 
       ["803",
         "How do you feel when you come home from work?",
@@ -198,7 +198,7 @@
         "Please describe your mood after finishing work.",
         "I am excited to spend time on my hobbies and my family/partner.",
         "I like spending time resting and use my weekends for spending time on hobbies instead.",
-        "I_m tired all the time. I trudge through every minute." ]
+        "I am tired all the time. I trudge through every minute." ]
   ],
   "question_values": [
     [0,1,-1,-1,-1,0,1],
@@ -228,9 +228,9 @@
   "jokes": [
     "Q: What do you call a guy with no arms and no legs in your mailbox? A: Bill",
     "A blind man walks into a bar. And a table. And a chair.",
-    "I started a band called 999 Megabytes - we haven_t gotten a gig yet.",
-    "What_s orange and sounds like a parrot? A carrot.",
-    "What is the difference between prison and work? In prison you spend the majority of your time in a 10x10 cell. At work you get a 6x6 cubicle.",
-    "Why can_t you hear a pterodactyl go to the bathroom? Because the _P_ is silent."
+    "I started a band called 999 Megabytes - we havent gotten a gig yet.",
+    "What happens if you get scared half to death twice?",
+    "All those who believe in psychokinesis, please raise my hand.",
+    "Why cant you hear a pterodactyl go to the bathroom? Because the P is silent."
   ]
 }

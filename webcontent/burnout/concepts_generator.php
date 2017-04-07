@@ -395,6 +395,16 @@ question {->(extends)_concept
         ${#percentage} = percentage;
     '
 
+    #[joke]:String
+    event + '
+        String joke = "";
+        if(questionOrdering.length > 0 && questionOrdering.length % 4 == 0){
+            <?php PHP_PRINT($config['jokes'], 'jokes', 'String'); ?>
+            joke = jokes[(questionOrdering.length / 4) % jokes.length];
+        }
+        ${#joke} = joke;
+    '
+
     #[questionIndex]:Integer
     event + '
         ${#questionIndex} = nextQuestionIndex;

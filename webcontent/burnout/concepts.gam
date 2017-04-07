@@ -348,6 +348,16 @@ userScoreStr += String.valueOf("_A_");
         ${#percentage} = percentage;
     '
 
+    #[joke]:String
+    event + '
+        String joke = "";
+        if(questionOrdering.length > 0 && questionOrdering.length % 4 == 0){
+            String[] jokes = new String[]{"Q: What do you call a guy with no arms and no legs in your mailbox? A: Bill","A blind man walks into a bar. And a table. And a chair.","I started a band called 999 Megabytes - we haven_t gotten a gig yet.","What_s orange and sounds like a parrot? A carrot.","What is the difference between prison and work? In prison you spend the majority of your time in a 10x10 cell. At work you get a 6x6 cubicle.","Why can_t you hear a pterodactyl go to the bathroom? Because the _P_ is silent."};
+            joke = jokes[(questionOrdering.length / 4) % jokes.length];
+        }
+        ${#joke} = joke;
+    '
+
     #[questionIndex]:Integer
     event + '
         ${#questionIndex} = nextQuestionIndex;
