@@ -234,14 +234,14 @@
     "Why cant you hear a pterodactyl go to the bathroom? Because the P is silent."
   ],
   "stressor_to_recovery": [
-    [5, 9],
-    [6, 9],
-    [7, 8],
-    [1, 3, 6],
-    [5, 9],
+    [4, 8],
+    [5, 8],
+    [6, 7],
+    [0, 2, 5],
+    [4, 8],
     [],
-    [3, 4, 8],
-    [3, 7]
+    [2, 3, 7],
+    [2, 6]
   ],
   "recovery": [
     [
