@@ -25,6 +25,19 @@ body {
     text-align: center;
     margin-bottom: 10px;
 }
+@media screen and (max-width: 780px) {
+    .btn-large {
+        width: 100%;
+        line-height: 30px;
+        text-align: center;
+        height: 90px;
+        margin-bottom: 10px;
+        text-transform: none;
+    }
+    h1 {
+        font-size: 36px;
+    }
+}
 .pagination li{
     vertical-align: center;
     line-height: 30px;
