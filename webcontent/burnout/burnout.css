@@ -79,7 +79,7 @@ h5 {
         z-index: 99999;
 }
 .joke-badge .chip {
-    background-color: darkred;
+    background-color: darkgreen;
     color: white;
     font-weight: bold;
     font-size: 24px;
@@ -92,6 +92,10 @@ h5 {
 .joke-badge .chip i {
     margin-left: 5px;
     margin-top: 5px;
+}
+.joke-badge.disabled .chip{
+    background-color: darkred;
+    cursor: not-allowed;
 }
 .result-bad {
     background-color: darkred;
