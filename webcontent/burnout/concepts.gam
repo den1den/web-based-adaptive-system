@@ -207,7 +207,7 @@ question {->(extends)_concept
     #[previousQuestion]:Integer
     event + '
         //// Set this to reset the score on each page reload (debugging purposes only)
-        final boolean resetUserScore = false;
+        final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
         System.out.println();// Start log with empty line for this concept
 
         int previousQuestion;
