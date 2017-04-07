@@ -119,6 +119,10 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             });
             var questionIndex = <gale:variable expr="${question#questionIndex}" />;
             var percentage = <gale:variable expr="${question#percentage}" />;
+            if(percentage == 100){
+                window.location = '/gale/concept/http://localhost:8000/results';
+            }
+
             document.getElementById('percentage-bar').style.width = percentage + '%';
             var hasJoke = <gale:variable expr="String.valueOf(${#joke}).length() > 0" />;
             var amp = String.fromCharCode(38);
