@@ -433,6 +433,9 @@ settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
+results {->(extends)_concept
+    ->(parent)application
+    title 'Results'
+}
 <?php
 file_put_contents('concepts.gam', ob_get_clean());
-?>
