@@ -3,6 +3,7 @@ include_once 'util.php';
 
 $questionValues = $config['question_values'];
 $questionN = count($questionValues);
+$recoverN = 9;
 
 ob_start();
 ?>
@@ -14,11 +15,22 @@ $options {
 // root concept of the entire thesis
 _concept {
     strict 'true'
+
+    event + '
+        //// Set this to reset the score on each page reload (debugging purposes only)
+        final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
+        System.out.println();// Start log with empty line for a concept
+    '
+
     // count user clicks of suitable concepts :)
     #[visited]:Integer
-    event +'
+    event + '
         boolean countclick = ${#suitability};
     '
+
+    #[answers]:String
+
+    #[userScore]:String
 
     #[pageCounter]:Integer
     event + '
@@ -218,12 +230,9 @@ question {->(extends)_concept
     #available:Boolean ='${#known}'
     title 'Question'
     no-title 'true'
+
     #[previousQuestion]:Integer
     event + '
-        //// Set this to reset the score on each page reload (debugging purposes only)
-        final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
-        System.out.println();// Start log with empty line for this concept
-
         int previousQuestion;
         try{
             previousQuestion = Integer.parseInt(gale.req().getParameter("pq"));
@@ -254,7 +263,6 @@ question {->(extends)_concept
         ?>
     '
 
-    #[answers]:String
     event + '
         String answersString = ${#answers};
         int[] answers;
@@ -301,7 +309,6 @@ question {->(extends)_concept
         ${#answers} = answersString;
     '
 
-    #[userScore]:String
     <?php /*
  event + '
          float[][] questionScoreArray = new float[][]{new float[]{}};
@@ -497,6 +504,33 @@ settings {->(extends)_concept
 results {->(extends)_concept
     ->(parent)application
     title 'Results'
+    event + '
+        // Read userScore
+        float[] userScore;
+        String userScoreStr = ${#userScore};
+        if(resetUserScore || "".equals(userScoreStr)){
+            <?php PHP_PRINT($config['default_user_profile'], 'userScore', 'float', true); ?>
+        } else {
+            <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
+        }
+        <?php PHP_PRINT($config['stressor_to_recovery'], 'stress2Rec', 'int'); ?>
+
+        float[] rec = new float[<?=$recoverN?>];
+        for(int s = 0; s < userScore.length; s++){
+            float stressorScore = userScore[s];
+            for(int c = 0; c < stress2Rec[s].length; c++) {
+                rec[stress2Rec[s][c]] += stressorScore;
+            }
+        }
+
+        // rec now contains the recovery values
+
+        <?php /*DEBUG rec: */ JAVA_ENCODE('rec', 'recString', 1); echo 'System.out.println("recString = "+recString);'; ?>
+    '
+
+    #intro ='~
+        return "intro;default";
+    '
 }
 <?php // This is not used:
 //api {

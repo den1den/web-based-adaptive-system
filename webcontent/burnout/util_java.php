@@ -14,19 +14,19 @@ function _getSeparators() {
 		return "_{$a}_";
 	}, range( 'A', 'Z' ) );
 }
-function JAVA_DECODE( $input_var, $target_var, $depth, $input_exists = false, $type = 'float' ) {
+function JAVA_DECODE( $input_var, $target_var, $depth, $output_exists = false, $type = 'float' ) {
 	$alphas        = _getSeparators();
 	$inputArrayVar = $input_var . "Array" . $depth;
 	$outputVar     = $target_var . $depth;
 	$targetId = $type . str_repeat( "[]", $depth ) . " $target_var";
 
-	echo "///////////////////// JAVA_DECODE $input_var -> " . (!$input_exists ? 'new ' : '') . "$targetId /////////////////////\n";
+	echo "///////////////////// JAVA_DECODE $input_var -> " . ($output_exists ? '' : 'new ') . "$targetId /////////////////////\n";
 	echo "String[] $inputArrayVar = $input_var.split(\"{$alphas[$depth - 1]}\");\n";
 	echo $type . str_repeat( "[]", $depth ) . " $outputVar = new {$type}[$inputArrayVar.length]" . str_repeat( "[]", $depth - 1 ) . ";\n";
 
 	_JAVA_DECODE( $input_var, $target_var, $depth, $type );
 
-	if($input_exists){
+	if($output_exists){
 		echo $target_var . " = $outputVar;\n";
 	} else {
 		echo $targetId . " = $outputVar;\n";
@@ -108,10 +108,11 @@ function _PHP_print( $array, $type, $depth ) {
 
 	return "new {$type}" . str_repeat( "[]", $depth ) . "{" . implode( ",", $sub ) . "}";
 }
-function PHP_PRINT( $array, $varname, $type = 'float' ) {
+function PHP_PRINT( $array, $varname, $type = 'float', $exists = false ) {
 	if(!isset($array)){
 		throw new Exception();
 	}
 	$depth = array_depth( $array );
-	echo $type . str_repeat( "[]", $depth ) . " $varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
+	$class = $type . str_repeat( "[]", $depth );
+	echo ($exists ? '' : $class . ' ') . "$varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
 }
