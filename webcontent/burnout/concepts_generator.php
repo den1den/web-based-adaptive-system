@@ -1,5 +1,9 @@
 <?php
 include_once 'util.php';
+
+$questionValues = $config['question_values'];
+$questionN = count($questionValues);
+
 ob_start();
 ?>
 $options {
@@ -215,7 +219,7 @@ question {->(extends)_concept
             previousQuestion = Integer.parseInt(gale.req().getParameter("pq"));
         }catch(Exception e){
             System.out.println("GET `pq` not set: " + String.valueOf(e));
-            previousQuestion = 0;
+            previousQuestion = -1;
         }
         ${#previousQuestion} = previousQuestion;
     '
@@ -228,7 +232,7 @@ question {->(extends)_concept
             previousAnswer = Integer.parseInt(gale.req().getParameter("pa"));
         } catch(Exception e) {
             System.out.println("GET `pa` not set: " + String.valueOf(e));
-            previousAnswer = 0;
+            previousAnswer = -1;
         }
         ${#previousAnswer} = previousAnswer;
     '
@@ -302,7 +306,7 @@ question {->(extends)_concept
  */ ?>
     event + '
         final boolean resetUserScore = true;
-        <?php PHP_PRINT($config['question_values'], 'questionScores'); // 2d ?>
+        <?php PHP_PRINT($questionValues, 'questionScores'); // 2d ?>
 
         // Read userScore
         float[] userScore;
@@ -317,11 +321,13 @@ question {->(extends)_concept
             <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
         }
 
-        float answerEffect = previousAnswer * .5f;
-        System.out.println("questionScores[previousQuestion].length == " + questionScores[previousQuestion].length);
-        System.out.println("userScore.length == " + userScore.length);
-        for(int i = 0; i < 6; i++){
-            userScore[i] += answerEffect * questionScores[previousQuestion][i];
+        if(previousQuestion != -1 && previousAnswer != -1){
+            float answerEffect = previousAnswer * .5f;
+            System.out.println("questionScores[previousQuestion].length == " + questionScores[previousQuestion].length);
+            System.out.println("userScore.length == " + userScore.length);
+            for(int i = 0; i < 6; i++){
+                userScore[i] += answerEffect * questionScores[previousQuestion][i];
+            }
         }
 
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
@@ -336,26 +342,60 @@ question {->(extends)_concept
         ${_concept->(question)#question_txt} = "questionStr";
         */
         ?>
+    '
 
-        int nextAnswerIndex = ${#previousQuestion} + 1;
+    #[answers]:String
+    event + '
+        String answersString = ${#answers};
+        int[] answers;
+        if(resetUserScore || "".equals(answersString)){
+            <?php $defaultAnswers = array_fill(0, $questionN, 0);
+            PHP_PRINT($defaultAnswers, 'defaultAnswers', 'int'); // 2d ?>
+            answers = defaultAnswers;
+        } else {
+            <?php JAVA_DECODE('answersString', 'answers', 1, true, 'int'); ?>
+        }
+        // int[] answers is retrieved
+
+        int[] questionOrdering = new int[<?=$questionN?>]; int ix = 0;
+        Arrays.fill(questionOrdering, -1);
+        for (int i = 0; i < answers.length; i++) {
+            if(i == previousQuestion) {
+                answers[i] = previousAnswer;
+                System.out.println("Stored answer " + previousAnswer + " for question " + previousQuestion);
+            }
+            if(answers[i] == 0) { questionOrdering[ix++] = i; }
+        }
+        questionOrdering = Arrays.copyOf(questionOrdering, ix);
+
+        int nextQuestionIndex;
+        if(questionOrdering.length > 0){
+            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
+        } else {
+            nextQuestionIndex = 0;
+        }
+        System.out.println("nextQuestionIndex = " + nextQuestionIndex);
+
+        <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
+        ${#answers} = answersString;
     '
 
     #[questionTxt]:String
     event + '
-        ${#questionTxt} = questions[nextAnswerIndex][1];
+        ${#questionTxt} = questions[nextQuestionIndex][1];
     '
 
     #[answer1Text]:String
     event + '
-        ${#answer1Text} = questions[nextAnswerIndex][4];
+        ${#answer1Text} = questions[nextQuestionIndex][4];
     '
     #[answer2Text]:String
     event + '
-        ${#answer2Text} = questions[nextAnswerIndex][5];
+        ${#answer2Text} = questions[nextQuestionIndex][5];
     '
     #[answer3Text]:String
     event + '
-        ${#answer3Text} = questions[nextAnswerIndex][6];
+        ${#answer3Text} = questions[nextQuestionIndex][6];
     '
 
     <?php /* questionTxt = ''

@@ -30,7 +30,7 @@
         "http://localhost:8000/images/question_images/question_3.png",
         "Please describe your feelings or attitude towards your job.",
         "I generally wake up looking forward to the day ahead.",
-        "Sometimes I'd rather do something besides work, but I generally enjoy my work at least somewhat.",
+        "Sometimes I_d rather do something besides work, but I generally enjoy my work at least somewhat.",
         "I have noticed that I have become much more negative and cynical about my job and employer. " ],
 
       ["104",
@@ -45,9 +45,9 @@
         "When you think about the life of your dreams, how close does your current life come?",
         "http://localhost:8000/images/question_images/question_5.png",
         "Please identify how close to your ideal life you are.",
-        "I don't know exactly how it happened, but I'm doing the things I love.",
-        "Who thinks about that stuff? My life is what it is and I can't do much to change it.",
-        "I am not doing what I want to do. Sometimes I think, 'Is this really my life?'" ],
+        "I don_t know exactly how it happened, but I_m doing the things I love.",
+        "Who thinks about that stuff? My life is what it is and I can_t do much to change it.",
+        "I am not doing what I want to do. Sometimes I think, _Is this really my life?_" ],
 
       ["202",
         "How satisfied are you with yourself nowadays?",
@@ -86,7 +86,7 @@
         "http://localhost:8000/images/question_images/question_10.png",
         "Please identify whether there are people whith whom you can discuss personal matters.",
         "I have a supportive network, and at least some are people with whom I can discuss my feelings.",
-        "I have some people I talk to, but we don't talk about feelings and frustrations, it's mostly superficial.",
+        "I have some people I talk to, but we don_t talk about feelings and frustrations, it_s mostly superficial.",
         "I feel detached from the people around me." ],
 
       ["401",
@@ -94,7 +94,7 @@
         "http://localhost:8000/images/question_images/question_11.png",
         "Please identify how much you love Gale.",
         "I enjoy talking to clients and use their feedback to improve my work.",
-        "I find dealing with clients as a 'necessary evil' aspect of my work.",
+        "I find dealing with clients as a _necessary evil_ aspect of my work.",
         "I am frustrated when I have to deal with my clients." ],
 
       ["402",
@@ -109,15 +109,15 @@
         "How do you feel about your performance at work?",
         "http://localhost:8000/images/question_images/question_13.png",
         "Please describe your degree of confidence in your working capabilities.",
-        "I'm happy with how I'm doing. I'm making effective decisions and feeling happy with the consequences.",
+        "I_m happy with how I_m doing. I_m making effective decisions and feeling happy with the consequences.",
         "I find myself looking at others. And those others always seem to be doing a much better job than I am.",
-        "I feel like I'm just not on top of it anymore." ],
+        "I feel like I_m just not on top of it anymore." ],
 
       ["501",
-        "If you got laid off due to something that wasn't your fault (budget cuts, an entire industry going kaput) and you could make it financially for the time being, what would you say to yourself- if only in secret?",
+        "If you got laid off due to something that wasn_t your fault (budget cuts, an entire industry going kaput) and you could make it financially for the time being, what would you say to yourself- if only in secret?",
         "http://localhost:8000/images/question_images/question_14.png",
         "Please describe your feelings in the hypothetical scenario that you got fired.",
-        "I really love what I do. I'll just have to find another job -hopefully one that's even more rewarding.",
+        "I really love what I do. I_ll just have to find another job -hopefully one that_s even more rewarding.",
         "It is frustrating that I have to find a new job but maybe it is a good chance to try try something different.",
         "Thank God! That place was too much pressure." ],
 
@@ -139,7 +139,7 @@
       ["602",
         "Which of the two options best describe your sense of humor?",
         "http://localhost:8000/images/question_images/question_17.png",
-        "Please make a choice between the two answers based on which suits taste of humor."
+        "Please make a choice between the two answers based on which suits taste of humor.",
         "I try making people laugh by finding funny things to say.",
         null,
         "I use sarcasm to joke about people in the group." ],
@@ -147,23 +147,23 @@
       ["701",
         "What do you do to relax at night?",
         "http://localhost:8000/images/question_images/question_18.png",
-        "Please describe how you let off some steam after work."
+        "Please describe how you let off some steam after work.",
         "I work out, read a novel, listen to music or just hang out with my friends and family.",
-        "I try to relax, but it just doesn't work.",
-        "I zone out (watch TV or surf the web) so I don't have to think." ],
+        "I try to relax, but it just doesn_t work.",
+        "I zone out (watch TV or surf the web) so I don_t have to think." ],
 
       ["702",
         "The last time someone sent you a gift, what did you think?",
         "http://localhost:8000/images/question_images/question_19.png",
-        "Please describe your reaction to the hypothetical question that someone gave you a gift on an average day."
+        "Please describe your reaction to the hypothetical question that someone gave you a gift on an average day.",
         "Wow. How nice that somebody thought of me like this!",
         "I wish had the energy to be more thoughtful to others.",
-        "Oh, what a lovely gift, but I have all this stuff to do, so I'll just put it someplace (closet, shelf, etc.) and enjoy it later when I have more time." ],
+        "Oh, what a lovely gift, but I have all this stuff to do, so I_ll just put it someplace (closet, shelf, etc.) and enjoy it later when I have more time." ],
 
       ["703",
         "How woulld you describe your emotional fullfilling?",
         "http://localhost:8000/images/question_images/question_20.png",
-        "Please describe your emotional state."
+        "Please describe your emotional state.",
         "I try maintain a strong value system (I give back to society by volunteering, practice meditation, etc.)",
         "I prefer focusing on the practical aspect of my life.",
         "It just seems like I have lost interest and care for the things I used to value, like I am emotionally empty. " ],
@@ -171,18 +171,18 @@
       ["704",
         "How well can you identify stressful situations in your life?",
         "http://localhost:8000/images/question_images/question_21.png",
-        "Please rate how successfully you can identify things and situations that stress you out."
+        "Please rate how successfully you can identify things and situations that stress you out.",
         "Very well.",
         "Not that well.",
         "I can not identify any." ],
 
       ["801",
-        "How's your physical health?",
+        "How_s your physical health?",
         "http://localhost:8000/images/question_images/question_22.png",
         "Please describe how physically healthy you are.",
-        "I'm in great shape. I exercise a few times a weeks and rarely get sick.",
+        "I_m in great shape. I exercise a few times a weeks and rarely get sick.",
         "I feel okay, but I know I need to work out more frequently and get more sleep.",
-        "I'm experiencing physical ailments (headaches, stomachaches, chest pains, indigestions, persistent colds, etc)." ],
+        "I_m experiencing physical ailments (headaches, stomachaches, chest pains, indigestions, persistent colds, etc)." ],
 
       ["802",
         "When your spouse or partner gives you a kiss (maybe as a sign to make love), what happens?",
@@ -190,7 +190,7 @@
         "Please describe your responce to intimacy attempt from your partner.",
         "I relax into the experience.",
         "My mind sometimes wanders, but after a few minutes I catch myself and enjoy it.",
-        "I wish this person, whom I care about, would leave me alone. Or I think, 'I don't have time to indulge myself like this. I should stop.'" ],
+        "I wish this person, whom I care about, would leave me alone. Or I think, _I don_t have time to indulge myself like this. I should stop._" ],
 
       ["803",
         "How do you feel when you come home from work?",
@@ -198,7 +198,7 @@
         "Please describe your mood after finishing work.",
         "I am excited to spend time on my hobbies and my family/partner.",
         "I like spending time resting and use my weekends for spending time on hobbies instead.",
-        "I'm tired all the time. I trudge through every minute." ]
+        "I_m tired all the time. I trudge through every minute." ]
   ],
   "question_values": [
     [0,1,-1,-1,-1,0,1],
@@ -228,9 +228,9 @@
   "jokes": [
     "Q: What do you call a guy with no arms and no legs in your mailbox? A: Bill",
     "A blind man walks into a bar. And a table. And a chair.",
-    "I started a band called 999 Megabytes - we haven't gotten a gig yet.",
-    "What's orange and sounds like a parrot? A carrot.",
+    "I started a band called 999 Megabytes - we haven_t gotten a gig yet.",
+    "What_s orange and sounds like a parrot? A carrot.",
     "What is the difference between prison and work? In prison you spend the majority of your time in a 10x10 cell. At work you get a 6x6 cubicle.",
-    "Why can't you hear a pterodactyl go to the bathroom? Because the 'P' is silent.",
+    "Why can_t you hear a pterodactyl go to the bathroom? Because the _P_ is silent."
   ]
 }
