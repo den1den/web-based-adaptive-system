@@ -105,8 +105,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-    
-    
+
+
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -204,7 +204,7 @@ _personal {
 }
 
 application {->(extends)_concept
-    title 'Welcome to incendio'
+    title 'Welcome to Incendio'
     no-title 'false'
 }
 
@@ -425,7 +425,7 @@ userScoreStr += String.valueOf("_A_");
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
 
-        
+
 }
 settings {->(extends)_concept
     ->(parent)application
