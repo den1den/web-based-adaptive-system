@@ -307,3 +307,7 @@ settings {->(extends)_concept
     ->(parent)application
     title 'Settings'
 }
+results {->(extends)_concept
+    ->(parent)application
+    title 'Results'
+}

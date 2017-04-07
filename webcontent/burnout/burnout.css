@@ -80,3 +80,8 @@ h5 {
     margin-left: 5px;
     margin-top: 5px;
 }
+.result-bad {
+    background-color: darkred;
+    font-weight: bold;
+    color: white;
+}

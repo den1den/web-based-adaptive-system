@@ -66,7 +66,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         <span>70% completed</span>
     </div>
     <div class="joke-badge">
-          <a class="waves-effect waves-light" href="#modal1">
+          <a href="#modal1">
             <div class="chip">
                   <i class="material-icons">textsms</i>
             </div>
@@ -75,11 +75,11 @@ xmlns:gale="http://gale.tue.nl/adaptation">
      <!-- Modal Structure -->
      <div id="modal1" class="modal">
            <div class="modal-content">
-                 <h4>Modal Header</h4>
-                 <p>A bunch of text</p>
+                 <h4>Joke header</h4>
+                 <p>Babies in blenders?</p>
            </div>
            <div class="modal-footer">
-               <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+               <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
            </div>
      </div>
 

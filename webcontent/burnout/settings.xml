@@ -3,18 +3,12 @@
 xmlns:gale="http://gale.tue.nl/adaptation">
 
 <gale:text tag="default" type="creole">The settings for the burnout application can be found here.
-<form id="startform" method="POST">
-<gale:attr-variable name="action" expr="gale.req().getRequestURL()+&quot;?plugin=form&quot;" />
-<table>
-<tr valign="top"><td><gale:if expr="${_concept-&gt;(personal)#review}"><gale:then><input name="review" type="checkbox" value="true" checked="yes"/></gale:then><gale:else><input name="review" type="checkbox" value="true"/></gale:else></gale:if></td>
-<td>Adaptiveness: <b>on</b>.</td></tr>
-</table>
-<p>
-<a href="#" class="good" onclick="document.forms['startform'].submit(); return false">Save settings</a>
-</p>
-<input name="exec" type="hidden" value="${_concept-&gt;(personal)#review} = &quot;true&quot;.equals(gale.req().getParameter(&quot;review&quot;));" />
-<input name="redirect" type="hidden"><gale:attr-variable name="value" expr="gale.req().getParameter(&quot;redirect&quot;)" /></input>
-</form>
+
+<div class="waves-effect waves-light btn btn-small"><i class="material-icons right">settings_backup_restore</i>
+<gale:text tag="default" type="creole">
+     [[application?plugin=reset-profile|Reset Profile]]
+</gale:text>
+</div>
 </gale:text>
 
 </gale:repo>
