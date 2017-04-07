@@ -245,11 +245,71 @@
   ],
   "recovery": [
     [
-      "TITLE 1",
-      "EXPLENATION 1",
+      "Psychological detachment",
       [
-        "ANSWER_1_1",
-        "ANSWER_1_2"
+        "You should stop thinking about work and disengage yourself mentally from work"
+      ]
+    ],
+    
+    [
+      "Relaxation",
+      [
+        "You should aim for low-effort activities that require hardly any effort on your part"
+      ]
+    ],
+    
+    [
+      "Less exposure to work demands",
+      [
+        "You should avoid overtime (at work or at home)"
+      ]
+    ],
+    
+    [
+      "Humorous activities",
+      [
+        "You should engage in humorous activities"
+      ]
+    ],
+    
+    [
+      "Social activities",
+      [
+        "You should talk to your family, colleagues, or friends about positive emotions"
+      ]
+    ],
+    
+    [
+      "Compensation",
+      [
+        "You should try using different external resources, such as the help of others or of technology",
+        "You should increase your efforts",
+        "You should should attempt learning new skills"
+      ]
+    ],
+    
+    [
+      "Well-being improvement",
+      [
+        "You should exercise",
+        "You should rest",
+        "You should improve your diet and nutrition"
+      ]
+    ],
+    
+    [
+      "Transcendental perspective",
+      [
+        "You should try practicing meditation, gratitude, etc."
+      ]
+    ],
+    
+    [
+      "Job crafting",
+      [
+        "You should adjust your job to your preferences",
+        "You should confront new demanding aspects of your job to lower your strain",
+        "You should attempt an active and problem-focused approach to your work goals"
       ]
     ]
   ]
