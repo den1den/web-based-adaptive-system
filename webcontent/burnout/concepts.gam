@@ -207,7 +207,7 @@ question {->(extends)_concept
     #[previousQuestion]:Integer
     event + '
         //// Set this to reset the score on each page reload (debugging purposes only)
-        final boolean resetUserScore = true;
+        final boolean resetUserScore = false;
         System.out.println();// Start log with empty line for this concept
 
         int previousQuestion;
@@ -237,7 +237,7 @@ question {->(extends)_concept
         String answersString = ${#answers};
         int[] answers;
         if(resetUserScore || "".equals(answersString)){
-            int[] defaultAnswers = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            int[] defaultAnswers = new int[]{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
             answers = defaultAnswers;
         } else {
             ///////////////////// JAVA_DECODE answersString -> int[] answers /////////////////////

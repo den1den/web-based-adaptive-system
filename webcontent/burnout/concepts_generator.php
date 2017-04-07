@@ -245,7 +245,7 @@ question {->(extends)_concept
         String answersString = ${#answers};
         int[] answers;
         if(resetUserScore || "".equals(answersString)){
-            <?php $defaultAnswers = array_fill(0, $questionN, 0);
+            <?php $defaultAnswers = array_fill(0, $questionN, -1);
             PHP_PRINT($defaultAnswers, 'defaultAnswers', 'int'); // 2d ?>
             answers = defaultAnswers;
         } else {
