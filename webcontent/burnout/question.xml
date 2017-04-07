@@ -60,9 +60,9 @@ xmlns:gale="http://gale.tue.nl/adaptation">
     <br/>
     <div id="question-progress-bar">
         <div class="progress">
-          <div class="determinate" style="width: 70%"></div>
+          <div class="determinate"  id="percentage-bar" style="width: 0%"></div>
         </div>
-        <span>70% completed</span>
+        <span><gale:variable expr="${question#percentage}" />% completed</span>
     </div>
     <div class="joke-badge">
           <a href="#modal1">
@@ -93,6 +93,8 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         (function($){
         $( document ).ready(function() {
             var questionIndex = <gale:variable expr="${question#questionIndex}" />;
+            var percentage = <gale:variable expr="${question#percentage}" />;
+            document.getElementById('percentage-bar').style.width = percentage + '%';
             var hasJoke = <gale:variable expr="String.valueOf(${#joke}).length() > 0" />;
             var amp = String.fromCharCode(38);
             $( "#question1" ).click(function( event ) {

@@ -12,8 +12,8 @@
    <div class="row page" id="page-1">
            <div class="card teal darken-2">
              <div class="card-content white-text">
-               <span class="card-title">Questions</span>
-               <p>First you will be presented with a question. This can be either a textual question, or an image.</p>
+               <span class="card-title">Adaptive Questions</span>
+               <p>First you will be presented with one of the questions. This can be either a textual question, or an image. Upon answering the question, you will be redirected to a different question. The order of questions you will see is based on the answers you provide.</p>
              </div>
          </div>
    </div>
@@ -23,8 +23,8 @@
    <div class="row page" id="page-2">
            <div class="card teal darken-2">
              <div class="card-content white-text">
-               <span class="card-title">Answering</span>
-               <p>You are then required to pick an answer.</p>
+               <span class="card-title">Question Styles</span>
+               <p>Questions can be displayed textually or in image-form. If you would like to switch the way questions are displayed, you can click the 'Show as image' or 'Show as text' buttons under the question.</p>
              </div>
          </div>
    </div>
@@ -34,8 +34,19 @@
    <div class="row page" id="page-3">
            <div class="card teal darken-2">
              <div class="card-content white-text">
+               <span class="card-title">Jokes</span>
+               <p>Throughout the questionaire, a red badge will appear at the bottom right of your screen. This badge can be clicked to display a joke to help you stick your attention to the application.</p>
+             </div>
+         </div>
+   </div>
+   <!-- End card -->
+
+   <!-- Start Card -->
+   <div class="row page" id="page-4">
+           <div class="card teal darken-2">
+             <div class="card-content white-text">
                <span class="card-title">Results</span>
-               <p>In the end, you will be presented with tips tailored to the answers you provided.</p>
+               <p>After you completed all your questions, you will be presented with an overview of stressors that could be causing a burnout. Useful tips will be given to help you stay stress-free and handle work-related problems in your life.</p>
              </div>
          </div>
    </div>
