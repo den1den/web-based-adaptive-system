@@ -124,16 +124,19 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             var amp = String.fromCharCode(38);
             $('#question-image').attr('src', '<gale:variable expr="${question#questionImg}" />');
             $( "#question1" ).click(function( event ) {
+
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=0' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
-                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=0' + amp + 'a='+showImage;
             });
             $( "#question2" ).click(function( event ) {
+
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=1' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
-                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=1' + amp + 'a='+showImage;
             });
             $( "#question3" ).click(function( event ) {
+
+                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=2' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
-                window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=2' + amp + 'a='+showImage;
             });
             if(hasJoke){
                 $('.modal').modal();
