@@ -240,6 +240,14 @@ question {->(extends)_concept
         ${#previousAnswer} = previousAnswer;
     '
 
+    event + '
+        <?php
+        PHP_PRINT( array_map( function ( $el ) {
+            return $el[0];
+        }, $config['questions'] ), 'categories', 'int' );
+        ?>
+    '
+
     #[answers]:String
     event + '
         String answersString = ${#answers};
@@ -256,6 +264,8 @@ question {->(extends)_concept
         int[] questionOrdering = new int[<?=$questionN?>]; int ix = 0;
         boolean newAnswer = true;
         Arrays.fill(questionOrdering, -1);
+        int catCount = 0;
+        int prevCat = -1;
         for (int i = 0; i < answers.length; i++) {
             if(i == previousQuestion) {
                 newAnswer = false;
@@ -265,6 +275,10 @@ question {->(extends)_concept
             if(answers[i] == -1) {
                 questionOrdering[ix++] = i;
             }
+            int currentCat = categories[i]/100;
+            if(prevCat == -1 || prevCat == currentCat) catCount++;
+            else catCount=0;
+            prevCat = currentCat;
         }
         questionOrdering = Arrays.copyOf(questionOrdering, ix);
         System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
@@ -274,7 +288,6 @@ question {->(extends)_concept
         if(questionOrdering.length > 0){
             nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
         } else {
-
             nextQuestionIndex = 0;
         }
 
@@ -379,12 +392,6 @@ question {->(extends)_concept
 
         <?php // Set questions
         PHP_PRINT($config['questions'], 'questions', 'String');
-        /*
-        ${#questionScore} = userProfileStr;
-
-        String questionStr = ;
-        ${_concept->(question)#question_txt} = "questionStr";
-        */
         ?>
     '
 
@@ -405,6 +412,22 @@ question {->(extends)_concept
         ${#joke} = joke;
     '
 
+    #[answeredImage]:Integer
+    event + '
+        if ("i".equals(gale.req().getParameter("a"))) {
+            int answeredImage = ${#answeredImage};
+            answeredImage++;
+            ${#answeredImage} = answeredImage;
+        }
+    '
+
+    #[answeredText]:Integer
+    event + '
+        if ("t".equals(gale.req().getParameter("a"))) {
+            ${#answeredImage}++;
+        }
+    '
+
     #[questionIndex]:Integer
     event + '
         ${#questionIndex} = nextQuestionIndex;
@@ -413,6 +436,14 @@ question {->(extends)_concept
     #[questionTxt]:String
     event + '
         ${#questionTxt} = questions[nextQuestionIndex][1];
+    '
+    #[questionImg]:String
+    event + '
+        ${#questionImg} = questions[nextQuestionIndex][2];
+    '
+    #[questionTxtHard]:String
+    event + '
+        ${#questionTxtHard} = questions[nextQuestionIndex][3];
     '
 
     #[answer1Text]:String
@@ -461,5 +492,15 @@ results {->(extends)_concept
     ->(parent)application
     title 'Results'
 }
+<?php // This is not used:
+//api {
+//    #[joke_clicks]:Integer
+//    event + '
+//        if(gale.req().getParameter("joke") != null){
+//            ${#joke_clicks} = 5;
+//        }
+//    '
+//}
+?>
 <?php
 file_put_contents('concepts.gam', ob_get_clean());

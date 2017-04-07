@@ -95,6 +95,7 @@ function _PHP_print( $array, $type, $depth ) {
 			return $val . "f";
 		} else if($type === 'String') {
 			// TODO: Maybe replace ' by \'
+			$val = str_replace("'", "`", $val);
 			if(strpos($val, "'") !== false) throw new Exception(" >'< found in >$val< ");
 			return '"' . $val . '"';
 		} else {

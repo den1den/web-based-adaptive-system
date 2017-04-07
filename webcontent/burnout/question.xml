@@ -106,6 +106,7 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             });
             if(hasJoke){
                 $('.modal').modal();
+
             } else {
                 $('.joke-badge').addClass('disabled');
             }
