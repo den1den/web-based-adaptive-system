@@ -20,6 +20,12 @@ _concept {
         boolean countclick = ${#suitability};
     '
 
+    #[pageCounter]:Integer
+    event + '
+        ${#pageCounter}++;
+        //System.out.println("pageCounter: "+ ${#pageCounter});
+    '
+
     ///  Test variable
     #[burnout]:Integer
     event +''

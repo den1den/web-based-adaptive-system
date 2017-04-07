@@ -39,5 +39,14 @@
         </a>
     </div>
 </nav><!-- /#main-navigation -->
-
+<script>
+    var pageCounter = <gale:variable expr="${#pageCounter}" />;
+    //<![CDATA[
+    (function($){
+        if(pageCounter <= 10){
+            $('#header').addClass('dimmed');
+        }
+    })(jQuery);
+    //]]>
+</script>
 </span>
