@@ -65,6 +65,24 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         </div>
         <span>70% completed</span>
     </div>
+    <div class="joke-badge">
+          <a class="waves-effect waves-light" href="#modal1">
+            <div class="chip">
+                  <i class="material-icons">textsms</i>
+            </div>
+        </a>
+    </div>
+     <!-- Modal Structure -->
+     <div id="modal1" class="modal">
+           <div class="modal-content">
+                 <h4>Modal Header</h4>
+                 <p>A bunch of text</p>
+           </div>
+           <div class="modal-footer">
+               <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+           </div>
+     </div>
+
     <div style="display: none">
         <gale:text tag="default" type="creole">
             Previous question:

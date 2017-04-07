@@ -59,3 +59,24 @@ h5 {
 .header-text{
     vertical-align: top;
 }
+.joke-badge{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+        z-index: 99999;
+}
+.joke-badge .chip {
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    border-radius: 28px;
+    height: 56px;
+    width: 56px;
+    padding-top: 12px;
+
+}
+.joke-badge .chip i {
+    margin-left: 5px;
+    margin-top: 5px;
+}
