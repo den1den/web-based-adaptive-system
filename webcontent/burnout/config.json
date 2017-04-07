@@ -232,5 +232,25 @@
     "What happens if you get scared half to death twice?",
     "All those who believe in psychokinesis, please raise my hand.",
     "Why cant you hear a pterodactyl go to the bathroom? Because the P is silent."
+  ],
+  "stressor_to_recovery": [
+    [5, 9],
+    [6, 9],
+    [7, 8],
+    [1, 3, 6],
+    [5, 9],
+    [],
+    [3, 4, 8],
+    [3, 7]
+  ],
+  "recovery": [
+    [
+      "TITLE 1",
+      "EXPLENATION 1",
+      [
+        "ANSWER_1_1",
+        "ANSWER_1_2"
+      ]
+    ]
   ]
 }
