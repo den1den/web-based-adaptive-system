@@ -7,6 +7,7 @@ main {
 }
 .btn-small span p {
     width: 200px;
+    margin: 0;
 }
 .btn-small span p a {
     width: 260px;
