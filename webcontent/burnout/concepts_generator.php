@@ -213,7 +213,7 @@ _personal {
 }
 
 application {->(extends)_concept
-    title 'Welcome to incendio'
+    title 'Welcome to Incendio'
     no-title 'false'
 }
 
