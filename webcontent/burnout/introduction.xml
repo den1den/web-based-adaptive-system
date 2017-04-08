@@ -4,9 +4,6 @@
     <gale:text tag="default" type="creole">
         When using this application you will be presented with several questions and scenarios regarding your personal and professional life. After answering all questions, you will get a personalized advice on how to deal with the symptoms of burnout you might show. Eventually, you can reflect on your own behavior and ideally change that behavior if necessary.
     </gale:text>
-    <div class="col s12 m7 l6 pagination">
-       <div id="pagination-short"></div>
-   </div>
 
    <!-- Start Card -->
    <div class="row page" id="page-1">
@@ -51,6 +48,9 @@
          </div>
    </div>
    <!-- End card -->
+    <div class="col s12 m7 l6 pagination">
+        <div id="pagination-short"></div>
+    </div>
 
    <gale:text tag="default" type="creole">
        If you know how to use this system, you can continue to the question pages.
