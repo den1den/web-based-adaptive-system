@@ -23,7 +23,8 @@
 
         <ul id="nav-mobile" class="side-nav">
             <li>
-                <gale:a href="#" adapt="false" onclick="return false;" style="text-decoration:none">
+                <gale:a adapt="false" style="text-decoration:none">
+                <gale:attr-variable name="href" expr="${_concept-&gt;(personal)settings}.getUriString()+&quot;?redirect=&quot;+${.}.getUriString()" />
                     <i class="material-icons">account_circle</i> <b><gale:variable expr="${gale://gale.tue.nl/personal#name}" /></b>
                 </gale:a>
             </li>

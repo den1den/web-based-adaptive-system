@@ -41,30 +41,18 @@ xmlns:gale="http://gale.tue.nl/adaptation">
         <br/>
         <div class="waves-effect waves-light btn btn-large" id="question1">
             <gale:text tag="default" type="creole">
-                <!-- Answer 1
-                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
-                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][3]}" /> ]]
-                -->
                 <gale:variable expr="${#answer1Text}" />
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large" id="question2">
             <gale:text tag="default" type="creole">
-                <!-- Answer 2
-                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
-                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][4]}" /> ]]
-                -->
                 <gale:variable expr="${#answer2Text}" />
             </gale:text>
         </div>
         <br/>
         <div class="waves-effect waves-light btn btn-large" id="question3">
             <gale:text tag="default" type="creole">
-                <!-- Answer 3
-                GALE link consisting of [[ (link to new page + pq + pa | Textual discription]]
-                [[question?pq=<gale:variable expr="${question#currentQuestionID" /> | <gale:variable expr="${question#questionTextArray[question id][5]}" /> ]]
-                -->
                 <gale:variable expr="${#answer3Text}" />
             </gale:text>
         </div>

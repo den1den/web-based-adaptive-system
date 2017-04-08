@@ -5,11 +5,6 @@ body {
 main {
     background-color: white;
 }
-.btn span p{
-    height: 0px;
-    margin: 0px;
-    padding: 0px;
-}
 .btn-small span p {
     width: 200px;
 }
@@ -32,20 +27,19 @@ main {
 }
 .btn-large {
     width: 100%;
+    line-height: 30px;
+    font-size: 22px;
     text-align: center;
+    height: 90px;
     margin-bottom: 10px;
 }
 @media screen and (max-width: 780px) {
-    .btn-large {
-        width: 100%;
-        line-height: 30px;
-        text-align: center;
-        height: 90px;
-        margin-bottom: 10px;
-        text-transform: none;
-    }
     h1 {
         font-size: 36px;
+    }
+    .btn-large {
+        font-size: 14px;
+        text-transform: none;
     }
 }
 .pagination li{
@@ -123,7 +117,6 @@ body {
 
 main {
     flex: 1 0 auto;
-<<<<<<< HEAD
   }
 .joke-disabled {
     display: none;
