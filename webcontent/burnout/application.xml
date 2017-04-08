@@ -37,8 +37,4 @@
 
         You will be asked a number of questions about your behaviour and feelings during daily life. After, you will be presented with some tips to help decrease the chance of you getting a burnout. Proceed to the  [[introduction|introduction page]].
     </gale:text>
-    <gale:text tag="default" type="creole" expr="${introduction#knowledge} &lt; 0.5">
-        <gale:if expr="!${introduction#known}">If you have not seen the introduction, this will be shown.</gale:if>
-        <gale:if expr="${introduction#known}">If you have seen the introduction, this will be shown.</gale:if>
-    </gale:text>
 </gale:repo>
