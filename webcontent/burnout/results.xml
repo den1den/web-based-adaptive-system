@@ -8,24 +8,9 @@
         </div>
         of having a burnout.
     </div>
+
     <h4>These stressors are most applicable to you:</h4>
-    <div class="card red darken-2">
-        <div class="card-content white-text">
-            <span class="card-title">Self-deprecating humor</span>
-            <p>You joke about yourself a lot, which could indicate negative effects.</p>
-        </div>
-    </div>
-    <div class="card orange darken-2">
-        <div class="card-content white-text">
-           <span class="card-title">Desire to quit</span>
-           <p>You would like to quit your job.</p>
-        </div>
-    </div>
-    <div class="card blue darken-2">
-        <div class="card-content white-text">
-        <span class="card-title">Social isolation</span>
-        <p>You hate people more than you think.</p>
-        </div>
+    <div id="stressors-cards">
     </div>
     <br/><br/>
     <h4>The following things can be done to minimize your stress levels:</h4>
@@ -39,4 +24,10 @@
     <p>For more information on the scientific background of this topic, read the paper here:</p>
     <a class="waves-effect waves-light btn" target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1111/eci.12494/abstract"><i class="material-icons right">fast_forward</i>View paper</a>
     <p></p>
+
+    <script>
+        var recoveryTxts = <gale:variable expr="${#recoveryJsArray}" />;
+        var rec = <gale:variable expr="${#recoveryChoices}" />;
+    </script>
+    <script src="http://localhost:8000/js/results.js" />
 </gale:repo>

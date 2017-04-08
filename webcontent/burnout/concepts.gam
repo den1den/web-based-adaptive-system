@@ -435,6 +435,8 @@ settings {->(extends)_concept
 results {->(extends)_concept
     ->(parent)application
     title 'Results'
+
+    #[recString]:String
     event + '
         // Read userScore
         float[] userScore;
@@ -462,7 +464,6 @@ userScore = userScore1;
         }
 
         // rec now contains the recovery values
-
         ///////////////////// JAVA_ENCODE rec -> recString /////////////////////
 String recString = "";
 for (int i0 = 0; i0 < rec.length; i0++) {
@@ -472,8 +473,35 @@ recString += String.valueOf("_A_");
 }
 }
 ///////////////////// END_JAVA_ENCODE /////////////////////
-System.out.println("recString = "+recString);
-        System.out.println(recString);
+System.out.println("recString = "+recString);        ${#recString} = recString;
     '
 
-    }
+    #recoveryChoices = '~
+        String recString = ${#recString};
+        ///////////////////// JAVA_DECODE recString -> new float[] rec /////////////////////
+String[] recStringArray1 = recString.split("_A_");
+float[] rec1 = new float[recStringArray1.length];
+for (int i1 = 0; i1 < recStringArray1.length; i1++) {
+rec1[i1] = Float.parseFloat(recStringArray1[i1]);
+}
+float[] rec = rec1;
+///////////////////// END JAVA_DECODE /////////////////////
+        ///////////////////// JAVA_ENCODE rec -> recJsArrayStr /////////////////////
+String recJsArrayStr = "";
+recJsArrayStr += String.valueOf("[");
+for (int i0 = 0; i0 < rec.length; i0++) {
+recJsArrayStr += String.valueOf(rec[i0]);
+if(i0 < rec.length - 1) {
+recJsArrayStr += String.valueOf(", ");
+}
+}
+recJsArrayStr += String.valueOf("]");
+///////////////////// END_JAVA_ENCODE /////////////////////
+        return recJsArrayStr;
+    '
+
+    #recoveryJsArray = '~
+        String recoveryJsArrayStr = "[[\"Psychological detachment\",[\"You should stop thinking about work and disengage yourself mentally from work\"]],[\"Relaxation\",[\"You should aim for low-effort activities that require hardly any effort on your part\"]],[\"Less exposure to work demands\",[\"You should avoid overtime (at work or at home)\"]],[\"Humorous activities\",[\"You should engage in humorous activities\"]],[\"Social activities\",[\"You should talk to your family, colleagues, or friends about positive emotions\"]],[\"Compensation\",[\"You should try using different external resources, such as the help of others or of technology\",\"You should increase your efforts\",\"You should should attempt learning new skills\"]],[\"Well-being improvement\",[\"You should exercise\",\"You should rest\",\"You should improve your diet and nutrition\"]],[\"Transcendental perspective\",[\"You should try practicing meditation, gratitude, etc.\"]],[\"Job crafting\",[\"You should adjust your job to your preferences\",\"You should confront new demanding aspects of your job to lower your strain\",\"You should attempt an active and problem-focused approach to your work goals\"]]]";        return recoveryJsArrayStr;
+    '
+
+}

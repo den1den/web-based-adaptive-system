@@ -504,6 +504,8 @@ settings {->(extends)_concept
 results {->(extends)_concept
     ->(parent)application
     title 'Results'
+
+    #[recString]:String
     event + '
         // Read userScore
         float[] userScore;
@@ -524,15 +526,22 @@ results {->(extends)_concept
         }
 
         // rec now contains the recovery values
-
         <?php /*DEBUG rec: */ JAVA_ENCODE('rec', 'recString', 1); echo 'System.out.println("recString = "+recString);'; ?>
-
-        System.out.println(recString);
+        ${#recString} = recString;
     '
 
-    <?php /* #intro ='~
-        return "recString";
-    ' */ ?>
+    #recoveryChoices = '~
+        String recString = ${#recString};
+        <?php JAVA_DECODE('recString', 'rec', 1); ?>
+        <?php JAVA_ENCODE('rec', 'recJsArrayStr', 1, false, true); ?>
+        return recJsArrayStr;
+    '
+
+    #recoveryJsArray = '~
+        <?php JS_PRINT($config['recovery'], 'recoveryJsArrayStr'); ?>
+        return recoveryJsArrayStr;
+    '
+
 }
 <?php // This is not used:
 //api {
