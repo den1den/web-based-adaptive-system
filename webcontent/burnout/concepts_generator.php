@@ -19,7 +19,7 @@ _concept {
     event + '
         //// Set this to reset the score on each page reload (debugging purposes only)
         final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
-        System.out.println();// Start log with empty line for a concept
+        System.out.println(); // Start log with empty line for a concept
     '
 
     // count user clicks of suitable concepts :)
@@ -37,10 +37,6 @@ _concept {
         ${#pageCounter}++;
         //System.out.println("pageCounter: "+ ${#pageCounter});
     '
-
-    ///  Test variable
-    #[burnout]:Integer
-    event +''
 
     // flag to indicate that new content is available
     #[new-content]:Boolean 'false'
@@ -231,6 +227,8 @@ question {->(extends)_concept
     title 'Question'
     no-title 'true'
 
+    // Retrieve the previous question index from the GET pq parameter
+    // and store it in `previousQuestion`
     #[previousQuestion]:Integer
     event + '
         int previousQuestion;
@@ -243,6 +241,8 @@ question {->(extends)_concept
         ${#previousQuestion} = previousQuestion;
     '
 
+    // Retrieve the previous question index from the GET pa parameter
+    // and store it in `previousAnswer`
     #[previousAnswer]:Integer
     event + '
         int previousAnswer;
@@ -437,7 +437,7 @@ question {->(extends)_concept
     #[answeredText]:Integer
     event + '
         if ("t".equals(gale.req().getParameter("a"))) {
-            ${#answeredImage}++;
+            ${#answeredText}++;
         }
     '
 
@@ -511,37 +511,60 @@ results {->(extends)_concept
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
-            <?php PHP_PRINT($config['default_user_profile'], 'userScore', 'float', true); ?>
+            <?php PHP_PRINT($config['default_user_profile'], 'userScore', 'float', true);
+            // Also write the userScore back to the variable if its not set
+            JAVA_ENCODE('userScore', 'userScoreStr', 1, true); echo '${#userScore} = userScoreStr;'; ?>
+            System.out.println("Results: reset userScoreStr = " + userScoreStr);
         } else {
             <?php JAVA_DECODE('userScoreStr', 'userScore', 1, true); ?>
+            System.out.println("Results: read userScoreStr = " + userScoreStr);
         }
         <?php PHP_PRINT($config['stressor_to_recovery'], 'stress2Rec', 'int'); ?>
 
         float[] rec = new float[<?=$recoverN?>];
-        for(int s = 0; s < userScore.length; s++){
+        float totalBurnout = userScore[0];
+        for(int s = 1; s < userScore.length; s++){
             float stressorScore = userScore[s];
-            for(int c = 0; c < stress2Rec[s].length; c++) {
-                rec[stress2Rec[s][c]] += stressorScore;
+            int stressorIndex = s - 1;
+            for(int c = 0; c < stress2Rec[stressorIndex].length; c++) {
+                rec[stress2Rec[stressorIndex][c]] += stressorScore;
             }
         }
 
         // rec now contains the recovery values
-        <?php /*DEBUG rec: */ JAVA_ENCODE('rec', 'recString', 1); echo 'System.out.println("recString = "+recString);'; ?>
+        <?php JAVA_ENCODE('rec', 'recString', 1);
+        /*DEBUG rec: */ echo 'System.out.println("recString = "+recString);'; ?>
         ${#recString} = recString;
     '
 
-    #recoveryChoices = '~
-        String recString = ${#recString};
-        <?php JAVA_DECODE('recString', 'rec', 1); ?>
+    #[recoveryChoices]:String
+    event + '
+        // String recString is defined somewhere else
+        recString = ${#recString};
+        System.out.println("recString: "+recString);
+        <?php JAVA_DECODE('recString', 'rec', 1, true); /*rec is defined somewhere else*/ ?>
         <?php JAVA_ENCODE('rec', 'recJsArrayStr', 1, false, true); ?>
-        return recJsArrayStr;
+        System.out.println("recJsArrayStr: "+recJsArrayStr);
+        ${#recoveryChoices} = recJsArrayStr;
     '
 
-    #recoveryJsArray = '~
+    #[recoveryJsArray]:String
+    event + '
         <?php JS_PRINT($config['recovery'], 'recoveryJsArrayStr'); ?>
-        return recoveryJsArrayStr;
+        System.out.println("recoveryJsArrayStr: "+recoveryJsArrayStr);
+        ${#recoveryJsArray} = recoveryJsArrayStr;
     '
 
+    #[burnoutScore]:String
+    event + '
+        final float maxBurnout = 3.25f;
+        if(totalBurnout < 0){
+            totalBurnout = 0;
+        } else {
+            totalBurnout /= maxBurnout;
+        }
+        ${#burnoutScore} = String.valueOf(totalBurnout);
+    '
 }
 <?php // This is not used:
 //api {

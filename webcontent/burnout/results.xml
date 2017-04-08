@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gale:repo
     xmlns:gale="http://gale.tue.nl/adaptation">
-    <div>
-        We estimate you have a
-        <div class="chip result-bad">
-            High chance
-        </div>
-        of having a burnout.
-    </div>
+    <div id="burnout-result"></div>
 
     <h4>These stressors are most applicable to you:</h4>
     <div id="stressors-cards">
     </div>
-    <br/><br/>
+
+    <!--<br/><br/>
     <h4>The following things can be done to minimize your stress levels:</h4>
     <div class="card green darken-2">
         <div class="card-content white-text">
@@ -20,7 +15,8 @@
         <p>Spend more time with friends and family.</p>
         </div>
     </div>
-    <br/>
+    <br/>-->
+
     <p>For more information on the scientific background of this topic, read the paper here:</p>
     <a class="waves-effect waves-light btn" target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1111/eci.12494/abstract"><i class="material-icons right">fast_forward</i>View paper</a>
     <p></p>
@@ -28,6 +24,7 @@
     <script>
         var recoveryTxts = <gale:variable expr="${#recoveryJsArray}" />;
         var rec = <gale:variable expr="${#recoveryChoices}" />;
+        var burnoutScore = <gale:variable expr="${#burnoutScore}" />;
     </script>
     <script src="http://localhost:8000/js/results.js" />
 </gale:repo>

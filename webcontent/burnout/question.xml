@@ -93,18 +93,23 @@ xmlns:gale="http://gale.tue.nl/adaptation">
     <script>
         (function($){
         $( document ).ready(function() {
-            var questionStyle = 't';
-            $("#question-display-button a").click(function() {
-                if($('#question-image-div').is(':visible')){
-                    questionStyle = 't';
-                    $('#question-image-div').hide();
-                    $('#question-text-div').show();
-                }else{
-                    questionStyle = 'i';
-                    $('#question-image-div').show();
-                   $('#question-text-div').hide();
-                }
-            });
+            var questionStyle = 't',
+                toggleQuestionStyle = function() {
+                    if($('#question-image-div').is(':visible')){
+                        questionStyle = 't';
+                        $('#question-image-div').hide();
+                        $('#question-text-div').show();
+                    }else{
+                        questionStyle = 'i';
+                        $('#question-image-div').show();
+                        $('#question-text-div').hide();
+                    }
+                };
+            var imageOverText = <gale:variable expr="(${question#answeredImage} - ${question#answeredText}) >= 3" />;
+            if(imageOverText){
+                toggleQuestionStyle();
+            }
+            $("#question-display-button a").click(toggleQuestionStyle);
             var questionIndex = <gale:variable expr="${question#questionIndex}" />;
             var percentage = <gale:variable expr="${question#percentage}" />;
 
@@ -116,23 +121,19 @@ xmlns:gale="http://gale.tue.nl/adaptation">
             var amp = String.fromCharCode(38);
             $('#question-image').attr('src', '<gale:variable expr="${question#questionImg}" />');
             $( "#question1" ).click(function( event ) {
-
                 window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=0' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
             });
             $( "#question2" ).click(function( event ) {
-
                 window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=1' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
             });
             $( "#question3" ).click(function( event ) {
-
                 window.location = '/gale/concept/http://localhost:8000/question?pq=' + questionIndex + amp + 'pa=2' + amp + 'a='+questionStyle;
                 $(".burnout-loader").fadeIn(1000);
             });
             if(hasJoke){
                 $('.modal').modal();
-
             } else {
                 $('.joke-badge').addClass('joke-disabled');
             }
