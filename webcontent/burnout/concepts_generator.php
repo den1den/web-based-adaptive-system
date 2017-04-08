@@ -526,11 +526,13 @@ results {->(extends)_concept
         // rec now contains the recovery values
 
         <?php /*DEBUG rec: */ JAVA_ENCODE('rec', 'recString', 1); echo 'System.out.println("recString = "+recString);'; ?>
+
+        System.out.println(recString);
     '
 
-    #intro ='~
-        return "intro;default";
-    '
+    <?php /* #intro ='~
+        return "recString";
+    ' */ ?>
 }
 <?php // This is not used:
 //api {

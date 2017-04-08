@@ -105,8 +105,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-
-
+    
+    
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -221,6 +221,7 @@ question {->(extends)_concept
     #available:Boolean ='${#known}'
     title 'Question'
     no-title 'true'
+
     #[previousQuestion]:Integer
     event + '
         int previousQuestion;
@@ -425,7 +426,7 @@ userScoreStr += String.valueOf("_A_");
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
 
-
+        
 }
 settings {->(extends)_concept
     ->(parent)application
@@ -471,9 +472,8 @@ recString += String.valueOf("_A_");
 }
 }
 ///////////////////// END_JAVA_ENCODE /////////////////////
-System.out.println("recString = "+recString);    '
-
-    #intro ='~
-        return "intro;default";
+System.out.println("recString = "+recString);
+        System.out.println(recString);
     '
-}
+
+    }
