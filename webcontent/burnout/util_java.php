@@ -33,7 +33,6 @@ function JAVA_DECODE( $input_var, $target_var, $depth, $output_exists = false, $
 	}
 	echo "///////////////////// END JAVA_DECODE /////////////////////\n";
 }
-
 function _JAVA_DECODE( $input_var, $target_var, $depth, $type ) {
 	$alphas            = _getSeparators();
 	$iVar              = 'i' . $depth;
@@ -110,7 +109,7 @@ function _PHP_print( $array, $type, $depth ) {
 
 	return "new {$type}" . str_repeat( "[]", $depth ) . "{" . implode( ",", $sub ) . "}";
 }
-function PHP_PRINT( $array, $varname, $type = 'float', $exists = false ) {
+function PHP_PRINT( array $array, $varname, $type = 'float', $exists = false ) {
 	if(!isset($array)){
 		throw new Exception();
 	}
@@ -118,7 +117,8 @@ function PHP_PRINT( $array, $varname, $type = 'float', $exists = false ) {
 	$class = $type . str_repeat( "[]", $depth );
 	echo ($exists ? '' : $class . ' ') . "$varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
 }
-function JS_PRINT($array, $varname, $exists = false){
+
+function JS_PRINT(array $array, $varname, $exists = false){
 	echo ($exists ? '' : "String ") . "$varname = \""._JS_PRINT($array)."\";";
 }
 function _JS_PRINT($array ) {

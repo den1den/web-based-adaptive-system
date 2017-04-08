@@ -4,6 +4,7 @@ include_once 'util.php';
 $questionValues = $config['question_values'];
 $questionN = count($questionValues);
 $recoverN = 9;
+$copingsN = 7;
 
 ob_start();
 ?>
@@ -282,7 +283,7 @@ question {->(extends)_concept
         int prevCat = -1;
         for (int i = 0; i < answers.length; i++) {
             if(i == previousQuestion) {
-                newAnswer = false;
+                newAnswer = (answers[i] == -1); // It was -1 before
                 answers[i] = previousAnswer;
                 System.out.println("Stored answer " + previousAnswer + " for question " + previousQuestion);
             }
@@ -295,15 +296,8 @@ question {->(extends)_concept
             prevCat = currentCat;
         }
         questionOrdering = Arrays.copyOf(questionOrdering, ix);
-        System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
-        System.out.println("         answers = " + Arrays.toString(answers));
-
-        int nextQuestionIndex;
-        if(questionOrdering.length > 0){
-            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
-        } else {
-            nextQuestionIndex = 0;
-        }
+        // System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
+        // System.out.println("         answers = " + Arrays.toString(answers));
 
         <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
         ${#answers} = answersString;
@@ -394,10 +388,13 @@ question {->(extends)_concept
 
         if(previousQuestion != -1 && previousAnswer != -1 && newAnswer){
             float answerEffect = previousAnswer * .5f;
-            for(int i = 0; i < 6; i++){
+            for(int i = 0; i < <?=($copingsN)?>; i++){
                 userScore[i] += answerEffect * questionScores[previousQuestion][i];
             }
         }
+        // System.out.println("previousQuestion = "+previousQuestion);
+        // System.out.println("previousAnswer = "+previousAnswer);
+        // System.out.println("newAnswer = "+newAnswer);
 
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
         System.out.println("New user score is userScoreStr = " + userScoreStr);
@@ -406,6 +403,46 @@ question {->(extends)_concept
         <?php // Set questions
         PHP_PRINT($config['questions'], 'questions', 'String');
         ?>
+
+        <?php PHP_PRINT(range(0, $copingsN-1), 'copings', 'int'); ?>
+        // Get the (smallest) coping index that is lowest;
+        int[] minCopingIndices = new int[copings.length]; int mcii = 0;
+        for(int i = 1; i < userScore.length; i++){
+            if (Math.abs(userScore[i]) < Math.abs(userScore[minCopingIndices[mcii]])) {
+                // New minimum found
+                mcii = 0;
+                minCopingIndices[mcii] = i;
+            } else if (Math.abs(userScore[i]) == Math.abs(userScore[minCopingIndices[mcii]])) {
+                minCopingIndices[++mcii] = i;
+            }
+        }
+        minCopingIndices = Arrays.copyOf(minCopingIndices, mcii);
+        <?php /*DEBUG rec: */ echo 'final '; JAVA_ENCODE('minCopingIndices', 'minCopingIndicesStr', 1); echo 'System.out.println("minCopingIndicesStr = "+minCopingIndicesStr);'; ?>
+
+        <?php PHP_PRINT($config['coping_category'], 'copingQuestions', 'int'); ?>
+
+        <?php /*DEBUG rec: */ JAVA_ENCODE('copingQuestions', 'copingQuestionsStr', 2); echo 'System.out.println("copingQuestionsStr = "+copingQuestionsStr);'; ?>
+
+        int[] nextQuestion = new int[questionOrdering.length]; int nextQuestionI = 0;
+        for(int q = 0; q < questionOrdering.length; q++){
+            int question = questionOrdering[q];
+            for (int i = 0; i < minCopingIndices.length; i++) {
+                int[] cop2cat = copingQuestions[minCopingIndices[i]];
+                if (Arrays.binarySearch(cop2cat, question) >= 0) {
+                    nextQuestion[nextQuestionI++] = question;
+                    break;
+                }
+            }
+        }
+        nextQuestion = Arrays.copyOf(nextQuestion, nextQuestionI);
+        <?php /*DEBUG rec: * JAVA_ENCODE('nextQuestion', 'nextQuestionStr', 1); echo 'System.out.println("nextQuestionStr = "+nextQuestionStr);'; */ ?>
+
+        int nextQuestionIndex;
+        if(nextQuestion.length > 0){
+            nextQuestionIndex = nextQuestion[(int)(Math.random() * nextQuestion.length)];
+        } else {
+            nextQuestionIndex = 0;
+        }
     '
 
     #[percentage]:Integer
