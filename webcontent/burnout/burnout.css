@@ -103,8 +103,24 @@ h5 {
     background-color: darkred;
     cursor: not-allowed;
 }
-.result-bad {
+
+.result-high {
     background-color: darkred;
+    font-weight: bold;
+    color: white;
+}
+.result-med {
+    background-color: darkorange;
+    font-weight: bold;
+    color: white;
+}
+.result-low {
+    background-color: darkgoldenrod;
+    font-weight: bold;
+    color: white;
+}
+.result-none {
+    background-color: darkgreen;
     font-weight: bold;
     color: white;
 }
