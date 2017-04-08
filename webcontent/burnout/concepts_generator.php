@@ -437,7 +437,7 @@ question {->(extends)_concept
     #[answeredText]:Integer
     event + '
         if ("t".equals(gale.req().getParameter("a"))) {
-            ${#answeredImage}++;
+            ${#answeredText}++;
         }
     '
 

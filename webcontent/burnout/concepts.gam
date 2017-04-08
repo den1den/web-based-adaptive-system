@@ -311,13 +311,13 @@ answersString += String.valueOf("_A_");
     '
 
         event + '
-        float[][] questionScores = new float[][]{new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,0f,2f,1f,-1f,0f,0f},new float[]{0f,0f,2f,1f,-1f,0f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{1f,0f,0f,0f,0f,0f,0f},new float[]{1f,0f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f}};
+        float[][] questionScores = new float[][]{new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{-1f,0f,2f,1f,-1f,0f,0f},new float[]{-1f,0f,2f,1f,-1f,0f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.5f,0f,0f,0f,0f,0f,0f},new float[]{0.5f,0f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f}};
 
         // Read userScore
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
-            float[] defaultUserScore = new float[]{0f,4f,0f,0f,0f,0f,0f};
+            float[] defaultUserScore = new float[]{0f,0f,0f,0f,0f,0f,0f};
 ///////////////////// JAVA_ENCODE defaultUserScore -> defaultUserScoreStr /////////////////////
 String defaultUserScoreStr = "";
 for (int i0 = 0; i0 < defaultUserScore.length; i0++) {
@@ -391,7 +391,7 @@ userScoreStr += String.valueOf("_A_");
     #[answeredText]:Integer
     event + '
         if ("t".equals(gale.req().getParameter("a"))) {
-            ${#answeredImage}++;
+            ${#answeredText}++;
         }
     '
 
@@ -442,7 +442,7 @@ results {->(extends)_concept
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
-            userScore = new float[]{0f,4f,0f,0f,0f,0f,0f};
+            userScore = new float[]{0f,0f,0f,0f,0f,0f,0f};
 ///////////////////// JAVA_ENCODE userScore -> userScoreStr /////////////////////
 userScoreStr = "";
 for (int i0 = 0; i0 < userScore.length; i0++) {
