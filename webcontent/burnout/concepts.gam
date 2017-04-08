@@ -6,11 +6,22 @@ $options {
 // root concept of the entire thesis
 _concept {
     strict 'true'
+
+    event + '
+        //// Set this to reset the score on each page reload (debugging purposes only)
+        final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
+        System.out.println();// Start log with empty line for a concept
+    '
+
     // count user clicks of suitable concepts :)
     #[visited]:Integer
-    event +'
+    event + '
         boolean countclick = ${#suitability};
     '
+
+    #[answers]:String
+
+    #[userScore]:String
 
     #[pageCounter]:Integer
     event + '
@@ -94,8 +105,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-
-
+    
+    
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -210,12 +221,9 @@ question {->(extends)_concept
     #available:Boolean ='${#known}'
     title 'Question'
     no-title 'true'
+
     #[previousQuestion]:Integer
     event + '
-        //// Set this to reset the score on each page reload (debugging purposes only)
-        final boolean resetUserScore = false || (gale.req().getParameter("reset") != null);
-        System.out.println();// Start log with empty line for this concept
-
         int previousQuestion;
         try{
             previousQuestion = Integer.parseInt(gale.req().getParameter("pq"));
@@ -242,7 +250,6 @@ question {->(extends)_concept
         int[] categories = new int[]{101,102,103,104,201,202,301,302,303,304,401,402,403,501,502,601,602,701,702,703,704,801,802,803};
     '
 
-    #[answers]:String
     event + '
         String answersString = ${#answers};
         int[] answers;
@@ -264,6 +271,8 @@ answers = answers1;
         int[] questionOrdering = new int[23]; int ix = 0;
         boolean newAnswer = true;
         Arrays.fill(questionOrdering, -1);
+        int catCount = 0;
+        int prevCat = -1;
         for (int i = 0; i < answers.length; i++) {
             if(i == previousQuestion) {
                 newAnswer = false;
@@ -273,6 +282,10 @@ answers = answers1;
             if(answers[i] == -1) {
                 questionOrdering[ix++] = i;
             }
+            int currentCat = categories[i]/100;
+            if(prevCat == -1 || prevCat == currentCat) catCount++;
+            else catCount=0;
+            prevCat = currentCat;
         }
         questionOrdering = Arrays.copyOf(questionOrdering, ix);
         System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
@@ -297,7 +310,6 @@ answersString += String.valueOf("_A_");
         ${#answers} = answersString;
     '
 
-    #[userScore]:String
         event + '
         float[][] questionScores = new float[][]{new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,0f,2f,1f,-1f,0f,0f},new float[]{0f,0f,2f,1f,-1f,0f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,1f,2f,1f,0f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,-1f,-1f,-1f,0f,1f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{1f,0f,0f,0f,0f,0f,0f},new float[]{1f,0f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,1f,0f,0f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f},new float[]{0f,0f,0f,1f,0f,0f,0f}};
 
@@ -414,7 +426,7 @@ userScoreStr += String.valueOf("_A_");
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
 
-
+        
 }
 settings {->(extends)_concept
     ->(parent)application
@@ -423,4 +435,73 @@ settings {->(extends)_concept
 results {->(extends)_concept
     ->(parent)application
     title 'Results'
+
+    #[recString]:String
+    event + '
+        // Read userScore
+        float[] userScore;
+        String userScoreStr = ${#userScore};
+        if(resetUserScore || "".equals(userScoreStr)){
+            userScore = new float[]{0.5f,0f,0f,0f,0f,0f,0f};
+        } else {
+            ///////////////////// JAVA_DECODE userScoreStr -> float[] userScore /////////////////////
+String[] userScoreStrArray1 = userScoreStr.split("_A_");
+float[] userScore1 = new float[userScoreStrArray1.length];
+for (int i1 = 0; i1 < userScoreStrArray1.length; i1++) {
+userScore1[i1] = Float.parseFloat(userScoreStrArray1[i1]);
+}
+userScore = userScore1;
+///////////////////// END JAVA_DECODE /////////////////////
+        }
+        int[][] stress2Rec = new int[][]{new int[]{4,8},new int[]{5,8},new int[]{6,7},new int[]{0,2,5},new int[]{4,8},new int[]{},new int[]{2,3,7},new int[]{2,6}};
+
+        float[] rec = new float[9];
+        for(int s = 0; s < userScore.length; s++){
+            float stressorScore = userScore[s];
+            for(int c = 0; c < stress2Rec[s].length; c++) {
+                rec[stress2Rec[s][c]] += stressorScore;
+            }
+        }
+
+        // rec now contains the recovery values
+        ///////////////////// JAVA_ENCODE rec -> recString /////////////////////
+String recString = "";
+for (int i0 = 0; i0 < rec.length; i0++) {
+recString += String.valueOf(rec[i0]);
+if(i0 < rec.length - 1) {
+recString += String.valueOf("_A_");
+}
+}
+///////////////////// END_JAVA_ENCODE /////////////////////
+System.out.println("recString = "+recString);        ${#recString} = recString;
+    '
+
+    #recoveryChoices = '~
+        String recString = ${#recString};
+        ///////////////////// JAVA_DECODE recString -> new float[] rec /////////////////////
+String[] recStringArray1 = recString.split("_A_");
+float[] rec1 = new float[recStringArray1.length];
+for (int i1 = 0; i1 < recStringArray1.length; i1++) {
+rec1[i1] = Float.parseFloat(recStringArray1[i1]);
+}
+float[] rec = rec1;
+///////////////////// END JAVA_DECODE /////////////////////
+        ///////////////////// JAVA_ENCODE rec -> recJsArrayStr /////////////////////
+String recJsArrayStr = "";
+recJsArrayStr += String.valueOf("[");
+for (int i0 = 0; i0 < rec.length; i0++) {
+recJsArrayStr += String.valueOf(rec[i0]);
+if(i0 < rec.length - 1) {
+recJsArrayStr += String.valueOf(", ");
+}
+}
+recJsArrayStr += String.valueOf("]");
+///////////////////// END_JAVA_ENCODE /////////////////////
+        return recJsArrayStr;
+    '
+
+    #recoveryJsArray = '~
+        String recoveryJsArrayStr = "[[\"Psychological detachment\",[\"You should stop thinking about work and disengage yourself mentally from work\"]],[\"Relaxation\",[\"You should aim for low-effort activities that require hardly any effort on your part\"]],[\"Less exposure to work demands\",[\"You should avoid overtime (at work or at home)\"]],[\"Humorous activities\",[\"You should engage in humorous activities\"]],[\"Social activities\",[\"You should talk to your family, colleagues, or friends about positive emotions\"]],[\"Compensation\",[\"You should try using different external resources, such as the help of others or of technology\",\"You should increase your efforts\",\"You should should attempt learning new skills\"]],[\"Well-being improvement\",[\"You should exercise\",\"You should rest\",\"You should improve your diet and nutrition\"]],[\"Transcendental perspective\",[\"You should try practicing meditation, gratitude, etc.\"]],[\"Job crafting\",[\"You should adjust your job to your preferences\",\"You should confront new demanding aspects of your job to lower your strain\",\"You should attempt an active and problem-focused approach to your work goals\"]]]";        return recoveryJsArrayStr;
+    '
+
 }

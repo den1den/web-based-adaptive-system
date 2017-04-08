@@ -14,19 +14,19 @@ function _getSeparators() {
 		return "_{$a}_";
 	}, range( 'A', 'Z' ) );
 }
-function JAVA_DECODE( $input_var, $target_var, $depth, $input_exists = false, $type = 'float' ) {
+function JAVA_DECODE( $input_var, $target_var, $depth, $output_exists = false, $type = 'float' ) {
 	$alphas        = _getSeparators();
 	$inputArrayVar = $input_var . "Array" . $depth;
 	$outputVar     = $target_var . $depth;
 	$targetId = $type . str_repeat( "[]", $depth ) . " $target_var";
 
-	echo "///////////////////// JAVA_DECODE $input_var -> " . (!$input_exists ? 'new ' : '') . "$targetId /////////////////////\n";
+	echo "///////////////////// JAVA_DECODE $input_var -> " . ($output_exists ? '' : 'new ') . "$targetId /////////////////////\n";
 	echo "String[] $inputArrayVar = $input_var.split(\"{$alphas[$depth - 1]}\");\n";
 	echo $type . str_repeat( "[]", $depth ) . " $outputVar = new {$type}[$inputArrayVar.length]" . str_repeat( "[]", $depth - 1 ) . ";\n";
 
 	_JAVA_DECODE( $input_var, $target_var, $depth, $type );
 
-	if($input_exists){
+	if($output_exists){
 		echo $target_var . " = $outputVar;\n";
 	} else {
 		echo $targetId . " = $outputVar;\n";
@@ -62,30 +62,32 @@ function _JAVA_DECODE( $input_var, $target_var, $depth, $type ) {
 	echo "}\n";
 }
 
-function JAVA_ENCODE( $input_var, $target_var, $depth, $exists=false ) {
-
+function JAVA_ENCODE( $input_var, $target_var, $depth, $exists=false, $js=false ) {
 	echo "///////////////////// JAVA_ENCODE $input_var -> $target_var /////////////////////\n";
 	echo ($exists ? "" : "String ") . $target_var . " = \"\";\n";
-	_JAVA_ENCODE( $input_var, $target_var, 0, $depth );
+	_JAVA_ENCODE( $input_var, $target_var, 0, $depth, $js );
 	// echo "String $target_var = String.valueOf({$target_var}Builder); \n";
 	echo "///////////////////// END_JAVA_ENCODE /////////////////////\n";
 }
-
-function _JAVA_ENCODE( $input_var, $target_var, $depth, $maxDepth ) {
+function _JAVA_ENCODE( $input_var, $target_var, $depth, $maxDepth, $js ) {
 	$alphas   = _getSeparators();
 	$iVar     = 'i' . $depth;
 	$inputVar = $input_var . ( $depth === 0 ? "" : implode( array_map( function ( $i ) {
 			return "[i$i]";
 		}, range( 0, $depth - 1 ) ) ) );
+	if($js) echo "{$target_var} += String.valueOf(\"[\");\n";
 	echo "for (int $iVar = 0; $iVar < $inputVar.length; $iVar++) {\n";
 	if ( $depth === $maxDepth - 1 ) {
 		echo "{$target_var} += String.valueOf({$inputVar}[$iVar]);\n"; // Uses String.valueOf in the backend
 	} else {
-		_JAVA_ENCODE( $input_var, $target_var, $depth + 1, $maxDepth );
+		_JAVA_ENCODE( $input_var, $target_var, $depth + 1, $maxDepth, $js );
 	}
 	echo "if($iVar < $inputVar.length - 1) {\n";
-	echo "{$target_var} += String.valueOf(\"{$alphas[$maxDepth - $depth - 1]}\");\n";
-	echo "}\n}\n";
+	$splitChar = $js ? ', ' : $alphas[$maxDepth - $depth - 1];
+	echo "{$target_var} += String.valueOf(\"{$splitChar}\");\n";
+	echo "}\n";
+	echo "}\n";
+	if($js) echo "{$target_var} += String.valueOf(\"]\");\n";
 }
 
 function _PHP_print( $array, $type, $depth ) {
@@ -108,10 +110,30 @@ function _PHP_print( $array, $type, $depth ) {
 
 	return "new {$type}" . str_repeat( "[]", $depth ) . "{" . implode( ",", $sub ) . "}";
 }
-function PHP_PRINT( $array, $varname, $type = 'float' ) {
+function PHP_PRINT( $array, $varname, $type = 'float', $exists = false ) {
 	if(!isset($array)){
 		throw new Exception();
 	}
 	$depth = array_depth( $array );
-	echo $type . str_repeat( "[]", $depth ) . " $varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
+	$class = $type . str_repeat( "[]", $depth );
+	echo ($exists ? '' : $class . ' ') . "$varname = " . _PHP_print( $array, $type, $depth ) . ";\n";
+}
+function JS_PRINT($array, $varname, $exists = false){
+	echo ($exists ? '' : "String ") . "$varname = \""._JS_PRINT($array)."\";";
+}
+function _JS_PRINT($array ) {
+	if ( ! is_array( $array ) ) {
+		$val = $array;
+		if(is_numeric($val)){
+			return $val;
+		}
+		if(strpos($val, "'") !== false) throw new Exception(" >'< found in >$val< ");
+		if(strpos($val, '"') !== false) throw new Exception(" >\"< found in >$val< ");
+		return '\"' . $val . '\"';
+	}
+	$sub = array_map( function ( $el ) {
+		return _JS_PRINT( $el );
+	}, $array );
+
+	return "[" . implode( ",", $sub ) . "]";
 }
