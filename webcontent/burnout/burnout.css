@@ -31,7 +31,7 @@ main {
     line-height: 30px;
     font-size: 22px;
     text-align: center;
-    height: 90px;
+    height: initial;
     margin-bottom: 10px;
 }
 @media screen and (max-width: 780px) {
