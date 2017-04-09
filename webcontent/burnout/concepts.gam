@@ -3,7 +3,7 @@ $options {
     default.order "auto"
 }
 
-// root concept of the entire thesis
+// root concept of all concepts
 _concept {
     strict 'true'
 
@@ -13,16 +13,19 @@ _concept {
         System.out.println(); // Start log with empty line for a concept
     '
 
-    // count user clicks of suitable concepts :)
+    // count user visits of concepts
     #[visited]:Integer
     event + '
-        boolean countclick = ${#suitability};
+        boolean countclick = ${#pageCounter} > 0;
     '
 
+    // this stores the asnwers each user has given to all the questions
     #[answers]:String
 
+    // this stores the values of each coping technique of the user
     #[userScore]:String
 
+    //
     #[pageCounter]:Integer
     event + '
         ${#pageCounter}++;
@@ -50,13 +53,12 @@ _concept {
             countclick = false;
     '
     #resource ='~
-        if (${[[=_personal]]#first-time})
-            return "[[=intro.xhtml]]";
-        return "[[=layout.xhtml]]";
+	    if (${[[=_personal]]#first-time})
+    		return "[[=intro.xhtml]]";
+    	return "[[=layout.xhtml]]";
     '
 
     // knowledge definitions
-    /// BUGGY CODE!
     #[own-knowledge]:Double
     event + 'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
     #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
@@ -101,8 +103,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-    
-    
+
+
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -210,8 +212,7 @@ introduction {->(extends)_concept
     title 'Introduction'
 }
 
-/// Questions are numbered, the text of a question is in a sperate file
-/// The question number devided by 100 is the category
+// The questions concept to show a single question
 question {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
@@ -246,11 +247,13 @@ question {->(extends)_concept
         ${#previousAnswer} = previousAnswer;
     '
 
+    // Get the categories of all question from the config file
     event + '
         int[] categories = new int[]{101,102,103,104,201,202,301,302,303,304,401,402,403,501,502,601,602,701,702,703,704,801,802,803};
     '
 
     event + '
+        // Retrieve the question answers form the user model
         String answersString = ${#answers};
         int[] answers;
         if(resetUserScore || "".equals(answersString)){
@@ -268,6 +271,7 @@ answers = answers1;
         }
         // int[] answers is retrieved
 
+        // Store the new questions answer and retrieve all not answered questions
         int[] questionOrdering = new int[24]; int ix = 0;
         boolean newAnswer = true;
         Arrays.fill(questionOrdering, -1);
@@ -288,9 +292,9 @@ answers = answers1;
             prevCat = currentCat;
         }
         questionOrdering = Arrays.copyOf(questionOrdering, ix);
-        // System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
-        // System.out.println("         answers = " + Arrays.toString(answers));
+        // int[] questionOrdering contains all not answered questions
 
+        // Store the updated answers array
         ///////////////////// JAVA_ENCODE answers -> answersString /////////////////////
 answersString = "";
 for (int i0 = 0; i0 < answers.length; i0++) {
@@ -303,10 +307,11 @@ answersString += String.valueOf("_A_");
         ${#answers} = answersString;
     '
 
-        event + '
+    event + '
+        // Get the question coping strategy values of all question from the config file
         float[][] questionScores = new float[][]{new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{-1f,0f,2f,1f,-1f,0f,0f},new float[]{-1f,0f,2f,1f,-1f,0f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.75f,1f,-1f,1f,2f,1f,0f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.5f,1f,-1f,-1f,-1f,0f,1f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.5f,0f,0f,0f,0f,0f,0f},new float[]{0.5f,0f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{0.25f,1f,0f,0f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f},new float[]{-0.25f,0f,0f,1f,0f,0f,0f}};
 
-        // Read userScore
+        // Read coping strategy values of the user
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
@@ -334,15 +339,14 @@ userScore = userScore1;
         }
 
         if(previousQuestion != -1 && previousAnswer != -1 && newAnswer){
+            // Apply the previously answered question to the users score
             float answerEffect = previousAnswer * .5f;
             for(int i = 0; i < 7; i++){
                 userScore[i] += answerEffect * questionScores[previousQuestion][i];
             }
         }
-        // System.out.println("previousQuestion = "+previousQuestion);
-        // System.out.println("previousAnswer = "+previousAnswer);
-        // System.out.println("newAnswer = "+newAnswer);
 
+        // Store the users score to gale
         ///////////////////// JAVA_ENCODE userScore -> userScoreStr /////////////////////
 userScoreStr = "";
 for (int i0 = 0; i0 < userScore.length; i0++) {
@@ -355,11 +359,13 @@ userScoreStr += String.valueOf("_A_");
         System.out.println("New user score is userScoreStr = " + userScoreStr);
         ${#userScore} = userScoreStr;
 
+        // Get the questions content from the config file
         String[][] questions = new String[][]{new String[]{"101","How would you describe your feelings towards the people you work with?","http://localhost:8000/images/question_images/question_1.png","Please identify any positive or negative feelings towards your co-workers.","I respect the people that I work with, I value their input and ideas, and they value mine.","I get along well with my colleagues but I would not spend time with them outside work hours.","I feel increasing anger at my co-workers."},new String[]{"102","How do you find that you tend to treat people?","http://localhost:8000/images/question_images/question_2.png","Please describe your interaction with other people.","I enjoy spending time with people as I think it is rewarding.","I tend to treat people with a fair degree of callousness.","I am less sympathetic with people than perhaps they deserve."},new String[]{"103","Do you generally feel excited about coming to work?","http://localhost:8000/images/question_images/question_3.png","Please describe your feelings or attitude towards your job.","I generally wake up looking forward to the day ahead.","Sometimes I`d rather do something besides work, but I generally enjoy my work at least somewhat.","I have noticed that I have become much more negative and cynical about my job and employer. "},new String[]{"104","How would you describe your attitude towards others?","http://localhost:8000/images/question_images/question_4.png","Please describe your feelings towards others.","I feel energized after spending time with other people.","I deliberately try to avoid people.","I feel increasingly cynical or hyper-critical with friends and family."},new String[]{"201","When you think about the life of your dreams, how close does your current life come?","http://localhost:8000/images/question_images/question_5.png","Please identify how close to your ideal life you are.","I don`t know exactly how it happened, but I`m doing the things I love.","Who thinks about that stuff? My life is what it is and I can`t do much to change it.","I am not doing what I want to do. Sometimes I think, `Is this really my life?`"},new String[]{"202","How satisfied are you with yourself nowadays?","http://localhost:8000/images/question_images/question_6.png","Please describe your feelings towards yourself at this point of time.","I think I am on a good track towards my personal development.","I think I am doing well but there is still a long way until the person I aspire to be.","I feel like I am just not good enough anymore."},new String[]{"301","How would you rate your degree of socializing?","http://localhost:8000/images/question_images/question_7.png","Please describe how social you are.","I have an active social life.","I like spending time with others but sometimes I need long periods of time with no socializing.","I spend more time alone, withdrawn from friends, family, and work acquaintances."},new String[]{"302","How do you respond to stressful events?","http://localhost:8000/images/question_images/question_8.png","Please describe your attitude towards stressful situations.","I try to keep a positive attitude in difficult circumstances.","I find it hard to deal with stressful situations but I try to stay as calm as possible.","I find myself exploding in anger at the most inconsequential things."},new String[]{"303","How do you spend your free time?","http://localhost:8000/images/question_images/question_9.png","Please describe what you do when you are not working.","I like experiencing new things so I am always looking for new experiences.","I find that things I used to enjoy seem like a chore lately.","I feel run down and drained of physical energy."},new String[]{"304","Do you have anyone you can talk to about the stress you experience?","http://localhost:8000/images/question_images/question_10.png","Please identify whether there are people whith whom you can discuss personal matters.","I have a supportive network, and at least some are people with whom I can discuss my feelings.","I have some people I talk to, but we don`t talk about feelings and frustrations, it`s mostly superficial.","I feel detached from the people around me."},new String[]{"401","How would you describe your relationship with your clients?","http://localhost:8000/images/question_images/question_11.png","Please identify how much you love Gale.","I enjoy talking to clients and use their feedback to improve my work.","I find dealing with clients as a `necessary evil` aspect of my work.","I am frustrated when I have to deal with my clients."},new String[]{"402","How would you rate your energy level at work?","http://localhost:8000/images/question_images/question_12.png","Please identify how energetic you are at your work.","There is a high degree of vitality in my work activities.","My work lacks inspiration, I stick to the usual patterns.","I feel overwhelmed and drained when I am at work."},new String[]{"403","How do you feel about your performance at work?","http://localhost:8000/images/question_images/question_13.png","Please describe your degree of confidence in your working capabilities.","I`m happy with how I`m doing. I`m making effective decisions and feeling happy with the consequences.","I find myself looking at others. And those others always seem to be doing a much better job than I am.","I feel like I`m just not on top of it anymore."},new String[]{"501","If you got laid off due to something that wasn`t your fault (budget cuts, an entire industry going kaput) and you could make it financially for the time being, what would you say to yourself- if only in secret?","http://localhost:8000/images/question_images/question_14.png","Please describe your feelings in the hypothetical scenario that you got fired.","I really love what I do. I`ll just have to find another job -hopefully one that`s even more rewarding.","It is frustrating that I have to find a new job but maybe it is a good chance to try try something different.","Thank God! That place was too much pressure."},new String[]{"502","How would you rate your enthusiasm about your work?","http://localhost:8000/images/question_images/question_15.png","Please identify how inspired and engaged you are to your job.","I find my job inspiring and I am always looking for more challenges.","When I am at work, I find it hard to concentrate on doing my job. ","I have been finding more and more excuses to skip work or call in sick."},new String[]{"601","How would you try to make someone else happy?","http://localhost:8000/images/question_images/question_16.png","Please identify your means of humoring others.","I would find a funny movie to watch or a fun activity to do together.","","I would joke about myself to make the other person laugh."},new String[]{"602","Which of the two options best describe your sense of humor?","http://localhost:8000/images/question_images/question_17.png","Please make a choice between the two answers based on which suits taste of humor.","I try making people laugh by finding funny things to say.","","I use sarcasm to joke about people in the group."},new String[]{"701","What do you do to relax at night?","http://localhost:8000/images/question_images/question_18.png","Please describe how you let off some steam after work.","I work out, read a novel, listen to music or just hang out with my friends and family.","I try to relax, but it just doesn`t work.","I zone out (watch TV or surf the web) so I don`t have to think."},new String[]{"702","The last time someone sent you a gift, what did you think?","http://localhost:8000/images/question_images/question_19.png","Please describe your reaction to the hypothetical question that someone gave you a gift on an average day.","Wow. How nice that somebody thought of me like this!","I wish had the energy to be more thoughtful to others.","Oh, what a lovely gift, but I have all this stuff to do, so I`ll just put it someplace (closet, shelf, etc.) and enjoy it later when I have more time."},new String[]{"703","How woulld you describe your emotional fullfilling?","http://localhost:8000/images/question_images/question_20.png","Please describe your emotional state.","I try maintain a strong value system (I give back to society by volunteering, practice meditation, etc.)","I prefer focusing on the practical aspect of my life.","It just seems like I have lost interest and care for the things I used to value, like I am emotionally empty. "},new String[]{"704","How well can you identify stressful situations in your life?","http://localhost:8000/images/question_images/question_21.png","Please rate how successfully you can identify things and situations that stress you out.","Very well.","Not that well.","I can not identify any."},new String[]{"801","How`s your physical health?","http://localhost:8000/images/question_images/question_22.png","Please describe how physically healthy you are.","I`m in great shape. I exercise a few times a weeks and rarely get sick.","I feel okay, but I know I need to work out more frequently and get more sleep.","I`m experiencing physical ailments (headaches, stomachaches, chest pains, indigestions, persistent colds, etc)."},new String[]{"802","When your spouse or partner gives you a kiss (maybe as a sign to make love), what happens?","http://localhost:8000/images/question_images/question_23.png","Please describe your responce to intimacy attempt from your partner.","I relax into the experience.","My mind sometimes wanders, but after a few minutes I catch myself and enjoy it.","I wish this person, whom I care about, would leave me alone. Or I think: I dont have time to indulge myself like this. I should stop."},new String[]{"803","How do you feel when you come home from work?","http://localhost:8000/images/question_images/question_24.png","Please describe your mood after finishing work.","I am excited to spend time on my hobbies and my family/partner.","I like spending time resting and use my weekends for spending time on hobbies instead.","I am tired all the time. I trudge through every minute."}};
 
+        // Get the next coping strategy that should be asked
         int[] copings = new int[]{0,1,2,3,4,5,6};
-        // Get the (smallest) coping index that is lowest;
         int[] minCopingIndices = new int[copings.length]; int mcii = 0;
+        // First get the (smallest) coping index that is lowest;
         for(int i = 1; i < userScore.length; i++){
             if (Math.abs(userScore[i]) < Math.abs(userScore[minCopingIndices[mcii]])) {
                 // New minimum found
@@ -370,33 +376,11 @@ userScoreStr += String.valueOf("_A_");
             }
         }
         minCopingIndices = Arrays.copyOf(minCopingIndices, mcii);
-        final ///////////////////// JAVA_ENCODE minCopingIndices -> minCopingIndicesStr /////////////////////
-String minCopingIndicesStr = "";
-for (int i0 = 0; i0 < minCopingIndices.length; i0++) {
-minCopingIndicesStr += String.valueOf(minCopingIndices[i0]);
-if(i0 < minCopingIndices.length - 1) {
-minCopingIndicesStr += String.valueOf("_A_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
-System.out.println("minCopingIndicesStr = "+minCopingIndicesStr);
+
+        // Get the most impactfull questions for each coping strategy from the config file
         int[][] copingQuestions = new int[][]{new int[]{0,1,2,3,6,7,8,9,10,11,12,13,14,18,19,20,21},new int[]{4,5},new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,22,23,24},new int[]{6,7,8,9},new int[]{6,7,8,9},new int[]{0,1,2,3,4,11,12,13}};
 
-        ///////////////////// JAVA_ENCODE copingQuestions -> copingQuestionsStr /////////////////////
-String copingQuestionsStr = "";
-for (int i0 = 0; i0 < copingQuestions.length; i0++) {
-for (int i1 = 0; i1 < copingQuestions[i0].length; i1++) {
-copingQuestionsStr += String.valueOf(copingQuestions[i0][i1]);
-if(i1 < copingQuestions[i0].length - 1) {
-copingQuestionsStr += String.valueOf("_A_");
-}
-}
-if(i0 < copingQuestions.length - 1) {
-copingQuestionsStr += String.valueOf("_B_");
-}
-}
-///////////////////// END_JAVA_ENCODE /////////////////////
-System.out.println("copingQuestionsStr = "+copingQuestionsStr);
+        // Find all plausible next questions
         int[] nextQuestion = new int[questionOrdering.length]; int nextQuestionI = 0;
         for(int q = 0; q < questionOrdering.length; q++){
             int question = questionOrdering[q];
@@ -409,15 +393,25 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
             }
         }
         nextQuestion = Arrays.copyOf(nextQuestion, nextQuestionI);
-        
+
         int nextQuestionIndex;
         if(nextQuestion.length > 0){
+            // A more plausible next question is found
+            System.out.println("picked plausible next question form " + nextQuestion.length);
             nextQuestionIndex = nextQuestion[(int)(Math.random() * nextQuestion.length)];
+        } else if (questionOrdering.length > 0){
+            // There is still a question unanswered
+            System.out.println("picked random next question form " + questionOrdering.length
+                + " where minCopingIndices.length = " + minCopingIndices.length);
+            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
         } else {
+            // Otherwise just pick the first
+            System.out.println("First question picked");
             nextQuestionIndex = 0;
         }
     '
 
+    // calculate the progressbar percentage
     #[percentage]:Integer
     event + '
         int percentage = (int)((double)(24 - questionOrdering.length)/24*100);
@@ -425,6 +419,7 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
         ${#percentage} = percentage;
     '
 
+    // Show a joke every 4 questions
     #[joke]:String
     event + '
         String joke = "";
@@ -435,6 +430,7 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
         ${#joke} = joke;
     '
 
+    // Store if the previous qeustion is answered as an image
     #[answeredImage]:Integer
     event + '
         if ("i".equals(gale.req().getParameter("a"))) {
@@ -444,6 +440,7 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
         }
     '
 
+    // Store if the previous qeustion is answered as text
     #[answeredText]:Integer
     event + '
         if ("t".equals(gale.req().getParameter("a"))) {
@@ -451,24 +448,29 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
         }
     '
 
+    // Set the question id
     #[questionIndex]:Integer
     event + '
         ${#questionIndex} = nextQuestionIndex;
     '
 
+    // Retieve the text based question
     #[questionTxt]:String
     event + '
         ${#questionTxt} = questions[nextQuestionIndex][1];
     '
+    // Retrieve the image url for the image based question
     #[questionImg]:String
     event + '
         ${#questionImg} = questions[nextQuestionIndex][2];
     '
+    // (depr) Retrieve the hard text for an question
     #[questionTxtHard]:String
     event + '
         ${#questionTxtHard} = questions[nextQuestionIndex][3];
     '
 
+    // Retrieve the answers
     #[answer1Text]:String
     event + '
         ${#answer1Text} = questions[nextQuestionIndex][4];
@@ -481,8 +483,6 @@ System.out.println("copingQuestionsStr = "+copingQuestionsStr);
     event + '
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
-
-        
 }
 settings {->(extends)_concept
     ->(parent)application
@@ -492,6 +492,7 @@ results {->(extends)_concept
     ->(parent)application
     title 'Results'
 
+    // Calculate in the final recommendation
     #[recString]:String
     event + '
         // Read userScore
@@ -542,14 +543,13 @@ recString += String.valueOf("_A_");
 }
 }
 ///////////////////// END_JAVA_ENCODE /////////////////////
-System.out.println("recString = "+recString);        ${#recString} = recString;
+        ${#recString} = recString;
     '
 
+    // Pass the rec array to JS
     #[recoveryChoices]:String
     event + '
-        // String recString is defined somewhere else
         recString = ${#recString};
-        System.out.println("recString: "+recString);
         ///////////////////// JAVA_DECODE recString -> float[] rec /////////////////////
 String[] recStringArray1 = recString.split("_A_");
 float[] rec1 = new float[recStringArray1.length];
@@ -569,16 +569,17 @@ recJsArrayStr += String.valueOf(", ");
 }
 recJsArrayStr += String.valueOf("]");
 ///////////////////// END_JAVA_ENCODE /////////////////////
-        System.out.println("recJsArrayStr: "+recJsArrayStr);
         ${#recoveryChoices} = recJsArrayStr;
     '
 
+    // Pass the recovery text form the config file to JS
     #[recoveryJsArray]:String
     event + '
         String recoveryJsArrayStr = "[[\"Psychological detachment\",[\"You should stop thinking about work and disengage yourself mentally from work\"]],[\"Relaxation\",[\"You should aim for low-effort activities that require hardly any effort on your part\"]],[\"Less exposure to work demands\",[\"You should avoid overtime (at work or at home)\"]],[\"Humorous activities\",[\"You should engage in humorous activities\"]],[\"Social activities\",[\"You should talk to your family, colleagues, or friends about positive emotions\"]],[\"Compensation\",[\"You should try using different external resources, such as the help of others or of technology\",\"You should increase your efforts\",\"You should should attempt learning new skills\"]],[\"Well-being improvement\",[\"You should exercise\",\"You should rest\",\"You should improve your diet and nutrition\"]],[\"Transcendental perspective\",[\"You should try practicing meditation, gratitude, etc.\"]],[\"Job crafting\",[\"You should adjust your job to your preferences\",\"You should confront new demanding aspects of your job to lower your strain\",\"You should attempt an active and problem-focused approach to your work goals\"]]]";        System.out.println("recoveryJsArrayStr: "+recoveryJsArrayStr);
         ${#recoveryJsArray} = recoveryJsArrayStr;
     '
 
+    // Calculate the final burnpout score
     #[burnoutScore]:String
     event + '
         final float maxBurnout = 3.25f;

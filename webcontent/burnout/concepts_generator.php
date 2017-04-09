@@ -1,8 +1,7 @@
 <?php
 include_once 'util.php';
 
-$questionValues = $config['question_values'];
-$questionN = count($questionValues);
+$questionN = count($config['question_values']);
 $recoverN = 9;
 $copingsN = 7;
 
@@ -13,7 +12,7 @@ $options {
     default.order "auto"
 }
 
-// root concept of the entire thesis
+// root concept of all concepts
 _concept {
     strict 'true'
 
@@ -23,16 +22,19 @@ _concept {
         System.out.println(); // Start log with empty line for a concept
     '
 
-    // count user clicks of suitable concepts :)
+    // count user visits of concepts
     #[visited]:Integer
     event + '
-        boolean countclick = ${#suitability};
+        boolean countclick = ${#pageCounter} > 0;
     '
 
+    // this stores the asnwers each user has given to all the questions
     #[answers]:String
 
+    // this stores the values of each coping technique of the user
     #[userScore]:String
 
+    //
     #[pageCounter]:Integer
     event + '
         ${#pageCounter}++;
@@ -60,13 +62,12 @@ _concept {
             countclick = false;
     '
     #resource ='~
-        if (${[[=_personal]]#first-time})
-            return "[[=intro.xhtml]]";
-        return "[[=layout.xhtml]]";
+	    if (${[[=_personal]]#first-time})
+    		return "[[=intro.xhtml]]";
+    	return "[[=layout.xhtml]]";
     '
 
     // knowledge definitions
-    /// BUGGY CODE!
     #[own-knowledge]:Double
     event + 'if (countclick) ${#own-knowledge} = 1; else if (${#own-knowledge} < 0.3) ${#own-knowledge} = 0.3;'
     #knowledge:Double ='avg(new Object[] {${<=(parent)#knowledge}, ${#own-knowledge}})'
@@ -111,8 +112,8 @@ _concept {
     #link.classexpr '~
         return "neutral";
     '
-    
-    
+
+
     #link.iconlist 'null'
     #unknown:Boolean ="false"
     #[beginner]:Boolean ='!"false".equals(${?beginner})'
@@ -220,8 +221,7 @@ introduction {->(extends)_concept
     title 'Introduction'
 }
 
-/// Questions are numbered, the text of a question is in a sperate file
-/// The question number devided by 100 is the category
+// The questions concept to show a single question
 question {->(extends)_concept
     ->(parent)application
     #available:Boolean ='${#known}'
@@ -256,6 +256,7 @@ question {->(extends)_concept
         ${#previousAnswer} = previousAnswer;
     '
 
+    // Get the categories of all question from the config file
     event + '
         <?php
         PHP_PRINT( array_map( function ( $el ) {
@@ -265,6 +266,7 @@ question {->(extends)_concept
     '
 
     event + '
+        // Retrieve the question answers form the user model
         String answersString = ${#answers};
         int[] answers;
         if(resetUserScore || "".equals(answersString)){
@@ -276,6 +278,7 @@ question {->(extends)_concept
         }
         // int[] answers is retrieved
 
+        // Store the new questions answer and retrieve all not answered questions
         int[] questionOrdering = new int[<?=$questionN?>]; int ix = 0;
         boolean newAnswer = true;
         Arrays.fill(questionOrdering, -1);
@@ -296,84 +299,18 @@ question {->(extends)_concept
             prevCat = currentCat;
         }
         questionOrdering = Arrays.copyOf(questionOrdering, ix);
-        // System.out.println("questionOrdering = " + Arrays.toString(questionOrdering));
-        // System.out.println("         answers = " + Arrays.toString(answers));
+        // int[] questionOrdering contains all not answered questions
 
+        // Store the updated answers array
         <?php JAVA_ENCODE('answers', 'answersString', 1, true) ?>
         ${#answers} = answersString;
     '
 
-    <?php /*
- event + '
-         float[][] questionScoreArray = new float[][]{new float[]{}};
-         class Scope {
-             static String arr2str(float[][] arr2str_a){
-                 StringBuilder arr2str_b = new StringBuilder();
-                 for(int i = 0; i < arr2str_a.length; i++){
-                 for(int j = 0; j < arr2str_a[i].length; j++){
-                 arr2str_b.append(arr2str_a[i][j]);
-                 if(j < arr2str_a[i].length - 1) arr2str_b.append("_");
-                 }
-                 if(i < arr2str_a.length - 1) arr2str_b.append("I");
-                 }
-             }
-         }
-     '
     event + '
-        final boolean resetUserQuestionScore = false; // Used to set ${#questionScore} to 0 
-    
-        //questionScoreArray[i][j] = score on category j for question i on positive answer
-        float[][] questionScoreArray = new float[][]{
-            new float[]{.1f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.2f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.3f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.4f, .1f, .1f, .1f, .1f, .1f, .1f},
-            new float[]{.5f, .1f, .1f, .1f, .1f, .1f, .1f}
-        };
-        int previousQuestion = ${#previousQuestion};
-        float previousAnswerImpact = ${#previousAnswer} * 1f; // the impact of the answer (-1, 1)
-        
-        String questionScoreStr = ${#questionScore};
-        if(resetUserQuestionScore || "".equals(questionScoreStr)){
-            // set ${#questionScore} to 0 if it was not set
-            // <emptyarr2str>
-            StringBuilder emptyarr2str = new StringBuilder();
-            for(int i = 0; i < questionScoreArray.length; i++){
-            for(int j = 0; j < questionScoreArray[i].length; j++){
-            emptyarr2str.append(0);
-            if(j < questionScoreArray[i].length - 1) emptyarr2str.append("_");
-            }
-            if(i < questionScoreArray.length - 1) emptyarr2str.append("I");
-            }
-            // </emptyarr2str>
-            questionScoreStr = String.valueOf(emptyarr2str);
-        }
-        // read ${#questionScore} to an array
-        <?php //java_str2arr('questionScoreStr', 'questionScore', 2); ?>
-        for(int i = 0; i < questionScoreArray[previousQuestion].length; i++){
-            questionScore[previousQuestion][i] += questionScoreArray[previousQuestion][i] * previousAnswerImpact;
-        }
-        
-        // store array as string again
-        // <arr2str>
-        StringBuilder arr2str = new StringBuilder();
-        for(int i = 0; i < questionScore.length; i++){
-            for(int j = 0; j < questionScore[i].length; j++){
-                arr2str.append(questionScore[i][j]);
-                if(j < questionScore[i].length - 1) arr2str.append("_");
-            }
-            if(i < questionScore.length - 1) arr2str.append("I");
-        }
-        // </arr2str>
-        questionScoreStr = String.valueOf(arr2str);
-        ${#questionScore} = String.valueOf(questionScoreStr);
-    '
+        // Get the question coping strategy values of all question from the config file
+        <?php PHP_PRINT($config['question_values'], 'questionScores'); // 2d ?>
 
- */ ?>
-    event + '
-        <?php PHP_PRINT($questionValues, 'questionScores'); // 2d ?>
-
-        // Read userScore
+        // Read coping strategy values of the user
         float[] userScore;
         String userScoreStr = ${#userScore};
         if(resetUserScore || "".equals(userScoreStr)){
@@ -387,26 +324,25 @@ question {->(extends)_concept
         }
 
         if(previousQuestion != -1 && previousAnswer != -1 && newAnswer){
+            // Apply the previously answered question to the users score
             float answerEffect = previousAnswer * .5f;
             for(int i = 0; i < <?=($copingsN)?>; i++){
                 userScore[i] += answerEffect * questionScores[previousQuestion][i];
             }
         }
-        // System.out.println("previousQuestion = "+previousQuestion);
-        // System.out.println("previousAnswer = "+previousAnswer);
-        // System.out.println("newAnswer = "+newAnswer);
 
+        // Store the users score to gale
         <?php JAVA_ENCODE('userScore', 'userScoreStr', 1, true); ?>
         System.out.println("New user score is userScoreStr = " + userScoreStr);
         ${#userScore} = userScoreStr;
 
-        <?php // Set questions
-        PHP_PRINT($config['questions'], 'questions', 'String');
-        ?>
+        // Get the questions content from the config file
+        <?php PHP_PRINT($config['questions'], 'questions', 'String'); ?>
 
+        // Get the next coping strategy that should be asked
         <?php PHP_PRINT(range(0, $copingsN-1), 'copings', 'int'); ?>
-        // Get the (smallest) coping index that is lowest;
         int[] minCopingIndices = new int[copings.length]; int mcii = 0;
+        // First get the (smallest) coping index that is lowest;
         for(int i = 1; i < userScore.length; i++){
             if (Math.abs(userScore[i]) < Math.abs(userScore[minCopingIndices[mcii]])) {
                 // New minimum found
@@ -417,12 +353,11 @@ question {->(extends)_concept
             }
         }
         minCopingIndices = Arrays.copyOf(minCopingIndices, mcii);
-        <?php /*DEBUG rec: */ echo 'final '; JAVA_ENCODE('minCopingIndices', 'minCopingIndicesStr', 1); echo 'System.out.println("minCopingIndicesStr = "+minCopingIndicesStr);'; ?>
 
+        // Get the most impactfull questions for each coping strategy from the config file
         <?php PHP_PRINT($config['coping_category'], 'copingQuestions', 'int'); ?>
 
-        <?php /*DEBUG rec: */ JAVA_ENCODE('copingQuestions', 'copingQuestionsStr', 2); echo 'System.out.println("copingQuestionsStr = "+copingQuestionsStr);'; ?>
-
+        // Find all plausible next questions
         int[] nextQuestion = new int[questionOrdering.length]; int nextQuestionI = 0;
         for(int q = 0; q < questionOrdering.length; q++){
             int question = questionOrdering[q];
@@ -435,16 +370,25 @@ question {->(extends)_concept
             }
         }
         nextQuestion = Arrays.copyOf(nextQuestion, nextQuestionI);
-        <?php /*DEBUG rec: * JAVA_ENCODE('nextQuestion', 'nextQuestionStr', 1); echo 'System.out.println("nextQuestionStr = "+nextQuestionStr);'; */ ?>
 
         int nextQuestionIndex;
         if(nextQuestion.length > 0){
+            // A more plausible next question is found
+            System.out.println("picked plausible next question form " + nextQuestion.length);
             nextQuestionIndex = nextQuestion[(int)(Math.random() * nextQuestion.length)];
+        } else if (questionOrdering.length > 0){
+            // There is still a question unanswered
+            System.out.println("picked random next question form " + questionOrdering.length
+                + " where minCopingIndices.length = " + minCopingIndices.length);
+            nextQuestionIndex = questionOrdering[(int)(Math.random() * questionOrdering.length)];
         } else {
+            // Otherwise just pick the first
+            System.out.println("First question picked");
             nextQuestionIndex = 0;
         }
     '
 
+    // calculate the progressbar percentage
     #[percentage]:Integer
     event + '
         int percentage = (int)((double)(<?=$questionN?> - questionOrdering.length)/<?=$questionN?>*100);
@@ -452,6 +396,7 @@ question {->(extends)_concept
         ${#percentage} = percentage;
     '
 
+    // Show a joke every 4 questions
     #[joke]:String
     event + '
         String joke = "";
@@ -462,6 +407,7 @@ question {->(extends)_concept
         ${#joke} = joke;
     '
 
+    // Store if the previous qeustion is answered as an image
     #[answeredImage]:Integer
     event + '
         if ("i".equals(gale.req().getParameter("a"))) {
@@ -471,6 +417,7 @@ question {->(extends)_concept
         }
     '
 
+    // Store if the previous qeustion is answered as text
     #[answeredText]:Integer
     event + '
         if ("t".equals(gale.req().getParameter("a"))) {
@@ -478,24 +425,29 @@ question {->(extends)_concept
         }
     '
 
+    // Set the question id
     #[questionIndex]:Integer
     event + '
         ${#questionIndex} = nextQuestionIndex;
     '
 
+    // Retieve the text based question
     #[questionTxt]:String
     event + '
         ${#questionTxt} = questions[nextQuestionIndex][1];
     '
+    // Retrieve the image url for the image based question
     #[questionImg]:String
     event + '
         ${#questionImg} = questions[nextQuestionIndex][2];
     '
+    // (depr) Retrieve the hard text for an question
     #[questionTxtHard]:String
     event + '
         ${#questionTxtHard} = questions[nextQuestionIndex][3];
     '
 
+    // Retrieve the answers
     #[answer1Text]:String
     event + '
         ${#answer1Text} = questions[nextQuestionIndex][4];
@@ -508,31 +460,6 @@ question {->(extends)_concept
     event + '
         ${#answer3Text} = questions[nextQuestionIndex][6];
     '
-
-    <?php /* questionTxt = ''
-    question_txt = '' */ ?>
-    <?php /* /// TODO store the result:
-    // #scores:String ='" "'
-    event + ''
-    /// affect values = q[id][c] (2d array of question id and copying ID)
-
-    /// if(${#scores} == null){
-    ///     ${#scores} = new float[7]
-    /// };
-    /// ${#scores}[${#previousQuestion}/100] += 1;
-
-    /// Process previous question:
-    /// #[stressors].get()
-
-    ///
-    /// answer_1 = 'Of course'
-    /// answer_1_link = 'http://www.google.nl/' /// answer id different then answer index!
-    /// answer_2 = 'What is a retard?'
-    /// answer_2_link = 'http://www.google.nl/'
-    /// answer_3 = 'Nope, i'm an airplane'
-    /// answer_3_link = 'http://www.google.nl/'
-    */ ?>
-
 }
 settings {->(extends)_concept
     ->(parent)application
@@ -542,6 +469,7 @@ results {->(extends)_concept
     ->(parent)application
     title 'Results'
 
+    // Calculate in the final recommendation
     #[recString]:String
     event + '
         // Read userScore
@@ -569,22 +497,20 @@ results {->(extends)_concept
         }
 
         // rec now contains the recovery values
-        <?php JAVA_ENCODE('rec', 'recString', 1);
-        /*DEBUG rec: */ echo 'System.out.println("recString = "+recString);'; ?>
+        <?php JAVA_ENCODE('rec', 'recString', 1); ?>
         ${#recString} = recString;
     '
 
+    // Pass the rec array to JS
     #[recoveryChoices]:String
     event + '
-        // String recString is defined somewhere else
         recString = ${#recString};
-        System.out.println("recString: "+recString);
         <?php JAVA_DECODE('recString', 'rec', 1, true); /*rec is defined somewhere else*/ ?>
         <?php JAVA_ENCODE('rec', 'recJsArrayStr', 1, false, true); ?>
-        System.out.println("recJsArrayStr: "+recJsArrayStr);
         ${#recoveryChoices} = recJsArrayStr;
     '
 
+    // Pass the recovery text form the config file to JS
     #[recoveryJsArray]:String
     event + '
         <?php JS_PRINT($config['recovery'], 'recoveryJsArrayStr'); ?>
@@ -592,6 +518,7 @@ results {->(extends)_concept
         ${#recoveryJsArray} = recoveryJsArrayStr;
     '
 
+    // Calculate the final burnpout score
     #[burnoutScore]:String
     event + '
         final float maxBurnout = 3.25f;
@@ -603,15 +530,5 @@ results {->(extends)_concept
         ${#burnoutScore} = String.valueOf(totalBurnout);
     '
 }
-<?php // This is not used:
-//api {
-//    #[joke_clicks]:Integer
-//    event + '
-//        if(gale.req().getParameter("joke") != null){
-//            ${#joke_clicks} = 5;
-//        }
-//    '
-//}
-?>
 <?php
 file_put_contents('concepts.gam', ob_get_clean());
